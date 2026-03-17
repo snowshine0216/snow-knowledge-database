@@ -1,0 +1,4 @@
+interface:
+  display_name: "YT Video Summarizer"
+  short_description: "Summarize YouTube/Bilibili videos via yt-dlp."
+  default_prompt: "Use $yt-video-summarizer to extract metadata and summarize this video URL with key points and timeline."
