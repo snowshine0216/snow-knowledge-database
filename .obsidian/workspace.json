@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "essence-of-linear-algebra/chapters-1-8-key-points.md",
+                "file": "essence-of-linear-algebra/chapters-9-16-key-points.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "chapters-1-8-key-points"
+              "title": "chapters-9-16-key-points"
             }
           }
         ]
@@ -177,15 +177,17 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "5c614250f1c53fc0",
   "lastOpenFiles": [
     "essence-of-linear-algebra/vectors-and-bases.md",
-    "essence-of-linear-algebra/chapters-1-8-key-points.md",
-    "essence-of-linear-algebra/eigenvectors-and-eigenvalues.md",
     "essence-of-linear-algebra/matrix-transformations.md",
+    "essence-of-linear-algebra/eigenvectors-and-eigenvalues.md",
+    "essence-of-linear-algebra/chapters-9-16-key-points.md",
+    "essence-of-linear-algebra/chapters-1-8-key-points.md",
     "essence-of-linear-algebra/README.md",
     "tech-notes/2026-03-17-youtube-obsidian-yt-dlp-summary.md",
     "tech-notes/tech-notes.md",
