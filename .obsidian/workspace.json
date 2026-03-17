@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "tech-notes/claude-code-agentic-os-howto.md",
+                "file": "docs/essence-of-linear-algebra-note-workflow.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "claude-code-agentic-os-howto"
+              "title": "essence-of-linear-algebra-note-workflow"
             }
           }
         ]
@@ -183,14 +183,16 @@
   },
   "active": "5c614250f1c53fc0",
   "lastOpenFiles": [
-    "tech-notes/obsidian-usage.md",
-    "tech-notes/claude-code-agentic-os-howto.md",
+    "Untitled.canvas",
+    "2026-03-17.md",
     "essence-of-linear-algebra/chapters-9-16-key-points.md",
+    "essence-of-linear-algebra/README.md",
+    "tech-notes/claude-code-agentic-os-howto.md",
+    "tech-notes/obsidian-usage.md",
     "essence-of-linear-algebra/eigenvectors-and-eigenvalues.md",
     "essence-of-linear-algebra/matrix-transformations.md",
     "essence-of-linear-algebra/vectors-and-bases.md",
     "essence-of-linear-algebra/chapters-1-8-key-points.md",
-    "essence-of-linear-algebra/README.md",
     "tech-notes/tech-notes.md",
     "tech-notes",
     "README.md",
