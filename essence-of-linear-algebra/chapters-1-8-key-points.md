@@ -27,7 +27,7 @@ Video: https://www.youtube.com/watch?v=k7RM-ot2NWY
 Video: https://www.youtube.com/watch?v=kYB8IZa5AuE
 
 ### Key Points
-- A linear transformation is a vector-to-vector function that keeps lines straight and keeps the origin fixed.
+- A linear transformation is a vector-to-vector function that keeps lines straight and keeps the origin fixed. Specific
 - In geometric terms, linear transformations "move space" while preserving grid parallelism and even spacing.
 - A 2D linear transformation is fully determined by where it sends i-hat and j-hat.
 - A matrix stores those transformed basis vectors as columns.
