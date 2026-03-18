@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "env-setup/README.md",
+                "file": "docs/yt-dlp-setup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "yt-dlp-setup"
             }
           }
         ]
@@ -183,6 +183,7 @@
   },
   "active": "5c614250f1c53fc0",
   "lastOpenFiles": [
+    "docs/README.md",
     "docs/yt-dlp-setup.md",
     "env-setup/README.md",
     "docs/essence-of-linear-algebra-note-workflow.md",
@@ -203,7 +204,6 @@
     "tech-notes",
     "README.md",
     "docs/_template.md",
-    "docs/README.md",
     "docs"
   ]
 }
