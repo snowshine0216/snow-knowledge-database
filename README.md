@@ -7,11 +7,13 @@ A personal knowledge repository for curated notes, references, and study materia
 - Topic folders for notes (for example, `essence-of-linear-algebra/`)
 - Obsidian workspace configuration in `.obsidian/`
 - Practical setup guides in `docs/`
+- Machine setup assets in `env-setup/`
 
 ## Documentation
 
 - [Documentation index](docs/README.md)
 - [yt-dlp setup on macOS](docs/yt-dlp-setup.md)
+- [macOS environment setup](env-setup/README.md)
 
 ## Suggested Structure
 

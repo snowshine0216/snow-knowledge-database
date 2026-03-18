@@ -6,6 +6,7 @@ This folder contains operational guides and reference docs for this repository.
 
 - [yt-dlp setup on macOS](./yt-dlp-setup.md)
 - [Essence of linear algebra note workflow](./essence-of-linear-algebra-note-workflow.md)
+- [macOS environment setup](../env-setup/README.md)
 
 ## Templates
 
