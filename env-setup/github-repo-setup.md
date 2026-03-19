@@ -135,3 +135,4 @@ git config pull.ff only
 Use this file edit as a safe test change for Obsidian Git auto-backup.
 
 Test marker updated: 2026-03-19
+Test marker updated: 2026-03-19 (credential test #2)
