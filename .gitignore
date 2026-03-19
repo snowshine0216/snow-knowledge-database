@@ -1,3 +1,9 @@
 .env
 .obsidian/workspace.json
 .git_credentials_input
+
+# Obsidian local workspace state
+.obsidian/workspace-mobile.json
+
+# macOS Finder metadata
+.DS_Store
