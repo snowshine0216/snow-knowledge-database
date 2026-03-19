@@ -17,6 +17,7 @@ It covers:
 ## Files
 
 - `macos-setup.sh`: installs the core toolchain and writes a default `yt-dlp` config if one does not already exist
+- [github-repo-setup.md](./github-repo-setup.md): GitHub remote/auth setup, credential helper config, and troubleshooting notes
 
 ## Run It
 
