@@ -107,6 +107,33 @@ export OPENAI_API_KEY="your_api_key"
 
 The extractor script can then fall back to OpenAI transcription when subtitles are unavailable.
 
+## Sublime CLI Shortcut (`subl`)
+
+To use `subl <text-file>` in terminal on macOS:
+
+1. Open Sublime Text.
+2. Click `Tools` -> `Install Command Line Tool...`
+3. Restart your terminal.
+4. Test with:
+
+```bash
+subl README.md
+```
+
+If the menu option is missing, create the symlink manually:
+
+```bash
+ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+```
+
+Common usage:
+
+```bash
+subl <text-file>
+subl .
+subl -n <text-file>
+```
+
 ## Notes
 
 - Cookie-based YouTube retries default to `--cookies-from-browser chrome`. Install Chrome or change the browser flag when running the skill.
