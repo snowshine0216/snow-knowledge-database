@@ -1,5 +1,13 @@
 # Tech Notes
 
+## 2026-03-19
+
+- [Anthropic Dispatch / OpenClaw Notes](anthropic-dispatch-openclaw-notes.md)
+- Video: `https://www.youtube.com/watch?v=1_VlT1vhN04`
+- Tooling: `yt-video-summarizer` workflow with direct `yt-dlp` cookie-authenticated metadata/subtitle extraction
+- Transcript source: `auto subtitles` (`en`)
+- Highlights: remote Claude desktop control via phone, security and product limitations, and the video's `OpenClaw` framing.
+
 ## 2026-03-17
 
 - [YouTube Obsidian Video Summary (yt-dlp + ASR)](obsidian-usage.md)
