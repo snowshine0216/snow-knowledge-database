@@ -179,12 +179,19 @@ print_next_steps() {
 
 Setup complete.
 
+Set zsh as your default login shell:
+  chsh -s /bin/zsh
+
 Reload your shell:
-  source "$HOME/.zshrc"
+  exec zsh
+
+Verify:
+  echo "\$SHELL"
 EOF
 
   if [[ "$shell_name" == "bash" ]]; then
     cat <<EOF
+  # If you are staying on bash, use:
   source "$HOME/.bashrc"
 EOF
   fi

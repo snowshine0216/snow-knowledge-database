@@ -34,6 +34,26 @@ If you want to skip local ASR installation and rely on subtitles plus OpenAI tra
 INSTALL_LOCAL_ASR=0 ./env-setup/macos-setup.sh
 ```
 
+## Shell Defaults (zsh)
+
+Set your default login shell to `zsh`:
+
+```bash
+chsh -s /bin/zsh
+```
+
+Refresh the current shell session:
+
+```bash
+exec zsh
+```
+
+Verify:
+
+```bash
+echo $SHELL
+```
+
 ## What The Script Sets Up
 
 ### 1. Homebrew
