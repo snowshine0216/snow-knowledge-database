@@ -87,6 +87,29 @@ git remote set-url origin https://github.com/<your-username>/<your-repo>.git
 - Confirm you used PAT (not GitHub password)
 - Re-run push and enter username + PAT again
 
+`Obsidian Git asks for username/token on every auto-push`
+
+- Ensure remote URL has no embedded token:
+
+```bash
+git remote set-url origin https://github.com/<your-username>/<your-repo>.git
+```
+
+- Make this repo use a single helper and host/path matching:
+
+```bash
+git config --local credential.helper ""
+git config --local --add credential.helper store
+git config --local credential.useHttpPath true
+```
+
+- Clear stale GitHub credentials once, then push once and enter username + PAT:
+
+```bash
+printf "protocol=https\nhost=github.com\n\n" | git credential reject
+git push
+```
+
 `fatal: Need to specify how to reconcile divergent branches`
 
 Set a default pull behavior:
@@ -106,3 +129,9 @@ or
 ```bash
 git config pull.ff only
 ```
+
+## 8. Quick Auto-Push Verification
+
+Use this file edit as a safe test change for Obsidian Git auto-backup.
+
+Test marker updated: 2026-03-19
