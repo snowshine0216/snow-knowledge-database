@@ -134,6 +134,28 @@ subl .
 subl -n <text-file>
 ```
 
+## macOS Gatekeeper Quarantine Fix
+
+If macOS shows an "unsafe software" warning for a trusted app, you can remove the quarantine attribute:
+
+```bash
+sudo xattr -rd com.apple.quarantine <app>
+```
+
+Example:
+
+```bash
+sudo xattr -rd com.apple.quarantine "/Applications/Sublime Text.app"
+```
+
+Verify attributes:
+
+```bash
+xattr -l "<app>"
+```
+
+Run this only for apps you trust and downloaded from a reliable source.
+
 ## Notes
 
 - Cookie-based YouTube retries default to `--cookies-from-browser chrome`. Install Chrome or change the browser flag when running the skill.
