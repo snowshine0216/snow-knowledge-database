@@ -79,6 +79,40 @@ git remote set-url origin https://github.com/<your-username>/<your-repo>.git
 - Rotate exposed tokens in GitHub Settings as soon as possible.
 - Prefer `git push --force-with-lease` instead of `git push --force` after history rewrites.
 
+## SSH Key Copy Tip (Bad Permissions)
+
+If you copy SSH key files directly from another machine, macOS may keep permissive modes and SSH will fail with:
+
+- `Permissions 0644 for '.../id_ed25519' are too open`
+- `This private key will be ignored`
+- `Permission denied (publickey)`
+
+Fix with:
+
+```bash
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+```
+
+Verify:
+
+```bash
+stat -f '%N %Sp' ~/.ssh ~/.ssh/id_ed25519 ~/.ssh/id_ed25519.pub
+```
+
+Test GitHub SSH auth:
+
+```bash
+ssh -T git@github.com
+```
+
+If your remote is HTTPS and you want SSH:
+
+```bash
+git remote set-url origin git@github.com:<your-username>/<your-repo>.git
+```
+
 ## 7. Quick Troubleshooting
 
 `fatal: Authentication failed`
