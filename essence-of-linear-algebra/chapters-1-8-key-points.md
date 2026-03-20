@@ -1,3 +1,4 @@
+
  # Essence of Linear Algebra (Chapters 1-8)
 
 Transcript-backed summary notes from 3Blue1Brown's first eight chapters of *Essence of Linear Algebra*.

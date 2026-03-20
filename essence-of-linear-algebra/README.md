@@ -15,3 +15,6 @@ Topic notes based on the *Essence of Linear Algebra* learning series.
 1. Read or watch one concept.
 2. Update one concept note with a short summary and one worked example.
 3. Add at least one review question to revisit later.
+
+# Books To Read
+https://www.3blue1brown.com/topics/linear-algebra 
