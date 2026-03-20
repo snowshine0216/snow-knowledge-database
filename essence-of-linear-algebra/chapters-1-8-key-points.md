@@ -61,6 +61,7 @@ Video: https://www.youtube.com/watch?v=rHLEWRxRGiM
 - Applying the transformation to a vector means taking the same coordinate-weighted combination of transformed basis vectors.
 - Matrix multiplication in 3D still means composition of transformations.
 - This viewpoint is central in areas like computer graphics and robotics, where complex motions are built from simpler transforms.
+![[file-20260320174947087.png|412]]
 
 ## Chapter 6: Determinant
 Video: https://www.youtube.com/watch?v=Ip3X9LOh2dk
