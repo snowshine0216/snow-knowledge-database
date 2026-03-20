@@ -48,6 +48,7 @@ Video: https://www.youtube.com/watch?v=XkY2DOUCWMU
 - Matrix multiplication reads right-to-left in application order, matching function composition.
 - Order usually matters (`AB != BA`) because different transformation orders produce different geometric results.
 - Associativity is natural geometrically: applying `A`, then `B`, then `C` is the same sequence regardless of grouping.
+- ![[file-20260320171900176.png]]
 
 ## Chapter 5: Three-Dimensional Linear Transformations
 Video: https://www.youtube.com/watch?v=rHLEWRxRGiM
