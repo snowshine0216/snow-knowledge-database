@@ -36,6 +36,7 @@ Video: https://www.youtube.com/watch?v=kYB8IZa5AuE
 - A matrix stores those transformed basis vectors as columns.
 - Matrix-vector multiplication is not a rule to memorize blindly; it is the linear combination of matrix columns weighted by the vector's coordinates.
 - If transformed basis columns are linearly dependent, the transformation collapses 2D space onto a line.
+- ![[file-20260320140234057.png]]
 
 ## Chapter 4: Matrix Multiplication as Composition
 Video: https://www.youtube.com/watch?v=XkY2DOUCWMU
