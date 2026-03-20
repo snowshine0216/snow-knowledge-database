@@ -12,6 +12,7 @@ Video: https://www.youtube.com/watch?v=fNk_zzaMoSs
 - Coordinates are instructions for moving along coordinate directions; in 2D each vector maps to one ordered pair, and in 3D to one ordered triplet.
 - Vector addition is built from head-to-tail composition, and scalar multiplication stretches, shrinks, or flips direction.
 - These two operations, addition and scalar multiplication, are the core operations that linear algebra keeps returning to.
+  ![[file-20260320124618015.png]]
 
 ## Chapter 2: Linear Combinations, Span, and Basis
 Video: https://www.youtube.com/watch?v=k7RM-ot2NWY
