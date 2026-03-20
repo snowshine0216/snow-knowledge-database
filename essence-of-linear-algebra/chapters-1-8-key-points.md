@@ -24,7 +24,8 @@ Video: https://www.youtube.com/watch?v=k7RM-ot2NWY
 - In 2D, two non-collinear vectors span the whole plane; collinear vectors span only a line.
 - Linearly independent vectors add new dimensions to span, while linearly dependent vectors are redundant.
 - A basis is the minimal "just enough" set: linearly independent vectors that still span the space.
-
+- ![[file-20260320133405494.png]]
+![[file-20260320133513930.png]]
 ## Chapter 3: Linear Transformations and Matrices
 Video: https://www.youtube.com/watch?v=kYB8IZa5AuE
 
