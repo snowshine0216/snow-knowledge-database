@@ -73,6 +73,7 @@ Video: https://www.youtube.com/watch?v=Ip3X9LOh2dk
 - The sign of the determinant tracks orientation: negative means orientation is flipped.
 - In 3D, determinant magnitude is the volume scale of the transformed unit cube (a parallelepiped).
 - For a 2x2 matrix, `ad - bc` encodes this scale-and-orientation behavior, and determinants multiply under composition: `det(AB) = det(A)det(B)`.
+![[file-20260320190117918.png]]
 
 ## Chapter 7: Inverse Matrices, Column Space, and Null Space
 Video: https://www.youtube.com/watch?v=uQhTuRlWMxw
