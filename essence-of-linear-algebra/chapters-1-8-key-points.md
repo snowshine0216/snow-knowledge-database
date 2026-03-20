@@ -12,7 +12,7 @@ Video: https://www.youtube.com/watch?v=fNk_zzaMoSs
 - Coordinates are instructions for moving along coordinate directions; in 2D each vector maps to one ordered pair, and in 3D to one ordered triplet.
 - Vector addition is built from head-to-tail composition, and scalar multiplication stretches, shrinks, or flips direction.
 - These two operations, addition and scalar multiplication, are the core operations that linear algebra keeps returning to.
-  ![[file-20260320124618015.png]]
+  ![[file-20260320124618015.png|446]]
 
 ## Chapter 2: Linear Combinations, Span, and Basis
 Video: https://www.youtube.com/watch?v=k7RM-ot2NWY
@@ -25,7 +25,7 @@ Video: https://www.youtube.com/watch?v=k7RM-ot2NWY
 - Linearly independent vectors add new dimensions to span, while linearly dependent vectors are redundant.
 - A basis is the minimal "just enough" set: linearly independent vectors that still span the space.
 - ![[file-20260320133405494.png]]
-![[file-20260320133513930.png]]
+![[file-20260320133513930.png|601]]
 ## Chapter 3: Linear Transformations and Matrices
 Video: https://www.youtube.com/watch?v=kYB8IZa5AuE
 
@@ -36,7 +36,7 @@ Video: https://www.youtube.com/watch?v=kYB8IZa5AuE
 - A matrix stores those transformed basis vectors as columns.
 - Matrix-vector multiplication is not a rule to memorize blindly; it is the linear combination of matrix columns weighted by the vector's coordinates.
 - If transformed basis columns are linearly dependent, the transformation collapses 2D space onto a line.
-- ![[file-20260320140234057.png]]
+- ![[file-20260320140234057.png|392]]
 
 ## Chapter 4: Matrix Multiplication as Composition
 Video: https://www.youtube.com/watch?v=XkY2DOUCWMU
@@ -48,7 +48,8 @@ Video: https://www.youtube.com/watch?v=XkY2DOUCWMU
 - Matrix multiplication reads right-to-left in application order, matching function composition.
 - Order usually matters (`AB != BA`) because different transformation orders produce different geometric results.
 - Associativity is natural geometrically: applying `A`, then `B`, then `C` is the same sequence regardless of grouping.
-- ![[file-20260320171900176.png]]
+- ![[file-20260320171900176.png|344]]
+- ![[file-20260320172530204.png]]
 
 ## Chapter 5: Three-Dimensional Linear Transformations
 Video: https://www.youtube.com/watch?v=rHLEWRxRGiM
