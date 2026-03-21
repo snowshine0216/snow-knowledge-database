@@ -12,8 +12,8 @@ Video: https://www.youtube.com/watch?v=LyGKycYT2v0
 - A 1x2 matrix defines a linear map from 2D vectors to numbers, and this map is computationally the same form as a dot product.
 - Duality viewpoint: every linear map from vectors to numbers corresponds to a unique vector such that applying the map equals taking a dot product with that vector.
 - This explains why dot products are deeply linked to linear transformations, not just a standalone formula.
-- ![[Pasted image 20260321205105.png]]
-
+![[file-20260321212017928.png]]
+![[file-20260321212041435.png]]
 ## Chapter 10: Cross Products
 Video: https://www.youtube.com/watch?v=eu6i7WJeinw
 
