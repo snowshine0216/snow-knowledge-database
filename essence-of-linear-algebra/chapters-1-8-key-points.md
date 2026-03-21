@@ -96,3 +96,6 @@ Video: https://www.youtube.com/watch?v=v8VSDg_WQlA
 - A 2x3 matrix maps 3D inputs down into 2D, which is a dimensional squish.
 - A 1x2 matrix maps 2D vectors to scalars (1D outputs), a setup tied closely to dot-product intuition.
 - The same linearity rules still apply: origin fixed and evenly spaced structure preserved.
+
+![[Pasted image 20260321203855.png]]
+![[Pasted image 20260321203833.png]]![[Pasted image 20260321204031.png]]
