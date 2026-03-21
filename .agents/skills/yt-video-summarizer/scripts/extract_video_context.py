@@ -10,6 +10,7 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -83,13 +84,27 @@ def format_duration(seconds: Optional[int]) -> Optional[str]:
     return f"{minutes}:{secs:02d}"
 
 
+def slugify_for_filename(value: str, default: str = "video", max_len: int = 100) -> str:
+    normalized = unicodedata.normalize("NFKD", value)
+    ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^A-Za-z0-9]+", "-", ascii_only).strip("-").lower()
+    if not slug:
+        slug = default
+    slug = slug[:max_len].strip("-")
+    return slug or default
+
+
 def normalize_metadata(meta: Dict[str, Any], url: str, platform: str) -> Dict[str, Any]:
     duration = meta.get("duration")
+    video_id = str(meta.get("id") or "video")
+    title_slug = slugify_for_filename(str(meta.get("title") or ""), default=video_id, max_len=90)
     return {
         "id": meta.get("id"),
         "platform": platform,
         "url": meta.get("webpage_url") or meta.get("original_url") or url,
         "title": meta.get("title"),
+        "title_slug": title_slug,
+        "recommended_summary_filename": f"{title_slug}_{video_id}.md",
         "uploader": meta.get("uploader"),
         "channel": meta.get("channel"),
         "uploader_id": meta.get("uploader_id"),

@@ -56,3 +56,10 @@ Output artifacts:
 - `focused_sections.md`
 - `focused_section_digest.json`
 - `focused_section_digest.md`
+
+## Summary filename convention
+
+Use a meaningful title-based filename, not date+id-only names.
+
+- Preferred source: `metadata_summary.json` -> `recommended_summary_filename`
+- Example: `andrej-karpathy-on-code-agents-autoresearch-and-the-loopy-era-of-ai_kwSVtQ7dziU.md`
