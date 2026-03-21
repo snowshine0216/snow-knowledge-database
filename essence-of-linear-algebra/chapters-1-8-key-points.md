@@ -97,5 +97,7 @@ Video: https://www.youtube.com/watch?v=v8VSDg_WQlA
 - A 1x2 matrix maps 2D vectors to scalars (1D outputs), a setup tied closely to dot-product intuition.
 - The same linearity rules still apply: origin fixed and evenly spaced structure preserved.
 
-![[Pasted image 20260321203855.png]]
-![[Pasted image 20260321203833.png]]![[Pasted image 20260321204031.png]]
+![[file-20260321210319612.png|534]]
+![[file-20260321210258682.png|448]]
+![[file-20260321210359969.png]]
+![[file-20260321210431935.png]]
