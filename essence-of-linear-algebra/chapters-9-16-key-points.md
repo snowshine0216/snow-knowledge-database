@@ -46,6 +46,7 @@ Video: https://www.youtube.com/watch?v=jBsC34PxzoM
 - Under linear transformation, all such areas/volumes scale by the same factor: `det(A)`.
 - Replacing one column of `A` with `b` creates a determinant that captures the transformed area/volume corresponding to one coordinate.
 - Dividing those altered determinants by `det(A)` yields each coordinate of the solution vector.
+![[file-20260322170021261.png|472]]
 
 ## Chapter 13: Change of Basis
 Video: https://www.youtube.com/watch?v=P2LTAUO1TdA
