@@ -59,7 +59,7 @@ Video: https://www.youtube.com/watch?v=P2LTAUO1TdA
 - Transformations also change representation with basis changes, not just vectors.
 - The conjugation form `A^{-1}MA` (or equivalent basis-change sandwich) expresses the same transformation as seen in a different coordinate system.
 ![[file-20260323064703477.png]]
-
+![[file-20260323065250197.png]]
 ## Chapter 14: Eigenvectors and Eigenvalues
 Video: https://www.youtube.com/watch?v=PFDu9oVAE-g
 
