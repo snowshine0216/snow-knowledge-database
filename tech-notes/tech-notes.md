@@ -1,5 +1,12 @@
 # Tech Notes
 
+## 2026-03-22
+
+- [Medium: Claude Code Language Benchmark Notes](medium-claude-code-language-benchmark-notes.md)
+- Article: `https://medium.huizhou92.com/which-programming-language-should-you-use-with-claude-code-39beaa4693af`
+- Access mode: browser-cookie authenticated fetch (login-required Medium content)
+- Highlights: dynamic-language advantage for AI prototyping, type-checking overhead, and pragmatic Go workflow guidance.
+
 ## 2026-03-19
 
 - [Anthropic Dispatch / OpenClaw Notes](anthropic-dispatch-openclaw-notes.md)

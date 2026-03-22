@@ -1,0 +1,4 @@
+interface:
+  display_name: "Medium Member Summarizer"
+  short_description: "Summarize login-gated Medium articles with browser cookies."
+  default_prompt: "Use $medium-member-summarizer to extract this Medium article with browser cookies and provide key takeaways and insights."
