@@ -187,3 +187,4 @@ Run this only for apps you trust and downloaded from a reliable source.
 - OpenAI Help Center: https://help.openai.com/en/articles/11096431-openai-codex-ci-getting-started
 - OpenAI Help Center: https://help.openai.com/en/articles/11381614
 - Repo guide: ../docs/yt-dlp-setup.md
+- gstack: https://github.com/garrytan/gstack
