@@ -8,6 +8,7 @@ It covers:
 - `nvm`
 - the current Node.js LTS
 - Codex CLI
+- optional `CC-Switch` for managing Claude Code / Codex / Gemini provider configs on macOS
 - `python3`
 - `yt-dlp`
 - `ffmpeg`
@@ -34,6 +35,19 @@ If you want to skip local ASR installation and rely on subtitles plus OpenAI tra
 ```bash
 INSTALL_LOCAL_ASR=0 ./env-setup/macos-setup.sh
 ```
+
+## Optional: Install `CC-Switch`
+
+If you want a GUI app to manage Claude Code, Codex, and Gemini provider configs on macOS, PackyAPI recommends installing `CC-Switch` with Homebrew:
+
+```bash
+brew tap farion1231/ccswitch
+brew install --cask cc-switch
+```
+
+After installation, open `CC-Switch` from Launchpad or the `Applications` folder.
+
+This is an optional add-on. The repo's `macos-setup.sh` does not install it automatically.
 
 ## Shell Defaults (zsh)
 
@@ -186,5 +200,6 @@ Run this only for apps you trust and downloaded from a reliable source.
 
 - OpenAI Help Center: https://help.openai.com/en/articles/11096431-openai-codex-ci-getting-started
 - OpenAI Help Center: https://help.openai.com/en/articles/11381614
+- PackyAPI CC-Switch docs: https://docs.packyapi.com/docs/ccswitch/
 - Repo guide: ../docs/yt-dlp-setup.md
 - gstack: https://github.com/garrytan/gstack
