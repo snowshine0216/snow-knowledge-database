@@ -4,22 +4,35 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import json
 import os
 import re
 import subprocess
 import sys
+import tempfile
 import unicodedata
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib import error as urllib_error
+from urllib import request as urllib_request
 
 
 BASE_YTDLP_FLAGS = ["--socket-timeout", "20", "--retries", "2", "--extractor-retries", "2"]
 DEFAULT_SUB_LANGS = "en.*,zh.*"
 DEFAULT_OPENAI_MODELS = "gpt-4o-mini-transcribe,gpt-4o-transcribe,whisper-1"
+DEFAULT_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+DEFAULT_OPENROUTER_TRANSCRIPTION_MODEL = "openai/gpt-audio-mini"
+DEFAULT_OPENROUTER_CHUNK_SECONDS = 600
+DEFAULT_OPENROUTER_MAX_BYTES = 12 * 1024 * 1024
 DEFAULT_FASTER_WHISPER_MODEL = "tiny"
 DEFAULT_FOCUS_DIGEST_BULLETS = 5
+OPENROUTER_TRANSCRIPTION_PROMPT = (
+    "Transcribe the provided audio verbatim in the spoken language. "
+    "Return only the transcript text. "
+    "Do not add explanations, summaries, speaker labels, or disclaimers about audio access."
+)
 FOCUS_SECTION_ALIASES = {
     "image": ["image", "images", "img", "picture", "pictures", "图像", "图片", "附件"],
     "phone": ["phone", "mobile", "android", "ios", "手机", "移动端"],
@@ -49,6 +62,34 @@ def run_cmd(cmd: List[str], timeout_seconds: int = 180) -> subprocess.CompletedP
 def looks_like_youtube_bot_block(output: str) -> bool:
     lowered = output.lower()
     return "sign in to confirm you" in lowered and "not a bot" in lowered
+
+
+def load_env_file(path: Path) -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip()
+        if not key:
+            continue
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+            value = value[1:-1]
+        os.environ.setdefault(key, value)
+
+
+def env_int(name: str, default: int) -> int:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        return default
+    return value if value > 0 else default
 
 
 def parse_last_json_line(stdout: str) -> Dict[str, Any]:
@@ -168,6 +209,274 @@ def select_audio_file(out_dir: Path) -> Optional[Path]:
     if not candidates:
         return None
     return candidates[0]
+
+
+def audio_format_from_path(audio_path: Path) -> str:
+    ext = audio_path.suffix.lower().lstrip(".")
+    if ext == "oga":
+        return "ogg"
+    return ext or "mp3"
+
+
+def probe_audio_duration(audio_path: Path) -> Optional[float]:
+    cmd = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-show_entries",
+        "format=duration",
+        "-of",
+        "default=noprint_wrappers=1:nokey=1",
+        str(audio_path),
+    ]
+    proc = run_cmd(cmd, timeout_seconds=60)
+    if proc.returncode != 0:
+        return None
+    try:
+        duration = float(proc.stdout.strip())
+    except ValueError:
+        return None
+    return duration if duration > 0 else None
+
+
+def extract_error_message(payload_text: str) -> str:
+    text = payload_text.strip()
+    if not text:
+        return "empty error response"
+    try:
+        payload = json.loads(text)
+    except json.JSONDecodeError:
+        return text[:300]
+    if isinstance(payload, dict):
+        error_obj = payload.get("error")
+        if isinstance(error_obj, dict):
+            message = error_obj.get("message")
+            if message:
+                return str(message)
+        if error_obj:
+            return str(error_obj)
+        message = payload.get("message")
+        if message:
+            return str(message)
+    return text[:300]
+
+
+def post_json(url: str, headers: Dict[str, str], payload: Dict[str, Any], timeout_seconds: int) -> Dict[str, Any]:
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib_request.Request(url, data=data, headers=headers, method="POST")
+    try:
+        with urllib_request.urlopen(req, timeout=timeout_seconds) as response:
+            body = response.read().decode("utf-8", errors="ignore")
+    except urllib_error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="ignore")
+        raise RuntimeError(f"HTTP {exc.code}: {extract_error_message(body)}") from exc
+    except urllib_error.URLError as exc:
+        raise RuntimeError(f"request failed: {exc.reason}") from exc
+
+    try:
+        parsed = json.loads(body)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("invalid JSON response") from exc
+    if not isinstance(parsed, dict):
+        raise RuntimeError("unexpected non-object JSON response")
+    return parsed
+
+
+def message_content_to_text(content: Any) -> str:
+    if isinstance(content, str):
+        return content.strip()
+    if not isinstance(content, list):
+        return ""
+
+    parts: List[str] = []
+    for item in content:
+        if isinstance(item, str):
+            text = item.strip()
+            if text:
+                parts.append(text)
+            continue
+        if not isinstance(item, dict):
+            continue
+        text = item.get("text")
+        if isinstance(text, str) and text.strip():
+            parts.append(text.strip())
+    return "\n".join(parts).strip()
+
+
+def transcribe_openrouter_request(
+    audio_path: Path,
+    timeout_seconds: int,
+    model: str,
+    base_url: str,
+    headers: Dict[str, str],
+    prompt: str,
+) -> str:
+    audio_b64 = base64.b64encode(audio_path.read_bytes()).decode("ascii")
+    audio_format = audio_format_from_path(audio_path)
+    payload = {
+        "model": model,
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt,
+                    },
+                    {
+                        "type": "input_audio",
+                        "input_audio": {
+                            "data": audio_b64,
+                            "format": audio_format,
+                        },
+                    },
+                ],
+            }
+        ],
+        "stream": False,
+    }
+    url = base_url.rstrip("/") + "/chat/completions"
+    response = post_json(url, headers, payload, timeout_seconds)
+    if "error" in response:
+        raise RuntimeError(extract_error_message(json.dumps(response, ensure_ascii=False)))
+
+    choices = response.get("choices")
+    if not isinstance(choices, list) or not choices:
+        raise RuntimeError("no choices in OpenRouter response")
+
+    first = choices[0] if isinstance(choices[0], dict) else {}
+    message = first.get("message") if isinstance(first, dict) else None
+    content = message.get("content") if isinstance(message, dict) else None
+    text = message_content_to_text(content)
+    if not text and isinstance(response.get("text"), str):
+        text = response.get("text", "").strip()
+    if text:
+        return text
+    raise RuntimeError(f"{model}: no text in response")
+
+
+def split_audio_for_openrouter(audio_path: Path, chunk_seconds: int) -> List[Path]:
+    suffix = audio_path.suffix or ".mp3"
+    with tempfile.TemporaryDirectory(prefix="openrouter-audio-chunks-") as tmp_dir:
+        tmp_path = Path(tmp_dir)
+        output_pattern = tmp_path / f"chunk_%03d{suffix}"
+        cmd = [
+            "ffmpeg",
+            "-v",
+            "error",
+            "-i",
+            str(audio_path),
+            "-f",
+            "segment",
+            "-segment_time",
+            str(chunk_seconds),
+            "-c",
+            "copy",
+            "-reset_timestamps",
+            "1",
+            str(output_pattern),
+        ]
+        proc = run_cmd(cmd, timeout_seconds=1800)
+        if proc.returncode != 0:
+            raise RuntimeError(proc.stderr.strip() or "ffmpeg failed to split audio for OpenRouter")
+
+        chunks = sorted(tmp_path.glob(f"chunk_*{suffix}"))
+        if not chunks:
+            raise RuntimeError("ffmpeg produced no chunk files for OpenRouter")
+
+        persisted_dir = audio_path.parent / f"{audio_path.stem}_openrouter_chunks"
+        persisted_dir.mkdir(parents=True, exist_ok=True)
+        persisted_chunks: List[Path] = []
+        for chunk in chunks:
+            duration = probe_audio_duration(chunk)
+            if duration is None or duration <= 0:
+                continue
+            target = persisted_dir / chunk.name
+            target.write_bytes(chunk.read_bytes())
+            persisted_chunks.append(target)
+        if not persisted_chunks:
+            raise RuntimeError("ffmpeg produced only invalid chunk files for OpenRouter")
+        return persisted_chunks
+
+
+def transcribe_with_openrouter(
+    audio_path: Path,
+    timeout_seconds: int = 600,
+) -> Tuple[str, Optional[List[Dict[str, Any]]], str]:
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENROUTER_API_KEY is not set")
+
+    base_url = os.environ.get("OPENROUTER_BASE_URL") or DEFAULT_OPENROUTER_BASE_URL
+    model = os.environ.get("OPENROUTER_TRANSCRIPTION_MODEL") or DEFAULT_OPENROUTER_TRANSCRIPTION_MODEL
+    http_referer = os.environ.get("OPENROUTER_HTTP_REFERER")
+    title = os.environ.get("OPENROUTER_TITLE")
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    if http_referer:
+        headers["HTTP-Referer"] = http_referer
+    if title:
+        headers["X-OpenRouter-Title"] = title
+    chunk_seconds = env_int("OPENROUTER_TRANSCRIPTION_CHUNK_SECONDS", DEFAULT_OPENROUTER_CHUNK_SECONDS)
+    max_bytes = env_int("OPENROUTER_TRANSCRIPTION_MAX_BYTES", DEFAULT_OPENROUTER_MAX_BYTES)
+    audio_size = audio_path.stat().st_size
+    audio_duration = probe_audio_duration(audio_path)
+    should_chunk = audio_size > max_bytes or (
+        audio_duration is not None and audio_duration > float(chunk_seconds)
+    )
+
+    if not should_chunk:
+        text = transcribe_openrouter_request(
+            audio_path,
+            timeout_seconds,
+            model,
+            base_url,
+            headers,
+            OPENROUTER_TRANSCRIPTION_PROMPT,
+        )
+        return text, None, f"openrouter:{model}"
+
+    chunks = split_audio_for_openrouter(audio_path, chunk_seconds)
+    chunk_texts: List[str] = []
+    chunk_segments: List[Dict[str, Any]] = []
+    offset_seconds = 0.0
+    total_chunks = len(chunks)
+    for index, chunk_path in enumerate(chunks, start=1):
+        prompt = (
+            f"{OPENROUTER_TRANSCRIPTION_PROMPT} "
+            f"This file is chunk {index} of {total_chunks} from a longer recording."
+        )
+        chunk_text = transcribe_openrouter_request(
+            chunk_path,
+            timeout_seconds,
+            model,
+            base_url,
+            headers,
+            prompt,
+        ).strip()
+        if chunk_text:
+            chunk_texts.append(chunk_text)
+            chunk_duration = probe_audio_duration(chunk_path)
+            end_seconds = offset_seconds + chunk_duration if chunk_duration is not None else None
+            chunk_segments.append(
+                {
+                    "start": offset_seconds,
+                    "end": end_seconds,
+                    "text": chunk_text,
+                }
+            )
+            if chunk_duration is not None:
+                offset_seconds = end_seconds or offset_seconds
+            else:
+                offset_seconds += float(chunk_seconds)
+
+    transcript = "\n\n".join(text for text in chunk_texts if text).strip()
+    if not transcript:
+        raise RuntimeError(f"{model}: chunked transcription produced empty transcript")
+    return transcript, chunk_segments or None, f"openrouter:{model}:chunked"
 
 
 def normalize_focus_section(raw: str) -> Optional[str]:
@@ -545,9 +854,12 @@ def transcribe_with_openai(
     model_candidates: List[str],
     timeout_seconds: int = 600,
 ) -> Tuple[str, Optional[List[Dict[str, Any]]], str]:
+    if os.environ.get("OPENROUTER_API_KEY"):
+        return transcribe_with_openrouter(audio_path, timeout_seconds)
+
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        raise RuntimeError("OPENAI_API_KEY is not set")
+        raise RuntimeError("Neither OPENROUTER_API_KEY nor OPENAI_API_KEY is set")
 
     errors: List[str] = []
     for model in model_candidates:
@@ -667,6 +979,8 @@ def write_json(path: Path, payload: Dict[str, Any]) -> None:
 
 
 def main() -> int:
+    load_env_file(Path(__file__).resolve().parent.parent / ".env")
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", required=True, help="Video URL (YouTube/Bilibili)")
     parser.add_argument("--out-dir", required=True, help="Output directory")

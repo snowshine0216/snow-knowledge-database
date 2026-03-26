@@ -19,6 +19,23 @@ Default policy:
 - If subtitles are unavailable, use ASR fallback.
 Default ASR order is `faster-whisper` (local) then OpenAI API.
 
+Local prerequisites for ASR fallback:
+- `yt-dlp` must be installed and reachable in the current shell.
+- `ffmpeg` and `ffprobe` must be installed for audio extraction/conversion.
+- If `faster-whisper` was installed into a project virtualenv, activate that env before running the extractor, for example `source .venv/bin/activate`.
+- On the first `faster-whisper` run, the selected model (for example `tiny` or `small`) may need to be downloaded and cached locally. If the machine cannot reach the model host, ASR will fail even when `faster-whisper` is installed.
+- The extractor now auto-loads `.env` from the skill folder, so provider keys can live in `.agents/skills/yt-video-summarizer/.env`.
+
+OpenRouter setup for `--asr-provider openai`:
+- Set `OPENROUTER_API_KEY` in the skill `.env`.
+- Optional: set `OPENROUTER_BASE_URL` (default `https://openrouter.ai/api/v1`).
+- Optional: set `OPENROUTER_TRANSCRIPTION_MODEL` (default `openai/gpt-audio-mini`).
+- Optional: set `OPENROUTER_HTTP_REFERER` and `OPENROUTER_TITLE` for OpenRouter app attribution.
+- Optional: set `OPENROUTER_TRANSCRIPTION_CHUNK_SECONDS` to control chunk duration for long audio (default `600`).
+- Optional: set `OPENROUTER_TRANSCRIPTION_MAX_BYTES` to control when chunking starts based on raw audio size (default `12582912`).
+- When `OPENROUTER_API_KEY` is present, the script will use OpenRouter instead of the native OpenAI transcription endpoint.
+- Large audio files are chunked automatically for OpenRouter requests; chunk transcripts are joined into one final transcript.
+
 ## Workflow
 
 1. Validate input URL.
@@ -38,6 +55,25 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 ```bash
 python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider auto
 ```
+
+4a. If local ASR is installed in a virtualenv, activate it explicitly before running the extractor.
+```bash
+source .venv/bin/activate
+python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider faster-whisper
+```
+
+4b. If `faster-whisper` reports a missing snapshot or Hub timeout, the problem is usually model download/caching rather than subtitle extraction or audio download.
+- Retry after confirming outbound access to the model host.
+- Consider prewarming the model with a short local transcription run.
+- If local model download is impossible, report the failure clearly and fall back to `metadata-only` unless the user explicitly wants an OpenAI ASR retry.
+
+4c. To use OpenRouter for transcription, keep the existing provider flag and configure `.env`.
+```bash
+python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider openai
+```
+- With `OPENROUTER_API_KEY` set, this path uses OpenRouter chat completions with audio input.
+- Without `OPENROUTER_API_KEY`, it falls back to the native OpenAI transcription endpoint and requires `OPENAI_API_KEY`.
+- For OpenRouter, long audio is split with `ffmpeg` before upload to avoid oversized single requests.
 
 5. For chapter-targeted details (for example image/phone/export/knowledge graph), use focused extraction:
 ```bash
@@ -106,8 +142,9 @@ Always return these sections in this order:
 - YouTube may block anonymous extraction with "Sign in to confirm you're not a bot".
 Default retry browser is Chrome via `--cookies-from-browser chrome`.
 - Bilibili extraction usually works without cookies; still use the same script for consistency.
-- Local ASR fallback uses `faster-whisper` if installed.
-- OpenAI ASR fallback requires `OPENAI_API_KEY` in the environment.
+- Local ASR fallback uses `faster-whisper` if installed and importable from the active Python environment.
+- Bilibili videos without subtitles commonly require both `ffmpeg` and a locally cached Whisper model before transcript extraction will succeed.
+- OpenAI ASR fallback requires either `OPENROUTER_API_KEY` or `OPENAI_API_KEY` in the environment.
 
 ## Quick Example
 
