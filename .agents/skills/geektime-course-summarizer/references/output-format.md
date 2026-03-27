@@ -12,10 +12,16 @@ Required files:
 Each chapter file must contain:
 
 1. `## Chapter Metadata`
-2. `## Quick Summary`
+2. `## Cornell Notes`
 3. `## Key Takeaways`
 4. `## Knowledge Graph Seeds`
 5. `## Notes For Review`
+
+Cornell section must contain:
+
+- `### Cue Column (Questions)`
+- `### Notes Column`
+- `### Summary`
 
 Knowledge graph seed block should include:
 

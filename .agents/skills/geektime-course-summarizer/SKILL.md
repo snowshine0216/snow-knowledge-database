@@ -5,6 +5,16 @@ description: Fetch and summarize Geektime (`time.geekbang.org`) course/article m
 
 # Geektime Course Summarizer
 
+## Environment Setup
+
+Run commands from workspace root:
+
+```bash
+source .venv/bin/activate
+```
+
+Use `uv` for package management in this repo (install/sync/add), not `pip` directly.
+
 ## Workflow
 
 1. Parse Geektime article URLs and extract article IDs.
@@ -17,6 +27,7 @@ description: Fetch and summarize Geektime (`time.geekbang.org`) course/article m
 Before changing behavior, run tests first:
 
 ```bash
+source .venv/bin/activate
 python3 -m unittest .agents/skills/geektime-course-summarizer/scripts/test_geektime_course_sync.py -v
 ```
 
@@ -27,6 +38,7 @@ Then implement the smallest change and re-run the same test command.
 Run:
 
 ```bash
+source .venv/bin/activate
 python3 .agents/skills/geektime-course-summarizer/scripts/geektime_course_sync.py \
   --course-name-en "claude-code-engineering-practice" \
   --course-name-zh "Claude Code 工程化实战" \
@@ -43,6 +55,7 @@ Expected output:
 
 - Always require or derive an English course folder name from `--course-name-en`.
 - Always write one Markdown file per chapter/article in numeric order.
+- Always use Cornell Notes structure for chapter summaries.
 - Always include key takeaways and source metadata in each chapter file.
 - Preserve source URL and article ID for traceability.
 
@@ -56,3 +69,4 @@ Expected output:
 
 - The script reuses browser login cookies via `yt-dlp --cookies-from-browser`.
 - If cookies expire, rerun; do not hardcode credentials.
+- If dependencies are missing, install with `uv` while `.venv` is activated.
