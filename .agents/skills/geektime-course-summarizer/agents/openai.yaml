@@ -1,0 +1,4 @@
+interface:
+  display_name: "Geektime Summaries"
+  short_description: "Fetch and summarize Geektime course chapters."
+  default_prompt: "Use this skill to fetch Geektime content with browser cookies and write chapter summaries under courses/<english-course-name>/."
