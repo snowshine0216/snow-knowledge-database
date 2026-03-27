@@ -1,85 +1,58 @@
 ---
 name: geektime-course-summarizer
-description: [TODO: Complete and informative explanation of what the skill does and when to use it. Include WHEN to use this skill - specific scenarios, file types, or tasks that trigger it.]
+description: Fetch and summarize Geektime (`time.geekbang.org`) course/article materials using browser-reused login cookies, then save chapter summaries as Markdown for review and knowledge graph ingestion. Use when a user provides Geektime article/course links and wants authenticated extraction, chapter notes, key takeaways, or course refresh materials under `courses/<english-course-name>/`.
 ---
 
 # Geektime Course Summarizer
 
-## Overview
+## Workflow
 
-[TODO: 1-2 sentences explaining what this skill enables]
+1. Parse Geektime article URLs and extract article IDs.
+2. Reuse browser cookies for authenticated API fetch (`serv/v1/article`).
+3. Convert article HTML to plain text and generate concise chapter summaries.
+4. Save outputs to `courses/<english-course-name>/` with one chapter file per article.
 
-## Structuring This Skill
+## TDD First
 
-[TODO: Choose the structure that best fits this skill's purpose. Common patterns:
+Before changing behavior, run tests first:
 
-**1. Workflow-Based** (best for sequential processes)
-- Works well when there are clear step-by-step procedures
-- Example: DOCX skill with "Workflow Decision Tree" -> "Reading" -> "Creating" -> "Editing"
-- Structure: ## Overview -> ## Workflow Decision Tree -> ## Step 1 -> ## Step 2...
+```bash
+python3 -m unittest .agents/skills/geektime-course-summarizer/scripts/test_geektime_course_sync.py -v
+```
 
-**2. Task-Based** (best for tool collections)
-- Works well when the skill offers different operations/capabilities
-- Example: PDF skill with "Quick Start" -> "Merge PDFs" -> "Split PDFs" -> "Extract Text"
-- Structure: ## Overview -> ## Quick Start -> ## Task Category 1 -> ## Task Category 2...
+Then implement the smallest change and re-run the same test command.
 
-**3. Reference/Guidelines** (best for standards or specifications)
-- Works well for brand guidelines, coding standards, or requirements
-- Example: Brand styling with "Brand Guidelines" -> "Colors" -> "Typography" -> "Features"
-- Structure: ## Overview -> ## Guidelines -> ## Specifications -> ## Usage...
+## Quick Start
 
-**4. Capabilities-Based** (best for integrated systems)
-- Works well when the skill provides multiple interrelated features
-- Example: Product Management with "Core Capabilities" -> numbered capability list
-- Structure: ## Overview -> ## Core Capabilities -> ### 1. Feature -> ### 2. Feature...
+Run:
 
-Patterns can be mixed and matched as needed. Most skills combine patterns (e.g., start with task-based, add workflow for complex operations).
+```bash
+python3 .agents/skills/geektime-course-summarizer/scripts/geektime_course_sync.py \
+  --course-name-en "claude-code-engineering-practice" \
+  --course-name-zh "Claude Code 工程化实战" \
+  --article-url "https://time.geekbang.org/column/article/942422" \
+  --output-root "courses"
+```
 
-Delete this entire "Structuring This Skill" section when done - it's just guidance.]
+Expected output:
 
-## [TODO: Replace with the first main section based on chosen structure]
+- `courses/claude-code-engineering-practice/README.md`
+- `courses/claude-code-engineering-practice/001-942422.md`
 
-[TODO: Add content here. See examples in existing skills:
-- Code samples for technical skills
-- Decision trees for complex workflows
-- Concrete examples with realistic user requests
-- References to scripts/templates/references as needed]
+## Behavior Rules
 
-## Resources (optional)
+- Always require or derive an English course folder name from `--course-name-en`.
+- Always write one Markdown file per chapter/article in numeric order.
+- Always include key takeaways and source metadata in each chapter file.
+- Preserve source URL and article ID for traceability.
 
-Create only the resource directories this skill actually needs. Delete this section if no resources are required.
+## Files
 
-### scripts/
-Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+- Script: `scripts/geektime_course_sync.py`
+- Tests: `scripts/test_geektime_course_sync.py`
+- Format reference: `references/output-format.md`
 
-**Examples from other skills:**
-- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
-- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
+## Notes
 
-**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
-
-**Note:** Scripts may be executed without loading into context, but can still be read by Codex for patching or environment adjustments.
-
-### references/
-Documentation and reference material intended to be loaded into context to inform Codex's process and thinking.
-
-**Examples from other skills:**
-- Product management: `communication.md`, `context_building.md` - detailed workflow guides
-- BigQuery: API reference documentation and query examples
-- Finance: Schema documentation, company policies
-
-**Appropriate for:** In-depth documentation, API references, database schemas, comprehensive guides, or any detailed information that Codex should reference while working.
-
-### assets/
-Files not intended to be loaded into context, but rather used within the output Codex produces.
-
-**Examples from other skills:**
-- Brand styling: PowerPoint template files (.pptx), logo files
-- Frontend builder: HTML/React boilerplate project directories
-- Typography: Font files (.ttf, .woff2)
-
-**Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
-
----
-
-**Not every skill requires all three types of resources.**
+- The script reuses browser login cookies via `yt-dlp --cookies-from-browser`.
+- If cookies expire, rerun; do not hardcode credentials.
