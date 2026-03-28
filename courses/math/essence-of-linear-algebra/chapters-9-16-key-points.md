@@ -12,6 +12,7 @@ Video: https://www.youtube.com/watch?v=LyGKycYT2v0
 - A 1x2 matrix defines a linear map from 2D vectors to numbers, and this map is computationally the same form as a dot product.
 - Duality viewpoint: every linear map from vectors to numbers corresponds to a unique vector such that applying the map equals taking a dot product with that vector.
 - This explains why dot products are deeply linked to linear transformations, not just a standalone formula.
+- The takeaway is that when you're out in the mathematical wild and you find a linear transformation to the number line, you will be able to match it to some vector, which is called the "dual vector" of the transformation, so that performing that linear transformation is the same as taking the dot product with that vector.
 ![[file-20260321212017928.png]]
 ![[file-20260321212041435.png]]
 ## Chapter 10: Cross Products
@@ -38,6 +39,7 @@ Video: https://www.youtube.com/watch?v=BaM7OCEm3G0
 - Computing `p` algebraically yields the usual determinant-with-basis-symbols cross-product formula.
 - Interpreting `p` geometrically shows it must be perpendicular to `v` and `w`, with magnitude equal to the area of their parallelogram.
 - So the computational formula and geometric definition match because they describe the same dual vector of one linear transformation.
+![[file-20260329062233268.png]]
 
 ## Chapter 12: Cramer's Rule (Geometric View)
 Video: https://www.youtube.com/watch?v=jBsC34PxzoM
