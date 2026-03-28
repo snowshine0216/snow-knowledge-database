@@ -14,9 +14,15 @@ Use this skill to turn a single YouTube or Bilibili URL into:
 
 Default policy:
 - Process one URL per request.
-- Match summary language to the video language when detectable.
+- Summary language must match the original video language.
+- Never hardcode output language (for example, never default to Chinese or English).
+- Determine original language in this order:
+  1) `metadata_summary.json` -> `original_language`
+  2) `raw_metadata.json` -> `language` / `default_audio_language`
+  3) transcript language as fallback only when metadata language is missing
 - Prefer transcript-based summarization; fall back to metadata-only summary when no transcript is available.
 - If subtitles are unavailable, use ASR fallback.
+- For Bilibili, use ASR-first workflow with browser cookies: `download audio -> ASR transcript -> transcript-based summary`.
 Default ASR order is `faster-whisper` (local) then OpenAI API.
 
 Local prerequisites for ASR fallback:
@@ -46,12 +52,17 @@ Use this skill for `youtube.com`, `youtu.be`, `bilibili.com`, `b23.tv`.
 python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer"
 ```
 
+2a. Bilibili standard workflow (recommended default): always pass browser cookies and ASR provider.
+```bash
+python3 scripts/extract_video_context.py --url "<bilibili_url>" --out-dir "/tmp/yt-video-summarizer" --cookies-from-browser chrome --asr-provider auto
+```
+
 3. If extraction fails due YouTube anti-bot checks, retry with browser cookies.
 ```bash
 python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --cookies-from-browser chrome
 ```
 
-4. If no subtitles are available, allow ASR fallback (default behavior).
+4. If no subtitles are available, allow ASR fallback (default behavior for YouTube).
 ```bash
 python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider auto
 ```
@@ -86,6 +97,7 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 
 6. Read generated files:
 - `metadata_summary.json` for stable metadata fields
+- `metadata_summary.json` also includes `original_language`
 - `transcript.txt` if subtitles were found
 - `transcript.txt` may also come from ASR fallback (`asr-faster-whisper` or `asr-openai`)
 - `bundle.json` for source and retry diagnostics
@@ -107,6 +119,7 @@ Always return these sections in this order:
 - URL
 - Platform
 - Title
+- Original language (detected)
 - Suggested summary filename (`recommended_summary_filename` from metadata when available)
 - Channel/Uploader
 - Upload date
@@ -133,6 +146,7 @@ Always return these sections in this order:
 
 - Prefer facts explicitly present in transcript or metadata.
 - Do not invent claims not supported by extracted data.
+- Write the full report in the original video language (unless the user explicitly asks for translation).
 - If transcript exists, prioritize information density over stylistic rewriting.
 - If transcript is missing, state that clearly and summarize from title/description/tags/chapters.
 - Keep tone neutral and concise unless user requests a style.
@@ -141,7 +155,8 @@ Always return these sections in this order:
 
 - YouTube may block anonymous extraction with "Sign in to confirm you're not a bot".
 Default retry browser is Chrome via `--cookies-from-browser chrome`.
-- Bilibili extraction usually works without cookies; still use the same script for consistency.
+- Bilibili standard policy is cookie-auth + ASR-first. Always run with `--cookies-from-browser chrome --asr-provider auto`.
+- The extractor now applies cookie-auth on metadata fetch when browser cookies are provided.
 - Local ASR fallback uses `faster-whisper` if installed and importable from the active Python environment.
 - Bilibili videos without subtitles commonly require both `ffmpeg` and a locally cached Whisper model before transcript extraction will succeed.
 - OpenAI ASR fallback requires either `OPENROUTER_API_KEY` or `OPENAI_API_KEY` in the environment.

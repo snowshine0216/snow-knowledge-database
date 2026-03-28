@@ -20,7 +20,7 @@ from urllib import request as urllib_request
 
 
 BASE_YTDLP_FLAGS = ["--socket-timeout", "20", "--retries", "2", "--extractor-retries", "2"]
-DEFAULT_SUB_LANGS = "en.*,zh.*"
+DEFAULT_SUB_LANGS = "all,-live_chat"
 DEFAULT_OPENAI_MODELS = "gpt-4o-mini-transcribe,gpt-4o-transcribe,whisper-1"
 DEFAULT_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_OPENROUTER_TRANSCRIPTION_MODEL = "openai/gpt-audio-mini"
@@ -150,6 +150,7 @@ def normalize_metadata(meta: Dict[str, Any], url: str, platform: str) -> Dict[st
         "channel": meta.get("channel"),
         "uploader_id": meta.get("uploader_id"),
         "upload_date": meta.get("upload_date"),
+        "original_language": meta.get("language") or meta.get("default_audio_language"),
         "duration_seconds": duration,
         "duration_string": meta.get("duration_string") or format_duration(duration),
         "view_count": meta.get("view_count"),
@@ -197,6 +198,74 @@ def select_subtitle_file(out_dir: Path) -> Optional[Path]:
     if not candidates:
         return None
     return candidates[0]
+
+
+def normalize_lang_tag(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    normalized = value.strip().replace("_", "-")
+    return normalized.lower() or None
+
+
+def primary_lang(value: Optional[str]) -> Optional[str]:
+    normalized = normalize_lang_tag(value)
+    if not normalized:
+        return None
+    return normalized.split("-")[0] or None
+
+
+def subtitle_lang_from_filename(path: Path, video_id: str) -> Optional[str]:
+    stem = path.stem
+    prefix = f"{video_id}."
+    if stem.startswith(prefix):
+        lang = stem[len(prefix) :]
+        return lang or None
+    parts = stem.split(".")
+    return parts[-1] if parts else None
+
+
+def subtitle_priority(lang: Optional[str], target_lang: Optional[str]) -> Tuple[int, int]:
+    normalized = normalize_lang_tag(lang)
+    target = normalize_lang_tag(target_lang)
+    primary = primary_lang(normalized)
+    target_primary = primary_lang(target)
+    is_orig = normalized.endswith("-orig") if normalized else False
+
+    if target and normalized == f"{target}-orig":
+        return (0, 0)
+    if target and normalized == target:
+        return (1, 0)
+    if target_primary and primary == target_primary and is_orig:
+        return (2, 0)
+    if target_primary and primary == target_primary:
+        return (3, 0)
+    if is_orig:
+        return (4, 0)
+    if normalized:
+        return (5, 0)
+    return (6, 0)
+
+
+def select_subtitle_file_for_language(
+    out_dir: Path,
+    video_id: str,
+    target_lang: Optional[str],
+) -> Tuple[Optional[Path], Optional[str]]:
+    candidates = sorted(
+        (p for p in out_dir.glob("*.vtt") if p.is_file()),
+    )
+    if not candidates:
+        return None, None
+
+    ranked: List[Tuple[Tuple[int, int], int, str, Path, Optional[str]]] = []
+    for candidate in candidates:
+        lang = subtitle_lang_from_filename(candidate, video_id)
+        priority = subtitle_priority(lang, target_lang)
+        ranked.append((priority, -candidate.stat().st_size, candidate.name, candidate, lang))
+
+    ranked.sort(key=lambda item: (item[0], item[1], item[2]))
+    _priority, _neg_size, _name, chosen_path, chosen_lang = ranked[0]
+    return chosen_path, chosen_lang
 
 
 def select_audio_file(out_dir: Path) -> Optional[Path]:
@@ -1060,6 +1129,7 @@ def main() -> int:
 
     transcript_source = "metadata-only"
     subtitle_file: Optional[Path] = None
+    subtitle_lang: Optional[str] = None
     audio_file: Optional[Path] = None
     asr_model_used: Optional[str] = None
     asr_error: Optional[str] = None
@@ -1067,7 +1137,9 @@ def main() -> int:
     transcript_chars = 0
     transcript_lines = 0
 
-    if not args.metadata_only:
+    bilibili_asr_first = platform == "bilibili" and args.asr_provider != "off"
+
+    if not args.metadata_only and not bilibili_asr_first:
         used_cookies = fetch_subtitles(
             args.url,
             out_dir,
@@ -1075,7 +1147,11 @@ def main() -> int:
             used_cookies,
             args.sub_langs,
         )
-        subtitle_file = select_subtitle_file(out_dir)
+        subtitle_file, subtitle_lang = select_subtitle_file_for_language(
+            out_dir,
+            str(summary.get("id") or ""),
+            summary.get("original_language"),
+        )
         if subtitle_file:
             raw_vtt = subtitle_file.read_text(encoding="utf-8", errors="ignore")
             transcript = vtt_to_text(raw_vtt).strip()
@@ -1087,7 +1163,11 @@ def main() -> int:
             else:
                 transcript_source = "metadata-only"
 
-    should_try_asr = (not args.metadata_only) and transcript_source == "metadata-only" and args.asr_provider != "off"
+    should_try_asr = (
+        (not args.metadata_only)
+        and args.asr_provider != "off"
+        and (bilibili_asr_first or transcript_source == "metadata-only")
+    )
     if should_try_asr:
         audio_file, used_cookies = download_audio(args.url, out_dir, args.cookies_from_browser, used_cookies)
         if audio_file:
@@ -1130,6 +1210,8 @@ def main() -> int:
     transcript_meta = {
         "source": transcript_source,
         "source_file": str(subtitle_file) if subtitle_file else None,
+        "subtitle_language": subtitle_lang if subtitle_file else None,
+        "video_original_language": summary.get("original_language"),
         "audio_file": str(audio_file) if audio_file else None,
         "asr_model_used": asr_model_used,
         "asr_error": asr_error,
@@ -1163,12 +1245,15 @@ def main() -> int:
         "url": args.url,
         "platform": platform,
         "used_cookie_retry": used_cookies,
+        "bilibili_asr_first": bilibili_asr_first,
         "metadata_path": str(metadata_summary_path),
         "raw_metadata_path": str(raw_metadata_path),
         "transcript_path": str(transcript_path if transcript_path.exists() else ""),
         "transcript_meta_path": str(transcript_meta_path),
         "transcript_source": transcript_source,
         "subtitle_file": str(subtitle_file) if subtitle_file else None,
+        "subtitle_language": subtitle_lang if subtitle_file else None,
+        "video_original_language": summary.get("original_language"),
         "audio_file": str(audio_file) if audio_file else None,
         "asr_provider": args.asr_provider,
         "asr_model_used": asr_model_used,
