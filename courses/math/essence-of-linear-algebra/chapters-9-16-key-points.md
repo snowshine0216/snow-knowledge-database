@@ -24,6 +24,9 @@ Video: https://www.youtube.com/watch?v=eu6i7WJeinw
 - In 3D, the cross product returns a vector, not a scalar.
 - The 3D cross-product vector has magnitude equal to the parallelogram area and direction perpendicular to both input vectors, chosen by the right-hand rule.
 - The determinant-style computation with `i-hat`, `j-hat`, and `k-hat` is a compact symbolic method whose deeper meaning comes from duality (covered next chapter).
+![[file-20260329061104428.png]]
+![[file-20260329061112245.png]]
+![[file-20260329061144976.png]]
 
 ## Chapter 11: Cross Products via Linear Transformations and Duality
 Video: https://www.youtube.com/watch?v=BaM7OCEm3G0
