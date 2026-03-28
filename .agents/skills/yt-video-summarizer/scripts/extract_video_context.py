@@ -789,10 +789,14 @@ def render_focus_digest_markdown(payload: Dict[str, Any]) -> str:
 
 
 def dump_metadata(url: str, cookies_browser: Optional[str]) -> Tuple[Dict[str, Any], bool]:
-    base_cmd = ["yt-dlp", *BASE_YTDLP_FLAGS, "--dump-single-json", url]
+    base_cmd = ["yt-dlp", *BASE_YTDLP_FLAGS]
+    used_cookies = False
+    if cookies_browser:
+        base_cmd.extend(["--cookies-from-browser", cookies_browser])
+        used_cookies = True
+    base_cmd.extend(["--dump-single-json", url])
     proc = run_cmd(base_cmd)
     combined = f"{proc.stdout}\n{proc.stderr}"
-    used_cookies = False
 
     if proc.returncode != 0 and cookies_browser and looks_like_youtube_bot_block(combined):
         retry_cmd = [
