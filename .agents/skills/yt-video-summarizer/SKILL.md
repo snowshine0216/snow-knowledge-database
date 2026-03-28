@@ -109,6 +109,8 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 8. When saving to disk, use a meaningful title-based filename (required).
 - Read `recommended_summary_filename` from `metadata_summary.json`.
 - Use that filename in your target folder (for example `interview-summaries/andrej-karpathy-on-code-agents-autoresearch-and-the-loopy-era-of-ai_kwSVtQ7dziU.md`).
+- Filenames must be English/ASCII only. Use transliterated title text when possible; otherwise fall back to meaningful ASCII metadata (uploader/tags) before using the video ID.
+- If transliteration is unavailable and `OPENROUTER_API_KEY`/`OPENAI_API_KEY` exists, the extractor may translate non-English titles into concise English for a more meaningful filename.
 - Never use date+id-only names like `2026-03-21_kwSVtQ7dziU.md`.
 
 ## Output Structure

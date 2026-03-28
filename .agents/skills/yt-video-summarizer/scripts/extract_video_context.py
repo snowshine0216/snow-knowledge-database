@@ -24,6 +24,7 @@ DEFAULT_SUB_LANGS = "all,-live_chat"
 DEFAULT_OPENAI_MODELS = "gpt-4o-mini-transcribe,gpt-4o-transcribe,whisper-1"
 DEFAULT_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_OPENROUTER_TRANSCRIPTION_MODEL = "openai/gpt-audio-mini"
+DEFAULT_OPENROUTER_TITLE_TRANSLATION_MODEL = "openai/gpt-4o-mini"
 DEFAULT_OPENROUTER_CHUNK_SECONDS = 600
 DEFAULT_OPENROUTER_MAX_BYTES = 12 * 1024 * 1024
 DEFAULT_FASTER_WHISPER_MODEL = "tiny"
@@ -125,20 +126,180 @@ def format_duration(seconds: Optional[int]) -> Optional[str]:
     return f"{minutes}:{secs:02d}"
 
 
-def slugify_for_filename(value: str, default: str = "video", max_len: int = 100) -> str:
-    normalized = unicodedata.normalize("NFKD", value)
-    ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
-    slug = re.sub(r"[^A-Za-z0-9]+", "-", ascii_only).strip("-").lower()
+def _ascii_slug(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def _transliterate_to_ascii(text: str) -> str:
+    # Prefer pinyin for CJK; fallback to generic transliteration libs when available.
+    try:
+        from pypinyin import lazy_pinyin  # type: ignore
+
+        converted = " ".join(lazy_pinyin(text))
+        return converted
+    except Exception:
+        pass
+    try:
+        from unidecode import unidecode  # type: ignore
+
+        return unidecode(text)
+    except Exception:
+        pass
+    normalized = unicodedata.normalize("NFKD", text)
+    return normalized.encode("ascii", "ignore").decode("ascii")
+
+
+def _slugify_text_only(value: str, max_len: int = 100) -> str:
+    normalized = unicodedata.normalize("NFKC", value or "").strip()
+    if not normalized:
+        return ""
+    normalized = re.sub(r'[\\/:*?"<>|]', " ", normalized)
+    slug = _ascii_slug(_transliterate_to_ascii(normalized))
     if not slug:
-        slug = default
-    slug = slug[:max_len].strip("-")
-    return slug or default
+        return ""
+    if len(slug) > max_len:
+        slug = slug[:max_len].rstrip("-")
+    return slug
+
+
+def translate_title_to_english(title: str, timeout_seconds: int = 30) -> Optional[str]:
+    title = (title or "").strip()
+    if not title:
+        return None
+    prompt = (
+        "Translate this video title to a concise English phrase for a filename. "
+        "Keep key names/topics. Return only plain text, no quotes.\n\n"
+        f"Title: {title}"
+    )
+
+    openrouter_key = os.environ.get("OPENROUTER_API_KEY")
+    if openrouter_key:
+        base_url = os.environ.get("OPENROUTER_BASE_URL", DEFAULT_OPENROUTER_BASE_URL).rstrip("/")
+        model = os.environ.get("OPENROUTER_TITLE_TRANSLATION_MODEL", DEFAULT_OPENROUTER_TITLE_TRANSLATION_MODEL)
+        payload: Dict[str, Any] = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "You translate titles to concise English text."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0,
+        }
+        cmd = [
+            "curl",
+            "-sS",
+            f"{base_url}/chat/completions",
+            "-H",
+            f"Authorization: Bearer {openrouter_key}",
+            "-H",
+            "Content-Type: application/json",
+            "-d",
+            json.dumps(payload, ensure_ascii=False),
+        ]
+        proc = run_cmd(cmd, timeout_seconds=timeout_seconds)
+        if proc.returncode == 0:
+            try:
+                data = json.loads(proc.stdout)
+                content = (
+                    data.get("choices", [{}])[0]
+                    .get("message", {})
+                    .get("content", "")
+                )
+                content = str(content).strip()
+                if content:
+                    return content
+            except Exception:
+                pass
+
+    openai_key = os.environ.get("OPENAI_API_KEY")
+    if openai_key:
+        payload = {
+            "model": "gpt-4o-mini",
+            "messages": [
+                {"role": "system", "content": "You translate titles to concise English text."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0,
+        }
+        cmd = [
+            "curl",
+            "-sS",
+            "https://api.openai.com/v1/chat/completions",
+            "-H",
+            f"Authorization: Bearer {openai_key}",
+            "-H",
+            "Content-Type: application/json",
+            "-d",
+            json.dumps(payload, ensure_ascii=False),
+        ]
+        proc = run_cmd(cmd, timeout_seconds=timeout_seconds)
+        if proc.returncode == 0:
+            try:
+                data = json.loads(proc.stdout)
+                content = (
+                    data.get("choices", [{}])[0]
+                    .get("message", {})
+                    .get("content", "")
+                )
+                content = str(content).strip()
+                if content:
+                    return content
+            except Exception:
+                pass
+
+    return None
+
+
+def slugify_for_filename(
+    value: str,
+    default: str = "video",
+    max_len: int = 100,
+    fallback_parts: Optional[List[str]] = None,
+) -> str:
+    normalized = unicodedata.normalize("NFKC", value or "").strip()
+    normalized = re.sub(r'[\\/:*?"<>|]', " ", normalized)
+    transliterated = _transliterate_to_ascii(normalized)
+    slug = _ascii_slug(transliterated)
+
+    if not slug and fallback_parts:
+        for part in fallback_parts:
+            part_norm = unicodedata.normalize("NFKC", part or "").strip()
+            if not part_norm:
+                continue
+            part_slug = _ascii_slug(_transliterate_to_ascii(part_norm))
+            if part_slug:
+                slug = part_slug
+                break
+
+    if not slug:
+        slug = _ascii_slug(default) or "video"
+
+    if len(slug) > max_len:
+        slug = slug[:max_len].rstrip("-")
+
+    return slug or (_ascii_slug(default) or "video")
 
 
 def normalize_metadata(meta: Dict[str, Any], url: str, platform: str) -> Dict[str, Any]:
     duration = meta.get("duration")
     video_id = str(meta.get("id") or "video")
-    title_slug = slugify_for_filename(str(meta.get("title") or ""), default=video_id, max_len=90)
+    tags = meta.get("tags") if isinstance(meta.get("tags"), list) else []
+    fallback_parts: List[str] = []
+    for value in [meta.get("uploader"), meta.get("channel"), *tags]:
+        if isinstance(value, str) and value.strip():
+            fallback_parts.append(value.strip())
+    raw_title = str(meta.get("title") or "")
+    title_slug = _slugify_text_only(raw_title, max_len=90)
+    if not title_slug:
+        translated = translate_title_to_english(raw_title)
+        if translated:
+            title_slug = _slugify_text_only(translated, max_len=90)
+    if not title_slug:
+        title_slug = slugify_for_filename(
+            raw_title,
+            default=video_id,
+            max_len=90,
+            fallback_parts=fallback_parts,
+        )
     return {
         "id": meta.get("id"),
         "platform": platform,
