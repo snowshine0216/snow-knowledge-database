@@ -7,8 +7,8 @@ Topic notes based on the *Essence of Linear Algebra* learning series.
 - [Vectors and Bases](./vectors-and-bases.md)
 - [Matrix Transformations](./matrix-transformations.md)
 - [Eigenvectors and Eigenvalues](./eigenvectors-and-eigenvalues.md)
-- [Chapters 1-8 Key Points](./chapters-1-8-key-points.md)
-- [Chapters 9-16 Key Points](./chapters-9-16-key-points.md)
+- [Chapters 1-8 Key Points](chapters-1-8-key-points.md)
+- [Chapters 9-16 Key Points](chapters-9-16-key-points.md)
 
 ## Study Routine
 
