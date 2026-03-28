@@ -66,6 +66,7 @@ Video: https://www.youtube.com/watch?v=P2LTAUO1TdA
 - Matrix-vector multiplication here is exactly the "scale basis vectors and add" process.
 - Transformations also change representation with basis changes, not just vectors.
 - The conjugation form `A^{-1}MA` (or equivalent basis-change sandwich) expresses the same transformation as seen in a different coordinate system.
+- ![[file-20260329064718591.png]]
 ![[file-20260323064703477.png|697]]
 ![[file-20260324062046575.png]]
 ![[file-20260323065250197.png]]
