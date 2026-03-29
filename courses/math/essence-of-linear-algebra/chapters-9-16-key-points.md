@@ -80,6 +80,7 @@ Video: https://www.youtube.com/watch?v=PFDu9oVAE-g
 - Each valid `lambda` gives vectors in the null space of `A - lambda I`, which are corresponding eigenvectors.
 - Some transformations have no real eigenvectors (for example, pure 2D rotation by 90 degrees).
 - If enough eigenvectors span the space, using them as basis (an eigenbasis) diagonalizes the matrix and makes repeated powers/compositions much easier.
+- 
 ![[file-20260323213345109.png]]
 
 ## Chapter 15: Quick Trick for 2x2 Eigenvalues
