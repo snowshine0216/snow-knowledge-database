@@ -93,6 +93,7 @@ Video: https://www.youtube.com/watch?v=e50Bj7jn9IQ
 - If two numbers have mean `m` and product `p`, they are `m ± sqrt(m^2 - p)`.
 - Combining these gives a fast mental workflow for 2x2 eigenvalues.
 - This framing is also a meaningful reinterpretation of quadratic-root solving, with quantities tied directly to matrix invariants.
+![[file-20260329105639142.png]]
 
 ## Chapter 16: Abstract Vector Spaces
 Video: https://www.youtube.com/watch?v=TgKwz5Ikpc8
