@@ -20,6 +20,7 @@ It covers:
 - `macos-setup.sh`: installs the core toolchain and writes a default `yt-dlp` config if one does not already exist
 - [github-repo-setup.md](./github-repo-setup.md): GitHub remote/auth setup, credential helper config, and troubleshooting notes
 - [pptagent-setup.md](./pptagent-setup.md): PPTAgent environment setup and fixes for Docker sandbox image and `soffice` issues
+- [skills-collections-setup.md](./skills-collections-setup.md): curated skill collections, install commands, and purpose notes (including DingTalk Wukong Skills, gstack, and Zhihu top-10 summary)
 
 ## Run It
 
