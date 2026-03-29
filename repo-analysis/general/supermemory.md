@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, memory, rag, mcp, ai-agents]
+source: https://github.com/supermemoryai/supermemory
+---
+
 # Supermemory Analysis
 - Repository: https://github.com/supermemoryai/supermemory
 - Snapshot basis: README.md, CONTRIBUTING.md, package.json, root file tree, and GitHub repository metadata inspected on 2026-03-25.

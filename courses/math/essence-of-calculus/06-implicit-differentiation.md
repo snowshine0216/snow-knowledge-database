@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, derivative, implicit-differentiation, chain-rule]
+source: https://www.3blue1brown.com/lessons/implicit-differentiation
+---
+
 # Chapter 6: Implicit Differentiation
 
 Source:

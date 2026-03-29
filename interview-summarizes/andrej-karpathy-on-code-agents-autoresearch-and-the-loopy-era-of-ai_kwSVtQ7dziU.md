@@ -1,3 +1,8 @@
+---
+tags: [interview, ai-agents, llm, andrej-karpathy, code-agents]
+source: https://www.youtube.com/watch?v=kwSVtQ7dziU
+---
+
 # Interview Summary: Andrej Karpathy on Code Agents, AutoResearch, and the Loopy Era of AI
 
 ## Video Info

@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, architecture, overview]
+source: https://time.geekbang.org/column/article/942438
+---
+
 # 01｜登台远望：Claude Code 底层技术全景导览
 
 ## 章节元数据

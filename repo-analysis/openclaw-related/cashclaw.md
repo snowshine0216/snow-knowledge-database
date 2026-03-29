@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, openclaw, ai-agents, autonomous-agent, marketplace]
+source: https://github.com/moltlaunch/cashclaw
+---
+
 # CashClaw Analysis
 
 - Repository: `https://github.com/moltlaunch/cashclaw`

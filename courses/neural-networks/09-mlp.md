@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, mlp, interpretability, transformers]
+source: https://www.youtube.com/watch?v=9-Jl0dxWQs8
+---
+
 # How might LLMs store facts | Deep Learning Chapter 7
 
 ## Metadata

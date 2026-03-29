@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, skills, open-standards, ecosystem]
+source: https://time.geekbang.org/column/article/952321
+---
+
 # 14｜星火燎原：从Claude Code到行业开放标准
 
 ## 章节元数据

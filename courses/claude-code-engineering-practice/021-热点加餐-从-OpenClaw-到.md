@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, openclaw, architecture, engineering]
+source: https://time.geekbang.org/column/article/954122
+---
+
 # 热点加餐｜从 OpenClaw 到 OpenCode：拆解爆款 Agent 的设计密码与工程范式
 
 ## 章节元数据

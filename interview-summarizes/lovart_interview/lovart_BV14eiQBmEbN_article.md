@@ -1,3 +1,8 @@
+---
+tags: [interview, ai-startup, lovart, product, bilibili]
+source: https://www.bilibili.com/video/BV14eiQBmEbN
+---
+
 # Article Readout: 陈冕在讲的不是 Lovart，而是一代 AI 创业者如何长出来
 
 很多创业者访谈会把重点放在产品、融资和增长上，但这场和罗永浩的长谈更有意思的地方在于，它先回答了另一个问题: 为什么是陈冕这样的人，会在这个时间点做出 Lovart 这样的产品。

@@ -1,3 +1,8 @@
+---
+tags: [claude, anthropic, openclaw, youtube, remote-agent, claude-code]
+source: https://www.youtube.com/watch?v=1_VlT1vhN04
+---
+
 # Anthropic Dispatch / OpenClaw Notes
 
 Date: 2026-03-19

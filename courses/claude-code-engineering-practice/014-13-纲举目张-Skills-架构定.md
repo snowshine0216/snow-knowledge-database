@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, skills, architecture]
+source: https://time.geekbang.org/column/article/948037
+---
+
 # 13｜纲举目张：Skills 架构定位与高级能力
 
 ## 章节元数据

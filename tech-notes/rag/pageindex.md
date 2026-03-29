@@ -1,3 +1,8 @@
+---
+tags: [rag, llm, pageindex, retrieval, repo-analysis, github]
+source: https://github.com/VectifyAI/PageIndex
+---
+
 # PageIndex Analysis
 
 - Repository: https://github.com/VectifyAI/PageIndex

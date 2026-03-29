@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, integration, differentiation, area]
+source: https://www.3blue1brown.com/lessons/essence-of-calculus
+---
+
 # Chapter 1: The Essence of Calculus
 
 Source:

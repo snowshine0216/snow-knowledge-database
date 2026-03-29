@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, claude-code, ai-research, automation, multi-agent]
+source: https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep
+---
+
 # Auto-claude-code-research-in-sleep (ARIS) Analysis
 
 - Repository: `https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep`

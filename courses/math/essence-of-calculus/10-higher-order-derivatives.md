@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, derivative, higher-order-derivatives, concavity]
+source: https://www.3blue1brown.com/lessons/higher-order-derivatives
+---
+
 # Chapter 10: Higher-Order Derivatives
 
 Source:

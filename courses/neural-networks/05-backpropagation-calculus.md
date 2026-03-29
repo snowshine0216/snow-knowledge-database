@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, backpropagation, calculus]
+source: https://www.youtube.com/watch?v=tIeHLnjs5U8
+---
+
 # Backpropagation calculus
 
 ## Metadata

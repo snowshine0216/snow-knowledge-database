@@ -1,3 +1,8 @@
+---
+tags: [claude, claude-code, anthropic, tips, medium, developer-workflow]
+source: https://alirezarezvani.medium.com/boris-chernys-claude-code-tips-are-now-a-skill-here-is-what-the-complete-collection-reveals-b410a942636b
+---
+
 ## Article Info
 - **URL:** https://alirezarezvani.medium.com/boris-chernys-claude-code-tips-are-now-a-skill-here-is-what-the-complete-collection-reveals-b410a942636b
 - **Title:** Boris Cherny's Claude Code Tips Are Now a Skill. Here Is What the Complete Collection Reveals.

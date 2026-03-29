@@ -1,3 +1,8 @@
+---
+tags: [interview, bilibili, zhou-yijun, rosamund-pike]
+source: https://www.bilibili.com/video/BV1MYwvzvEU6
+---
+
 # Beyond Likability: A Detailed Outline of Zhou Yijun's Conversation with Rosamund Pike
 
 ## Article Info

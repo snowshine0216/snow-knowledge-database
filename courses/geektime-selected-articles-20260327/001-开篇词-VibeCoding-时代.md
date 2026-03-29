@@ -1,3 +1,8 @@
+---
+tags: [geektime, ai-agents, vibe-coding, agent-builder]
+source: https://time.geekbang.org/column/article/954954
+---
+
 # 开篇词｜VibeCoding 时代，人人都能成为 Agent Builder
 
 ## 章节元数据

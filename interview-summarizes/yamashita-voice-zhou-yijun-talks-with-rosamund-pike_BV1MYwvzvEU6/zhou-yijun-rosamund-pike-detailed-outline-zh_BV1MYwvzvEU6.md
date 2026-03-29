@@ -1,4 +1,9 @@
-# 超越“讨喜”：周轶君对话裴淳华的深度提纲（基于转录）
+---
+tags: [interview, bilibili, zhou-yijun, rosamund-pike]
+source: https://www.bilibili.com/video/BV1MYwvzvEU6
+---
+
+# 超越”讨喜”：周轶君对话裴淳华的深度提纲（基于转录）
 
 ## 文章信息
 - 视频：山下声｜周轶君对话裴淳华：不讨喜，是真正的力量

@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, skills, summary]
+source: https://time.geekbang.org/column/article/952329
+---
+
 # 加餐｜Skills专题总结
 
 ## 章节元数据

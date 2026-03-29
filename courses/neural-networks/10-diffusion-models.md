@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, diffusion, image-generation]
+source: https://www.youtube.com/watch?v=iv-5mZ_9CPY
+---
+
 # But how do AI images and videos actually work? | Guest video by Welch Labs
 
 ## Metadata

@@ -1,3 +1,8 @@
+---
+tags: [strategy, nvidia, ai-hardware, moat, cnbc, open-source]
+source: https://www.cnbc.com/2026/03/19/column-jensen-huang-doesnt-need-a-new-chip-he-needs-a-new-moat.html
+---
+
 # Nvidia's "New Moat" Strategy (CNBC Column Analysis)
 
 ## Source

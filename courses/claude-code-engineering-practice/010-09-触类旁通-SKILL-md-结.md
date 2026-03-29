@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, skills, skill-md]
+source: https://time.geekbang.org/column/article/945937
+---
+
 # 09｜触类旁通：SKILL.md 结构与触发机制
 
 ## 章节元数据

@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, sub-agents, multi-agent, architecture]
+source: https://time.geekbang.org/column/article/943942
+---
+
 # 04｜量体裁衣：从 Sub-Agents 到 Multi-Agent 的工程指南
 
 ## 章节元数据

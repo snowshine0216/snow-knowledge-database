@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, gpt, transformers, embeddings]
+source: https://www.youtube.com/watch?v=wjZofJX0v4M
+---
+
 # Transformers, the tech behind LLMs | Deep Learning Chapter 5
 
 ## Metadata

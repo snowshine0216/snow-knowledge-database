@@ -1,3 +1,8 @@
+---
+tags: [interview, ai-startup, lovart, product, bilibili]
+source: https://www.bilibili.com/video/BV14eiQBmEbN
+---
+
 # Structured Notes: Lovart 创始人陈冕 × 罗永浩
 
 ## Basic Info

@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, sub-agents, context-management]
+source: https://time.geekbang.org/column/article/943368
+---
+
 # 03｜分而治之：Sub-Agents 的核心概念与应用价值
 
 ## 章节元数据

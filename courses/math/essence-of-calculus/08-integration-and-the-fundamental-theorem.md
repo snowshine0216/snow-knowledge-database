@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, integral, fundamental-theorem, integration]
+source: https://www.3blue1brown.com/lessons/integration
+---
+
 # Chapter 8: Integration and the Fundamental Theorem
 
 Source:

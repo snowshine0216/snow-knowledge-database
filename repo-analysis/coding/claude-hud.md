@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, claude-code, observability, developer-tools, plugin]
+source: https://github.com/jarrodwatts/claude-hud
+---
+
 # Claude HUD Analysis
 - Repository: https://github.com/jarrodwatts/claude-hud
 - Snapshot basis: README.md, CHANGELOG.md, CONTRIBUTING.md, TESTING.md, and GitHub repository metadata (stars/forks/default branch/last push) inspected on 2026-03-22.

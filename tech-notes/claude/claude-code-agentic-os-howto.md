@@ -1,3 +1,8 @@
+---
+tags: [claude, claude-code, anthropic, skills, agentic-os, youtube]
+source: https://www.youtube.com/watch?v=5AfSB0sWihw
+---
+
 # Claude Code Skills Agentic OS - Detailed How-To Notes
 
 Date: 2026-03-17

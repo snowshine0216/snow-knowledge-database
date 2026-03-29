@@ -1,3 +1,8 @@
+---
+tags: [interview, ai-startup, lovart, product, bilibili]
+source: https://www.bilibili.com/video/BV14eiQBmEbN
+---
+
 # Founder Playbook: 从陈冕这场访谈里提炼出的创业原则
 
 ## 1. 先把目标函数想清楚

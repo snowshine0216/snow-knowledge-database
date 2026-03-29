@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, attention, transformers]
+source: https://www.youtube.com/watch?v=eMlx5fFNoYc
+---
+
 # Attention in transformers, step-by-step | Deep Learning Chapter 6
 
 ## Metadata

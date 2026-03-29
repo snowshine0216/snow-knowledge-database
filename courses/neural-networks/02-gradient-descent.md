@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, gradient-descent, optimization]
+source: https://www.youtube.com/watch?v=IHZwWFHWa-w
+---
+
 # Gradient descent, how neural networks learn
 
 ## Metadata

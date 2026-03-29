@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, activation-functions, function-approximation]
+source: https://www.youtube.com/watch?v=aircAruvnKk
+---
+
 # But what is a Neural Network?
 
 ## Metadata

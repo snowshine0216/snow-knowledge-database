@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, ai-agents, prompt-library, multi-agent, localization]
+source: https://github.com/jnMetaCode/agency-agents-zh
+---
+
 # agency-agents-zh Analysis
 
 - Repository: `https://github.com/jnMetaCode/agency-agents-zh`

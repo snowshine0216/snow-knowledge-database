@@ -1,3 +1,8 @@
+---
+tags: [claude, claude-code, anthropic, benchmark, programming-languages, medium]
+source: https://medium.huizhou92.com/which-programming-language-should-you-use-with-claude-code-39beaa4693af
+---
+
 # Medium Tech Notes: Claude Code Language Benchmark
 
 Source article:

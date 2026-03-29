@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, openclaw, meta-learning, ai-agents, continual-learning]
+source: https://github.com/aiming-lab/MetaClaw
+---
+
 # MetaClaw Analysis
 
 - Repository: `https://github.com/aiming-lab/MetaClaw`

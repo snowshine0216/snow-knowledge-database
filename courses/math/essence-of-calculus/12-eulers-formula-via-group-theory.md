@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, euler, complex-numbers, group-theory]
+source: https://www.3blue1brown.com/lessons/eulers-formula-via-group-theory
+---
+
 # Chapter 12: Euler's Formula (via Group-Theory View)
 
 Source:

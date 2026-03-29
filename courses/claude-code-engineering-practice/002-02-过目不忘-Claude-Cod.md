@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, memory, claude-md]
+source: https://time.geekbang.org/column/article/942948
+---
+
 # 02｜过目不忘：Claude Code 记忆系统与 CLAUDE.md
 
 ## 章节元数据

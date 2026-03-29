@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, derivative, limits, instantaneous-rate]
+source: https://www.3blue1brown.com/lessons/derivatives
+---
+
 # Chapter 2: The Paradox of the Derivative
 
 Source:

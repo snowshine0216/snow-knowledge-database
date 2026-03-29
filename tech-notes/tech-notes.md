@@ -1,3 +1,8 @@
+---
+tags: [tech-notes, index, claude-code, claude, anthropic]
+source: ""
+---
+
 # Tech Notes
 
 ## 2026-03-22

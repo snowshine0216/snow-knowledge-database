@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, derivative, exponential, euler-number]
+source: https://www.3blue1brown.com/lessons/eulers-number
+---
+
 # Chapter 5: Why Euler's Number \(e\) Is Special
 
 Source:

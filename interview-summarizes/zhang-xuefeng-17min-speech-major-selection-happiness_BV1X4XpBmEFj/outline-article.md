@@ -1,3 +1,8 @@
+---
+tags: [interview, bilibili, zhang-xuefeng, education, career]
+source: https://www.bilibili.com/video/BV1X4XpBmEFj
+---
+
 # 张雪峰苏州演讲全文精析：专业选择、高考心态与幸福哲学
 
 > **来源**：Bilibili BV1X4XpBmEFj，UP主：国学宝库，时长17:33

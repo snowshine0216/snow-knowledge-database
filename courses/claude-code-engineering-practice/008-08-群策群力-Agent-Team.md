@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, sub-agents, multi-agent, collaboration]
+source: https://time.geekbang.org/column/article/945358
+---
+
 # 08｜群策群力：Agent Teams多会话协作架构
 
 ## 章节元数据

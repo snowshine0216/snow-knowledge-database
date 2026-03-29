@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, ai-agents, coding-agent, langgraph, software-engineering]
+source: https://github.com/langchain-ai/open-swe
+---
+
 # Open SWE Analysis
 - Repository: https://github.com/langchain-ai/open-swe
 - Snapshot basis: README.md, INSTALLATION.md, CUSTOMIZATION.md, pyproject.toml, and GitHub repository metadata (stars/forks/default branch/last push) inspected on 2026-03-22.

@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, skills, sub-agents, integration]
+source: https://time.geekbang.org/column/article/947718
+---
+
 # 12｜珠联璧合：Skills 与 SubAgent 配合实战
 
 ## 章节元数据

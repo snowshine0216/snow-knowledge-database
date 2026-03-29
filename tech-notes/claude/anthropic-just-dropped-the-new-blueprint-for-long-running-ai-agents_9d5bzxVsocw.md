@@ -1,3 +1,8 @@
+---
+tags: [claude, anthropic, ai-agents, long-running-agents, youtube, harness-engineering]
+source: https://www.youtube.com/watch?v=9d5bzxVsocw
+---
+
 ### Video Info
 - URL: https://www.youtube.com/watch?v=9d5bzxVsocw
 - Platform: YouTube

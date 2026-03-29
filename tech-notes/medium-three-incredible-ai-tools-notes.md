@@ -1,3 +1,8 @@
+---
+tags: [ai-tools, medium, llm, google-ai-studio, replicate, voice-writing]
+source: https://medium.com/@jordan_gibbs/three-incredible-ai-tools-you-need-to-try-9d81a9d7a145
+---
+
 ## Article Info
 - **URL:** https://medium.com/@jordan_gibbs/three-incredible-ai-tools-you-need-to-try-9d81a9d7a145
 - **Title:** Three Incredible AI Tools You Need to Try

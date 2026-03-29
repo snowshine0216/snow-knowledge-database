@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, claude-code, research-skill, trend-analysis, ai-agents]
+source: https://github.com/mvanhorn/last30days-skill
+---
+
 # Last30days-skill Analysis
 - Repository: https://github.com/mvanhorn/last30days-skill
 - Snapshot basis: README.md, SKILL.md, SPEC.md, root file tree, and GitHub repository metadata inspected on 2026-03-25.

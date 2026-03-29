@@ -1,3 +1,8 @@
+---
+tags: [claude, claude-code, anthropic, multi-agent, medium, developer-workflow]
+source: https://medium.com/@bokiko/the-claude-code-setup-nobody-talks-about-from-solo-agent-to-full-dev-team-673a1d7dfc01
+---
+
 # The Claude Code Setup Nobody Talks About: From Solo Agent to Full Dev Team
 
 ## Article Info

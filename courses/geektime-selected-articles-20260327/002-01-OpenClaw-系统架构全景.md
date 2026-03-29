@@ -1,3 +1,8 @@
+---
+tags: [geektime, ai-agents, openclaw, architecture, system-design]
+source: https://time.geekbang.org/column/article/954978
+---
+
 # 01｜OpenClaw 系统架构全景：如何设计高内聚低耦合的 Agent 系统？
 
 ## 章节元数据

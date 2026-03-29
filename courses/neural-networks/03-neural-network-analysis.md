@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, interpretability, model-analysis]
+source: https://www.3blue1brown.com/lessons/neural-network-analysis
+---
+
 # Analyzing our neural network
 
 ## Metadata

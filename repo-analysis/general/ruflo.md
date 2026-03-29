@@ -1,3 +1,8 @@
+---
+tags: [repo-analysis, github, ai-agents, orchestration, mcp, multi-agent]
+source: https://github.com/ruvnet/ruflo
+---
+
 # Ruflo Analysis
 - Repository: https://github.com/ruvnet/ruflo
 - Snapshot basis: README.md, CHANGELOG.md, package.json, root file tree, and GitHub repository metadata inspected on 2026-03-25.

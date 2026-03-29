@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, taylor-series, polynomial-approximation, series]
+source: https://www.3blue1brown.com/lessons/taylor-series
+---
+
 # Chapter 11: Taylor Series
 
 Source:

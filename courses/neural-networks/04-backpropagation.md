@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, backpropagation, gradient-descent]
+source: https://www.youtube.com/watch?v=Ilg3gGewQ5U
+---
+
 # What is backpropagation really doing?
 
 ## Metadata

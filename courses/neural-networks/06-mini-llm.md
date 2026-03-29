@@ -1,3 +1,8 @@
+---
+tags: [neural-networks, deep-learning, math, 3blue1brown, large-language-models, transformers]
+source: https://www.youtube.com/watch?v=LPZh9BOjkQs
+---
+
 # Large Language Models explained briefly
 
 ## Metadata

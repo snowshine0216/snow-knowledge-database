@@ -1,3 +1,8 @@
+---
+tags: [geektime, ai-agents, openclaw, local-first, privacy, data-sovereignty]
+source: https://time.geekbang.org/column/article/955133
+---
+
 # 02｜Local-First 隐私哲学与数据主权：Agent 本地优先有什么优势？
 
 ## 章节元数据

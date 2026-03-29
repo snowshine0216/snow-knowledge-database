@@ -1,3 +1,8 @@
+---
+tags: [obsidian, note-taking, tools, youtube, sync, knowledge-management]
+source: https://www.youtube.com/watch?v=IlNOhNeWGgY&t=32s
+---
+
 # YouTube Obsidian Video Summary (yt-dlp + ASR)
 
 Date: 2026-03-17

@@ -1,3 +1,8 @@
+---
+tags: [linear-algebra, math, 3blue1brown, eigenvectors, dot-product, cross-product, change-of-basis]
+source: https://www.3blue1brown.com/topics/linear-algebra
+---
+
 # Essence of Linear Algebra (Chapters 9-16)
 
 Transcript-backed summary notes from 3Blue1Brown's *Essence of Linear Algebra* chapters 9 through 16.

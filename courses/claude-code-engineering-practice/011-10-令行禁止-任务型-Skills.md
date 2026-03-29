@@ -1,3 +1,8 @@
+---
+tags: [claude-code, geektime, ai-agents, skills, slash-commands]
+source: https://time.geekbang.org/column/article/946297
+---
+
 # 10｜令行禁止：任务型 Skills （斜杠命令 /Command）实战
 
 ## 章节元数据

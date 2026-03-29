@@ -1,3 +1,8 @@
+---
+tags: [interview, bilibili, zhou-yijun, rosamund-pike]
+source: https://www.bilibili.com/video/BV1MYwvzvEU6
+---
+
 ### Video Info
 - URL: https://www.bilibili.com/video/BV1MYwvzvEU6
 - Platform: bilibili

@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, derivative, power-rule, trigonometry]
+source: https://www.3blue1brown.com/lessons/derivatives-power-rule
+---
+
 # Chapter 3: Derivative Formulas Through Geometry
 
 Source:

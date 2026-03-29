@@ -1,3 +1,8 @@
+---
+tags: [calculus, math, 3blue1brown, derivative, chain-rule, product-rule]
+source: https://www.3blue1brown.com/lessons/chain-rule-and-product-rule
+---
+
 # Chapter 4: Chain Rule and Product Rule
 
 Source:
