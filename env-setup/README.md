@@ -70,6 +70,22 @@ Verify:
 echo $SHELL
 ```
 
+## Setup Python on macOS (`pyenv`)
+
+```bash
+# Install pyenv
+brew install pyenv
+
+# Install Python 3.13
+pyenv install 3.13.0
+
+# Set it as global
+pyenv global 3.13.0
+
+# Add to shell config
+echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
+```
+
 ## What The Script Sets Up
 
 ### 1. Homebrew
