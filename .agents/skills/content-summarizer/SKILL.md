@@ -12,7 +12,7 @@ It applies the correct format template based on `content_type` and writes the ou
 
 ## Input (from calling skill context)
 
-- `content_type`: `lecture-video` | `lecture-text` | `interview` | `talk` | `article` | `geektime-article`
+- `content_type`: `lecture-video` | `lecture-text` | `interview` | `talk` | `article` | `geektime-article` | `book-chapter`
 - `content`: full transcript or article text
 - `metadata`: title, source URL, date, author/channel/uploader, duration, etc.
 - `save_path`: full target path including filename
@@ -86,6 +86,50 @@ See: `references/template-article.md`
 ### geektime-article
 
 See: `references/template-geektime-article.md`
+
+### book-chapter
+
+Structured study notes for technical book chapters with equations and code.
+
+```markdown
+---
+tags: [tag1, tag2, ...]
+source: <canonical_url>
+---
+
+# <Chapter Title>
+
+**Source:** [Book Title](url) · Chapter N
+
+## Overview
+One paragraph explaining what this chapter covers and why it matters.
+
+## Core Concepts
+- **<concept>**: <definition and intuition>
+- ...
+
+## Key Techniques / Algorithms
+Step-by-step explanation with formulas in LaTeX ($inline$, $$block$$).
+Include variable legend and worked numerical examples where present.
+
+## Code Notes
+PyTorch/Python patterns mentioned (or "None mentioned" if absent).
+
+## Key Equations
+
+| Equation | Description |
+|---|---|
+| $$...$$ | ... |
+
+## Key Takeaways
+- <3–5 bullets: most important things to remember>
+```
+
+Rules for `book-chapter`:
+- Include worked examples from the source (do not invent examples)
+- Equations must be exact — do not simplify or rewrite
+- Code Notes section: present only; don't fabricate code
+- If chapter is primarily visual with minimal text, state clearly: "This chapter is primarily visual/diagrammatic. Available text content summarized below." then summarize what IS available
 
 ---
 

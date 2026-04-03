@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+# DEPRECATED: This script is hardcoded for the StatQuest Neural Networks book and does not
+# handle illustrated/sparse chapters. Use the pdf-summarizer skill instead:
+#
+#   python3 .agents/skills/pdf-summarizer/scripts/extract_pdf_context.py \
+#     --pdf-path ~/Documents/PersonalFolder/signa_6x9_fullsize_v3.3.1.pdf \
+#     --source-url "https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai/" \
+#     --out-dir /tmp/statquest-extract \
+#     --chapters-json .agents/skills/pdf-summarizer/examples/statquest-chapters.json
+#
+# See .agents/skills/pdf-summarizer/SKILL.md for full documentation.
 """Summarize StatQuest Neural Networks PDF chapter by chapter using the claude CLI."""
 
 import os
