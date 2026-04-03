@@ -104,107 +104,33 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 - `focused_sections.json` and `focused_sections.md` when `--focus-sections` is provided
 - `focused_section_digest.json` and `focused_section_digest.md` for concise bullet digests per section
 
-7. Produce the report using the exact output structure below.
+7. Determine `content_type` using this decision tree:
+   1. Is the video a 2-person conversation (interview/podcast style)? → `interview`
+      (overrides chapter presence: even structured interviews are `interview`)
+   2. Does the video have 3+ distinct timestamp chapters AND is it instructional/educational? → `lecture-video`
+   3. Is the video a standalone conference talk or solo presentation (not conversational, not a course module)? → `talk`
+   4. Default for ambiguous videos: is the format conversational/dialogue-driven? → `interview`. Is it a solo tutorial or single-topic explanation? → `lecture-video`.
 
-8. When saving to disk, use a meaningful title-based filename (required).
-- Read `recommended_summary_filename` from `metadata_summary.json`.
-- Use that filename in your target folder (for example `interview-summaries/andrej-karpathy-on-code-agents-autoresearch-and-the-loopy-era-of-ai_kwSVtQ7dziU.md`).
-- Filenames must be English/ASCII only. Use transliterated title text when possible; otherwise fall back to meaningful ASCII metadata (uploader/tags) before using the video ID.
-- If transliteration is unavailable and `OPENROUTER_API_KEY`/`OPENAI_API_KEY` exists, the extractor may translate non-English titles into concise English for a more meaningful filename.
-- Never use date+id-only names like `2026-03-21_kwSVtQ7dziU.md`.
+8. Invoke the `content-summarizer` skill. Pass these fields explicitly:
+   - `content_type`: [value from decision tree above]
+   - `title`: [from `metadata_summary.json` title field]
+   - `source_url`: [original video URL]
+   - `date`: [from `metadata_summary.json` upload_date]
+   - `channel`: [from `metadata_summary.json` uploader]
+   - `duration`: [from `metadata_summary.json` duration_string]
+   - `views`: [from `metadata_summary.json` view_count]
+   - `transcript`: [full content of `transcript.txt`, or "unavailable" if missing]
+   - `transcript_source`: [from `metadata_summary.json` — manual/auto/asr/metadata-only]
+   - `target_directory`: [from user's request; default: `interview-summarizes/` for interview/talk, `courses/` for lecture-video]
+   - `filename`: [`recommended_summary_filename` from `metadata_summary.json`]
 
-## Output Structure
-
-Produce a **module/chapter-based course notes file** — not a flat summary. The saved `.md` file must follow this structure exactly.
-
-### File Structure
-
-```markdown
----
-tags: [tag1, tag2, ...]
-source: <video_url>
----
-
-# Course: <Title>
-
-> **Instructor:** <name>
-> **Duration:** <H h MM min> | **Published:** <YYYY-MM-DD>
-> **Views:** <N> | **Likes:** <N>
-> **Prerequisites:** <inferred from description/content>
-> **Code/Links:** <repo, colab, slides — from description>
-
----
-
-## Course Overview
-
-<2–4 sentence paragraph: what is built, what you'll understand, what prior knowledge is assumed>
-
----
-
-## Module N — <Thematic Title>
-
-**Timestamps:** `HH:MM:SS – HH:MM:SS` (~N min)
-
-### Lessons
-
-| # | Title | Timestamp |
-|---|-------|-----------|
-| N.1 | <lesson title> | H:MM:SS |
-| N.2 | ... | ... |
-
-### Key Concepts
-- **<concept>**: <1–2 sentence explanation>
-- ...
-
-### Learning Objectives
-- [ ] <concrete, verifiable skill the viewer gains>
-- [ ] ...
-
----
-
-[repeat Module section for each module]
-
----
-
-## Course Summary
-
-### The N Big Ideas
-
-1. **<Idea>**: <1-sentence explanation>
-...
-
-### Recommended Exercises
-- <exercise from video or natural follow-on>
-...
-
----
-
-## Source Notes
-
-- **Transcript source:** `manual subtitles` | `auto subtitles` | `asr-faster-whisper` | `asr-openai` | `metadata-only`
-- **Cookie-auth retry:** used / not used
-- **Data gaps:** <none, or describe missing data>
-```
-
-### Grouping chapters into modules
-
-- Use video chapters from metadata as the raw input.
-- Group consecutive chapters into **3–6 thematic modules** — don't create one module per chapter.
-- Name each module to describe *what conceptual territory* it covers, not just what happens ("Building Self-Attention" not "Section 3").
-- Module timestamp range = first chapter start → last chapter end in the group.
-
-### In-conversation output (before or after saving)
+## In-conversation output (before or after saving)
 
 Always echo these fields in-conversation so the user can verify:
 - URL, Title, Channel, Duration, Views/Likes
 - Suggested filename (`recommended_summary_filename` from metadata)
 - Transcript source
 - Where the file was saved
-
-### Source Notes
-- Transcript source: `manual subtitles`, `auto subtitles`, `asr-faster-whisper`, `asr-openai`, or `metadata-only`
-- Mention if cookie-auth retry was used
-- Mention any data gaps (missing subtitles, hidden metrics, etc.)
 
 ## Summarization Rules
 

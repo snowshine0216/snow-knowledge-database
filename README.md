@@ -14,7 +14,9 @@ A personal knowledge repository for curated notes, references, and study materia
 - [Documentation index](docs/README.md)
 - [yt-dlp setup on macOS](docs/yt-dlp-setup.md)
 - [macOS environment setup](env-setup/README.md)
-- [YouTube summarizer skill](.agents/skills/yt-video-summarizer/SKILL.md)
+- [YouTube/Bilibili video summarizer](.agents/skills/yt-video-summarizer/SKILL.md)
+- [Medium article summarizer](.agents/skills/medium-member-summarizer/SKILL.md)
+- [Content summarizer (formatting hub)](.agents/skills/content-summarizer/SKILL.md) — shared output templates for all content types
 
 ## Environment Setup
 
