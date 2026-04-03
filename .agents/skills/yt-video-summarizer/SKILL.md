@@ -115,29 +115,91 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 
 ## Output Structure
 
-Always return these sections in this order:
+Produce a **module/chapter-based course notes file** — not a flat summary. The saved `.md` file must follow this structure exactly.
 
-### Video Info
-- URL
-- Platform
-- Title
-- Original language (detected)
-- Suggested summary filename (`recommended_summary_filename` from metadata when available)
-- Channel/Uploader
-- Upload date
-- Duration
-- Views / likes / comments (when available)
-- Category and tags (when available)
+### File Structure
 
-### Key Points
-- 5-10 bullets for core claims, methods, or lessons
+```markdown
+---
+tags: [tag1, tag2, ...]
+source: <video_url>
+---
 
-### Timeline
-- 4-8 timestamped sections when transcript timing is available
-- If timestamps are unavailable, provide an "Approximate flow" list and mark it inferred
+# Course: <Title>
 
-### Takeaways
-- 3-5 concise, actionable conclusions
+> **Instructor:** <name>
+> **Duration:** <H h MM min> | **Published:** <YYYY-MM-DD>
+> **Views:** <N> | **Likes:** <N>
+> **Prerequisites:** <inferred from description/content>
+> **Code/Links:** <repo, colab, slides — from description>
+
+---
+
+## Course Overview
+
+<2–4 sentence paragraph: what is built, what you'll understand, what prior knowledge is assumed>
+
+---
+
+## Module N — <Thematic Title>
+
+**Timestamps:** `HH:MM:SS – HH:MM:SS` (~N min)
+
+### Lessons
+
+| # | Title | Timestamp |
+|---|-------|-----------|
+| N.1 | <lesson title> | H:MM:SS |
+| N.2 | ... | ... |
+
+### Key Concepts
+- **<concept>**: <1–2 sentence explanation>
+- ...
+
+### Learning Objectives
+- [ ] <concrete, verifiable skill the viewer gains>
+- [ ] ...
+
+---
+
+[repeat Module section for each module]
+
+---
+
+## Course Summary
+
+### The N Big Ideas
+
+1. **<Idea>**: <1-sentence explanation>
+...
+
+### Recommended Exercises
+- <exercise from video or natural follow-on>
+...
+
+---
+
+## Source Notes
+
+- **Transcript source:** `manual subtitles` | `auto subtitles` | `asr-faster-whisper` | `asr-openai` | `metadata-only`
+- **Cookie-auth retry:** used / not used
+- **Data gaps:** <none, or describe missing data>
+```
+
+### Grouping chapters into modules
+
+- Use video chapters from metadata as the raw input.
+- Group consecutive chapters into **3–6 thematic modules** — don't create one module per chapter.
+- Name each module to describe *what conceptual territory* it covers, not just what happens ("Building Self-Attention" not "Section 3").
+- Module timestamp range = first chapter start → last chapter end in the group.
+
+### In-conversation output (before or after saving)
+
+Always echo these fields in-conversation so the user can verify:
+- URL, Title, Channel, Duration, Views/Likes
+- Suggested filename (`recommended_summary_filename` from metadata)
+- Transcript source
+- Where the file was saved
 
 ### Source Notes
 - Transcript source: `manual subtitles`, `auto subtitles`, `asr-faster-whisper`, `asr-openai`, or `metadata-only`
@@ -166,6 +228,7 @@ Default retry browser is Chrome via `--cookies-from-browser chrome`.
 ## Quick Example
 
 ```text
-User: "Summarize this video and give me key points: https://www.youtube.com/watch?v=IlNOhNeWGgY&t=32s"
-Action: run extractor script, read metadata/transcript outputs, then return the 5-section report.
+User: "Summarize this video: https://www.youtube.com/watch?v=VMj-3S1tku0 into courses/"
+Action: run extractor script → read metadata + transcript → group chapters into 3–6 modules
+       → write module-based course notes file → echo video info + save path in conversation.
 ```

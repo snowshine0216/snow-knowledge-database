@@ -5,48 +5,130 @@ source: https://www.3blue1brown.com/lessons/higher-order-derivatives
 
 # Chapter 10: Higher-Order Derivatives
 
-Source:
-- https://www.3blue1brown.com/lessons/higher-order-derivatives
+**Source:** [Essence of Calculus – Higher-order derivatives](https://www.3blue1brown.com/lessons/higher-order-derivatives)
 
-Essence:
-- First derivative measures rate of change; second derivative measures change of that rate; and so on.
-- Higher derivatives reveal local shape: monotonicity, concavity, curvature-like behavior, and dynamics.
-- In physics language: position, velocity, acceleration, jerk, ...
-- ## 2. 为什么叫 "Jerk" (猛然一动/颠簸)？
+## Outline
+- [Core Idea](#core-idea)
+- [Key Concepts](#key-concepts)
+- [Notation](#notation)
+- [Physics: The Derivative Chain](#physics-the-derivative-chain)
+- [Jerk and Why It Matters](#jerk-and-why-it-matters)
+- [Concavity and Inflection Points](#concavity-and-inflection-points)
+- [Key Equations](#key-equations)
+- [Connections](#connections)
 
-“Jerk” 这个词在英文里有“猛拉、颠簸”的意思。
+## Core Idea
 
-- **如果 Jerk = 0**：加速度是恒定的。比如你匀速踩着油门不放，你会感到一个**持续且稳定**的推背感。
-    
-- **如果 Jerk $\neq$ 0**：加速度在变。比如你踩油门时脚在抖，推背感忽强忽弱。这种**推力的不稳定性**会让乘客感到“颠簸”或“晃动”，这就是为什么它被称为 Jerk。
-- ![[file-20260329153045636.png|331]]
-- ## 3. 现实中的例子：电梯与过山车
+Applying the derivative operator more than once produces higher-order derivatives that reveal progressively finer information about a function's local shape. The first derivative tells you whether the function is rising or falling and how fast. The second derivative tells you whether that rate of change is itself speeding up or slowing down — in geometric terms, whether the curve bends upward or downward. Higher derivatives capture subtler geometric and physical phenomena.
 
-- **优秀的电梯**：会有意设计减小 Jerk。电梯启动和停止时，如果加速度瞬间从 0 变到最大，你会感到内脏被“甩”了一下。通过控制三阶导数，让加速度平滑增长，乘客就会感觉非常舒适。
-    
-- **两级火箭（文中的例子）**：[Grant 在文中提到](https://www.3blue1brown.com/lessons/higher-order-derivatives#comprehensive-question)，当第一级火箭燃料耗尽、第二级尚未点火时，加速度会发生突变。在这个转折点，Jerk（加加速度）会非常明显，代表了力场强度的剧烈改变。
-- ## 总结
+In physics this hierarchy has concrete names: position, velocity, acceleration, jerk, snap, crackle, pop. Each level is the rate of change of the previous one. Engineers and designers care deeply about the third derivative (jerk) because it determines how smoothly a force ramps up — the difference between a comfortable elevator ride and one that throws you off balance.
 
-文中的那句话：
+## Key Concepts
 
-> “如果 Jerk 不为零，意味着加速度本身的强度正在改变。”
+- **Second derivative** $f''(x)$: the derivative of $f'(x)$; measures how the rate of change is itself changing.
+- **$n$-th derivative** $f^{(n)}(x)$: the result of differentiating $f$ exactly $n$ times.
+- **Concavity**: the qualitative shape of the curve — concave up (bowl-shaped) when $f'' > 0$, concave down (hill-shaped) when $f'' < 0$.
+- **Inflection point**: a point where concavity switches; $f''$ changes sign there, and $f''(c) = 0$ is a necessary (but not sufficient) condition.
+- **Curvature**: how sharply a curve bends at a point; related to but not equal to $f''$; formally given by the curvature formula $\kappa$.
 
-这意味着你受到的**力**（根据 $F=ma$）正在发生变化。三阶导数衡量的是这种“力”改变得有多快。
+## Notation
 
-**有趣的小知识：**
+Two notations coexist and it is useful to know both:
 
-在物理学里，三阶之后的导数名字更有趣。四阶、五阶、六阶导数分别被称为 **Snap (或 Jounce)、Crackle 和 Pop**（名字来源于一种早餐麦片的广告语：噼啪、嘎吱、爆裂）。
-
-Core equations:
+**Prime notation** is compact and is preferred for low orders:
 $$
-f''(x)=\frac{d}{dx}f'(x),\qquad f^{(n)}(x)=\frac{d^n f}{dx^n}
+f'(x),\quad f''(x),\quad f'''(x),\quad f^{(4)}(x),\quad \ldots,\quad f^{(n)}(x)
 $$
 
+**Leibniz notation** makes the order explicit and is preferred in physics and differential equations:
 $$
-\text{if } s(t)\text{ is position: } v=s',\ a=s'',\ j=s'''
-$$
-
-$$
-f''(x)>0 \Rightarrow \text{locally concave up},\quad f''(x)<0 \Rightarrow \text{locally concave down}
+\frac{df}{dx},\quad \frac{d^2f}{dx^2},\quad \frac{d^3f}{dx^3},\quad \ldots,\quad \frac{d^n f}{dx^n}
 $$
 
+The Leibniz form $d^n f / dx^n$ is read "the $n$-th derivative of $f$ with respect to $x$." The superscript on $d^n$ counts how many times the differentiation operator is applied; it is not an exponent on the variable.
+
+The defining recursive relationship is:
+
+$$
+f^{(n)}(x) = \frac{d}{dx}\,f^{(n-1)}(x)
+$$
+
+## Physics: The Derivative Chain
+
+If $s(t)$ is the position of an object at time $t$, each successive derivative has a physical name:
+
+| Derivative | Symbol | Name | Meaning |
+|---|---|---|---|
+| $s(t)$ | $s$ | Position | where the object is |
+| $s'(t)$ | $v$ | Velocity | rate of change of position |
+| $s''(t)$ | $a$ | Acceleration | rate of change of velocity |
+| $s'''(t)$ | $j$ | Jerk | rate of change of acceleration |
+| $s^{(4)}(t)$ | — | Snap (Jounce) | rate of change of jerk |
+| $s^{(5)}(t)$ | — | Crackle | rate of change of snap |
+| $s^{(6)}(t)$ | — | Pop | rate of change of crackle |
+
+The names Snap, Crackle, and Pop are genuine physics terminology, borrowed from a breakfast cereal advertisement. They appear in aerospace and control engineering where very high-order smoothness constraints matter.
+
+$$
+v = s', \quad a = s'' = \frac{d^2s}{dt^2}, \quad j = s''' = \frac{d^3s}{dt^3}
+$$
+
+## Jerk and Why It Matters
+
+The word "jerk" in everyday English means a sudden, sharp pull or lurch — and that intuition maps directly onto the mathematical definition.
+
+**If jerk $= 0$:** acceleration is constant. Imagine holding your foot perfectly steady on a car's gas pedal: you feel a uniform push-back into your seat. The force on you is not changing.
+
+**If jerk $\neq 0$:** acceleration is varying. Imagine a shaky foot on the pedal: the push-back fluctuates in strength. That fluctuating force is what passengers perceive as discomfort or instability — the physical sensation of jerk.
+
+Two real-world examples make this vivid:
+
+1. **Elevator design.** A poorly designed elevator that switches acceleration on and off instantly produces a large jerk — passengers feel a sharp lurch. A well-engineered elevator ramps acceleration up and down smoothly, keeping the third derivative small. The riders feel the change but it feels gradual and comfortable.
+
+2. **Two-stage rocket.** When the first-stage fuel runs out and the second stage has not yet ignited, acceleration drops suddenly from a large positive value toward zero. That abrupt change means jerk is very large at that instant — a rapid change in the net force acting on the rocket and its payload.
+
+The underlying physics is Newton's second law $F = ma$. If $a$ is changing, so is $F$. Jerk therefore measures how fast the net force on an object is changing:
+
+$$
+j = \frac{da}{dt} = \frac{d^3s}{dt^3} \implies \frac{dF}{dt} = m\,j
+$$
+
+## Concavity and Inflection Points
+
+The second derivative gives the curve its local shape:
+
+- $f''(x) > 0$: the slope $f'$ is increasing, so the curve bends upward — **concave up** (like the inside of a bowl).
+- $f''(x) < 0$: the slope $f'$ is decreasing, so the curve bends downward — **concave down** (like the top of a hill).
+
+An **inflection point** occurs where concavity reverses. A necessary condition is:
+
+$$
+f''(c) = 0 \quad \text{(necessary but not sufficient for an inflection point)}
+$$
+
+The condition is not sufficient because $f''$ could touch zero and bounce back without changing sign (as $f(x) = x^4$ does at $x=0$). You must verify that $f''$ actually changes sign across $c$.
+
+Curvature $\kappa$ is a refined measure of bending that does not depend on the parametrization:
+
+$$
+\kappa = \frac{|f''(x)|}{\left(1 + [f'(x)]^2\right)^{3/2}}
+$$
+
+When the curve is nearly flat ($f' \approx 0$), curvature reduces to $|f''|$, so the second derivative is a good proxy for curvature in that regime.
+
+## Key Equations
+
+| Equation | Description |
+|---|---|
+| $$f^{(n)}(x)=\dfrac{d^n f}{dx^n}$$ | $n$-th derivative in both notations |
+| $$f^{(n)}(x)=\dfrac{d}{dx}f^{(n-1)}(x)$$ | Recursive definition: each derivative is the derivative of the previous |
+| $$v=s',\quad a=s'',\quad j=s'''$$ | Physics chain: velocity, acceleration, jerk |
+| $$\dfrac{dF}{dt}=m\,j$$ | Jerk measures rate of change of force (Newton's second law) |
+| $$f''(x)>0 \Rightarrow \text{concave up},\quad f''(x)<0 \Rightarrow \text{concave down}$$ | Sign of second derivative determines concavity |
+| $$f''(c)=0$$ | Necessary condition for an inflection point at $c$ |
+| $$\kappa=\dfrac{|f''(x)|}{\left(1+[f'(x)]^2\right)^{3/2}}$$ | Curvature of a plane curve |
+
+## Connections
+
+- **Previous:** Ch 9 (What Area Has to Do with Slope) established differentiation and integration as inverses; the accumulation function $A$ satisfies $A' = f$, which is itself a first-derivative relationship — higher-order derivatives extend this language.
+- **Next:** Ch 11 (Taylor Series) makes essential use of all higher-order derivatives at a single point to build polynomial approximations; the coefficients $f^{(n)}(a)/n!$ encode the full local shape of the function.
