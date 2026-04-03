@@ -42,32 +42,20 @@ python3 scripts/extract_medium_context.py \
 - `bundle.json`
 - `raw_article.html` (for debugging)
 
-4. Produce a summary report using the output structure below.
+4. Determine `content_type`:
+   - Is this a structured educational article with equations/math? → `lecture-text`
+   - Is this a general article, blog post, or news? → `article`
 
-## Output Structure
-
-Always return these sections in this order:
-
-### Article Info
-- URL
-- Title
-- Author
-- Publish time
-- Access mode (`cookie-authenticated` or fallback)
-
-### Key Takeaways
-- 5-10 bullets with concrete findings
-
-### Insights
-- 3-6 bullets on engineering implications and decision tradeoffs
-
-### Caveats
-- Benchmark or methodology limits
-- Data-access limitations if extraction was partial
-
-### Sources
-- Original Medium URL
-- Primary referenced sources linked inside the article (if any)
+5. Invoke the `content-summarizer` skill. Pass these fields explicitly:
+   - `content_type`: [from above]
+   - `title`: [from `metadata_summary.json`]
+   - `source_url`: [original article URL]
+   - `date`: [publish date from `metadata_summary.json`, or "unknown"]
+   - `author`: [from `metadata_summary.json`]
+   - `content`: [full text from `article_extracted.md`]
+   - `language`: [detected from article content — use dominant script/language of the article body; pass as ISO 639-1 code if determinable, else "unknown"]
+   - `target_directory`: [from user's request; default: `sources/` for article, `courses/<topic>/` for lecture-text]
+   - `filename`: [for article: `{kebab-title}_{hash8}.md` where hash8 = SHA-256[:8] of URL; for lecture-text: `{NNN}-{kebab-title}.md` if in a course sequence, else `{kebab-title}.md`]
 
 ## Rules
 
