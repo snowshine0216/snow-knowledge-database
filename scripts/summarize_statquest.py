@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Summarize StatQuest Neural Networks PDF chapter by chapter using Claude."""
+"""Summarize StatQuest Neural Networks PDF chapter by chapter using the claude CLI."""
 
 import os
+import subprocess
 import sys
 import pdfplumber
-import anthropic
 
 PDF_PATH = os.path.expanduser("~/Documents/PersonalFolder/signa_6x9_fullsize_v3.3.1.pdf")
 OUTPUT_DIR = "courses/statquest-neural-networks-and-ai"
@@ -148,18 +148,16 @@ def extract_chapter_text(pdf_path: str, start: int, end: int) -> str:
     return "\n\n".join(pages_text)
 
 
-def summarize_chapter(client: anthropic.Anthropic, title: str, text: str) -> str:
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=4096,
-        messages=[
-            {
-                "role": "user",
-                "content": SUMMARY_PROMPT.format(title=title, text=text),
-            }
-        ],
+def summarize_chapter(title: str, text: str) -> str:
+    prompt = SUMMARY_PROMPT.format(title=title, text=text)
+    result = subprocess.run(
+        ["claude", "--print", "--model", "claude-sonnet-4-6"],
+        input=prompt,
+        capture_output=True,
+        text=True,
+        check=True,
     )
-    return message.content[0].text
+    return result.stdout.strip()
 
 
 def write_markdown(path: str, tags: list[str], source: str, content: str) -> None:
@@ -171,7 +169,6 @@ def write_markdown(path: str, tags: list[str], source: str, content: str) -> Non
 
 def main() -> None:
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    client = anthropic.Anthropic()
 
     # Allow resuming: skip already-done files
     start_from = int(sys.argv[1]) if len(sys.argv) > 1 else 0
@@ -190,7 +187,7 @@ def main() -> None:
         text = extract_chapter_text(PDF_PATH, start, end)
         print(f"  Extracted {len(text):,} chars. Summarizing...")
 
-        summary = summarize_chapter(client, title, text)
+        summary = summarize_chapter(title, text)
         write_markdown(output_path, tags, SOURCE, summary)
         print(f"  Written: {output_path}")
 
