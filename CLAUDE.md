@@ -117,3 +117,7 @@ All coding must follow TDD. Tests are written before implementation.
 - ✅ Separate computation from effects
 - ✅ Small, focused functions with early returns
 - ✅ Immutable fluent builders via spread: `{ ...state, key: val }`
+
+---
+## Summarization
+- When summarizing content (books, videos, PDFs), always write output directly to the target file. Do not output markdown inline or get blocked by plan mode — if plan mode blocks a file write, exit plan mode and write the file.
