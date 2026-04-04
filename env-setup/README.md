@@ -143,7 +143,7 @@ nvm --version
 node --version
 npm --version
 codex --version
-python3 --version
+ppython3 --version
 yt-dlp --version
 ffmpeg -version
 jq --version
