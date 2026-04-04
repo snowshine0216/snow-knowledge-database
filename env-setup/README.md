@@ -8,7 +8,7 @@ It covers:
 - `nvm`
 - the current Node.js LTS
 - Codex CLI
-- Claude Code (desktop CLI via Homebrew cask)
+- Claude Code (CLI via npm)
 - `uv` (fast Python package manager)
 - `graphviz` (graph/diagram rendering)
 - optional `CC-Switch` for managing Claude Code / Codex / Gemini provider configs on macOS
@@ -120,11 +120,10 @@ The Codex install and login flow in this document was verified against OpenAI He
 
 ### 4. Claude Code
 
-Installs Claude Code as a Homebrew cask and removes the macOS quarantine attribute so it runs without Gatekeeper warnings:
+Installs Claude Code globally with npm using the nvm default Node version:
 
 ```bash
-brew install --cask claude-code
-sudo xattr -rd com.apple.quarantine "$(brew --prefix)/Caskroom/claude-code"
+nvm use default && npm install -g @anthropic-ai/claude-code
 ```
 
 ### 5. YouTube Summarizer Skill Dependencies

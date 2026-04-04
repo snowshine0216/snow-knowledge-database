@@ -134,14 +134,8 @@ install_codex() {
 
 install_claude_code() {
   log "Installing Claude Code"
-  brew install --cask claude-code
-
-  local claude_path
-  claude_path="$(brew --prefix)/Caskroom/claude-code"
-  if [[ -d "$claude_path" ]]; then
-    log "Removing quarantine attribute from Claude Code"
-    sudo xattr -rd com.apple.quarantine "$claude_path"
-  fi
+  nvm use default
+  npm install -g @anthropic-ai/claude-code
 }
 
 create_ytdlp_config() {
