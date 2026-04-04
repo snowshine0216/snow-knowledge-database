@@ -108,7 +108,7 @@ install_homebrew() {
 
 install_brew_packages() {
   log "Installing Homebrew packages"
-  brew install nvm python yt-dlp ffmpeg jq
+  brew install nvm python yt-dlp ffmpeg jq graphviz uv
 }
 
 load_nvm() {
@@ -130,6 +130,18 @@ install_node_lts() {
 install_codex() {
   log "Installing Codex CLI"
   npm install -g @openai/codex
+}
+
+install_claude_code() {
+  log "Installing Claude Code"
+  brew install --cask claude-code
+
+  local claude_path
+  claude_path="$(brew --prefix)/Caskroom/claude-code"
+  if [[ -d "$claude_path" ]]; then
+    log "Removing quarantine attribute from Claude Code"
+    sudo xattr -rd com.apple.quarantine "$claude_path"
+  fi
 }
 
 create_ytdlp_config() {
@@ -204,10 +216,13 @@ Verify the toolchain:
   node --version
   npm --version
   codex --version
+  claude --version
   python3 --version
+  uv --version
   yt-dlp --version
   ffmpeg -version
   jq --version
+  dot -V
 
 Authenticate Codex:
   codex --login
@@ -230,6 +245,7 @@ main() {
   install_brew_packages
   install_node_lts
   install_codex
+  install_claude_code
   create_ytdlp_config
   install_python_support
   print_next_steps

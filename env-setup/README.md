@@ -8,6 +8,9 @@ It covers:
 - `nvm`
 - the current Node.js LTS
 - Codex CLI
+- Claude Code (desktop CLI via Homebrew cask)
+- `uv` (fast Python package manager)
+- `graphviz` (graph/diagram rendering)
 - optional `CC-Switch` for managing Claude Code / Codex / Gemini provider configs on macOS
 - `python3`
 - `yt-dlp`
@@ -115,7 +118,16 @@ Authentication options:
 
 The Codex install and login flow in this document was verified against OpenAI Help Center guidance on March 18, 2026.
 
-### 4. YouTube Summarizer Skill Dependencies
+### 4. Claude Code
+
+Installs Claude Code as a Homebrew cask and removes the macOS quarantine attribute so it runs without Gatekeeper warnings:
+
+```bash
+brew install --cask claude-code
+sudo xattr -rd com.apple.quarantine "$(brew --prefix)/Caskroom/claude-code"
+```
+
+### 5. YouTube Summarizer Skill Dependencies
 
 The repo’s YouTube summarizer skill uses:
 
@@ -143,10 +155,13 @@ nvm --version
 node --version
 npm --version
 codex --version
-ppython3 --version
+claude --version
+python3 --version
+uv --version
 yt-dlp --version
 ffmpeg -version
 jq --version
+dot -V
 python3 .agents/skills/yt-video-summarizer/scripts/extract_video_context.py --help
 python3 -c "from faster_whisper import WhisperModel; print('faster-whisper ok')"
 ```
