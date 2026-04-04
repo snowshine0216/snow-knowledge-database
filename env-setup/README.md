@@ -212,6 +212,7 @@ Run this only for apps you trust and downloaded from a reliable source.
 
 - Cookie-based YouTube retries default to `--cookies-from-browser chrome`. Install Chrome or change the browser flag when running the skill.
 - If you already have a custom `~/.config/yt-dlp/config`, the script leaves it unchanged.
+- ![[120e4d4b389d85a8a84c51b2d8fbaa4f.png]]
 
 ## Sources
 
