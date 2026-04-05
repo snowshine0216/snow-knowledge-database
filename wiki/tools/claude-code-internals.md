@@ -9,6 +9,8 @@ Claude Code is a full **agent runtime**, not a terminal chatbot. Built with Bun,
 
 **Execution flow**: Input --> CLI parser --> query engine --> LLM API call --> tool execution loop --> terminal render.
 
+![[file-20260405170914703.png]]
+
 ## Slash Commands
 
 Claude Code exposes approximately 85 slash commands. The highest-impact ones:

@@ -35,6 +35,7 @@ Anthropic accidentally published an NPM package containing a source-map file tha
 - **Agent runtime, not chatbot**: Claude Code is built with Bun, TypeScript, and React. It contains a tool system, command system, memory system, permission engine, task manager, multi-agent coordinator, and MCP client/server — all wired into one execution pipeline.
 - **Execution flow**: Input → CLI parser → query engine → LLM API call → tool execution loop → terminal render.
 - **Fun detail**: The spinner has 187 verbs including "boondoggling", "discombobulating", and "moonwalking".
+![[file-20260405171003873.png]]
 
 ### Learning Objectives
 - [ ] Understand that Claude Code is a full agent runtime, not a terminal chatbot
@@ -56,12 +57,13 @@ Anthropic accidentally published an NPM package containing a source-map file tha
 ### Key Concepts
 - **Essential slash commands**:
   - `/init` — generates a `CLAUDE.md` file as the project's operating manual
-  - `/plan` — enters planning mode; maps the approach before editing files (saves tokens)
+  - `/plan` , `/ultraplan` — enters planning mode; maps the approach before editing files (saves tokens)
   - `/compact [prompt]` — compresses conversation history; optionally keep specific context
   - `/review` and `/security review` — structured code review workflows (first-class, not afterthought)
   - `/context` — manage which files are loaded (every file costs tokens)
   - `/cost` — shows actual session spend
   - `/resume` and `/summary` — pick up where you left off between sessions
+  - `/insights` - shows how you use claude code and how to enhance
 - **CLAUDE.md as operating context**: Not documentation — it's the "onboarding document" for Claude Code. Best practice: keep it short, opinionated, and operational (decision rules, constraints, conventions).
   - Example entries: "Use TypeScript strict mode always", "Tests go next to source files", "Never modify DB schema without migrations", "Use PNPM not npm"
 - **Memory layers**: User-level memory, extracted memories, team memory synchronization. Persistent across project, user, and session contexts.
