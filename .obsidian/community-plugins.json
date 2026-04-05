@@ -1,4 +1,7 @@
 [
   "obsidian-git",
-  "obsidian-custom-attachment-location"
+  "obsidian-custom-attachment-location",
+  "dataview",
+  "templater-obsidian",
+  "omnisearch"
 ]
