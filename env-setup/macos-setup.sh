@@ -108,7 +108,7 @@ install_homebrew() {
 
 install_brew_packages() {
   log "Installing Homebrew packages"
-  brew install nvm python yt-dlp ffmpeg jq graphviz uv
+  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun
 }
 
 load_nvm() {
@@ -217,6 +217,11 @@ Verify the toolchain:
   ffmpeg -version
   jq --version
   dot -V
+  gh --version
+  bun --version
+
+Authenticate GitHub CLI:
+  gh auth login
 
 Authenticate Codex:
   codex --login

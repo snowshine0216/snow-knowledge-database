@@ -9,6 +9,8 @@ It covers:
 - the current Node.js LTS
 - Codex CLI
 - Claude Code (CLI via npm)
+- `gh` (GitHub CLI)
+- `bun` (JavaScript runtime and package manager, required by gstack skill)
 - `uv` (fast Python package manager)
 - `graphviz` (graph/diagram rendering)
 - optional `CC-Switch` for managing Claude Code / Codex / Gemini provider configs on macOS
@@ -126,7 +128,19 @@ Installs Claude Code globally with npm using the nvm default Node version:
 nvm use default && npm install -g @anthropic-ai/claude-code
 ```
 
-### 5. YouTube Summarizer Skill Dependencies
+### 5. GitHub CLI
+
+Installs `gh` via Homebrew. After installation, authenticate with:
+
+```bash
+gh auth login
+```
+
+### 6. Bun
+
+Installs `bun` via Homebrew. Required by the gstack skill for headless browser testing.
+
+### 7. YouTube Summarizer Skill Dependencies
 
 The repo’s YouTube summarizer skill uses:
 
@@ -161,6 +175,8 @@ yt-dlp --version
 ffmpeg -version
 jq --version
 dot -V
+gh --version
+bun --version
 python3 .agents/skills/yt-video-summarizer/scripts/extract_video_context.py --help
 python3 -c "from faster_whisper import WhisperModel; print('faster-whisper ok')"
 ```
