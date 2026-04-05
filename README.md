@@ -4,13 +4,31 @@ A personal knowledge repository for curated notes, references, and study materia
 
 ## What This Repo Contains
 
+- `raw/` — raw source intake (articles, posts, transcripts clipped with frontmatter)
+- `wiki/` — LLM-compiled knowledge layer (`_index.md` master index + `concepts/`, `tools/`, `workflows/`)
+- `scripts/` — CLI tools: `search.sh` (keyword search) and `compile.sh` (raw→wiki trigger)
+- `_templates/` — Templater templates for consistent frontmatter on new notes
 - Topic folders for notes (for example, `essence-of-linear-algebra/`)
 - Obsidian workspace configuration in `.obsidian/`
 - Practical setup guides in `docs/`
 - Machine setup assets in `env-setup/`
 
+## Wiki Workflow
+
+```bash
+# Search the knowledge base
+./scripts/search.sh "rag retrieval"
+
+# Compile a raw source into the wiki
+./scripts/compile.sh raw/article.md          # → follow printed Claude Code instruction
+./scripts/compile.sh raw/article.md tools    # → compile to wiki/tools/
+```
+
+See [wiki/_index.md](wiki/_index.md) for the full article index.
+
 ## Documentation
 
+- [Wiki index](wiki/_index.md) — compiled knowledge base (LLM reads this first)
 - [Documentation index](docs/README.md)
 - [yt-dlp setup on macOS](docs/yt-dlp-setup.md)
 - [macOS environment setup](env-setup/README.md)
@@ -80,21 +98,28 @@ ffprobe -version
 python3 .agents/skills/yt-video-summarizer/scripts/extract_video_context.py --help
 ```
 
-## Suggested Structure
-
-As this knowledge base grows, keep content organized by topic:
+## Structure
 
 ```text
-<topic>/
-  README.md or index.md
-  notes.md
-  resources.md
+raw/          ← intake: clip sources here (frontmatter required: tags, source)
+wiki/
+  _index.md   ← master index (LLM reads this first)
+  concepts/   ← compiled concept articles
+  tools/      ← tool notes
+  workflows/  ← process descriptions
+scripts/
+  search.sh   ← keyword search over wiki/ + raw/
+  compile.sh  ← trigger: raw → wiki compile instruction
+_templates/   ← Templater templates for consistent frontmatter
+<topic>/      ← existing topic folders (unchanged)
 ```
 
 ## Usage
 
 - Open this repository as an Obsidian vault if you use Obsidian.
-- Add new notes under topic-based folders.
+- Clip new sources to `raw/` with required frontmatter (`tags`, `source`).
+- Run `./scripts/compile.sh raw/<file>.md` to compile to wiki/.
+- Run `./scripts/search.sh "query"` for keyword search.
 - Keep operational guides and tooling instructions under `docs/`.
 
 ## Contributing (Personal Workflow)

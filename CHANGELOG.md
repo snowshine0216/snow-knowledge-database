@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.2.0] - 2026-04-05
+
+### Added
+- `wiki/` compiled knowledge layer: `_index.md` master index table (LLM reads first for navigation), `concepts/`, `tools/`, `workflows/` category directories.
+- `scripts/search.sh`: keyword search over `wiki/` and `raw/` with ripgrep primary and macOS BSD grep fallback via `find -print0 | xargs -0`. Supports `RESULTS_PER_FILE` and `MAX_FILES` env vars. Exits 0 on no match (clean LLM tool behavior).
+- `scripts/compile.sh`: manual workflow trigger that validates raw article path (POSIX-portable symlink-safe resolution), blocks category path traversal (`../`), detects output collisions, and prints Claude Code compile instruction. Supports `DEFAULT_CATEGORY` env override.
+- `raw/llm-knowledge-bases-post.md`: Karpathy's LLM knowledge base workflow post saved with required frontmatter.
+- `wiki/concepts/llm-knowledge-base.md`: compiled wiki article with workflow diagram, index file trick explanation, scale guide (50/200/500 article thresholds), and known failure modes.
+- `_templates/raw-article.md` and `_templates/wiki-article.md`: Templater templates for consistent frontmatter on new notes.
+- Wiki workflow documentation added to `CLAUDE.md`: clip → compile → search loop, wikilinks requirement, index sync reminder.
+
 ## [0.0.1.0] - 2026-04-03
 
 ### Added
