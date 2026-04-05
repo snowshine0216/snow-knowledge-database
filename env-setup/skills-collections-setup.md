@@ -2,6 +2,30 @@
 
 This note tracks useful public skills collections and how to install them.
 
+## Skill Environment Variables
+
+### yt-video-summarizer — OpenRouter ASR
+
+When a video has no subtitles (common for Bilibili, some YouTube), the skill falls back to ASR transcription via OpenRouter.
+
+Config file: `.agents/skills/yt-video-summarizer/.env`
+
+```env
+OPENROUTER_API_KEY=sk-or-v1-...
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_TRANSCRIPTION_MODEL=openai/gpt-audio-mini
+OPENROUTER_TITLE=yt-video-summarizer
+```
+
+Optional tuning:
+- `OPENROUTER_TRANSCRIPTION_CHUNK_SECONDS` — chunk duration for long audio (default `600`)
+- `OPENROUTER_TRANSCRIPTION_MAX_BYTES` — threshold before chunking starts (default `12582912`)
+- `OPENROUTER_HTTP_REFERER` — OpenRouter app attribution
+
+The extractor auto-loads this `.env` from the skill folder. ASR fallback order: `faster-whisper` (local) → OpenRouter (with `OPENROUTER_API_KEY`) → native OpenAI (with `OPENAI_API_KEY`).
+
+---
+
 ## 1) DingTalk Wukong Skills
 
 - Original link: https://github.com/stvlynn/dingtalk-wukong-skills
