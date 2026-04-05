@@ -91,7 +91,21 @@ Anthropic accidentally published an NPM package containing a source-map file tha
 - **Permission system modes**: Default (asks about everything), plan mode, bypass/auto modes.
 - **Wildcard permissions**: Set rules like "allow all git commands" or "allow all file edits in `src/`". Configure in `settings.json` or `settings.local.json` at global, user, or project level. Highest ROI change for recurring workflows.
 - **Multi-agent coordinator**: Source reveals a full coordinator subsystem — agent tools, team tools, task system for background and parallel work. One agent explores the codebase, another implements changes, another validates tests.
+	- `claude task --brackground "Run tests"`
 - **Decomposition over monoliths**: Instead of one massive prompt ("refactor this module, update tests, fix docs"), break work into sequential or parallel steps. Let Claude Code decompose and distribute work.
+```
+# in ~/.claude/settings.json
+"permissions": {
+    "allow":[
+      "Git *",
+      "Edit src/**",
+      "Npm test"
+    ],
+    "deny": [
+      "Rm -rf *"
+    ]
+  }
+``` 
 
 ### Learning Objectives
 - [ ] Configure wildcard permissions for daily recurring workflows
