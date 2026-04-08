@@ -8,7 +8,7 @@ source: https://www.youtube.com/watch?v=PaCmpygFfXo
 > **Instructor:** Andrej Karpathy
 > **Duration:** 1 h 57 min | **Published:** 2022-09-07
 > **Views:** 1,120,197 | **Likes:** 18,673
-> **Prerequisites:** Python basics; familiarity with [[the-spelled-out-intro-to-neural-networks-and-backpropagation-building-micrograd_VMj-3S1tku0|MicroGrad]] (autograd / backprop concepts)
+> **Prerequisites:** Python basics; familiarity with [[01-the-spelled-out-intro-to-neural-networks-and-backpropagation-building-micrograd_VMj-3S1tku0|MicroGrad]] (autograd / backprop concepts)
 > **Code/Links:** [makemore on GitHub](https://github.com/karpathy/makemore) · [Jupyter notebook](https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part1_bigrams.ipynb)
 
 ---
