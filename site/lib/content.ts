@@ -56,7 +56,7 @@ function extractExcerpt(content: string): string {
   return stripped.slice(0, 150)
 }
 
-function readArticle(filePath: string, category: string): Article {
+function readArticle(filePath: string, category: string, categoryDir: string): Article {
   const raw = fs.readFileSync(filePath, 'utf8')
   const { data, content } = matter(raw)
   const filename = path.basename(filePath, '.md')
@@ -66,10 +66,15 @@ function readArticle(filePath: string, category: string): Article {
   const title = (data.title as string | undefined)
     ?? (firstH1 ? firstH1[1].trim() : filename)
 
+  // Compute subfolder: the immediate parent dir name if the file is nested, else null
+  const parentDir = path.dirname(filePath)
+  const subfolder = parentDir === categoryDir ? null : path.basename(parentDir)
+
   return {
     slug,
     title,
     category,
+    subfolder,
     tags: Array.isArray(data.tags) ? data.tags : [],
     source: (data.source as string | undefined) ?? '',
     content,
@@ -101,7 +106,7 @@ function buildWikiIndex(): WikiIndex {
     if (!fs.existsSync(dir)) continue
 
     for (const filePath of walkMdFiles(dir)) {
-      const article = readArticle(filePath, category)
+      const article = readArticle(filePath, category, dir)
       index.set(normalize(article.slug), article)
     }
   }
