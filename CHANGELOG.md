@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2.1] - 2026-04-09
+
+### Fixed
+- **Wiki category subfolders now appear on Vercel.** Articles nested inside category subdirectories (e.g. `wiki/concepts/claude-code-engineering/`, `wiki/concepts/essence-of-calculus/`) were invisible because the content loader only scanned top-level files. Replaced the flat `readdirSync` with a recursive `walkMdFiles()` walker in both `site/lib/content.ts` and `site/scripts/gen-previews.js`. Visiting `/wiki?category=concepts` now shows all ~100 articles instead of ~16.
+
 ## [0.1.2.0] - 2026-04-09
 
 ### Fixed

@@ -56,7 +56,7 @@ function extractExcerpt(content: string): string {
   return stripped.slice(0, 150)
 }
 
-function readArticle(filePath: string, category: string): Article {
+function readArticle(filePath: string, category: string, categoryDir: string): Article {
   const raw = fs.readFileSync(filePath, 'utf8')
   const { data, content } = matter(raw)
   const filename = path.basename(filePath, '.md')
@@ -66,10 +66,15 @@ function readArticle(filePath: string, category: string): Article {
   const title = (data.title as string | undefined)
     ?? (firstH1 ? firstH1[1].trim() : filename)
 
+  // Compute subfolder: the immediate parent dir name if the file is nested, else null
+  const parentDir = path.dirname(filePath)
+  const subfolder = parentDir === categoryDir ? null : path.basename(parentDir)
+
   return {
     slug,
     title,
     category,
+    subfolder,
     tags: Array.isArray(data.tags) ? data.tags : [],
     source: (data.source as string | undefined) ?? '',
     content,
@@ -80,6 +85,19 @@ function readArticle(filePath: string, category: string): Article {
   }
 }
 
+function walkMdFiles(dir: string): string[] {
+  const results: string[] = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      results.push(...walkMdFiles(full))
+    } else if (entry.name.endsWith('.md')) {
+      results.push(full)
+    }
+  }
+  return results
+}
+
 function buildWikiIndex(): WikiIndex {
   const index: WikiIndex = new Map()
 
@@ -87,9 +105,8 @@ function buildWikiIndex(): WikiIndex {
     const dir = path.join(WIKI_DIR, category)
     if (!fs.existsSync(dir)) continue
 
-    const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'))
-    for (const file of files) {
-      const article = readArticle(path.join(dir, file), category)
+    for (const filePath of walkMdFiles(dir)) {
+      const article = readArticle(filePath, category, dir)
       index.set(normalize(article.slug), article)
     }
   }

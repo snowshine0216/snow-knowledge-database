@@ -81,6 +81,27 @@ describe('buildWikiIndex() [integration]', () => {
     }
   })
 
+  it('includes articles from subdirectories', async () => {
+    const { getAllArticles } = await import('../content')
+    const index = getAllArticles()
+    // wiki/concepts/claude-code-engineering/ has files like 001-01-登台远望-Claude-Cod.md
+    const slugs = [...index.keys()]
+    const hasSubdirArticle = slugs.some(s => s.startsWith('001-'))
+    expect(hasSubdirArticle).toBe(true)
+  })
+
+  it('subfolder is null for top-level articles and set for nested articles', async () => {
+    const { getAllArticles } = await import('../content')
+    const index = getAllArticles()
+    const articles = [...index.values()]
+    // Top-level articles have subfolder === null
+    const topLevel = articles.find(a => a.category === 'concepts' && a.slug === 'karpathy-loopy-era-ai')
+    expect(topLevel?.subfolder).toBeNull()
+    // Nested articles carry their parent directory name
+    const nested = articles.find(a => a.slug.startsWith('001-'))
+    expect(nested?.subfolder).toBe('claude-code-engineering')
+  })
+
   it('computes backlinks — articles that link to each other are cross-referenced', async () => {
     const { getAllArticles } = await import('../content')
     const index = getAllArticles()

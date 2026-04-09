@@ -29,19 +29,30 @@ function extractExcerpt(content) {
     .slice(0, 150)
 }
 
+function walkMdFiles(dir) {
+  const results = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) results.push(...walkMdFiles(full))
+    else if (entry.name.endsWith('.md')) results.push(full)
+  }
+  return results
+}
+
 const previews = {}
 
 for (const category of CATEGORIES) {
   const dir = path.join(WIKI_DIR, category)
   if (!fs.existsSync(dir)) continue
 
-  for (const file of fs.readdirSync(dir).filter(f => f.endsWith('.md'))) {
-    const raw = fs.readFileSync(path.join(dir, file), 'utf8')
+  for (const filePath of walkMdFiles(dir)) {
+    const raw = fs.readFileSync(filePath, 'utf8')
     const { data, content } = matter(raw)
-    const slug = normalize(file.replace('.md', ''))
+    const filename = path.basename(filePath, '.md')
+    const slug = normalize(filename)
 
     const firstH1 = content.match(/^#\s+(.+)$/m)
-    const title = data.title ?? (firstH1 ? firstH1[1].trim() : file.replace('.md', ''))
+    const title = data.title ?? (firstH1 ? firstH1[1].trim() : filename)
 
     previews[slug] = {
       title,
