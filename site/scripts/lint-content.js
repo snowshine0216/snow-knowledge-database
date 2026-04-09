@@ -19,21 +19,22 @@ function normalize(slug) {
   return slug.toLowerCase().replace(/\s+/g, '-')
 }
 
-// 1. Build slug set
-const slugs = new Set()
+// 1. Build slug list (array to detect duplicates before deduplicating)
+const allSlugsRaw = []
 for (const category of CATEGORIES) {
   const dir = path.join(WIKI_DIR, category)
   if (!fs.existsSync(dir)) continue
   for (const file of fs.readdirSync(dir).filter(f => f.endsWith('.md'))) {
-    slugs.add(normalize(file.replace('.md', '')))
+    allSlugsRaw.push(normalize(file.replace('.md', '')))
   }
 }
 
-// Check for duplicate slugs (important for CJK filenames)
-const allSlugs = [...slugs]
-const uniqueSlugs = new Set(allSlugs)
-if (allSlugs.length !== uniqueSlugs.size) {
-  console.error('ERROR: Duplicate slugs detected! Check for filename collisions.')
+// Check for duplicate slugs (important for CJK filenames normalizing to same value)
+const slugs = new Set(allSlugsRaw)
+if (allSlugsRaw.length !== slugs.size) {
+  const seen = new Set()
+  const dupes = allSlugsRaw.filter(s => seen.has(s) || !seen.add(s))
+  console.error(`ERROR: Duplicate slugs detected: ${dupes.join(', ')}. Check for filename collisions.`)
   process.exit(1)
 }
 

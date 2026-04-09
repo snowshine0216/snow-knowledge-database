@@ -11,6 +11,7 @@ export default function SearchClient({ searchIndex }: { searchIndex: SearchIndex
   const [query, setQuery] = useState(initialQuery)
   const [results, setResults] = useState<SearchResult[]>([])
   const [ready, setReady] = useState(false)
+  const [searchError, setSearchError] = useState(false)
   // flexsearch types are not fully accurate for v0.8
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const flexRef = useRef<any>(null) // nocheck
@@ -32,7 +33,7 @@ export default function SearchClient({ searchIndex }: { searchIndex: SearchIndex
       }
       flexRef.current = idx
       setReady(true)
-    })
+    }).catch(() => setSearchError(true))
   }, [searchIndex])
 
   useEffect(() => {
@@ -67,7 +68,8 @@ export default function SearchClient({ searchIndex }: { searchIndex: SearchIndex
         className="w-full px-4 py-2.5 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400 mb-6"
       />
 
-      {!ready && <p className="text-sm text-gray-400">Loading search index…</p>}
+      {searchError && <p className="text-sm text-red-500">Search unavailable — failed to load search index.</p>}
+      {!ready && !searchError && <p className="text-sm text-gray-400">Loading search index…</p>}
 
       {ready && query.trim() && results.length === 0 && (
         <div>

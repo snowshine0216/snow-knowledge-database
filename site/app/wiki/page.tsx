@@ -3,9 +3,18 @@ import { getAllArticles } from '@/lib/content'
 
 const CATEGORIES = ['concepts', 'tools', 'workflows']
 
-export default function WikiIndexPage() {
+export default async function WikiIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>
+}) {
+  const { category } = await searchParams
   const index = getAllArticles()
   const allArticles = [...index.values()]
+
+  // If a category filter is active, show only that category; otherwise show all
+  const activeCategory = category && CATEGORIES.includes(category) ? category : null
+  const displayCategories = activeCategory ? [activeCategory] : CATEGORIES
 
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-8 flex gap-8">
@@ -15,7 +24,12 @@ export default function WikiIndexPage() {
           <p className="font-semibold text-gray-700 mb-3 uppercase text-xs tracking-wide">Categories</p>
           <ul className="space-y-1">
             <li>
-              <Link href="/wiki" className="flex justify-between items-center px-2 py-1.5 rounded text-sm hover:bg-gray-100 text-gray-700">
+              <Link
+                href="/wiki"
+                className={`flex justify-between items-center px-2 py-1.5 rounded text-sm hover:bg-gray-100 transition-colors ${
+                  !activeCategory ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
+                }`}
+              >
                 <span>All</span>
                 <span className="text-xs text-gray-400">{allArticles.length}</span>
               </Link>
@@ -24,7 +38,9 @@ export default function WikiIndexPage() {
               <li key={cat}>
                 <Link
                   href={`/wiki?category=${cat}`}
-                  className="flex justify-between items-center px-2 py-1.5 rounded text-sm hover:bg-gray-100 text-gray-700"
+                  className={`flex justify-between items-center px-2 py-1.5 rounded text-sm hover:bg-gray-100 transition-colors ${
+                    activeCategory === cat ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700'
+                  }`}
                 >
                   <span className="capitalize">{cat}</span>
                   <span className="text-xs text-gray-400">
@@ -39,15 +55,23 @@ export default function WikiIndexPage() {
 
       {/* Main content */}
       <div className="flex-1">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">All Articles</h1>
-        {CATEGORIES.map(cat => {
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+          {activeCategory ? (
+            <span className="capitalize">{activeCategory}</span>
+          ) : (
+            'All Articles'
+          )}
+        </h1>
+        {displayCategories.map(cat => {
           const catArticles = allArticles.filter(a => a.category === cat)
           if (catArticles.length === 0) return null
           return (
             <section key={cat} className="mb-8">
-              <h2 className="text-lg font-semibold capitalize text-gray-700 border-b border-gray-200 pb-2 mb-4">
-                {cat} <span className="text-sm font-normal text-gray-400">({catArticles.length})</span>
-              </h2>
+              {!activeCategory && (
+                <h2 className="text-lg font-semibold capitalize text-gray-700 border-b border-gray-200 pb-2 mb-4">
+                  {cat} <span className="text-sm font-normal text-gray-400">({catArticles.length})</span>
+                </h2>
+              )}
               <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {catArticles.map(a => (
                   <li key={a.slug}>
