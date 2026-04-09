@@ -55,11 +55,13 @@ describe('remarkWikilinks', () => {
     expect(html).toContain('href="/wiki/vector-database"')
   })
 
-  it('adds wikilink-broken class for unknown targets', async () => {
+  it('adds wikilink-broken class for unknown targets and links to Wikipedia', async () => {
     const index = makeIndex([]) // empty index — no valid targets
     const html = await toHtml('See [[missing-article]].', index)
     expect(html).toContain('wikilink-broken')
-    expect(html).toContain('href="/wiki/missing-article"')
+    // Broken links redirect to Wikipedia search (merged behavior from main)
+    expect(html).toContain('wikipedia.org')
+    expect(html).toContain('target="_blank"')
   })
 
   it('normalizes CJK target slugs correctly', async () => {
