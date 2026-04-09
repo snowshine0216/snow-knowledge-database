@@ -8,7 +8,7 @@
 
 **Priority:** P3 — Add a git post-commit hook (or `fswatch`-based watcher) that detects new files in `raw/` and invokes Claude Code to run the full compile pipeline (`scripts/compile.sh` validates, then Claude synthesizes wiki article + updates `_index.md`). Current workflow is fully manual. Note: `compile.sh` is a validation wrapper that prints instructions for Claude Code — it cannot be called standalone by a hook.
 
-**Priority:** P3 — Add `scripts/health.sh`: wiki health check that reports stale `_index.md` entries (wiki article exists but no index row), orphaned raw files (not yet compiled), and missing backlinks. Currently at ~45 articles across 3 categories (concepts/tools/workflows).
+~~**Priority:** P3 — Add `scripts/health.sh`: wiki health check that reports stale `_index.md` entries (wiki article exists but no index row), orphaned raw files (not yet compiled), and missing backlinks. Currently at ~45 articles across 3 categories (concepts/tools/workflows).~~ **Completed:** v0.1.0.3 (2026-04-09)
 
 **Priority:** P4 — Migrate to vector search at ~500 articles. Consider `llm-embed` + sqlite-vec or Obsidian Smart Connections. Current index-file approach works well up to ~200 articles.
 
@@ -21,6 +21,10 @@
 **Priority:** P3 — Add Cmd+K overlay search (Phase 2 enhancement). Current `/search` page is sufficient at 44 articles but the overlay pattern scales better as the wiki grows.
 
 **Priority:** P3 — Add unit tests for `lib/content.ts` (slug normalization, backlink computation) and `lib/wikilinks.ts` (pipe syntax, broken link detection). Test runner TBD (vitest recommended for Next.js).
+
+**Priority:** P3 — Add `scripts/setup-hooks.sh`: one-time script that installs `scripts/health.sh` as a git pre-commit hook (symlinks or copies to `.git/hooks/pre-commit`). Useful when working across multiple machines. Depends on: `scripts/health.sh` shipped and working first.
+
+**Priority:** P3 — Add `/api/health` endpoint at `site/app/api/health/route.ts` that shells out to `scripts/health.sh --json` and exposes wiki health as a JSON API. Enables a future dashboard page showing index integrity, broken link count, frontmatter coverage. Depends on: `scripts/health.sh --json` working correctly. Consider bundling with the P4 AI Q&A endpoint work.
 
 **Priority:** P4 — Auto-publish pipeline: Obsidian plugin or post-commit hook that runs `scripts/compile.sh` on save, then pushes to git to trigger Vercel redeploy.
 

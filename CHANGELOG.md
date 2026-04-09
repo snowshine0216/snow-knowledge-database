@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0.3] - 2026-04-09
+
+### Added
+- `scripts/health.sh`: wiki integrity validator — the third leg of the scripts/ tripod (compile writes, search reads, health validates). Eight checks: stale index entries, missing index rows, orphaned raw files, duplicate slugs, broken wikilinks, frontmatter validation, link-baseline drift, and empty files. Supports `--fix` (auto-repairs missing index rows, updates link baseline), `--json` (machine-readable output for a future /health API), and pre-commit hook mode. Runs in <3s at current scale (~44 articles).
+- `scripts/health.test.sh`: fixture-based bash test suite covering all 40 scenarios including edge cases: greedy regex regression, pipe-syntax wikilinks (`[[Title|Display]]`), space-containing wikilinks, `--fix` idempotency, `--json` validity, WARN vs FAIL exit codes, and guard clauses for missing wiki/, missing _index.md, and missing .link-baseline.
+
+### Changed
+- `wiki/.link-baseline` updated to 151 (reflects actual wikilink count after wiki growth from 55 at initial measurement).
+- Marked `scripts/health.sh` P3 todo as completed in TODOS.md.
+
 ## [0.1.0.2] - 2026-04-09
 
 ### Changed
