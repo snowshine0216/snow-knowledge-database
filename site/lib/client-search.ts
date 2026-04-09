@@ -8,7 +8,9 @@ let _docs: SearchResult[] = []
 let _loading: Promise<void> | null = null
 
 async function initIndex(): Promise<void> {
-  const data = await fetch('/preview-data.json').then(r => r.json()) as Record<string, {
+  const res = await fetch('/preview-data.json')
+  if (!res.ok) throw new Error(`Failed to load search index: ${res.status} ${res.statusText}`)
+  const data = await res.json() as Record<string, {
     title: string
     excerpt: string
     tags: string[]
@@ -33,10 +35,15 @@ async function initIndex(): Promise<void> {
   _flexIndex = idx
 }
 
-/** Lazy-init on first call — subsequent calls are instant. */
+/** Lazy-init on first call — subsequent calls are instant. Resets on failure so callers can retry. */
 export async function ensureIndex(): Promise<void> {
   if (_flexIndex) return
-  if (!_loading) _loading = initIndex()
+  if (!_loading) {
+    _loading = initIndex().catch(err => {
+      _loading = null  // reset so the next call can retry
+      throw err
+    })
+  }
   return _loading
 }
 

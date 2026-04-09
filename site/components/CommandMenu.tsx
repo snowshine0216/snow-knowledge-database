@@ -11,6 +11,7 @@ export default function CommandMenu() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResult[]>([])
   const [ready, setReady] = useState(false)
+  const [loadError, setLoadError] = useState(false)
   const router = useRouter()
 
   // Keyboard shortcut: Cmd+K / Ctrl+K
@@ -29,10 +30,12 @@ export default function CommandMenu() {
   // Lazy-init search index when menu first opens
   useEffect(() => {
     if (!open) return
-    ensureIndex().then(() => {
-      setReady(true)
-      setResults(getAllDocs().slice(0, 8))
-    })
+    ensureIndex()
+      .then(() => {
+        setReady(true)
+        setResults(getAllDocs().slice(0, 8))
+      })
+      .catch(() => setLoadError(true))
   }, [open])
 
   const handleQuery = useCallback((q: string) => {
@@ -81,6 +84,11 @@ export default function CommandMenu() {
           </div>
 
           <Command.List className="max-h-[360px] overflow-y-auto p-2">
+            {loadError && (
+              <div className="py-8 text-center text-sm text-[var(--color-text-muted)]">
+                Search unavailable — failed to load index.
+              </div>
+            )}
             {results.length === 0 && query.trim() && ready && (
               <Command.Empty className="py-8 text-center text-sm text-[var(--color-text-muted)]">
                 No articles found for &ldquo;{query}&rdquo;
