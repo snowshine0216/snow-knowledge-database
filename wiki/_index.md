@@ -52,15 +52,16 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 ## Workflows — Course Series (full original chapters)
 
-### Karpathy Zero to Hero (5 chapters)
+### Karpathy Zero to Hero (6 chapters)
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
-| [01: micrograd](workflows/karpathy-zero-to-hero-01-micrograd.md) | neural-networks, backpropagation, autograd, zero-to-hero | Build a ~150-line autograd engine from scratch; backpropagation at the scalar level |
-| [02: Bigrams](workflows/karpathy-zero-to-hero-02-makemore-bigrams.md) | language-model, bigram, character-level, pytorch, zero-to-hero | Bigram language model via counting and neural net — proves they converge to the same solution |
-| [03: MLP](workflows/karpathy-zero-to-hero-03-makemore-mlp.md) | multilayer-perceptron, embeddings, language-model, zero-to-hero | MLP language model (Bengio 2003): embeddings, minibatch training, LR search, train/dev/test splits |
-| [Build GPT](workflows/karpathy-zero-to-hero-build-gpt.md) | gpt, transformers, self-attention, nanoGPT, zero-to-hero | Build a decoder-only Transformer in ~200 lines; self-attention, multi-head, residual, LayerNorm |
-| [GPT Tokenizer](workflows/karpathy-zero-to-hero-gpt-tokenizer.md) | tokenization, bpe, tiktoken, sentencepiece, zero-to-hero | BPE tokenizer from scratch; explains LLM quirks (spelling, arithmetic, glitch tokens) via tokenization |
+| [01: micrograd](concepts/zero-to-hero/karpathy-zero-to-hero-01-micrograd.md) | neural-networks, backpropagation, autograd, zero-to-hero | Build a ~150-line autograd engine from scratch; backpropagation at the scalar level |
+| [02: Bigrams](concepts/zero-to-hero/karpathy-zero-to-hero-02-makemore-bigrams.md) | language-model, bigram, character-level, pytorch, zero-to-hero | Bigram language model via counting and neural net — proves they converge to the same solution |
+| [03: MLP](concepts/zero-to-hero/karpathy-zero-to-hero-03-makemore-mlp.md) | multilayer-perceptron, embeddings, language-model, zero-to-hero | MLP language model (Bengio 2003): embeddings, minibatch training, LR search, train/dev/test splits |
+| [04: BatchNorm](concepts/zero-to-hero/karpathy-zero-to-hero-04-makemore-batchnorm.md) | neural-networks, batch-normalization, kaiming-init, activations, zero-to-hero | Activation/gradient diagnostics, Kaiming init, and BatchNorm to stabilize deep MLP training |
+| [Build GPT](concepts/zero-to-hero/karpathy-zero-to-hero-build-gpt.md) | gpt, transformers, self-attention, nanoGPT, zero-to-hero | Build a decoder-only Transformer in ~200 lines; self-attention, multi-head, residual, LayerNorm |
+| [GPT Tokenizer](concepts/zero-to-hero/karpathy-zero-to-hero-gpt-tokenizer.md) | tokenization, bpe, tiktoken, sentencepiece, zero-to-hero | BPE tokenizer from scratch; explains LLM quirks (spelling, arithmetic, glitch tokens) via tokenization |
 
 ### 3Blue1Brown Essence of Calculus (12 chapters)
 
