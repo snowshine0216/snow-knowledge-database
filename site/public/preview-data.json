@@ -1,0 +1,563 @@
+{
+  "3b1b-deep-learning": {
+    "title": "3Blue1Brown Deep Learning Series",
+    "excerpt": "This article consolidates the 10-chapter video series by Grant Sanderson (3Blue1Brown) on neural networks and deep learning. The series progresses fro",
+    "tags": [
+      "neural-networks",
+      "deep-learning",
+      "3blue1brown",
+      "backpropagation",
+      "gradient-descent",
+      "transformers",
+      "attention",
+      "diffusion"
+    ],
+    "category": "concepts"
+  },
+  "beyond-likability-female-agency": {
+    "title": "Beyond Likability: Zhou Yijun's Conversation with Rosamund Pike",
+    "excerpt": "A layered conversation between journalist Zhou Yijun and actress Rosamund Pike (Pei Chunhua) that moves well beyond celebrity interview into how femal",
+    "tags": [
+      "interview",
+      "female-agency",
+      "rosamund-pike",
+      "zhou-yijun",
+      "parenting",
+      "creativity"
+    ],
+    "category": "concepts"
+  },
+  "claude-code-language-benchmark": {
+    "title": "Claude Code Language Benchmark",
+    "excerpt": "A benchmark measuring AI code generation speed, cost, and reliability across programming languages when using Claude Code. Based on the ai-coding-lang",
+    "tags": [
+      "claude-code",
+      "benchmark",
+      "programming-languages",
+      "ai-coding",
+      "cost-optimization"
+    ],
+    "category": "concepts"
+  },
+  "essence-of-calculus": {
+    "title": "Essence of Calculus",
+    "excerpt": "A consolidated reference for 3Blue1Brown's 12-chapter Essence of Calculus series, which builds the subject from geometric intuition rather than formal",
+    "tags": [
+      "calculus",
+      "math",
+      "3blue1brown",
+      "derivatives",
+      "integrals",
+      "taylor-series",
+      "euler"
+    ],
+    "category": "concepts"
+  },
+  "essence-of-linear-algebra": {
+    "title": "Essence of Linear Algebra",
+    "excerpt": "A consolidated reference for 3Blue1Brown's 16-chapter Essence of Linear Algebra series, which reframes the subject around geometric intuition -- what ",
+    "tags": [
+      "linear-algebra",
+      "math",
+      "3blue1brown",
+      "vectors",
+      "matrices",
+      "transformations",
+      "eigenvectors"
+    ],
+    "category": "concepts"
+  },
+  "harness-engineering": {
+    "title": "Harness Engineering",
+    "excerpt": "Harness Engineering is the third major paradigm shift in AI engineering, following prompt-engineering and context-engineering. It addresses the proble",
+    "tags": [
+      "harness-engineering",
+      "prompt-engineering",
+      "context-engineering",
+      "agent",
+      "ai-engineering"
+    ],
+    "category": "concepts"
+  },
+  "karpathy-loopy-era-ai": {
+    "title": "Karpathy on Code Agents and the Loopy Era of AI",
+    "excerpt": "Andrej Karpathy describes a fundamental workflow shift since late 2025: from writing code directly to delegating implementation to coding agents. The ",
+    "tags": [
+      "ai-agents",
+      "code-agents",
+      "andrej-karpathy",
+      "llm",
+      "multi-agent",
+      "autoresearch"
+    ],
+    "category": "concepts"
+  },
+  "llm-knowledge-base": {
+    "title": "LLM Knowledge Base",
+    "excerpt": "A workflow for building a personal wiki where LLMs act as librarian and compiler: raw sources go in, synthesized knowledge comes out, and Q&A runs aga",
+    "tags": [
+      "llm",
+      "knowledge-base",
+      "rag",
+      "obsidian",
+      "wiki",
+      "personal-knowledge-management",
+      "search"
+    ],
+    "category": "concepts"
+  },
+  "long-running-agent-harness": {
+    "title": "Long-Running Agent Harness",
+    "excerpt": "A long-running agent harness is the orchestration layer that enables AI agents to execute complex, multi-hour tasks reliably. Anthropic's blueprint fo",
+    "tags": [
+      "harness-engineering",
+      "ai-agents",
+      "long-running-agents",
+      "anthropic",
+      "evaluation"
+    ],
+    "category": "concepts"
+  },
+  "lovart-ai-startup-playbook": {
+    "title": "Lovart: An AI Startup Playbook from Chen Mian",
+    "excerpt": "A 3.5-hour conversation between Lovart founder Chen Mian and Luo Yonghao that goes far beyond product demo -- it traces a complete founder formation a",
+    "tags": [
+      "ai-startup",
+      "lovart",
+      "product-strategy",
+      "founder-playbook",
+      "ai-native"
+    ],
+    "category": "concepts"
+  },
+  "openclaw-architecture": {
+    "title": "OpenClaw Architecture",
+    "excerpt": "OpenClaw is an open-source, production-grade AI Agent system analyzed across a 7-chapter GeekTime series (OpenClaw 核心原理与实战) by Henry. The series disse",
+    "tags": [
+      "openclaw",
+      "ai-agents",
+      "architecture",
+      "system-design",
+      "fault-tolerance",
+      "agent-loop"
+    ],
+    "category": "concepts"
+  },
+  "pageindex": {
+    "title": "PageIndex",
+    "excerpt": "PageIndex is an open-source Python library by VectifyAI that replaces traditional vector-based RAG with LLM-driven reasoning over a hierarchical docum",
+    "tags": [
+      "rag",
+      "llm",
+      "pageindex",
+      "retrieval",
+      "hierarchical-index",
+      "vectorless-rag"
+    ],
+    "category": "concepts"
+  },
+  "statquest-neural-networks": {
+    "title": "StatQuest Illustrated Guide to Neural Networks and AI",
+    "excerpt": "This article consolidates the 14-chapter book by Josh Starmer (StatQuest) covering neural networks from fundamental building blocks through modern tra",
+    "tags": [
+      "neural-networks",
+      "deep-learning",
+      "statquest",
+      "cnn",
+      "rnn",
+      "lstm",
+      "transformers",
+      "word-embedding",
+      "pytorch"
+    ],
+    "category": "concepts"
+  },
+  "vectorless-rag": {
+    "title": "Vectorless RAG",
+    "excerpt": "Vectorless RAG is a retrieval architecture that replaces the traditional embedding-search-chunk pipeline with LLM-driven reasoning over a hierarchical",
+    "tags": [
+      "rag",
+      "llm",
+      "retrieval",
+      "vectorless-rag",
+      "vector-db",
+      "pageindex"
+    ],
+    "category": "concepts"
+  },
+  "wiki-llm-personalization": {
+    "title": "Wiki LLM Personalization",
+    "excerpt": "Karpathy's case for why personal wikis built by LLMs are the best approach to AI personalization, contrasted with opaque \"the AI learns you over time\"",
+    "tags": [
+      "personalization",
+      "pkm",
+      "wiki",
+      "llm",
+      "file-over-app",
+      "andrej-karpathy"
+    ],
+    "category": "concepts"
+  },
+  "zhang-xuefeng-major-selection-happiness": {
+    "title": "Zhang Xuefeng on Major Selection, Gaokao Mindset, and Happiness",
+    "excerpt": "A 17-minute speech by education consultant Zhang Xuefeng in Suzhou, distilling his philosophy on college major selection, parental anxiety around gaok",
+    "tags": [
+      "education",
+      "career-planning",
+      "zhang-xuefeng",
+      "gaokao",
+      "happiness"
+    ],
+    "category": "concepts"
+  },
+  "agency-agents-zh": {
+    "title": "Agency Agents ZH",
+    "excerpt": "Agency Agents ZH is a Chinese community edition of the agency-agents prompt library, containing 186 role-specialized AI agent personas with install/co",
+    "tags": [
+      "ai-agents",
+      "prompt-library",
+      "multi-agent",
+      "localization",
+      "chinese-market"
+    ],
+    "category": "tools"
+  },
+  "ai-tools-roundup": {
+    "title": "AI Tools Roundup",
+    "excerpt": "A reference overview of three AI tools with free tiers, covering vibe-coding, model aggregation, and voice-first writing. - URL: https://aistudio.goog",
+    "tags": [
+      "ai-tools",
+      "google-ai-studio",
+      "replicate",
+      "voice-writing",
+      "vibe-coding"
+    ],
+    "category": "tools"
+  },
+  "anthropic-dispatch": {
+    "title": "Anthropic Dispatch",
+    "excerpt": "Dispatch is Anthropic's phone-to-desktop remote control layer for Claude. It enables users to assign tasks from a mobile device to a persistent Claude",
+    "tags": [
+      "claude",
+      "anthropic",
+      "dispatch",
+      "remote-agent",
+      "claude-code"
+    ],
+    "category": "tools"
+  },
+  "aris-research-framework": {
+    "title": "ARIS Research Framework",
+    "excerpt": "ARIS (Auto-claude-code-research-in-sleep) is a workflow-first, skill-based framework for autonomous research execution. It chains idea discovery, expe",
+    "tags": [
+      "claude-code",
+      "ai-research",
+      "automation",
+      "multi-agent",
+      "research-pipeline"
+    ],
+    "category": "tools"
+  },
+  "cashclaw": {
+    "title": "CashClaw",
+    "excerpt": "CashClaw is an autonomous work agent focused on paid task execution, connecting to the Moltlaunch onchain marketplace to evaluate tasks, submit quotes",
+    "tags": [
+      "ai-agents",
+      "autonomous-agent",
+      "marketplace",
+      "openclaw",
+      "monetization"
+    ],
+    "category": "tools"
+  },
+  "claude-certified-architect": {
+    "title": "Claude Certified Architect (CCA)",
+    "excerpt": "The Claude Certified Architect (CCA) Foundations exam is Anthropic's first professional certification. It is a 301-level, proctored exam testing produ",
+    "tags": [
+      "claude",
+      "certification",
+      "cca",
+      "anthropic",
+      "agentic-architecture",
+      "mcp",
+      "prompt-engineering",
+      "exam-prep"
+    ],
+    "category": "tools"
+  },
+  "claude-code-internals": {
+    "title": "Claude Code Internals",
+    "excerpt": "Claude Code is a full agent runtime, not a terminal chatbot. Built with Bun, TypeScript, and React, it contains a tool system, command system, memory ",
+    "tags": [
+      "claude-code",
+      "source-code",
+      "agent-runtime",
+      "slash-commands",
+      "memory",
+      "permissions",
+      "mcp",
+      "multi-agent"
+    ],
+    "category": "tools"
+  },
+  "claude-code-tips-collection": {
+    "title": "Claude Code Tips Collection",
+    "excerpt": "A synthesis of Boris Cherny's 42 tips across 5 threads (January-February 2026), compiled as an installable skill. The tips form a progressive stack --",
+    "tags": [
+      "claude-code",
+      "tips",
+      "developer-workflow",
+      "worktrees",
+      "batch-processing"
+    ],
+    "category": "tools"
+  },
+  "claude-hud": {
+    "title": "Claude HUD",
+    "excerpt": "Claude HUD is a Claude Code plugin that provides real-time session visibility in the terminal status line, surfacing context usage, tool activity, sub",
+    "tags": [
+      "claude-code",
+      "observability",
+      "developer-tools",
+      "plugin",
+      "statusline"
+    ],
+    "category": "tools"
+  },
+  "hermes-agent": {
+    "title": "Hermes Agent",
+    "excerpt": "Hermes Agent is a Python-first agent framework from Nous Research focused on configurable, multi-backend LLM workflows for autonomous and semi-autonom",
+    "tags": [
+      "ai-agents",
+      "agent-framework",
+      "python",
+      "orchestration",
+      "nous-research"
+    ],
+    "category": "tools"
+  },
+  "last30days-skill": {
+    "title": "Last30Days Skill",
+    "excerpt": "Last30Days Skill is a Python-first research skill for agent environments that aggregates recent discussions across social and web sources, synthesizin",
+    "tags": [
+      "claude-code",
+      "research-skill",
+      "trend-analysis",
+      "social-media",
+      "recency"
+    ],
+    "category": "tools"
+  },
+  "metaclaw": {
+    "title": "MetaClaw",
+    "excerpt": "MetaClaw is a proxy-based meta-learning layer for personal agents that sits in front of the LLM endpoint, injects skills per turn, summarizes sessions",
+    "tags": [
+      "ai-agents",
+      "meta-learning",
+      "continual-learning",
+      "openclaw",
+      "proxy"
+    ],
+    "category": "tools"
+  },
+  "obsidian-usage": {
+    "title": "Obsidian Usage",
+    "excerpt": "Obsidian is a local-first, Markdown-based knowledge management tool. Its core value lies in data ownership, portability, and strong compatibility with",
+    "tags": [
+      "obsidian",
+      "note-taking",
+      "knowledge-management",
+      "sync",
+      "tools"
+    ],
+    "category": "tools"
+  },
+  "open-swe": {
+    "title": "Open SWE",
+    "excerpt": "Open SWE is an open-source framework from LangChain for building internal coding agents triggered from Slack, Linear, and GitHub. It turns issue/comme",
+    "tags": [
+      "ai-agents",
+      "coding-agent",
+      "langgraph",
+      "software-engineering",
+      "github",
+      "slack"
+    ],
+    "category": "tools"
+  },
+  "openbb": {
+    "title": "OpenBB",
+    "excerpt": "OpenBB is an open-source financial data and analytics platform combining a Python package, CLI, and FastAPI-based backend for research and data access",
+    "tags": [
+      "finance",
+      "data-platform",
+      "python",
+      "analytics",
+      "open-source"
+    ],
+    "category": "tools"
+  },
+  "ruflo": {
+    "title": "Ruflo",
+    "excerpt": "Ruflo is a TypeScript-based AI agent orchestration platform (rebranded from Claude Flow) focused on multi-agent coordination through CLI and MCP integ",
+    "tags": [
+      "ai-agents",
+      "orchestration",
+      "mcp",
+      "multi-agent",
+      "typescript"
+    ],
+    "category": "tools"
+  },
+  "supermemory": {
+    "title": "Supermemory",
+    "excerpt": "Supermemory is a TypeScript monorepo that provides a persistent memory and context layer for AI systems through API, SDKs, MCP integrations, and end-u",
+    "tags": [
+      "memory",
+      "rag",
+      "mcp",
+      "ai-agents",
+      "personalization",
+      "typescript"
+    ],
+    "category": "tools"
+  },
+  "claude-code-agentic-os": {
+    "title": "Claude Code Agentic OS",
+    "excerpt": "An architecture pattern for composing Claude Code skills into a self-maintaining system rather than using them as isolated utilities. The core insight",
+    "tags": [
+      "claude-code",
+      "agentic-os",
+      "skills",
+      "automation",
+      "workflow-orchestration"
+    ],
+    "category": "workflows"
+  },
+  "claude-code-engineering-course": {
+    "title": "Claude Code Engineering Course",
+    "excerpt": "A 22-chapter GeekTime course (Claude Code 工程化实战) by Huang Jia (黄佳) that systematically teaches how to transform Claude Code from a chat-based coding a",
+    "tags": [
+      "claude-code",
+      "geektime",
+      "sub-agents",
+      "skills",
+      "hooks",
+      "mcp",
+      "tools",
+      "engineering"
+    ],
+    "category": "workflows"
+  },
+  "claude-code-multi-agent-setup": {
+    "title": "Claude Code Multi-Agent Setup",
+    "excerpt": "A layered extension architecture for Claude Code that scales from solo usage to coordinated multi-agent development teams. Four extension layers stack",
+    "tags": [
+      "claude-code",
+      "multi-agent",
+      "subagents",
+      "plugins",
+      "skills",
+      "developer-workflow"
+    ],
+    "category": "workflows"
+  },
+  "karpathy-from-scratch-series": {
+    "title": "Karpathy \"From Scratch\" Series",
+    "excerpt": "Andrej Karpathy's three hands-on tutorials form a bottom-up learning path through the core machinery of modern language models. Each session builds a ",
+    "tags": [
+      "neural-networks",
+      "backpropagation",
+      "tokenization",
+      "bpe",
+      "transformers",
+      "gpt",
+      "pytorch",
+      "andrej-karpathy",
+      "from-scratch",
+      "deep-learning"
+    ],
+    "category": "workflows"
+  },
+  "karpathy-zero-to-hero-01-micrograd": {
+    "title": "Zero to Hero 01: Neural Networks & Backpropagation (micrograd)",
+    "excerpt": "Karpathy builds micrograd, a ~150-line autograd engine, from scratch. The entire mathematical core of deep learning — backpropagation — is demystified",
+    "tags": [
+      "neural-networks",
+      "backpropagation",
+      "autograd",
+      "micrograd",
+      "pytorch",
+      "andrej-karpathy",
+      "zero-to-hero",
+      "course"
+    ],
+    "category": "workflows"
+  },
+  "karpathy-zero-to-hero-02-makemore-bigrams": {
+    "title": "Zero to Hero 02: Language Modeling — Bigrams (makemore Part 1)",
+    "excerpt": "Builds a character-level language model on 32K baby names using two equivalent approaches: direct counting and a single-layer neural network. The key ",
+    "tags": [
+      "language-model",
+      "bigram",
+      "character-level",
+      "pytorch",
+      "softmax",
+      "negative-log-likelihood",
+      "makemore",
+      "andrej-karpathy",
+      "zero-to-hero",
+      "course"
+    ],
+    "category": "workflows"
+  },
+  "karpathy-zero-to-hero-03-makemore-mlp": {
+    "title": "Zero to Hero 03: MLP Language Model (makemore Part 2)",
+    "excerpt": "Implements a character-level MLP following Bengio et al. 2003, moving beyond bigrams to multi-character context. Introduces embeddings, minibatch trai",
+    "tags": [
+      "multilayer-perceptron",
+      "embeddings",
+      "language-model",
+      "makemore",
+      "pytorch",
+      "deep-learning",
+      "andrej-karpathy",
+      "zero-to-hero",
+      "course"
+    ],
+    "category": "workflows"
+  },
+  "karpathy-zero-to-hero-build-gpt": {
+    "title": "Zero to Hero: Let's Build GPT from Scratch",
+    "excerpt": "Builds a GPT (decoder-only Transformer) in ~200 lines of PyTorch on tiny Shakespeare. Each component is added incrementally from a bigram baseline, ma",
+    "tags": [
+      "gpt",
+      "transformers",
+      "self-attention",
+      "pytorch",
+      "language-model",
+      "nanoGPT",
+      "andrej-karpathy",
+      "zero-to-hero",
+      "course",
+      "rlhf"
+    ],
+    "category": "workflows"
+  },
+  "karpathy-zero-to-hero-gpt-tokenizer": {
+    "title": "Zero to Hero: Let's Build the GPT Tokenizer",
+    "excerpt": "Builds a complete BPE tokenizer from scratch and explains why tokenization is the hidden root cause of most LLM quirks — spelling failures, arithmetic",
+    "tags": [
+      "tokenization",
+      "bpe",
+      "llm",
+      "gpt",
+      "tiktoken",
+      "sentencepiece",
+      "andrej-karpathy",
+      "zero-to-hero",
+      "course"
+    ],
+    "category": "workflows"
+  }
+}

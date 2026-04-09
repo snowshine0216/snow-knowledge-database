@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+body {
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: Georgia, 'Linux Libertine', serif;
+}
+
+/* Wikilink styles */
+a.wikilink {
+  color: #1a0dab;
+  text-decoration: none;
+}
+a.wikilink:hover {
+  text-decoration: underline;
+}
+a.wikilink-broken {
+  color: #ba2121;
+}
+
+/* Heading anchor links */
+.prose h1 a,
+.prose h2 a,
+.prose h3 a,
+.prose h4 a {
+  color: inherit;
+  text-decoration: none;
+}
+.prose h1 a:hover,
+.prose h2 a:hover,
+.prose h3 a:hover,
+.prose h4 a:hover {
+  text-decoration: underline;
+}
