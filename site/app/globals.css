@@ -55,6 +55,10 @@ a.wikilink:hover {
 a.wikilink-broken {
   color: var(--color-wikilink-broken);
 }
+a.wikilink-broken::after {
+  content: ' ↗';
+  font-size: 0.75em;
+}
 
 /* ── Heading anchor links ───────────────────────────────────────────────────── */
 .prose h1 a,
