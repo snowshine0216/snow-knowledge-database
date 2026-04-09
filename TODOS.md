@@ -18,13 +18,13 @@
 
 ~~**Priority:** P2 — Deploy to Vercel. Connect repo, set root directory = `site/`, framework preset = Next.js. Git push to main → auto-deploy. (See plan step 9.)~~ **Completed:** v0.1.0.1 (2026-04-09)
 
-**Priority:** P3 — Add Cmd+K overlay search (Phase 2 enhancement). Current `/search` page is sufficient at 44 articles but the overlay pattern scales better as the wiki grows.
+~~**Priority:** P3 — Add Cmd+K overlay search (Phase 2 enhancement). Current `/search` page is sufficient at 44 articles but the overlay pattern scales better as the wiki grows.~~ **Completed:** v0.1.1.0 (2026-04-09)
 
-**Priority:** P3 — Add unit tests for `lib/content.ts` (slug normalization, backlink computation) and `lib/wikilinks.ts` (pipe syntax, broken link detection). Test runner TBD (vitest recommended for Next.js).
+~~**Priority:** P3 — Add unit tests for `lib/content.ts` (slug normalization, backlink computation) and `lib/wikilinks.ts` (pipe syntax, broken link detection). Test runner TBD (vitest recommended for Next.js).~~ **Completed:** v0.1.1.0 (2026-04-09)
 
 **Priority:** P4 — Auto-publish pipeline: Obsidian plugin or post-commit hook that runs `scripts/compile.sh` on save, then pushes to git to trigger Vercel redeploy.
 
-**Priority:** P4 — Dark mode toggle. Currently hardcoded light theme.
+~~**Priority:** P4 — Dark mode toggle. Currently hardcoded light theme.~~ **Completed:** v0.1.1.0 (2026-04-09)
 
 **Priority:** P4 — Knowledge graph visualization (D3.js force-directed, nodes = articles, edges = wikilinks). Deferred from Approach C.
 

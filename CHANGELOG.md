@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1.0] - 2026-04-09
+
+### Added
+- **Dark mode** with system preference detection. Toggle sun/moon icon in the header. All pages and components now use CSS custom properties so the theme switches instantly without a flash. Dark theme is on by default; light mode is available via the toggle or `prefers-color-scheme: light`.
+- **Cmd+K command palette** (also Ctrl+K). Opens a full-screen overlay with instant search across all 44 articles. Lazy-loads the FlexSearch index on first open so it adds zero weight to every page load. Navigate with `↑↓`, open with `↵`, close with `Esc`.
+- **Geist font** (Vercel's type system). Geist Sans replaces Georgia for body text; Geist Mono replaces the system monospace for code. Both served via `next/font` with automatic subsetting.
+- **Unit test suite** (16 tests, vitest). Covers `normalize()` (5 cases including CJK passthrough), `readArticle()` (frontmatter, H1 fallback, excerpt clipping), `buildWikiIndex()` (backlink computation, slug normalization), and `remarkWikilinks` (pipe syntax, broken links → Wikipedia, CJK targets). Run with `npm test`.
+- `lib/client-search.ts`: shared search module used by both the Cmd+K palette and the `/search` page. Exposes `ensureIndex()`, `clientSearch()`, and `getAllDocs()` with typed `SearchResult` interface.
+- `⌘K` keyboard hint badge in the header Search nav link for discoverability.
+
+### Changed
+- Header extracted from `layout.tsx` into `components/Header.tsx` — cleaner separation and client-side-only theme logic stays out of the server layout.
+- All 17 color-affected files migrated from hardcoded Tailwind gray classes and hex literals to CSS variable tokens (`--color-bg`, `--color-text`, `--color-text-muted`, `--color-border`, `--color-accent-bg/text`, `--color-wikilink`, `--color-tag-bg/text`, `--color-surface`).
+- Search index fetch in `client-search.ts` now validates HTTP status before parsing JSON; failed initializations reset the promise so the index can recover on retry.
+
 ## [0.1.0.3] - 2026-04-09
 
 ### Fixed

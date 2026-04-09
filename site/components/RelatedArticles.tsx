@@ -5,8 +5,8 @@ export default function RelatedArticles({ articles }: { articles: Article[] }) {
   if (articles.length === 0) return null
 
   return (
-    <section className="mt-6 pt-6 border-t border-gray-200">
-      <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+    <section className="mt-6 pt-6 border-t border-[var(--color-border)]">
+      <h2 className="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wide mb-3">
         Related Articles
       </h2>
       <ul className="space-y-2">
@@ -14,12 +14,12 @@ export default function RelatedArticles({ articles }: { articles: Article[] }) {
           <li key={a.slug}>
             <Link
               href={`/wiki/${a.slug}`}
-              className="group flex flex-col hover:text-blue-700 transition-colors"
+              className="group flex flex-col hover:text-[var(--color-accent-text)] transition-colors"
             >
-              <span className="text-sm font-medium text-gray-800 group-hover:text-blue-700">
+              <span className="text-sm font-medium text-[var(--color-text)] group-hover:text-[var(--color-accent-text)]">
                 {a.title}
               </span>
-              <span className="text-xs text-gray-400 capitalize">{a.category}</span>
+              <span className="text-xs text-[var(--color-text-muted)] capitalize">{a.category}</span>
             </Link>
           </li>
         ))}
