@@ -18,6 +18,10 @@ a.wikilink:hover {
 a.wikilink-broken {
   color: #ba2121;
 }
+a.wikilink-broken::after {
+  content: ' ↗';
+  font-size: 0.75em;
+}
 
 /* Heading anchor links */
 .prose h1 a,
