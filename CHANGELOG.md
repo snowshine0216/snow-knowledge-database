@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2.0] - 2026-04-09
+
+### Fixed
+- **Markdown tables** now render as HTML `<table>` elements. Previously, pipe-separated table syntax (`| Column | ... |`) appeared as raw text. Added `remark-gfm` to the markdown pipeline.
+- **Wiki images** (`![[filename.png]]`) now render as `<img>` elements. Previously they appeared as broken link text. The `remarkWikilinks` plugin now detects Obsidian-style image syntax and emits `<img src="/wiki-assets/{category}/{slug}/{filename}">` nodes.
+
+### Added
+- **`/wiki-assets` route handler** (`app/wiki-assets/[category]/[slug]/[file]/route.ts`): serves image files from `wiki/{category}/assets/{slug}/` with correct `Content-Type` headers, path-traversal protection, and extension allowlisting.
+
 ## [0.1.1.1] - 2026-04-09
 
 ### Added
