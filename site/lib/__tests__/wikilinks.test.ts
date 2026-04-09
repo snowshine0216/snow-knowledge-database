@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
+import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import remarkWikilinks from '../wikilinks'
@@ -26,10 +27,11 @@ function makeIndex(slugs: string[]): WikiIndex {
   return index
 }
 
-async function toHtml(md: string, index: WikiIndex): Promise<string> {
+async function toHtml(md: string, index: WikiIndex, slug?: string, category?: string): Promise<string> {
   const result = await unified()
     .use(remarkParse)
-    .use(remarkWikilinks, { index })
+    .use(remarkGfm)
+    .use(remarkWikilinks, { index, slug, category })
     .use(remarkRehype)
     .use(rehypeStringify)
     .process(md)
@@ -77,5 +79,52 @@ describe('remarkWikilinks', () => {
     const html = await toHtml('No links here.', index)
     expect(html).not.toContain('wikilink')
     expect(html).toContain('No links here.')
+  })
+})
+
+// ── image syntax ──────────────────────────────────────────────────────────────
+
+describe('remarkWikilinks — image syntax', () => {
+  it('renders ![[photo.png]] as <img> with full path when slug and category provided', async () => {
+    const index = makeIndex([])
+    const html = await toHtml('![[photo.png]]', index, 'my-article', 'tools')
+    expect(html).toContain('<img')
+    expect(html).toContain('src="/wiki-assets/tools/my-article/photo.png"')
+    expect(html).toContain('alt="photo.png"')
+  })
+
+  it('renders ![[photo.png]] as <img> with flat path when no slug/category', async () => {
+    const index = makeIndex([])
+    const html = await toHtml('![[photo.png]]', index)
+    expect(html).toContain('<img')
+    expect(html).toContain('src="/wiki-assets/photo.png"')
+  })
+
+  it('uses pipe display text as alt attribute', async () => {
+    const index = makeIndex([])
+    const html = await toHtml('![[photo.png|A cool diagram]]', index, 'art', 'concepts')
+    expect(html).toContain('alt="A cool diagram"')
+    expect(html).toContain('src="/wiki-assets/concepts/art/photo.png"')
+  })
+
+  it('does not treat ![[wikilink]] as image when target has no image extension', async () => {
+    const index = makeIndex(['some-article'])
+    const html = await toHtml('![[some-article]]', index, 'art', 'concepts')
+    expect(html).toContain('<a')
+    expect(html).not.toContain('<img')
+  })
+})
+
+// ── GFM tables ────────────────────────────────────────────────────────────────
+
+describe('remarkGfm — table rendering', () => {
+  it('renders a markdown table as <table> HTML', async () => {
+    const index = makeIndex([])
+    const md = `| Command | Purpose |\n|---|---|\n| /init | Generate CLAUDE.md |`
+    const html = await toHtml(md, index)
+    expect(html).toContain('<table>')
+    expect(html).toContain('<th>')
+    expect(html).toContain('Command')
+    expect(html).toContain('/init')
   })
 })
