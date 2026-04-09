@@ -32,7 +32,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
   // Strip the leading H1 — the page header already renders the title
   const contentWithoutTitle = article.content.replace(/^#\s+.+\n?/m, '')
-  const html = await markdownToHtml(contentWithoutTitle)
+  const html = await markdownToHtml(contentWithoutTitle, article.slug, article.category)
   const related = getRelatedArticles(article)
 
   const hasToc = article.headings.filter(h => h.depth <= 3).length > 0
