@@ -80,6 +80,19 @@ function readArticle(filePath: string, category: string): Article {
   }
 }
 
+function walkMdFiles(dir: string): string[] {
+  const results: string[] = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      results.push(...walkMdFiles(full))
+    } else if (entry.name.endsWith('.md')) {
+      results.push(full)
+    }
+  }
+  return results
+}
+
 function buildWikiIndex(): WikiIndex {
   const index: WikiIndex = new Map()
 
@@ -87,9 +100,8 @@ function buildWikiIndex(): WikiIndex {
     const dir = path.join(WIKI_DIR, category)
     if (!fs.existsSync(dir)) continue
 
-    const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'))
-    for (const file of files) {
-      const article = readArticle(path.join(dir, file), category)
+    for (const filePath of walkMdFiles(dir)) {
+      const article = readArticle(filePath, category)
       index.set(normalize(article.slug), article)
     }
   }
