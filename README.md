@@ -13,6 +13,12 @@ A personal knowledge repository for curated notes, references, and study materia
 - Practical setup guides in `docs/`
 - Machine setup assets in `env-setup/`
 
+## Live Site
+
+The wiki is deployed to Vercel at **https://snow-knowledge-database.vercel.app/**
+
+It's a Next.js 16 App Router site in `site/` — SSG-generated, auto-deploys on push to `main`. Every `wiki/` article becomes a page at `/wiki/<slug>`. Includes wikilink rendering, KaTeX math, hover previews, FlexSearch, and tag pages.
+
 ## Wiki Workflow
 
 ```bash
@@ -107,6 +113,7 @@ wiki/
   concepts/   ← compiled concept articles
   tools/      ← tool notes
   workflows/  ← process descriptions
+site/         ← Next.js wiki website (deployed to Vercel)
 scripts/
   search.sh   ← keyword search over wiki/ + raw/
   compile.sh  ← trigger: raw → wiki compile instruction
