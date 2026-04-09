@@ -104,6 +104,16 @@ All coding must follow TDD. Tests are written before implementation.
 
 ---
 
+## Testing (site/)
+
+- **Framework**: vitest (node environment)
+- **Single run**: `cd site && npm test`
+- **Watch mode**: `cd site && npm run test:watch`
+- **Test files**: `site/lib/__tests__/**/*.test.ts`
+- **Philosophy**: tests cover pure functions (`lib/content.ts`, `lib/wikilinks.ts`); UI components are browser/E2E only — no vitest for React components
+
+---
+
 ## Anti-Patterns to Avoid
 
 - ❌ Mutating function arguments or global state
