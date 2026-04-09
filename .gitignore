@@ -8,3 +8,4 @@
 # macOS Finder metadata
 .DS_Store
 __pycache__/
+.gstack/
