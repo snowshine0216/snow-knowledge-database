@@ -30,7 +30,9 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
   const article = getArticle(slug)
   if (!article) notFound()
 
-  const html = await markdownToHtml(article.content)
+  // Strip the leading H1 — the page header already renders the title
+  const contentWithoutTitle = article.content.replace(/^#\s+.+\n?/m, '')
+  const html = await markdownToHtml(contentWithoutTitle)
   const related = getRelatedArticles(article)
 
   const hasToc = article.headings.filter(h => h.depth <= 3).length > 0
@@ -88,7 +90,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
 
         {/* Article body */}
         <div
-          className="prose prose-slate max-w-[720px] leading-relaxed"
+          className="prose max-w-[720px] leading-relaxed"
           dangerouslySetInnerHTML={{ __html: html }}
         />
 
