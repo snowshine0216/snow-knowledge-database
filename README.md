@@ -17,7 +17,7 @@ A personal knowledge repository for curated notes, references, and study materia
 
 The wiki is deployed to Vercel at **https://snow-knowledge-database.vercel.app/**
 
-It's a Next.js 16 App Router site in `site/` — SSG-generated, auto-deploys on push to `main`. Every `wiki/` article becomes a page at `/wiki/<slug>`. Includes wikilink rendering, KaTeX math, hover previews, FlexSearch, and tag pages.
+It's a Next.js 16 App Router site in `site/` — SSG-generated, auto-deploys on push to `main`. Every `wiki/` article becomes a page at `/wiki/<slug>`. Includes wikilink rendering, GFM table rendering, wiki image rendering (`![[image.png]]`), KaTeX math, hover previews, FlexSearch, and tag pages.
 
 - Dark mode: follows system preference, with a manual sun/moon toggle in the header
 - Cmd+K command palette: lazy-loaded FlexSearch over all wiki articles
