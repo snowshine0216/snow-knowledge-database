@@ -8,9 +8,22 @@ function subfolderLabel(name: string): string {
   return name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 }
 
+/** Groups articles within a category: top-level + by subfolder (ordered). */
+function groupArticles(articles: Article[]) {
+  const topLevel = articles.filter(a => a.subfolder === null)
+  const bySubfolder = new Map<string, Article[]>()
+  for (const a of articles) {
+    if (a.subfolder === null) continue
+    const group = bySubfolder.get(a.subfolder) ?? []
+    group.push(a)
+    bySubfolder.set(a.subfolder, group)
+  }
+  return { topLevel, bySubfolder }
+}
+
 function ArticleCard({ a }: { a: Article }) {
   return (
-    <li key={a.slug}>
+    <li>
       <Link
         href={`/wiki/${a.slug}`}
         className="group block p-3 border border-[var(--color-border)] rounded hover:border-[var(--color-accent-text)] hover:bg-[var(--color-accent-bg)] transition-colors"
@@ -22,24 +35,16 @@ function ArticleCard({ a }: { a: Article }) {
   )
 }
 
-function CategorySection({ cat, articles }: { cat: string; articles: Article[] }) {
-  const topLevel = articles.filter(a => a.subfolder === null)
-  const bySubfolder = new Map<string, Article[]>()
-  for (const a of articles) {
-    if (a.subfolder === null) continue
-    const group = bySubfolder.get(a.subfolder) ?? []
-    group.push(a)
-    bySubfolder.set(a.subfolder, group)
-  }
+function CategorySection({ articles }: { articles: Article[] }) {
+  const { topLevel, bySubfolder } = groupArticles(articles)
   const hasGroups = bySubfolder.size > 0
 
   return (
-    <div className="space-y-6">
-      {/* Top-level articles */}
+    <div className="space-y-8">
       {topLevel.length > 0 && (
-        <div>
+        <div id="group-general">
           {hasGroups && (
-            <h3 className="text-sm font-medium text-[var(--color-text-muted)] uppercase tracking-wide mb-3">
+            <h3 className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-3">
               General
             </h3>
           )}
@@ -49,10 +54,9 @@ function CategorySection({ cat, articles }: { cat: string; articles: Article[] }
         </div>
       )}
 
-      {/* Subfolder groups */}
       {[...bySubfolder.entries()].map(([subfolder, items]) => (
-        <div key={subfolder}>
-          <h3 className="text-sm font-semibold text-[var(--color-text)] border-b border-[var(--color-border)] pb-1 mb-3 flex items-center gap-2">
+        <div key={subfolder} id={`group-${subfolder}`}>
+          <h3 className="text-sm font-semibold text-[var(--color-text)] border-b border-[var(--color-border)] pb-1.5 mb-3 flex items-center gap-2">
             <span>{subfolderLabel(subfolder)}</span>
             <span className="text-xs font-normal text-[var(--color-text-muted)]">({items.length})</span>
           </h3>
@@ -77,13 +81,23 @@ export default async function WikiIndexPage({
   const activeCategory = category && CATEGORIES.includes(category) ? category : null
   const displayCategories = activeCategory ? [activeCategory] : CATEGORIES
 
+  // Compute subfolder structure for the active category (for sidebar nav)
+  const activeCatArticles = activeCategory
+    ? allArticles.filter(a => a.category === activeCategory)
+    : []
+  const { topLevel: activeCatTopLevel, bySubfolder: activeCatSubfolders } =
+    groupArticles(activeCatArticles)
+
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-8 flex gap-8">
       {/* Left sidebar */}
-      <aside className="w-48 shrink-0 hidden md:block">
+      <aside className="w-52 shrink-0 hidden md:block">
         <nav>
-          <p className="font-semibold text-[var(--color-text-muted)] mb-3 uppercase text-xs tracking-wide">Categories</p>
-          <ul className="space-y-1">
+          <p className="font-semibold text-[var(--color-text-muted)] mb-3 uppercase text-xs tracking-wide">
+            Categories
+          </p>
+          <ul className="space-y-0.5">
+            {/* All */}
             <li>
               <Link
                 href="/wiki"
@@ -97,23 +111,55 @@ export default async function WikiIndexPage({
                 <span className="text-xs text-[var(--color-text-muted)]">{allArticles.length}</span>
               </Link>
             </li>
-            {CATEGORIES.map(cat => (
-              <li key={cat}>
-                <Link
-                  href={`/wiki?category=${cat}`}
-                  className={`flex justify-between items-center px-2 py-1.5 rounded text-sm hover:bg-[var(--color-accent-bg)] transition-colors ${
-                    activeCategory === cat
-                      ? 'bg-[var(--color-accent-bg)] text-[var(--color-accent-text)] font-medium'
-                      : 'text-[var(--color-text-muted)]'
-                  }`}
-                >
-                  <span className="capitalize">{cat}</span>
-                  <span className="text-xs text-[var(--color-text-muted)]">
-                    {allArticles.filter(a => a.category === cat).length}
-                  </span>
-                </Link>
-              </li>
-            ))}
+
+            {/* Per-category rows, with subfolder expansion when active */}
+            {CATEGORIES.map(cat => {
+              const isActive = activeCategory === cat
+              const count = allArticles.filter(a => a.category === cat).length
+              return (
+                <li key={cat}>
+                  <Link
+                    href={`/wiki?category=${cat}`}
+                    className={`flex justify-between items-center px-2 py-1.5 rounded text-sm hover:bg-[var(--color-accent-bg)] transition-colors ${
+                      isActive
+                        ? 'bg-[var(--color-accent-bg)] text-[var(--color-accent-text)] font-medium'
+                        : 'text-[var(--color-text-muted)]'
+                    }`}
+                  >
+                    <span className="capitalize">{cat}</span>
+                    <span className="text-xs text-[var(--color-text-muted)]">{count}</span>
+                  </Link>
+
+                  {/* Subfolder tree — only rendered for the active category */}
+                  {isActive && activeCatSubfolders.size > 0 && (
+                    <ul className="mt-1 ml-3 border-l border-[var(--color-border)] pl-2 space-y-0.5">
+                      {activeCatTopLevel.length > 0 && (
+                        <li>
+                          <a
+                            href="#group-general"
+                            className="flex justify-between items-center px-2 py-1 rounded text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-accent-bg)] transition-colors"
+                          >
+                            <span>General</span>
+                            <span>{activeCatTopLevel.length}</span>
+                          </a>
+                        </li>
+                      )}
+                      {[...activeCatSubfolders.entries()].map(([subfolder, items]) => (
+                        <li key={subfolder}>
+                          <a
+                            href={`#group-${subfolder}`}
+                            className="flex justify-between items-center px-2 py-1 rounded text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-accent-bg)] transition-colors"
+                          >
+                            <span className="truncate pr-1">{subfolderLabel(subfolder)}</span>
+                            <span className="shrink-0">{items.length}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         </nav>
       </aside>
@@ -134,10 +180,13 @@ export default async function WikiIndexPage({
             <section key={cat} className="mb-10">
               {!activeCategory && (
                 <h2 className="text-lg font-semibold capitalize text-[var(--color-text)] border-b border-[var(--color-border)] pb-2 mb-4">
-                  {cat} <span className="text-sm font-normal text-[var(--color-text-muted)]">({catArticles.length})</span>
+                  {cat}{' '}
+                  <span className="text-sm font-normal text-[var(--color-text-muted)]">
+                    ({catArticles.length})
+                  </span>
                 </h2>
               )}
-              <CategorySection cat={cat} articles={catArticles} />
+              <CategorySection articles={catArticles} />
             </section>
           )
         })}
