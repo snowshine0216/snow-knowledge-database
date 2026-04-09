@@ -34,11 +34,15 @@ const remarkWikilinks: Plugin<[Options], Root> = ({ index }) => {
 
         const linkNode: Link = {
           type: 'link',
-          url: `/wiki/${slug}`,
+          url: valid
+            ? `/wiki/${slug}`
+            : `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(target.replace(/-/g, ' '))}`,
           data: {
             hProperties: {
               class: valid ? 'wikilink' : 'wikilink wikilink-broken',
-              'data-slug': slug,
+              ...(valid
+                ? { 'data-slug': slug }
+                : { target: '_blank', rel: 'noopener noreferrer' }),
             },
           },
           children: [{ type: 'text', value: display }],
