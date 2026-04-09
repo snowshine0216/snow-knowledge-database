@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0.0] - 2026-04-09
+
+### Added
+- `site/` — full Wikipedia-style wiki website built with Next.js 16 App Router, SSG-deployed to Vercel.
+- 3-column layout (category nav / article body / TOC + related articles), Wikipedia-inspired visual design with `@tailwindcss/typography` and `prose max-w-[720px]`.
+- `[[wikilink]]` rendering: custom remark plugin resolves wikilinks to `/wiki/<slug>`, marks broken links with red `wikilink-broken` CSS class, supports `[[target|display]]` pipe syntax.
+- KaTeX math rendering via `remark-math` + `rehype-katex` for LaTeX in articles (`$...$` inline, `$$...$$` block).
+- Hover preview tooltips: 250ms show delay, 150ms dismiss delay, viewport-edge collision detection, loaded from `public/preview-data.json`.
+- FlexSearch client-side search at `/search` — lazy-loaded (not bundled on every page). Root layout `SearchBar` is a lightweight dumb input.
+- Tag pages at `/wiki/tags/[tag]` listing all articles for a topic.
+- `scripts/gen-previews.js` prebuild script generates `public/preview-data.json` before `next build`.
+- `scripts/lint-content.js` broken-link baseline check — fails build if broken wikilink count exceeds `wiki/.link-baseline` (baseline: 55).
+- Singleton cache in `lib/content.ts` prevents N×44 filesystem scans across SSG parallel workers.
+- Slug = filename rule (never title-derived) for CJK-safe URLs (`agency-agents-zh` → `/wiki/agency-agents-zh`).
+- `wiki/.link-baseline` tracking file for broken link count enforcement.
+
+### Fixed
+- ISSUE-001 (QA): Raw `$...$` LaTeX was rendering as plain text — added `remark-math` + `rehype-katex` to unified pipeline.
+- ESLint: removed unused `searchParams` prop from `app/wiki/page.tsx`.
+
 ## [0.0.2.0] - 2026-04-05
 
 ### Added

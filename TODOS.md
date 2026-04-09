@@ -14,7 +14,24 @@
 
 **Priority:** P3 — Install Obsidian plugins manually: **Omnisearch** (fuzzy search + REST API at `localhost:51361`), **Dataview** (SQL queries over notes), **Templater** (frontmatter templates). Obsidian Settings → Community Plugins → Browse.
 
+## site (wiki website — deferred from v0.1.0.0)
+
+**Priority:** P2 — Deploy to Vercel. Connect repo, set root directory = `site/`, framework preset = Next.js. Git push to main → auto-deploy. (See plan step 9.)
+
+**Priority:** P3 — Add Cmd+K overlay search (Phase 2 enhancement). Current `/search` page is sufficient at 44 articles but the overlay pattern scales better as the wiki grows.
+
+**Priority:** P3 — Add unit tests for `lib/content.ts` (slug normalization, backlink computation) and `lib/wikilinks.ts` (pipe syntax, broken link detection). Test runner TBD (vitest recommended for Next.js).
+
+**Priority:** P4 — Auto-publish pipeline: Obsidian plugin or post-commit hook that runs `scripts/compile.sh` on save, then pushes to git to trigger Vercel redeploy.
+
+**Priority:** P4 — Dark mode toggle. Currently hardcoded light theme.
+
+**Priority:** P4 — Knowledge graph visualization (D3.js force-directed, nodes = articles, edges = wikilinks). Deferred from Approach C.
+
+**Priority:** P4 — AI Q&A / RAG endpoint at `site/app/api/`. Stub exists via Next.js App Router. Full implementation requires embedding pipeline + vector store.
+
 ## Completed
 
 - Consolidated 4+ summarization skills into `content-summarizer` hub. **Completed:** v0.0.1.0 (2026-04-03)
 - Deleted `course-chapter-summarizer` (superseded by `yt-video-summarizer` + `content-summarizer`). **Completed:** v0.0.1.0 (2026-04-03)
+- Built Wikipedia-style wiki website (`site/`) with SSG, wikilinks, KaTeX, hover previews, FlexSearch, tag pages. **Completed:** v0.1.0.0 (2026-04-09)

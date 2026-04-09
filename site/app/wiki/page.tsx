@@ -3,11 +3,7 @@ import { getAllArticles } from '@/lib/content'
 
 const CATEGORIES = ['concepts', 'tools', 'workflows']
 
-export default function WikiIndexPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>
-}) {
+export default function WikiIndexPage() {
   const index = getAllArticles()
   const allArticles = [...index.values()]
 
