@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0.1] - 2026-04-09
+
+### Fixed
+- Vercel deployment now correctly resolves to the `site/` subdirectory. Add `vercel.json` with `rootDirectory: "site"` so Vercel detects Next.js and runs `next build` from the right place instead of serving a 404.
+
 ## [0.1.0.0] - 2026-04-09
 
 ### Added

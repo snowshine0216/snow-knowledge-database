@@ -16,7 +16,7 @@
 
 ## site (wiki website — deferred from v0.1.0.0)
 
-**Priority:** P2 — Deploy to Vercel. Connect repo, set root directory = `site/`, framework preset = Next.js. Git push to main → auto-deploy. (See plan step 9.)
+~~**Priority:** P2 — Deploy to Vercel. Connect repo, set root directory = `site/`, framework preset = Next.js. Git push to main → auto-deploy. (See plan step 9.)~~ **Completed:** v0.1.0.1 (2026-04-09)
 
 **Priority:** P3 — Add Cmd+K overlay search (Phase 2 enhancement). Current `/search` page is sufficient at 44 articles but the overlay pattern scales better as the wiki grows.
 
