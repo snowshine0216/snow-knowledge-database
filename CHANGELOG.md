@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0.3] - 2026-04-09
+
+### Fixed
+- Broken wikilinks (concepts not yet in the wiki, like `[[integrals]]`) now redirect to Wikipedia search instead of showing a 404 page. Links open in a new tab and display a small ↗ indicator.
+- Hyphenated slug forms (e.g. `[[gradient-descent]]`) now search Wikipedia for "gradient descent" instead of the literal hyphenated string.
+
 ## [0.1.0.2] - 2026-04-09
 
 ### Changed
