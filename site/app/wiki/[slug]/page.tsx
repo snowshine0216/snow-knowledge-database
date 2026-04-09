@@ -45,28 +45,28 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
       {/* Center — article body */}
       <article className="flex-1 min-w-0">
         {/* Breadcrumb */}
-        <nav className="text-xs text-gray-400 mb-4 flex items-center gap-1">
-          <Link href="/" className="hover:text-blue-600">Home</Link>
+        <nav className="text-xs text-[var(--color-text-muted)] mb-4 flex items-center gap-1">
+          <Link href="/" className="hover:text-[var(--color-accent-text)]">Home</Link>
           <span>/</span>
-          <Link href="/wiki" className="hover:text-blue-600">Wiki</Link>
+          <Link href="/wiki" className="hover:text-[var(--color-accent-text)]">Wiki</Link>
           <span>/</span>
-          <Link href={`/wiki?category=${article.category}`} className="capitalize hover:text-blue-600">{article.category}</Link>
+          <Link href={`/wiki?category=${article.category}`} className="capitalize hover:text-[var(--color-accent-text)]">{article.category}</Link>
           <span>/</span>
-          <span className="text-gray-600">{article.title}</span>
+          <span className="text-[var(--color-text)]">{article.title}</span>
         </nav>
 
         {/* Article header */}
         <header className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-3">{article.title}</h1>
+          <h1 className="text-3xl font-bold text-[var(--color-text)] leading-tight mb-3">{article.title}</h1>
           <div className="flex flex-wrap items-center gap-3 text-sm">
-            <span className="px-2 py-0.5 bg-gray-100 rounded text-gray-600 capitalize">{article.category}</span>
+            <span className="px-2 py-0.5 bg-[var(--color-tag-bg)] rounded text-[var(--color-tag-text)] capitalize">{article.category}</span>
             {article.tags.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {article.tags.map(tag => (
                   <Link
                     key={tag}
                     href={`/wiki/tags/${tag}`}
-                    className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors text-xs"
+                    className="px-2 py-0.5 bg-[var(--color-accent-bg)] text-[var(--color-accent-text)] rounded hover:opacity-80 transition-opacity text-xs"
                   >
                     {tag}
                   </Link>
@@ -78,7 +78,7 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
                 href={article.source}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-blue-600 ml-auto text-xs"
+                className="text-[var(--color-text-muted)] hover:text-[var(--color-accent-text)] ml-auto text-xs"
               >
                 Source ↗
               </a>

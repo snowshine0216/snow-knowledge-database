@@ -9,8 +9,8 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Search</h1>
-      <Suspense fallback={<p className="text-sm text-gray-400">Loading…</p>}>
+      <h1 className="text-2xl font-bold text-[var(--color-text)] mb-6">Search</h1>
+      <Suspense fallback={<p className="text-sm text-[var(--color-text-muted)]">Loading…</p>}>
         <SearchClient searchIndex={searchIndex} />
       </Suspense>
     </div>

@@ -25,7 +25,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <nav className="text-sm">
-      <p className="font-semibold text-gray-700 mb-2 uppercase text-xs tracking-wide">Contents</p>
+      <p className="font-semibold text-[var(--color-text-muted)] mb-2 uppercase text-xs tracking-wide">Contents</p>
       <ul className="space-y-1">
         {filtered.map(h => (
           <li
@@ -34,8 +34,8 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
           >
             <a
               href={`#${h.slug}`}
-              className={`block py-0.5 text-gray-600 hover:text-blue-600 transition-colors leading-snug ${
-                activeSlug === h.slug ? 'text-blue-600 font-medium' : ''
+              className={`block py-0.5 text-[var(--color-text-muted)] hover:text-[var(--color-accent-text)] transition-colors leading-snug ${
+                activeSlug === h.slug ? 'text-[var(--color-accent-text)] font-medium' : ''
               }`}
             >
               {h.text}

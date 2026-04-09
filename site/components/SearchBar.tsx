@@ -20,11 +20,11 @@ export default function SearchBar() {
         value={query}
         onChange={e => setQuery(e.target.value)}
         placeholder="Search wiki..."
-        className="w-48 lg:w-64 px-3 py-1.5 text-sm border border-gray-300 rounded-l bg-white focus:outline-none focus:border-blue-400"
+        className="w-48 lg:w-64 px-3 py-1.5 text-sm border border-[var(--color-border)] rounded-l bg-[var(--color-bg)] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-accent-text)]"
       />
       <button
         type="submit"
-        className="px-3 py-1.5 bg-gray-100 border border-l-0 border-gray-300 rounded-r text-sm text-gray-600 hover:bg-gray-200 transition-colors"
+        className="px-3 py-1.5 bg-[var(--color-tag-bg)] border border-l-0 border-[var(--color-border)] rounded-r text-sm text-[var(--color-tag-text)] hover:bg-[var(--color-accent-bg)] transition-colors"
       >
         Go
       </button>
