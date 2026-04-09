@@ -1,46 +1,241 @@
 ---
-tags: [education, career-planning, zhang-xuefeng, gaokao, happiness]
+tags: [interview, bilibili, zhang-xuefeng, education, career]
 source: https://www.bilibili.com/video/BV1X4XpBmEFj
 ---
 
-# Zhang Xuefeng on Major Selection, Gaokao Mindset, and Happiness
+# 张雪峰苏州演讲全文精析：专业选择、高考心态与幸福哲学
 
-A 17-minute speech by education consultant Zhang Xuefeng in Suzhou, distilling his philosophy on college major selection, parental anxiety around gaokao (China's national college entrance exam), and what constitutes genuine happiness.
+> **来源**：Bilibili BV1X4XpBmEFj，UP主：国学宝库，时长17:33
+> **背景**：张雪峰受苏州某活动主办方邀请，作为压轴嘉宾发表约20分钟演讲，现场涵盖家长、学生和企业界人士。
+> **转录方式**：ASR（OpenRouter gpt-audio-mini），中文原文
 
-## Why Major Selection Matters Now More Than Ever
+---
 
-Zhang Xuefeng's viral reputation rests on two soundbites -- "don't study journalism" and "liberal arts are all service industry" -- which represent less than 0.01% of his 600+ annual broadcast hours. His actual argument is structural:
+## 一、开场：为何排在最后出场
 
-**The reform dividend era is over.** During China's fastest 40 years of growth, industries had vacancies everywhere. Crossing fields was easy, and major choice barely mattered. Now competition is saturated in most sectors, and the cost of entering the wrong field is dramatically higher. He uses international trade as a case study: once a golden ticket when foreign language speakers were scarce, now a commodity skill with collapsed margins.
+张雪峰以幽默方式开场，解释自己被安排为压轴嘉宾的两个原因：
 
-**Major advice must be context-dependent.** A 650-score student and a 450-score student cannot receive the same guidance. A billionaire's child can afford to study agriculture and open a flower shop; a working-class family's child faces real consequences if their income at age 35-40 falls below peers who scored lower on the exam. Zhang's role, as he frames it: let people know early enough to avoid future regret.
+> "第一，他怕我放在第一个，怕我讲完以后你们都跑了。第二，因为做演讲我是专业的，所以我的时间是可控的、可弹性的。"
 
-## Advice for Gaokao Parents: Release the Pressure
+他告知今晚将围绕**三件事**展开：
 
-His core message to high school parents: **strategic contempt, tactical respect** (zhanlue mieshi, zhanshu zhongshi). The statistical reality is that any student who makes it to a bachelor's degree is already in the top 15% of their age cohort nationwide (after 50% middle school filtering and ~35-40% college acceptance rate).
+1. 为什么强调专业的重要性
+2. 给高考家长的建议
+3. 给年轻人关于幸福的建议
 
-Parental anxiety is contagious -- it transfers directly to children's performance. His reframe for senior year parents: "You are six months away from the best four years of your life since having children." Once the child enters university, the heaviest parental duties are essentially complete.
+---
 
-## One Exam Does Not Define a Life
+## 二、第一件事：专业为何在当今时代至关重要
 
-Zhang reveals his own gaokao score: 488, entering Zhengzhou University in Heilongjiang's relatively easy exam year. Yet he became the dominant figure in college admissions consulting -- "teachers from Peking, Tsinghua, and Fudan all cannot beat the Zhengzhou University teacher." His conclusion: **what determines how far someone goes is not one exam but whether they have continuous learning ability.**
+### 2.1 澄清"新闻学事件"：断章取义的代价
 
-## Happiness Does Not Come from Comparison
+张雪峰解释了他频繁上热搜的背景：
 
-Comparison is the source of suffering. A 300,000 RMB car feels inadequate next to a 500,000 one, which feels inadequate next to a million. The cycle never ends.
+- 每周直播3场，每场4小时，每月约50小时，**全年直播超过600小时**
+- 网友记住的只有两句话：**"不要报新闻学"** 和 **"文科都是服务业"**
+- 这两句话在600小时直播中占比**不到万分之一**
 
-Zhang identifies his three sources of happiness:
+他的核心观点：
 
-1. **Helping students reach their target schools** -- seeing real lives changed through better guidance
-2. **Creating value for 1,400 employees (1,400 families)** -- he personally owns no property in Suzhou, rides an electric scooter to work, wears company-issued jackets, but ensures generous vacation policies and genuine care for staff
-3. **Educational philanthropy** -- 1.5 million RMB donated in 2023 to fund 300 first-year college students from poverty backgrounds, with a signed agreement with Suzhou's education bureau for 1 million annually to local public universities, targeting freshmen who have no other funding source
+> "你在评价一个人、评价一件事情的时候，我拜托大家一定要想办法去看全貌。"
 
-His life philosophy: "Life is not for bearing enormous pressure. Life is for experiencing more beautiful experiences."
+他并非在"喷"新闻学，而是在强调：**报新闻学之前你需要了解当前媒体的招聘条件、院校档次要求，以及你的分数是否符合**。
 
-## Key Takeaways
+---
 
-- In a saturated economy, major selection is a first-order life decision, not a formality
-- Advice must account for score, family resources, and individual error tolerance
-- Parental calm during gaokao season directly affects outcomes
-- Continuous learning ability matters far more than a single exam result
-- Genuine happiness comes from impact and contribution, not material comparison
+### 2.2 时代变了：改革红利不再
+
+张雪峰以"80后/70后"为例，说明他们这代人能够成功的一个重要外因：
+
+> "我们今天之所以能有所谓这样的成就，你买得起房，开得起好车，你的前提条件是什么？当然你很努力，但是我们也赶上了中国改革开放发展速度最快的40年，我们吃了红利的这帮人……"
+
+**改革红利时代的特征**：
+- 各行各业存在大量空缺，跨行容易
+- 专业不重要，入行后可以再学
+
+**当前时代的特征**：
+- 各行各业竞争已经**充分激烈**
+- 跨行难度大幅上升
+
+#### 案例：外贸专业的兴衰
+
+| 时代 | 国际贸易专业价值 |
+|------|------|
+| 20–30年前 | 稀缺资源，会外语就能赚差价，外贸人甚至比生产企业挣更多 |
+| 当今 | 饱和，招商已走向专业化，外语会者遍地，外贸差价空间消失 |
+
+**结论**：在机会充足时，专业可以任意切换；在竞争饱和时，入错行的代价极高。
+
+---
+
+### 2.3 专业选择：不能"一刀切"
+
+张雪峰反对的并非选择某个具体专业，而是反对**不看分数、不看家庭条件的盲目建议**：
+
+> "对一个650分的孩子和对一个450分的孩子，你要说他们两个有一个一样的梦想，你对450分的孩子说，你的梦想也能实现，我觉得这个事儿多多少少就不太靠谱。"
+
+#### 关于家庭试错成本
+
+- **上市公司董事长的孩子**：选什么都无所谓，即便学农学开花店也饿不死
+- **普通家庭的孩子**：如果选了不挣钱的专业，到了35–40岁收入低于高考分比自己低的人，会后悔
+
+张雪峰的判断标准：
+
+> "如果说你带到我这个年龄的时候，你的收入比你当年高考比你少30分的人还要低，你接受不接受？"
+
+他做这件事的意义：
+
+> "那你看我在干什么？我在让你早知道，我在让你避免将来会后悔。"
+
+---
+
+### 2.4 专业与地域发展阶段
+
+张雪峰将中国现在的情况与越南做了类比：
+
+> "专业可能在东南亚不是很重要，为什么？因为我们中国近40多年正在发生的事情，未来东南亚都会重演。越南现在几乎就是一个翻版的20年前、30年前的中国。"
+
+**结论**：在发展阶段仍是蓝海的地方，专业选择可以更随意；在竞争已经充分的市场，专业是人生轨迹的重要起点。
+
+---
+
+## 三、第二件事：给高考家长的建议——放过自己
+
+### 3.1 核心建议：战略藐视，战术重视
+
+> "高考这件事情，叫做**战略上藐视它，战术上重视它**。我们的孩子都是优秀的孩子，各位，你家孩子能上高中都很优秀，能考上本科都很优秀。"
+
+统计数据支撑：
+- 中考淘汰50%（非所有人能上高中）
+- 高考本科录取率约35%–40%（1000万高考生中约录取350万–400万）
+- **因此本科生已是全国同龄人前15%**
+
+---
+
+### 3.2 焦虑是传染病
+
+> "你不要去紧张，真的各位高中段的家长，尤其是高三的家长，你千万不要紧张，你先来让你开心的事……因为你的这种紧张情绪真的会传染给孩子。"
+
+**给高三家长的暖心算法**：
+
+> "各位高三的家长，你还有半年时间，就将迎来你自从有孩子以后人生最美好的4年！"
+
+- 孩子上大学后，找工作无压力，家长任务基本完成
+- 可以旅游、放松、享受生活
+
+#### 笑话故事：最美好的4年变噩梦
+
+一位朋友2023年送孩子上大学，刚出校门就发朋友圈庆祝"人生最美好的4年开始"——结果一个月后孩子要复读，朋友把孩子堵在门口，自己进办公室差点给张雪峰跪下求他劝孩子回去。
+
+---
+
+### 3.3 一次考试不决定人生——张雪峰本人的例子
+
+张雪峰自曝：
+
+> "一点不怕大家笑话，我当年高考考了不到500分，我当年高考考了488分，黑龙江高考相对比较简单，然后那一年的黑龙江本科线不是特别的高，我488分上了郑州大学。"
+
+但他成为了：
+- 升学规划领域的领军人物
+- "北大王老师、清华李老师、复旦马老师都干不过郑大张老师"
+
+**核心结论**：
+
+> "一个人他将来能走到什么样的高度，真正看的其实不是那考大学的一次考试，而是他有没有**持续学习能力**。"
+
+---
+
+## 四、第三件事：给年轻人的建议——幸福不来自比较
+
+### 4.1 比较是痛苦之源
+
+> "不要去所谓的盲目地比，因为你比了以后你一定是不快乐的，你比了以后你就一定输。"
+
+**比较的陷阱**：
+- 开30万的车，看到50万的车就不满足
+- 开50万的车，看到100万的车又不满足
+- 永无止境
+
+> "如果你这么比的话，你一直是不快乐的。"
+
+---
+
+### 4.2 张雪峰的三个幸福来源
+
+#### 来源一：帮助学生找到心仪院校
+
+- 每年为大量家长和考生做升学规划
+- 学生被心仪院校录取时，他感到满足
+- 在东南大学、北大、清华讲座时，学生说"没有你的视频我考不到这儿"
+
+> "我改变了很多人的命运……我觉得我是开心的，我是幸福的。"
+
+#### 来源二：为员工创造价值（1400个家庭）
+
+张雪峰几乎没有个人消费欲：
+- 手机华为Mate（"115先"）
+- 穿着：裤子海澜之家、外套公司工装
+- 手表同款
+- 在苏州骑电动车上班，不会开汽车
+- 苏州名下房产：**零套**（"你要在房管局查一查，看我名下有几套房，零，没有"）
+
+但他为员工提供：
+- **寒假**：2月1日放到2月18日
+- **暑假**：公司有暑假
+- 元旦放5天，十一假期12天
+- 员工买新车，第一件事开车接他上班
+- 员工买新房，第一顿饭请他吃"煮疯面"
+
+> "这不是1400个员工，这是1400个家庭。他们因为我张雪峰脑子一热我创业了，他们有工作，他们有钱挣，他们有吃有穿有喝有花。他们的裤衩都是我买的。"
+
+#### 来源三：公益捐款
+
+年度捐款情况：
+
+| 年份 | 捐助金额 | 受助人数 | 说明 |
+|------|----------|----------|------|
+| 2023年 | 150万元 | 300名 | 资助贫困大学生完成大一学费 |
+| 2024年（计划）| 350万元 | 更多 | — |
+| 未来目标 | 500万元 | 持续扩大 | — |
+
+**捐助对象选择逻辑**：
+- 不资助研究生（有奖学金）
+- 不资助大二至大四（可靠奖学金维持）
+- 专注**大一新生**（最困难，尚无其他来源）
+
+与苏州教育局签订协议：每年向苏州公办高校捐助100万，专门资助贫困生完成大一学费（含苏州城市学院、常熟理工学院等）。
+
+> "当你能够去帮助到更多的人的时候，你看到更多的人向你说一句谢谢，这是你幸福的来源。"
+
+---
+
+## 五、结语
+
+张雪峰以自己的价值观收尾：
+
+> "人生生活在这个世界上不是为了所谓高税承受很大的压力的，人生生活在这个世界上是为了体验更多美好的体验的。"
+
+他提到自己是AC米兰球迷、卡卡的粉丝，2023年见到卡卡并在衣服上获得签名（"Kaka for famiglia"），以此作为"体验美好"的具体例子。
+
+**最终祝愿**：
+
+> "希望大家在2023年都有更多美好的体验，谢谢大家！"
+
+---
+
+## 附录：核心金句
+
+| 金句 | 语境 |
+|------|------|
+| "你要想办法去看全貌" | 批评断章取义的网络评价文化 |
+| "专业在现在这个时代真的很重要" | 时代已变，跨行难度大增 |
+| "战略上藐视它，战术上重视它" | 高考应对策略 |
+| "一个人将来能走到什么高度，真正看的不是那一次考试，而是有没有持续学习能力" | 鼓励高考失利者不必气馁 |
+| "你比了以后你一定是不快乐的" | 警示比较主义带来的焦虑 |
+| "这不是1400个员工，这是1400个家庭" | 企业家社会责任感的表达 |
+| "他们的裤衩都是我买的" | 幽默描述对员工的照顾 |
+| "人生是为了体验更多美好体验的" | 人生哲学总结 |
+
+---
+
+*转录来源：asr-openai（OpenRouter gpt-audio-mini），Bilibili BV1X4XpBmEFj*
