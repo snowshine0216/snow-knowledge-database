@@ -65,21 +65,21 @@ export default function SearchClient({ searchIndex }: { searchIndex: SearchIndex
         onChange={e => setQuery(e.target.value)}
         placeholder="Search articles, tags, topics..."
         autoFocus
-        className="w-full px-4 py-2.5 text-base border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400 mb-6"
+        className="w-full px-4 py-2.5 text-base border border-[var(--color-border)] rounded-lg bg-[var(--color-bg)] text-[var(--color-text)] focus:outline-none focus:border-[var(--color-accent-text)] mb-6"
       />
 
       {searchError && <p className="text-sm text-red-500">Search unavailable — failed to load search index.</p>}
-      {!ready && !searchError && <p className="text-sm text-gray-400">Loading search index…</p>}
+      {!ready && !searchError && <p className="text-sm text-[var(--color-text-muted)]">Loading search index…</p>}
 
       {ready && query.trim() && results.length === 0 && (
         <div>
-          <p className="text-gray-500 text-sm mb-4">No articles found for &ldquo;{query}&rdquo;. Try:</p>
+          <p className="text-[var(--color-text-muted)] text-sm mb-4">No articles found for &ldquo;{query}&rdquo;. Try:</p>
           <div className="flex flex-wrap gap-2">
             {topTags.map(t => (
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="px-3 py-1 bg-gray-100 hover:bg-blue-50 hover:text-blue-700 rounded text-sm text-gray-600 transition-colors"
+                className="px-3 py-1 bg-[var(--color-tag-bg)] hover:bg-[var(--color-accent-bg)] hover:text-[var(--color-accent-text)] rounded text-sm text-[var(--color-tag-text)] transition-colors"
               >
                 {t}
               </button>
@@ -94,10 +94,10 @@ export default function SearchClient({ searchIndex }: { searchIndex: SearchIndex
             <li key={r.slug}>
               <Link href={`/wiki/${r.slug}`} className="group block">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-base font-medium text-[#1a0dab] group-hover:underline">{r.title}</span>
-                  <span className="text-xs text-gray-400 capitalize">{r.category}</span>
+                  <span className="text-base font-medium text-[var(--color-wikilink)] group-hover:underline">{r.title}</span>
+                  <span className="text-xs text-[var(--color-text-muted)] capitalize">{r.category}</span>
                 </div>
-                <p className="text-sm text-gray-600">{r.excerpt}</p>
+                <p className="text-sm text-[var(--color-text-muted)]">{r.excerpt}</p>
               </Link>
             </li>
           ))}
@@ -106,13 +106,13 @@ export default function SearchClient({ searchIndex }: { searchIndex: SearchIndex
 
       {!query.trim() && ready && (
         <div>
-          <p className="text-sm text-gray-500 mb-3">Browse by topic:</p>
+          <p className="text-sm text-[var(--color-text-muted)] mb-3">Browse by topic:</p>
           <div className="flex flex-wrap gap-2">
             {topTags.map(t => (
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="px-3 py-1 bg-gray-100 hover:bg-blue-50 hover:text-blue-700 rounded text-sm text-gray-600 transition-colors"
+                className="px-3 py-1 bg-[var(--color-tag-bg)] hover:bg-[var(--color-accent-bg)] hover:text-[var(--color-accent-text)] rounded text-sm text-[var(--color-tag-text)] transition-colors"
               >
                 {t}
               </button>

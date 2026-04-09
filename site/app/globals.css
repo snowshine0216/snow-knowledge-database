@@ -1,25 +1,86 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-body {
-  background: #ffffff;
-  color: #1a1a1a;
-  font-family: Georgia, 'Linux Libertine', serif;
+/* ── Theme tokens — dark-first ─────────────────────────────────────────────── */
+:root {
+  --color-bg:           #0a0a0a;
+  --color-surface:      #111111;
+  --color-border:       #252525;
+  --color-text:         #ededed;
+  --color-text-muted:   #888888;
+  --color-wikilink:     #60a5fa;
+  --color-wikilink-broken: #f87171;
+  --color-accent-bg:    rgba(96, 165, 250, 0.1);
+  --color-accent-text:  #60a5fa;
+  --color-tag-bg:       #1a1a1a;
+  --color-tag-text:     #999999;
 }
 
-/* Wikilink styles */
+[data-theme="light"] {
+  --color-bg:           #ffffff;
+  --color-surface:      #ffffff;
+  --color-border:       #e5e7eb;
+  --color-text:         #111111;
+  --color-text-muted:   #6b7280;
+  --color-wikilink:     #1a0dab;
+  --color-wikilink-broken: #ba2121;
+  --color-accent-bg:    #eff6ff;
+  --color-accent-text:  #1d4ed8;
+  --color-tag-bg:       #f3f4f6;
+  --color-tag-text:     #4b5563;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────────── */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-geist-sans), Georgia, serif;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+code, pre, kbd {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.875em;
+}
+
+/* ── Prose color system — ties @tailwindcss/typography to CSS variables ─────── */
+.prose {
+  --tw-prose-body:          var(--color-text);
+  --tw-prose-headings:      var(--color-text);
+  --tw-prose-lead:          var(--color-text-muted);
+  --tw-prose-links:         var(--color-wikilink);
+  --tw-prose-bold:          var(--color-text);
+  --tw-prose-counters:      var(--color-text-muted);
+  --tw-prose-bullets:       var(--color-border);
+  --tw-prose-hr:            var(--color-border);
+  --tw-prose-quotes:        var(--color-text);
+  --tw-prose-quote-borders: var(--color-border);
+  --tw-prose-captions:      var(--color-text-muted);
+  --tw-prose-code:          var(--color-text);
+  --tw-prose-pre-code:      var(--color-text);
+  --tw-prose-pre-bg:        var(--color-surface);
+  --tw-prose-th-borders:    var(--color-border);
+  --tw-prose-td-borders:    var(--color-border);
+}
+
+/* ── Wikilink styles ────────────────────────────────────────────────────────── */
 a.wikilink {
-  color: #1a0dab;
+  color: var(--color-wikilink);
   text-decoration: none;
 }
 a.wikilink:hover {
   text-decoration: underline;
 }
 a.wikilink-broken {
-  color: #ba2121;
+  color: var(--color-wikilink-broken);
+}
+a.wikilink-broken::after {
+  content: ' ↗';
+  font-size: 0.75em;
 }
 
-/* Heading anchor links */
+/* ── Heading anchor links ───────────────────────────────────────────────────── */
 .prose h1 a,
 .prose h2 a,
 .prose h3 a,

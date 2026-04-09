@@ -28,27 +28,27 @@ export default async function TagPage({ params }: { params: Promise<Params> }) {
 
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-8">
-      <nav className="text-xs text-gray-400 mb-4 flex items-center gap-1">
-        <Link href="/" className="hover:text-blue-600">Home</Link>
+      <nav className="text-xs text-[var(--color-text-muted)] mb-4 flex items-center gap-1">
+        <Link href="/" className="hover:text-[var(--color-accent-text)]">Home</Link>
         <span>/</span>
-        <Link href="/wiki" className="hover:text-blue-600">Wiki</Link>
+        <Link href="/wiki" className="hover:text-[var(--color-accent-text)]">Wiki</Link>
         <span>/</span>
-        <span className="text-gray-600">#{tag}</span>
+        <span className="text-[var(--color-text)]">#{tag}</span>
       </nav>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">#{tag}</h1>
-      <p className="text-gray-500 text-sm mb-6">{articles.length} article{articles.length !== 1 ? 's' : ''}</p>
+      <h1 className="text-2xl font-bold text-[var(--color-text)] mb-2">#{tag}</h1>
+      <p className="text-[var(--color-text-muted)] text-sm mb-6">{articles.length} article{articles.length !== 1 ? 's' : ''}</p>
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
         {articles.map(a => (
           <li key={a.slug}>
             <Link
               href={`/wiki/${a.slug}`}
-              className="group block p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              className="group block p-4 border border-[var(--color-border)] rounded-lg hover:border-[var(--color-accent-text)] hover:bg-[var(--color-accent-bg)] transition-colors"
             >
-              <p className="text-sm font-medium text-gray-900 group-hover:text-blue-700 mb-1">{a.title}</p>
-              <p className="text-xs text-gray-400 capitalize mb-2">{a.category}</p>
-              <p className="text-xs text-gray-500 line-clamp-2">{a.excerpt}</p>
+              <p className="text-sm font-medium text-[var(--color-text)] group-hover:text-[var(--color-accent-text)] mb-1">{a.title}</p>
+              <p className="text-xs text-[var(--color-text-muted)] capitalize mb-2">{a.category}</p>
+              <p className="text-xs text-[var(--color-text-muted)] line-clamp-2">{a.excerpt}</p>
             </Link>
           </li>
         ))}

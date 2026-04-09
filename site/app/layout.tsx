@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 import 'katex/dist/katex.min.css'
-import Link from 'next/link'
-import SearchBar from '@/components/SearchBar'
+import Header from '@/components/Header'
 import HoverPreview from '@/components/HoverPreview'
+import ThemeProvider from '@/components/ThemeProvider'
+import CommandMenu from '@/components/CommandMenu'
 
 export const metadata: Metadata = {
   title: 'Snow Knowledge Wiki',
@@ -12,26 +15,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body className="min-h-full flex flex-col bg-white text-gray-900">
-        {/* Top navigation bar */}
-        <header className="border-b border-gray-200 bg-white sticky top-0 z-50">
-          <div className="max-w-[1400px] mx-auto px-4 flex items-center justify-between h-12">
-            <Link href="/" className="font-bold text-gray-900 hover:text-blue-700 text-lg tracking-tight">
-              Knowledge Wiki
-            </Link>
-            <nav className="flex items-center gap-4">
-              <Link href="/wiki" className="text-sm text-gray-600 hover:text-blue-700">Articles</Link>
-              <Link href="/search" className="text-sm text-gray-600 hover:text-blue-700">Search</Link>
-              <SearchBar />
-            </nav>
-          </div>
-        </header>
-
-        <main className="flex-1">{children}</main>
-
-        {/* Hover preview tooltip — client-side, portal-like */}
-        <HoverPreview />
+    <html lang="en" className={`h-full ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
+        <ThemeProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <HoverPreview />
+          <CommandMenu />
+        </ThemeProvider>
       </body>
     </html>
   )

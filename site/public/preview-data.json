@@ -39,6 +39,19 @@
     ],
     "category": "concepts"
   },
+  "creao-consumer-agent-harness": {
+    "title": "CREAO: Consumer-Grade Agent Harness",
+    "excerpt": "CREAO is a product by Silicon Valley startup Creao AI (founded 2024) that bridges the gap between powerful AI agents and ordinary users. It packages H",
+    "tags": [
+      "ai-agents",
+      "agent-harness",
+      "consumer-ai",
+      "creao",
+      "startup",
+      "automation"
+    ],
+    "category": "concepts"
+  },
   "essence-of-calculus": {
     "title": "Essence of Calculus",
     "excerpt": "A consolidated reference for 3Blue1Brown's 12-chapter Essence of Calculus series, which builds the subject from geometric intuition rather than formal",
@@ -267,6 +280,18 @@
       "marketplace",
       "openclaw",
       "monetization"
+    ],
+    "category": "tools"
+  },
+  "caveman-token-saver": {
+    "title": "Caveman Token Saver",
+    "excerpt": "Output token compression plugin for Claude Code and Codex. Forces the model to respond in terse, \"caveman\" style — stripping filler while preserving a",
+    "tags": [
+      "claude-code",
+      "token-optimization",
+      "caveman",
+      "codex",
+      "prompt-compression"
     ],
     "category": "tools"
   },

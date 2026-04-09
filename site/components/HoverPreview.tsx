@@ -98,17 +98,17 @@ export default function HoverPreview() {
         hideTimer.current = setTimeout(() => setPreview(null), 150)
       }}
       style={{ position: 'fixed', left: x, top: y, zIndex: 9999, width: cardWidth }}
-      className="bg-white border border-gray-200 rounded-lg shadow-lg p-3 pointer-events-auto"
+      className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg shadow-lg p-3 pointer-events-auto"
     >
-      <p className="text-xs text-gray-400 capitalize mb-1">{preview.category}</p>
-      <Link href={`/wiki/${preview.slug}`} className="font-semibold text-gray-900 hover:text-blue-700 text-sm block leading-snug mb-1">
+      <p className="text-xs text-[var(--color-text-muted)] capitalize mb-1">{preview.category}</p>
+      <Link href={`/wiki/${preview.slug}`} className="font-semibold text-[var(--color-text)] hover:text-[var(--color-accent-text)] text-sm block leading-snug mb-1">
         {preview.title}
       </Link>
-      <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">{preview.excerpt}</p>
+      <p className="text-xs text-[var(--color-text-muted)] leading-relaxed line-clamp-3">{preview.excerpt}</p>
       {preview.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mt-2">
           {preview.tags.slice(0, 4).map(t => (
-            <span key={t} className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{t}</span>
+            <span key={t} className="text-xs bg-[var(--color-tag-bg)] text-[var(--color-tag-text)] px-1.5 py-0.5 rounded">{t}</span>
           ))}
         </div>
       )}
