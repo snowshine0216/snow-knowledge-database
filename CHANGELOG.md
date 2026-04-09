@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0.2] - 2026-04-09
+
+### Changed
+- Corrected P2 `content-summarizer` todo description: the issue is duplicated template logic in `geektime_course_sync.py`, not a missing summarization step.
+- Clarified P3 wiki post-commit hook todo: `compile.sh` is a validation wrapper that prints Claude Code instructions and cannot be called standalone by a hook; a watcher invoking Claude Code is needed.
+- Added current article count (~45 across 3 categories) to the `scripts/health.sh` todo for context.
+- Marked Obsidian plugins (Omnisearch, Dataview, Templater) as completed.
+
 ## [0.1.0.1] - 2026-04-09
 
 ### Fixed
