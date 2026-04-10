@@ -19,8 +19,9 @@ Use `uv` for package management in this repo (install/sync/add), not `pip` direc
 
 1. Parse Geektime article URLs and extract article IDs.
 2. Reuse browser cookies for authenticated API fetch (`serv/v1/article`).
-3. Convert article HTML to plain text and generate concise chapter summaries.
-4. Save outputs to `courses/<english-course-name>/` with one chapter file per article.
+3. Export article metadata as JSON for each chapter.
+4. Invoke the `content-summarizer` skill with `content_type: "geektime-article"` for each chapter.
+5. Save chapter summaries to `courses/<english-course-name>/` via content-summarizer.
 
 ## TDD First
 
@@ -35,7 +36,7 @@ Then implement the smallest change and re-run the same test command.
 
 ## Quick Start
 
-Run:
+**Step 1 — Extract metadata:**
 
 ```bash
 source .venv/bin/activate
@@ -46,18 +47,40 @@ python3 .agents/skills/geektime-course-summarizer/scripts/geektime_course_sync.p
   --output-root "courses"
 ```
 
-Expected output:
+The script prints one `metadata: <path>` line per chapter, e.g.:
 
-- `courses/claude-code-engineering-practice/README.md`
-- `courses/claude-code-engineering-practice/001-942422.md`
+```
+metadata: courses/claude-code-engineering-practice/001-开篇词.metadata.json
+Wrote: courses/claude-code-engineering-practice/README.md
+```
+
+**Step 2 — Summarize each chapter:**
+
+For each `metadata: <path>` line printed above, read the JSON file and invoke the
+`content-summarizer` Skill with:
+
+- `content_type`: `"geektime-article"`
+- `content`: the value of the `"content"` field (plain text of the article)
+- `metadata`: the full JSON object (title, source_url, article_id, chapter_title, author, course_name_en, course_name_zh, language)
+- `save_path`: `courses/<course_name_en>/<filename_stem>.md` (replace `.metadata.json` suffix with `.md`)
+
+Example invocation pattern (same as yt-video-summarizer delegation):
+
+```
+Use the content-summarizer Skill with:
+  content_type: geektime-article
+  content: <article plain text from "content" field>
+  metadata: <full JSON object>
+  save_path: courses/claude-code-engineering-practice/001-开篇词.md
+```
 
 ## Behavior Rules
 
 - Always require or derive an English course folder name from `--course-name-en`.
 - Always write one Markdown file per chapter/article in numeric order.
-- Always use Cornell Notes structure for chapter summaries.
-- Always include key takeaways and source metadata in each chapter file.
-- Preserve source URL and article ID for traceability.
+- Delegate all Cornell Notes formatting to content-summarizer — the extractor script only writes metadata JSON.
+- Always include key takeaways and source metadata in each chapter file (enforced by content-summarizer template).
+- Preserve source URL and article ID for traceability (passed in metadata JSON).
 
 ## Files
 
