@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "lectures": {
     "001": {
-      "status": "recording",
+      "status": "done",
       "title": "课程介绍",
       "retries": 0
     },
     "002": {
-      "status": "pending",
+      "status": "recording",
       "title": "01不止是聊天为什么 OpenClaw 是你的第一号数字员工",
       "retries": 0
     },

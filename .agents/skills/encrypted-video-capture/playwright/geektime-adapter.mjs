@@ -124,17 +124,24 @@ async function main() {
   console.error(`INFO: CDP connected`);
   const context = browser.contexts()[0] || await browser.newContext();
 
-  // Reuse an existing live Geektime tab. Skip chrome:// internals and about:blank
-  // — blank tabs can be in a dormant state that silently hangs on page.goto().
+  // Prefer a live Geektime tab; fall back to any non-chrome:// page (including
+  // about:blank from a fresh launch); create a new page only if none exist.
+  // NOTE: about:blank is excluded only when restored-session tabs are present —
+  // a freshly launched Chrome only has about:blank, which page.goto() navigates fine.
   const existingPages = context.pages();
-  const navigatablePage = existingPages.find((p) => {
-    const u = p.url();
-    return !u.startsWith("chrome://") &&
-           !u.startsWith("chrome-extension://") &&
-           u !== "about:blank";
-  });
+  const navigatablePage =
+    existingPages.find((p) => {
+      const u = p.url();
+      return !u.startsWith("chrome://") &&
+             !u.startsWith("chrome-extension://") &&
+             u !== "about:blank";
+    }) ||
+    existingPages.find((p) => {
+      const u = p.url();
+      return !u.startsWith("chrome://") && !u.startsWith("chrome-extension://");
+    });
   const page = navigatablePage || await context.newPage();
-  console.error(`INFO: Using page: ${page.url()}`);
+  console.error(`INFO: Using page (${existingPages.length} existing): ${page.url()}`);
 
   // Bring the tab to front so Chrome doesn't throttle background-tab navigations.
   await page.bringToFront().catch(() => {});
@@ -220,7 +227,8 @@ async function main() {
       // This fires even if the video element exposes no timing (DRM/custom player).
       let wallTimerHandle = null;
       if (duration > 0 && sessionId) {
-        const wallMs = Math.ceil(duration * 1000 / speed) + 60000;
+        // duration is already speed-adjusted (raw_duration / speed) — do NOT divide again.
+        const wallMs = Math.ceil(duration * 1000) + 60000;
         console.error(`INFO: Wall-clock safety timer set for ${wallMs}ms (${Math.round(wallMs/1000)}s)`);
         wallTimerHandle = setTimeout(() => {
           console.error(`INFO: Wall-clock safety timer fired — writing ended marker`);
