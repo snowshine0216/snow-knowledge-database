@@ -79,7 +79,15 @@ async function fetchLectureList(page, courseId, courseType) {
     throw new Error(`Geektime API returned 0 lectures for course ${courseId}. Check authentication.`);
   }
 
-  return articles.map((a, i) => ({
+  const validArticles = articles.filter((a) => {
+    if (a.id == null || a.id === "") {
+      console.error(`WARNING: Skipping article with missing id (title: ${a.article_title || a.title || "unknown"})`);
+      return false;
+    }
+    return true;
+  });
+
+  return validArticles.map((a, i) => ({
     idx: String(i + 1).padStart(3, "0"),
     title: sanitizeTitle(a.article_title || a.title || `lecture-${i + 1}`),
     url: `https://time.geekbang.org/${courseType}/${courseId}/${a.id}`,
@@ -94,15 +102,14 @@ async function main() {
   const cookies = cookieFile ? loadCookies(cookieFile) : [];
 
   const browser = await chromium.launch({ headless: false });
-  const context = await browser.newContext();
-
-  if (cookies.length > 0) {
-    await context.addCookies(cookies);
-  }
-
-  const page = await context.newPage();
-
   try {
+    const context = await browser.newContext();
+
+    if (cookies.length > 0) {
+      await context.addCookies(cookies);
+    }
+
+    const page = await context.newPage();
     if (args.action === "enumerate") {
       await page.goto("https://time.geekbang.org", { waitUntil: "domcontentloaded", timeout: 30000 });
 

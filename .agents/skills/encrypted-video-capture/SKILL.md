@@ -60,6 +60,7 @@ cleanup() {
   rm -f "/tmp/evc-ffmpeg-ready-${SESSION_ID}"
   rm -f "/tmp/evc-ffmpeg-${SESSION_ID}.pid"
   rm -f "/tmp/evc-video-ended-${SESSION_ID}"
+  rm -f "/tmp/evc-prog.tmp"
 }
 trap cleanup EXIT INT TERM
 ```
@@ -107,6 +108,14 @@ If `LECTURE_LIST` is empty or the command exits non-zero:
 ERROR: No lectures found at <URL>. CAUSE: Geektime API returned empty list or authentication failed. FIX: Re-open Chrome, log into Geektime, and re-run. If persists, check if the course URL is a valid column/course URL.
 ```
 
+Derive `COURSE_NAME` for the output directory from the course URL:
+```bash
+# Extract the numeric course ID from the URL (e.g., 100083501 from .../column/intro/100083501)
+COURSE_ID=$(echo "$COURSE_URL" | grep -oE '[0-9]{5,}' | tail -1)
+COURSE_NAME="${COURSE_ID:-unknown-course}"
+mkdir -p "${OUTPUT_DIR}/${COURSE_NAME}"
+```
+
 ### 5. Dry Run (if --dry-run)
 
 Print each lecture title and index, then total estimated recording time (30 min × count):
@@ -147,6 +156,8 @@ SAFE_TITLE=$(echo "$RAW_TITLE" \
   | python3 -c "import sys, re; raw=sys.stdin.read(); print(re.sub(r'[^\w \-\u4e00-\u9fff]', '', raw, flags=re.UNICODE).strip()[:80])")
 # Fallback: use index if title is empty after sanitization
 [ -z "$SAFE_TITLE" ] && SAFE_TITLE="lecture-${IDX}"
+# Kebab-case version for use in filenames (spaces → hyphens, lowercase)
+SAFE_TITLE_KEBAB=$(echo "$SAFE_TITLE" | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | sed 's/-\{2,\}/-/g')
 ```
 
 #### 7b. Check Progress
@@ -295,11 +306,21 @@ TRANSCRIPT=$(cat "${ASR_OUT_DIR}/transcript.txt" 2>/dev/null || echo "")
 ```
 
 Invoke content-summarizer with `content_type=lecture-text`:
+
+Build metadata JSON safely (avoids injection if LECTURE_URL contains quotes):
+```bash
+METADATA_JSON=$(jq -n \
+  --arg title "$SAFE_TITLE" \
+  --arg source "$LECTURE_URL" \
+  --arg num "$IDX" \
+  '{"title":$title,"source":$source,"lecture_number":$num}')
+```
+
 Use the Skill tool to invoke `content-summarizer` with:
 - `content_type`: `lecture-text`
 - `content`: the transcript text
-- `metadata`: `{"title": "<SAFE_TITLE>", "source": "<LECTURE_URL>", "lecture_number": "<IDX>"}`
-- `save_path`: `${OUTPUT_DIR}/<COURSE_NAME>/<IDX>-<SAFE_TITLE_KEBAB>.md`
+- `metadata`: `$METADATA_JSON` (the JSON string built above)
+- `save_path`: `${OUTPUT_DIR}/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md`
 
 #### 7h. Cleanup Temp Files
 
