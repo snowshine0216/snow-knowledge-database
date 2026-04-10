@@ -130,6 +130,7 @@ def test_audio_file_asr_error_recorded(tmp_path):
     bundle = json.loads((out_dir / "bundle.json").read_text(encoding="utf-8"))
     assert bundle["asr_error"] is not None
     assert "faster-whisper" in bundle["asr_error"]
+    assert not (out_dir / "transcript.txt").exists()
 
 
 # ---------------------------------------------------------------------------

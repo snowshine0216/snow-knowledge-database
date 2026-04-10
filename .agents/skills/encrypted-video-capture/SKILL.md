@@ -74,7 +74,7 @@ After preflight succeeds, auto-detect BlackHole device index if not set:
 ```bash
 if [ -z "$BLACKHOLE_DEVICE" ]; then
   BLACKHOLE_DEVICE=$(ffmpeg -f avfoundation -list_devices true -i "" 2>&1 \
-    | grep -i "BlackHole" | grep -oP '\[\K[0-9]+' | head -1)
+    | grep -i "BlackHole" | grep -oE '\[[0-9]+\]' | grep -oE '[0-9]+' | head -1)
   if [ -z "$BLACKHOLE_DEVICE" ]; then
     echo "ERROR: BlackHole device not found in ffmpeg device list. CAUSE: BlackHole 2ch not installed or Audio MIDI multi-output not configured. FIX: Follow references/setup-guide.md sections 1–3."
     exit 1
@@ -87,9 +87,9 @@ fi
 Export Chrome cookies to a temp file (600 perms):
 ```bash
 COOKIE_FILE="/tmp/evc-cookies-${SESSION_ID}.txt"
-yt-dlp --cookies-from-browser chrome --cookies "$COOKIE_FILE" \
+touch "$COOKIE_FILE" && chmod 600 "$COOKIE_FILE"
+yt-dlp --cookies-from-browser "${DEFAULT_BROWSER:-chrome}" --cookies "$COOKIE_FILE" \
   --skip-download "$COURSE_URL" 2>/dev/null || true
-chmod 600 "$COOKIE_FILE" 2>/dev/null || true
 ```
 
 ### 4. Lecture Enumeration (Geektime API)
@@ -142,9 +142,9 @@ For each lecture in `LECTURE_LIST`:
 
 ```bash
 # Strip shell metacharacters; preserve ASCII, spaces, hyphens, and CJK range
+# (python3 for Unicode-aware sanitization — macOS sed doesn't support \u escapes)
 SAFE_TITLE=$(echo "$RAW_TITLE" \
-  | LC_ALL=C sed 's/[^a-zA-Z0-9 _\-\u4e00-\u9fff]//g' \
-  | cut -c1-80)
+  | python3 -c "import sys, re; raw=sys.stdin.read(); print(re.sub(r'[^\w \-\u4e00-\u9fff]', '', raw, flags=re.UNICODE).strip()[:80])")
 # Fallback: use index if title is empty after sanitization
 [ -z "$SAFE_TITLE" ] && SAFE_TITLE="lecture-${IDX}"
 ```

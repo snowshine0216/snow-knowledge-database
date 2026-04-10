@@ -22,8 +22,8 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Start ffmpeg. We use a pipe to stdout/stderr to detect the first audio frame.
-# The "-progress pipe:1" line emits progress events including "frame=N" once
+# Start ffmpeg. We use a pipe to detect the first audio frame.
+# The "-progress pipe:2" flag emits progress events to stderr once
 # recording begins. We watch for "out_time" which appears after the first chunk.
 ffmpeg \
   -loglevel warning \

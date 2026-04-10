@@ -1291,7 +1291,6 @@ def main() -> int:
         bundle_path = out_dir / "bundle.json"
 
         transcript_source = "metadata-only"
-        audio_file: Optional[Path] = provided_audio
         asr_model_used: Optional[str] = None
         asr_error: Optional[str] = None
         asr_segments_path: Optional[Path] = None

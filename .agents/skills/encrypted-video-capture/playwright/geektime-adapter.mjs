@@ -15,7 +15,6 @@
 import { chromium } from "playwright";
 import { parseArgs } from "node:util";
 import fs from "fs";
-import path from "path";
 import { loadCookies, waitForMarkerFile, waitForVideoEnd } from "./utils.mjs";
 
 // ── Argument parsing ──────────────────────────────────────────────────────────

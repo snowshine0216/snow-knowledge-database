@@ -3,7 +3,6 @@
  */
 
 import fs from "fs";
-import path from "path";
 
 /**
  * Load a Netscape-format cookie file and return an array of Playwright cookies.
@@ -17,8 +16,12 @@ export function loadCookies(cookieFilePath) {
   const lines = fs.readFileSync(cookieFilePath, "utf8").split("\n");
   const cookies = [];
   for (const line of lines) {
-    if (line.startsWith("#") || !line.trim()) continue;
-    const parts = line.split("\t");
+    if (!line.trim()) continue;
+    // Netscape format: #HttpOnly_ prefix marks httpOnly cookies; skip pure comment lines
+    const httpOnly = line.startsWith("#HttpOnly_");
+    if (line.startsWith("#") && !httpOnly) continue;
+    const rawLine = httpOnly ? line.slice("#HttpOnly_".length) : line;
+    const parts = rawLine.split("\t");
     if (parts.length < 7) continue;
     const [domain, , cookiePath, secure, expiresStr, name, value] = parts;
     cookies.push({
@@ -27,7 +30,7 @@ export function loadCookies(cookieFilePath) {
       domain: domain.trim(),
       path: cookiePath.trim(),
       expires: parseInt(expiresStr, 10) || -1,
-      httpOnly: false,
+      httpOnly,
       secure: secure.trim().toUpperCase() === "TRUE",
       sameSite: "Lax",
     });
