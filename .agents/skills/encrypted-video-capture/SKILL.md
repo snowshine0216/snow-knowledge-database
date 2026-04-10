@@ -202,6 +202,17 @@ Timeout the probe after 15 seconds (use `timeout 15s yt-dlp --simulate ...`).
 
 If `YTDLP_AUDIO` is still empty:
 
+Parse playback speed (clamp to [1.0, 2.0]):
+```bash
+PLAYBACK_SPEED="${PLAYBACK_SPEED:-1.0}"
+# Wall-clock timeout = real duration / speed (min 60s if duration unknown)
+if [ "${LECTURE_DURATION:-0}" -gt 0 ]; then
+  WALL_TIMEOUT=$(echo "$LECTURE_DURATION $PLAYBACK_SPEED" | awk '{t=int($1/$2); print (t<60)?60:t}')
+else
+  WALL_TIMEOUT=5400
+fi
+```
+
 Start recording in background:
 ```bash
 WAV_FILE="${OUTPUT_DIR}/tmp_${IDX}.wav"
@@ -221,21 +232,35 @@ if [ ! -f "$READY_FILE" ]; then
 fi
 ```
 
-Start Playwright — navigate to lecture and click play:
+#### 7d.1. Start Streaming ASR (background)
+
+Start the streaming ASR preview in background immediately after ffmpeg is ready.
+It tails the growing WAV independently and writes JSONL chunks to a session log.
+
 ```bash
-node "$(dirname "$0")/playwright/geektime-adapter.mjs" \
+TRANSCRIPT_LOG="/tmp/evc-transcript-${SESSION_ID}.jsonl"
+node "$(dirname "$0")/scripts/streaming-asr.mjs" \
+  --wav "$WAV_FILE" \
+  --session-id "$SESSION_ID" &
+ASR_STREAM_PID=$!
+```
+
+Start Playwright — navigate to lecture and click play (pass adjusted duration for timeout):
+```bash
+ADJUSTED_DURATION=$(echo "${LECTURE_DURATION:-0} $PLAYBACK_SPEED" | awk '{print int($1/$2)}')
+PLAYBACK_SPEED="$PLAYBACK_SPEED" node "$(dirname "$0")/playwright/geektime-adapter.mjs" \
   --action play \
   --url "$LECTURE_URL" \
   --cookies "$COOKIE_FILE" \
   --session-id "$SESSION_ID" \
-  --duration "${LECTURE_DURATION:-0}"
+  --duration "$ADJUSTED_DURATION"
 ```
 
-Wait for video-ended marker (poll 1s; max 90 min):
+Wait for video-ended marker (poll 1s; max WALL_TIMEOUT):
 ```bash
 ENDED_FILE="/tmp/evc-video-ended-${SESSION_ID}"
 ELAPSED=0
-until [ -f "$ENDED_FILE" ] || [ $ELAPSED -ge 5400 ]; do
+until [ -f "$ENDED_FILE" ] || [ $ELAPSED -ge "$WALL_TIMEOUT" ]; do
   sleep 1; ELAPSED=$((ELAPSED+1))
 done
 ```
@@ -245,6 +270,8 @@ Stop recording (3s buffer after video ends, then SIGINT):
 sleep 3
 kill -INT $RECORD_PID 2>/dev/null
 wait $RECORD_PID 2>/dev/null
+kill "$ASR_STREAM_PID" 2>/dev/null
+wait "$ASR_STREAM_PID" 2>/dev/null
 rm -f "$READY_FILE" "$ENDED_FILE"
 ```
 
@@ -277,20 +304,42 @@ jq --arg idx "$IDX" '.lectures[$idx].status = "transcribing"' \
   "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
 ```
 
-Run ASR via the modified extract_video_context.py:
+Check streaming ASR coverage before falling back to batch:
 ```bash
-ASR_OUT_DIR="${OUTPUT_DIR}/tmp_asr_${IDX}"
-python "$(dirname "$0")/../../yt-video-summarizer/scripts/extract_video_context.py" \
-  --audio-file "$AUDIO_FILE" \
-  --out-dir "$ASR_OUT_DIR" \
-  --asr-provider "${ASR_PROVIDER:-auto}"
+STREAMING_TRANSCRIPT=""
+if [ -f "$TRANSCRIPT_LOG" ]; then
+  # Count JSONL entries and estimate coverage
+  CHUNK_COUNT=$(wc -l < "$TRANSCRIPT_LOG" | tr -d ' ')
+  STREAMING_SECS=$(echo "$CHUNK_COUNT" | awk '{print $1 * 10}')  # 10s per chunk
+  WAV_DURATION=$(ffprobe -v quiet -show_entries format=duration \
+    -of default=noprint_wrappers=1:nokey=1 "$AUDIO_FILE" 2>/dev/null || echo 0)
+  COVERAGE=$(echo "$STREAMING_SECS $WAV_DURATION" | \
+    awk '{if($2>0) printf "%.2f", $1/$2; else print 0}')
+  OVER_80=$(echo "$COVERAGE" | awk '{print ($1 >= 0.80) ? "yes" : "no"}')
+  if [ "$OVER_80" = "yes" ]; then
+    echo "INFO: Streaming ASR coverage ${COVERAGE} >= 0.80 — using streaming transcript."
+    STREAMING_TRANSCRIPT=$(jq -r '.text' "$TRANSCRIPT_LOG" 2>/dev/null | tr '\n' ' ')
+  fi
+fi
 ```
 
-If the command fails:
-```
-ERROR: ASR transcription failed for lecture <IDX>. CAUSE: faster-whisper venv missing or OPENROUTER_API_KEY not set. FIX: Activate the faster-whisper venv or set OPENROUTER_API_KEY in .env.
-```
-Mark progress `failed`, increment retry count, continue.
+If streaming coverage < 80%, fall back to batch ASR:
+```bash
+if [ -z "$STREAMING_TRANSCRIPT" ]; then
+  ASR_OUT_DIR="${OUTPUT_DIR}/tmp_asr_${IDX}"
+  python "$(dirname "$0")/../../yt-video-summarizer/scripts/extract_video_context.py" \
+    --audio-file "$AUDIO_FILE" \
+    --out-dir "$ASR_OUT_DIR" \
+    --asr-provider "${ASR_PROVIDER:-auto}"
+  if [ $? -ne 0 ]; then
+    echo "ERROR: ASR transcription failed for lecture $IDX. CAUSE: faster-whisper venv missing or OPENROUTER_API_KEY not set. FIX: Activate the faster-whisper venv or set OPENROUTER_API_KEY in .env."
+    jq --arg idx "$IDX" \
+      '.lectures[$idx].status = "failed" | .lectures[$idx].retries = (.lectures[$idx].retries // 0) + 1' \
+      "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
+    continue
+  fi
+fi
+rm -f "$TRANSCRIPT_LOG"
 
 #### 7g. Summarize
 
@@ -343,6 +392,72 @@ Course complete: N lectures processed.
   Done:   X
   Failed: Y (run with --resume to retry)
 Output: ${OUTPUT_DIR}/<COURSE_NAME>/
+```
+
+### 8a. Obsidian Index Update
+
+After all lectures are processed, scan `${OUTPUT_DIR}/${COURSE_NAME}/` for `.md` files (excluding `_index.md`) and append or update a row in `${OUTPUT_DIR}/_index.md`.
+
+The index row format is:
+```
+| [[<COURSE_NAME>/<filename_stem>]] | <COURSE_NAME> | <date> |
+```
+
+If `_index.md` does not exist, create it with a header:
+```markdown
+# Lecture Index
+
+| Lecture | Course | Date |
+|---------|--------|------|
+```
+
+Then append one row per lecture file. If a row for the course already exists, skip duplicates (idempotent). Example bash snippet:
+
+```bash
+INDEX_FILE="${OUTPUT_DIR}/_index.md"
+if [ ! -f "$INDEX_FILE" ]; then
+  printf '# Lecture Index\n\n| Lecture | Course | Date |\n|---------|--------|------|\n' > "$INDEX_FILE"
+fi
+TODAY=$(date +%Y-%m-%d)
+for md_file in "${OUTPUT_DIR}/${COURSE_NAME}"/*.md; do
+  [ -f "$md_file" ] || continue
+  stem=$(basename "$md_file" .md)
+  row="| [[${COURSE_NAME}/${stem}]] | ${COURSE_NAME} | ${TODAY} |"
+  grep -qF "$stem" "$INDEX_FILE" || echo "$row" >> "$INDEX_FILE"
+done
+echo "INFO: Updated ${INDEX_FILE}"
+```
+
+### 8b. Wiki Backfill Check
+
+For each lecture `.md` file in `${OUTPUT_DIR}/${COURSE_NAME}/`, check whether it has already been compiled to `wiki/`. If not, run the wiki compilation pipeline as a safety net (the content-summarizer post-hook handles this automatically for new lectures; this step covers lectures summarized before the post-hook existed).
+
+```bash
+for md_file in "${OUTPUT_DIR}/${COURSE_NAME}"/*.md; do
+  [ -f "$md_file" ] || continue
+  stem=$(basename "$md_file" .md)
+  # Skip if already in wiki/
+  if ls wiki/**/*"${stem}"* 2>/dev/null | grep -q .; then
+    echo "  [wiki-skip] ${stem} already compiled."
+    continue
+  fi
+  # Run collision check
+  COLLISION=$(bash "$(dirname "$0")/../../scripts/wiki-collision-check.sh" \
+    "$(grep -m1 '^source:' "$md_file" | awk '{print $2}')" \
+    "$(grep -m1 '^tags:' "$md_file" | sed 's/tags: //')" 2>/dev/null || echo "CREATE")
+  case "$COLLISION" in
+    CREATE)
+      bash "$(dirname "$0")/../../scripts/compile.sh" "$md_file" && \
+        echo "  [wiki-compiled] ${stem}"
+      ;;
+    ENRICH*)
+      echo "  [wiki-enrich] ${stem} → ${COLLISION}"
+      ;;
+    SKIP)
+      echo "  [wiki-skip] ${stem} — duplicate detected."
+      ;;
+  esac
+done
 ```
 
 ---
