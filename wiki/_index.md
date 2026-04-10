@@ -20,6 +20,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [OpenClaw 爆火逻辑：龙虾文化与开源增长](concepts/003-openclaw-viral-culture.md) | openclaw, ai-agent, open-source, community, growth-hacking, security | 四要素爆火：精准定位 + 传奇故事 + 龙虾文化符号 + 赛博养成玩法，4 个月超越 React 成 GitHub 全球第一 |
 | [OpenClaw 三层架构：Gateway、Node、Channel](concepts/004-openclaw-gateway-node-channel.md) | openclaw, ai-agent, architecture, gateway, node, channel, unix-philosophy | Gateway 调度大脑 + Node 执行手臂 + Channel 平台适配，命令行为终极接口的本地优先架构 |
 | [OpenClaw 部署选型：本地 vs 云端](concepts/005-openclaw-local-vs-cloud-install.md) | openclaw, ai-agent, installation, local-first, cloud, macos, deployment | Mac 用户首选本地部署，模型 API 成本才是主要开销，Qcolo 图形化一键安装 |
+| [OpenClaw Mac 极速安装：curl 一键脚本](concepts/006-openclaw-curl-install.md) | openclaw, ai-agent, installation, macos, curl, cli, api-key | curl 安装原生完整版，全跳过初始配置，国内推荐 Kimi API，openclaw CLI 验证健康 |
 | [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
 | [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
 | [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
