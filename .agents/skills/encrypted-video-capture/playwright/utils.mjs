@@ -91,85 +91,111 @@ export async function findVideoElement(page, timeoutMs = 10000) {
  * @param {number} knownDurationSec - From API, or 0 if unknown.
  * @returns {Promise<string>} Which tier triggered.
  */
+// ── Tuning constants ──────────────────────────────────────────────────────────
+const MAX_RECORDING_SEC  = 90 * 60;   // Tier 5: absolute timeout (90 min)
+const STALL_POLL_MS      = 2000;      // Tier 2: poll interval for stall detection
+const STALL_THRESHOLD    = 3;         // Tier 2: polls with no change before declaring stall
+const END_GRACE_SEC      = 30;        // Tier 3/4: buffer beyond reported duration
+
+// ── Tier setup helpers ────────────────────────────────────────────────────────
+
+/**
+ * Tier 1: resolve when the 'ended' event fires on the video element.
+ * @param {import('playwright').Page} page
+ * @param {(tier: string) => void} done
+ */
+function setupTier1(page, done) {
+  page
+    .evaluate(() => {
+      return new Promise((res) => {
+        const video = Array.from(document.querySelectorAll("video")).find((v) => v.duration > 0);
+        if (!video) return res("no-video");
+        if (video.ended) return res("already-ended");
+        video.addEventListener("ended", () => res("ended"), { once: true });
+      });
+    })
+    .then((r) => done(`tier1:${r}`))
+    .catch(() => {});
+}
+
+/**
+ * Tiers 2/3/4: stall detection + duration boundary checks.
+ * Polls every STALL_POLL_MS ms. Returns the interval handle.
+ * done() is idempotent so concurrent in-flight callbacks are safe.
+ * @param {import('playwright').Page} page
+ * @param {(tier: string) => void} done
+ * @param {number} effectiveDuration
+ * @returns {ReturnType<typeof setInterval>}
+ */
+function setupTier2to4(page, done, effectiveDuration) {
+  let lastTime = -1;
+  let stallCount = 0;
+  return setInterval(async () => {
+    const ct = await page
+      .evaluate(() => {
+        const v = Array.from(document.querySelectorAll("video")).find((x) => x.duration > 0);
+        return v ? { currentTime: v.currentTime, duration: v.duration, ended: v.ended } : null;
+      })
+      .catch(() => null);
+
+    if (!ct) return;
+
+    if (ct.ended) { done("tier2:ended-flag"); return; }
+
+    // Tier 3: currentTime ≥ duration + grace period
+    if (ct.duration > 0 && ct.currentTime >= ct.duration + END_GRACE_SEC) {
+      done("tier3:duration+30");
+      return;
+    }
+
+    if (ct.currentTime === lastTime) {
+      stallCount++;
+      if (stallCount >= STALL_THRESHOLD && ct.currentTime > 0) {
+        done("tier2:stalled");
+        return;
+      }
+    } else {
+      stallCount = 0;
+      lastTime = ct.currentTime;
+    }
+
+    // Tier 4: ENV DURATION exceeded
+    if (effectiveDuration > 0 && ct.currentTime >= effectiveDuration + END_GRACE_SEC) {
+      done("tier4:env-duration");
+    }
+  }, STALL_POLL_MS);
+}
+
+/**
+ * Tier 5: 90-minute absolute timeout. Returns the timeout handle.
+ * @param {(tier: string) => void} done
+ * @returns {ReturnType<typeof setTimeout>}
+ */
+function setupTier5(done) {
+  return setTimeout(() => done("tier5:timeout"), MAX_RECORDING_SEC * 1000);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export async function waitForVideoEnd(page, knownDurationSec = 0) {
-  const MAX_SECONDS = 90 * 60;
   const ENV_DURATION = parseInt(process.env.DURATION || "0", 10);
   const effectiveDuration = ENV_DURATION > 0 ? ENV_DURATION : knownDurationSec;
 
   return new Promise((resolve) => {
     let resolved = false;
+    let pollHandle = null;
+    let timeoutHandle = null;
+
     const done = (tier) => {
       if (resolved) return;
       resolved = true;
+      clearInterval(pollHandle);
+      clearTimeout(timeoutHandle);
       resolve(tier);
     };
 
-    // Tier 1: 'ended' event
-    page
-      .evaluate(() => {
-        return new Promise((res) => {
-          const video = Array.from(document.querySelectorAll("video")).find((v) => v.duration > 0);
-          if (!video) return res("no-video");
-          if (video.ended) return res("already-ended");
-          video.addEventListener("ended", () => res("ended"), { once: true });
-        });
-      })
-      .then((r) => done(`tier1:${r}`))
-      .catch(() => {});
-
-    // Tier 2: currentTime stall detection (poll every 2s, stall = no change for 6s)
-    let lastTime = -1;
-    let stallCount = 0;
-    const stallChecker = setInterval(async () => {
-      if (resolved) {
-        clearInterval(stallChecker);
-        return;
-      }
-      const ct = await page
-        .evaluate(() => {
-          const v = Array.from(document.querySelectorAll("video")).find((x) => x.duration > 0);
-          return v ? { currentTime: v.currentTime, duration: v.duration, ended: v.ended } : null;
-        })
-        .catch(() => null);
-
-      if (!ct) return;
-      if (ct.ended) {
-        clearInterval(stallChecker);
-        done("tier2:ended-flag");
-        return;
-      }
-
-      // Tier 3: currentTime ≥ duration + 30s
-      if (ct.duration > 0 && ct.currentTime >= ct.duration + 30) {
-        clearInterval(stallChecker);
-        done("tier3:duration+30");
-        return;
-      }
-
-      if (ct.currentTime === lastTime) {
-        stallCount++;
-        if (stallCount >= 3 && ct.currentTime > 0) {
-          clearInterval(stallChecker);
-          done("tier2:stalled");
-          return;
-        }
-      } else {
-        stallCount = 0;
-        lastTime = ct.currentTime;
-      }
-
-      // Tier 4: ENV DURATION exceeded
-      if (effectiveDuration > 0 && ct.currentTime >= effectiveDuration + 30) {
-        clearInterval(stallChecker);
-        done("tier4:env-duration");
-        return;
-      }
-    }, 2000);
-
-    // Tier 5: 90-minute absolute timeout
-    setTimeout(() => {
-      clearInterval(stallChecker);
-      done("tier5:timeout");
-    }, MAX_SECONDS * 1000);
+    setupTier1(page, done);
+    pollHandle   = setupTier2to4(page, done, effectiveDuration);
+    timeoutHandle = setupTier5(done);
   });
 }

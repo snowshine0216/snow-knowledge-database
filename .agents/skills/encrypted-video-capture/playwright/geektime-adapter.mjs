@@ -17,6 +17,7 @@ import { parseArgs } from "node:util";
 import fs from "fs";
 import { loadCookies, waitForMarkerFile, waitForVideoEnd } from "./utils.mjs";
 import { sanitizeTitle, parseGeektimeCourseUrl } from "./pure.mjs";
+import { ffmpegReadyPath, videoEndedPath } from "./pathConstants.mjs";
 
 // ── Argument parsing ──────────────────────────────────────────────────────────
 
@@ -36,15 +37,12 @@ if (!args.action || !args.url) {
   process.exit(1);
 }
 
-// ── Sanitize title (mirrors SKILL.md sanitization rule) ──────────────────────
+// ── Geektime API constants ────────────────────────────────────────────────────
 
-/**
- * Strip shell metacharacters from a Geektime API-returned title.
- * Preserves: ASCII alnum, spaces, hyphens, underscores, CJK unified ideographs.
- * Truncates to 80 chars.
- * @param {string} raw
- * @returns {string}
- */
+const GEEKTIME_VIDEO_API  = "https://time.geekbang.org/serv/v3/column/articles";
+const GEEKTIME_COLUMN_API = "https://time.geekbang.org/serv/v1/column/articles";
+const API_PAGE_SIZE = 500;
+
 // ── Geektime API helpers ──────────────────────────────────────────────────────
 
 /**
@@ -55,9 +53,7 @@ if (!args.action || !args.url) {
  * @returns {Promise<Array<{idx: string, title: string, url: string, duration: number}>>}
  */
 async function fetchLectureList(page, courseId, courseType) {
-  const endpoint = courseType === "video"
-    ? "https://time.geekbang.org/serv/v3/column/articles"
-    : "https://time.geekbang.org/serv/v1/column/articles";
+  const endpoint = courseType === "video" ? GEEKTIME_VIDEO_API : GEEKTIME_COLUMN_API;
 
   const response = await page.evaluate(
     async ({ endpoint, courseId }) => {
@@ -69,7 +65,7 @@ async function fetchLectureList(page, courseId, courseType) {
           order: "earliest",
           prev: 0,
           sample: false,
-          size: 500,
+          size: API_PAGE_SIZE,
         }),
         credentials: "include",
       });
@@ -117,8 +113,8 @@ async function main() {
     } else if (args.action === "play") {
       const sessionId = args["session-id"];
       const duration = parseInt(args.duration || "0", 10);
-      const readyFile = `/tmp/evc-ffmpeg-ready-${sessionId}`;
-      const endedFile = `/tmp/evc-video-ended-${sessionId}`;
+      const readyFile = ffmpegReadyPath(sessionId);
+      const endedFile = videoEndedPath(sessionId);
 
       // Navigate to lecture
       await page.goto(args.url, { waitUntil: "domcontentloaded", timeout: 30000 });

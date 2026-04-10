@@ -84,16 +84,20 @@ export function shouldSkip(progress, idx) {
 }
 
 /**
- * Update a lecture's status in the progress object (in-place mutation of the lectures map).
- * Call saveProgress() after to persist.
+ * Return a new progress object with the lecture's status updated.
+ * Call saveProgress() with the returned value to persist.
  * @param {ReturnType<typeof loadProgress>} progress
  * @param {string} idx
  * @param {"pending"|"recording"|"transcribing"|"summarizing"|"done"|"failed"} status
+ * @returns {ReturnType<typeof loadProgress>}
  */
 export function updateProgress(progress, idx, status) {
   const existing = progress.lectures[idx] ?? { status: "pending", retries: 0 };
   const retries = status === "failed" ? (existing.retries ?? 0) + 1 : existing.retries ?? 0;
-  progress.lectures[idx] = { status, retries };
+  return {
+    ...progress,
+    lectures: { ...progress.lectures, [idx]: { status, retries } },
+  };
 }
 
 /**

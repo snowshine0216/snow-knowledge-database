@@ -43,6 +43,10 @@ test("sanitizeTitle: returns empty string for all-metachar input", () => {
   assert.equal(sanitizeTitle("!@#$%^&*()"), "");
 });
 
+test("sanitizeTitle: returns empty string for empty input", () => {
+  assert.equal(sanitizeTitle(""), "");
+});
+
 // ── parseGeektimeCourseUrl ────────────────────────────────────────────────────
 
 test("parseGeektimeCourseUrl: parses /column/<id>", () => {

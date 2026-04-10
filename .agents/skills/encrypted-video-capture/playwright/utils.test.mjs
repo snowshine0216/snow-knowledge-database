@@ -9,7 +9,7 @@ import assert from "node:assert/strict";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { loadCookies } from "./utils.mjs";
+import { loadCookies, waitForMarkerFile } from "./utils.mjs";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -115,14 +115,13 @@ test("loadCookies: invalid expires (non-numeric) becomes -1", () => {
   } finally { cleanup(p); }
 });
 
-test("loadCookies: zero expires is preserved as 0", () => {
+test("loadCookies: zero expires is coerced to -1 (session cookie behavior)", () => {
   const line = ".example.com\tTRUE\t/\tFALSE\t0\tsession\tabc";
   const p = tmpFile(line);
   try {
     const result = loadCookies(p);
-    // parseInt("0") is 0, which is falsy — but we want 0 preserved
-    // The implementation uses `parseInt(expiresStr, 10) || -1` so 0 → -1
-    // This test documents that behavior (session cookies)
+    // parseInt("0") || -1 → -1 (0 is falsy).
+    // Session cookies (expires=0) become expires=-1, matching Playwright's convention.
     assert.equal(result[0].expires, -1);
   } finally { cleanup(p); }
 });
@@ -144,4 +143,29 @@ test("loadCookies: parses a realistic mixed cookie file (httpOnly + regular)", (
     assert.equal(result[1].httpOnly, true);
     assert.equal(result[2].httpOnly, false);
   } finally { cleanup(p); }
+});
+
+// ── waitForMarkerFile ─────────────────────────────────────────────────────────
+
+test("waitForMarkerFile: resolves true when file already exists", async () => {
+  const p = tmpFile("marker");
+  try {
+    const result = await waitForMarkerFile(p, 1000, 50);
+    assert.equal(result, true);
+  } finally { cleanup(p); }
+});
+
+test("waitForMarkerFile: resolves true when file appears during polling", async () => {
+  const p = path.join(os.tmpdir(), `marker-${Date.now()}-${Math.random().toString(36).slice(2)}.txt`);
+  setTimeout(() => fs.writeFileSync(p, ""), 100);
+  try {
+    const result = await waitForMarkerFile(p, 1000, 50);
+    assert.equal(result, true);
+  } finally { cleanup(p); }
+});
+
+test("waitForMarkerFile: resolves false when timeout elapses without file", async () => {
+  const p = path.join(os.tmpdir(), `marker-never-${Date.now()}-${Math.random().toString(36).slice(2)}.txt`);
+  const result = await waitForMarkerFile(p, 200, 50);
+  assert.equal(result, false);
 });

@@ -128,46 +128,75 @@ test(`shouldSkip: status=failed with retries >= MAX_RETRIES (${MAX_RETRIES}) →
   assert.match(result.reason, /failed/);
 });
 
-test("shouldSkip: status=recording → do not skip", () => {
+test("shouldSkip: status=recording → do not skip, reason is 'recording'", () => {
   const progress = { schemaVersion: 1, lectures: { "001": { status: "recording", retries: 0 } } };
   const result = shouldSkip(progress, "001");
   assert.equal(result.skip, false);
+  assert.equal(result.reason, "recording");
+});
+
+test("shouldSkip: status=transcribing → do not skip, reason is 'transcribing'", () => {
+  const progress = { schemaVersion: 1, lectures: { "001": { status: "transcribing", retries: 0 } } };
+  const result = shouldSkip(progress, "001");
+  assert.equal(result.skip, false);
+  assert.equal(result.reason, "transcribing");
+});
+
+test("shouldSkip: status=summarizing → do not skip, reason is 'summarizing'", () => {
+  const progress = { schemaVersion: 1, lectures: { "001": { status: "summarizing", retries: 0 } } };
+  const result = shouldSkip(progress, "001");
+  assert.equal(result.skip, false);
+  assert.equal(result.reason, "summarizing");
 });
 
 // ── updateProgress ────────────────────────────────────────────────────────────
 
 test("updateProgress: sets status for a new lecture", () => {
   const progress = { schemaVersion: 1, lectures: {} };
-  updateProgress(progress, "001", "recording");
-  assert.equal(progress.lectures["001"].status, "recording");
-  assert.equal(progress.lectures["001"].retries, 0);
+  const result = updateProgress(progress, "001", "recording");
+  assert.equal(result.lectures["001"].status, "recording");
+  assert.equal(result.lectures["001"].retries, 0);
 });
 
 test("updateProgress: marks lecture done", () => {
   const progress = { schemaVersion: 1, lectures: { "001": { status: "recording", retries: 0 } } };
-  updateProgress(progress, "001", "done");
-  assert.equal(progress.lectures["001"].status, "done");
-  assert.equal(progress.lectures["001"].retries, 0);
+  const result = updateProgress(progress, "001", "done");
+  assert.equal(result.lectures["001"].status, "done");
+  assert.equal(result.lectures["001"].retries, 0);
 });
 
 test("updateProgress: increments retries on failure", () => {
   const progress = { schemaVersion: 1, lectures: { "001": { status: "recording", retries: 0 } } };
-  updateProgress(progress, "001", "failed");
-  assert.equal(progress.lectures["001"].status, "failed");
-  assert.equal(progress.lectures["001"].retries, 1);
+  const result = updateProgress(progress, "001", "failed");
+  assert.equal(result.lectures["001"].status, "failed");
+  assert.equal(result.lectures["001"].retries, 1);
 });
 
 test("updateProgress: accumulates retries across multiple failures", () => {
   const progress = { schemaVersion: 1, lectures: {} };
-  updateProgress(progress, "001", "failed");
-  updateProgress(progress, "001", "failed");
-  assert.equal(progress.lectures["001"].retries, 2);
+  const p1 = updateProgress(progress, "001", "failed");
+  const p2 = updateProgress(p1, "001", "failed");
+  assert.equal(p2.lectures["001"].retries, 2);
 });
 
 test("updateProgress: does not increment retries when status is not failed", () => {
   const progress = { schemaVersion: 1, lectures: { "001": { status: "failed", retries: 2 } } };
-  updateProgress(progress, "001", "done");
-  assert.equal(progress.lectures["001"].retries, 2);
+  const result = updateProgress(progress, "001", "done");
+  assert.equal(result.lectures["001"].retries, 2);
+});
+
+test("updateProgress: sets status to transcribing", () => {
+  const progress = { schemaVersion: 1, lectures: { "001": { status: "recording", retries: 0 } } };
+  const result = updateProgress(progress, "001", "transcribing");
+  assert.equal(result.lectures["001"].status, "transcribing");
+  assert.equal(result.lectures["001"].retries, 0);
+});
+
+test("updateProgress: sets status to summarizing", () => {
+  const progress = { schemaVersion: 1, lectures: { "001": { status: "transcribing", retries: 0 } } };
+  const result = updateProgress(progress, "001", "summarizing");
+  assert.equal(result.lectures["001"].status, "summarizing");
+  assert.equal(result.lectures["001"].retries, 0);
 });
 
 // ── saveProgress / initProgress ───────────────────────────────────────────────
