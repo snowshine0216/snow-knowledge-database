@@ -16,6 +16,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [CREAO: Consumer-Grade Agent Harness](concepts/creao-consumer-agent-harness.md) | ai-agents, agent-harness, consumer-ai, creao, startup, automation | Consumer-grade Agent Harness turning natural language into persistently running agents without coding |
 | [OpenClaw Architecture](concepts/openclaw-architecture.md) | openclaw, ai-agents, architecture, fault-tolerance, agent-loop | Five-layer onion architecture, three-tier Agent Loop, and seven-level fault tolerance for a production multi-platform agent system |
 | [OpenClaw 课程介绍](concepts/001-课程介绍.md) | openclaw, ai-agent, geektime, course-intro, productivity | OpenClaw 定位为第二大脑，每周节省四小时，60+ 讲覆盖从入门到企业级 Agent 矩阵 |
+| [OpenClaw：你的第一号数字员工](concepts/002-openclaw-digital-employee.md) | openclaw, ai-agent, digital-employee, unix-philosophy, skills | 工作闭环 Agent，Skills 机制自我扩展，27.9 万 Star，UNIX 哲学驱动 |
 | [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
 | [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
 | [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |

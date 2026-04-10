@@ -177,6 +177,14 @@ async function main() {
         { timeout: 30000 }
       ).catch(() => console.error("WARNING: No video element found within 30s, proceeding anyway."));
 
+      // Seek to beginning in case the player restored a saved position from a
+      // previous session (e.g. on re-record after a failed attempt).
+      await page.evaluate(() => {
+        const v = document.querySelector("video");
+        if (v && v.currentTime > 0) { v.currentTime = 0; }
+      }).catch(() => {});
+      await new Promise((r) => setTimeout(r, 500));
+
       // Try clicking the play button. Geektime uses Aliyun Prism Player —
       // the big play overlay uses .prism-big-play-btn; the control bar uses .prism-play-btn.
       // We also try clicking the video element directly as a fallback.
@@ -227,8 +235,8 @@ async function main() {
       // This fires even if the video element exposes no timing (DRM/custom player).
       let wallTimerHandle = null;
       if (duration > 0 && sessionId) {
-        // duration is already speed-adjusted (raw_duration / speed) — do NOT divide again.
-        const wallMs = Math.ceil(duration * 1000) + 60000;
+        // duration is the raw lecture duration in seconds; divide by speed for wall-clock time.
+        const wallMs = Math.ceil(duration * 1000 / speed) + 60000;
         console.error(`INFO: Wall-clock safety timer set for ${wallMs}ms (${Math.round(wallMs/1000)}s)`);
         wallTimerHandle = setTimeout(() => {
           console.error(`INFO: Wall-clock safety timer fired — writing ended marker`);
