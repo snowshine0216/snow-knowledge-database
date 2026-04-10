@@ -3,7 +3,7 @@ tags: [language-model, bigram, character-level, pytorch, neural-network, softmax
 source: https://www.youtube.com/watch?v=PaCmpygFfXo
 ---
 
-# Course: The spelled-out intro to language modeling: building makemore
+# Course: 02-build-makemore-part-1-bigram
 
 > **Instructor:** Andrej Karpathy
 > **Duration:** 1 h 57 min | **Published:** 2022-09-07
