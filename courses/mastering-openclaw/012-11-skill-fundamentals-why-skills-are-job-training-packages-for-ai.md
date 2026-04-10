@@ -9,11 +9,11 @@ wiki: wiki/concepts/012-openclaw-skills-concept.md
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-965298) · 极客时间
 
 ## Outline
-- [Skills 是什么](#skills-是什么)
-- [没有 Skills 的三大痛点](#没有-skills-的三大痛点)
-- [Skills 的价值：自动化重复能力](#skills-的价值自动化重复能力)
-- [安装 Skill：对话即安装](#安装-skill对话即安装)
-- [实战：Agent Rich 爬取示例](#实战agent-rich-爬取示例)
+- [Skills 是什么](012-11skill-本质论-为什么说-skills-是-ai-的岗位培训包.md#skills-是什么)
+- [没有 Skills 的三大痛点](012-11skill-本质论-为什么说-skills-是-ai-的岗位培训包.md#没有-skills-的三大痛点)
+- [Skills 的价值：自动化重复能力](012-11skill-本质论-为什么说-skills-是-ai-的岗位培训包.md#skills-的价值自动化重复能力)
+- [安装 Skill：对话即安装](012-11skill-本质论-为什么说-skills-是-ai-的岗位培训包.md#安装-skill对话即安装)
+- [实战：Agent Rich 爬取示例](012-11skill-本质论-为什么说-skills-是-ai-的岗位培训包.md#实战agent-rich-爬取示例)
 
 ---
 

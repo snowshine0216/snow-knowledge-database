@@ -62,7 +62,11 @@ For each `metadata: <path>` line printed above, read the JSON file and invoke th
 - `content_type`: `"geektime-article"`
 - `content`: the value of the `"content"` field (plain text of the article)
 - `metadata`: the full JSON object (title, source_url, article_id, chapter_title, author, course_name_en, course_name_zh, language)
-- `save_path`: `courses/<course_name_en>/<filename_stem>.md` (replace `.metadata.json` suffix with `.md`)
+- `save_path`: `courses/<course_name_en>/<NNN>-<english-slug>.md`
+  - `<NNN>` = zero-padded index from the metadata JSON filename (e.g. `001`)
+  - `<english-slug>` = English translation of `chapter_title`, slugified to `[a-z0-9-]`
+  - If `chapter_title` is already English, just slugify it. If Chinese, translate to English first, then slugify.
+  - ❌ Do NOT use the metadata JSON filename stem (it may be pinyin or Chinese)
 
 Example invocation pattern (same as yt-video-summarizer delegation):
 
@@ -71,7 +75,7 @@ Use the content-summarizer Skill with:
   content_type: geektime-article
   content: <article plain text from "content" field>
   metadata: <full JSON object>
-  save_path: courses/claude-code-engineering-practice/001-开篇词.md
+  save_path: courses/claude-code-engineering-practice/001-course-introduction.md
 ```
 
 ## Behavior Rules

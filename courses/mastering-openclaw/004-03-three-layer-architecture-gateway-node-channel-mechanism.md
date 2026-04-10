@@ -9,13 +9,13 @@ wiki: wiki/concepts/004-openclaw-gateway-node-channel.md
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-956203) · 极客时间
 
 ## Outline
-- [三层架构概览](#三层架构概览)
-- [第一层：Gateway（网关）](#第一层gateway网关)
-- [第二层：Node（节点）](#第二层node节点)
-- [第三层：Channel（通道）](#第三层channel通道)
-- [设计哲学：命令行即终极接口](#设计哲学命令行即终极接口)
-- [三层协作完整流程示例](#三层协作完整流程示例)
-- [本地优先的安全与隐私优势](#本地优先的安全与隐私优势)
+- [三层架构概览](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#三层架构概览)
+- [第一层：Gateway（网关）](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#第一层gateway网关)
+- [第二层：Node（节点）](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#第二层node节点)
+- [第三层：Channel（通道）](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#第三层channel通道)
+- [设计哲学：命令行即终极接口](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#设计哲学命令行即终极接口)
+- [三层协作完整流程示例](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#三层协作完整流程示例)
+- [本地优先的安全与隐私优势](004-03核心三层架构5分钟听懂-gateway-node-channel-运行机制.md#本地优先的安全与隐私优势)
 
 ---
 

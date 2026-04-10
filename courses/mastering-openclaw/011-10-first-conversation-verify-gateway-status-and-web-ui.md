@@ -9,11 +9,11 @@ wiki: wiki/concepts/011-openclaw-gateway-webui.md
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-963991) · 极客时间
 
 ## Outline
-- [安装后第一步：健康检查](#安装后第一步健康检查)
-- [Channel 连接问题诊断](#channel-连接问题诊断)
-- [Gateway 重启方法](#gateway-重启方法)
-- [Web UI 首次访问](#web-ui-首次访问)
-- [安全警告：必须设置密码](#安全警告必须设置密码)
+- [安装后第一步：健康检查](011-10第一次对话-验证-gateway-状态与-web-ui-首次连接.md#安装后第一步健康检查)
+- [Channel 连接问题诊断](011-10第一次对话-验证-gateway-状态与-web-ui-首次连接.md#channel-连接问题诊断)
+- [Gateway 重启方法](011-10第一次对话-验证-gateway-状态与-web-ui-首次连接.md#gateway-重启方法)
+- [Web UI 首次访问](011-10第一次对话-验证-gateway-状态与-web-ui-首次连接.md#web-ui-首次访问)
+- [安全警告：必须设置密码](011-10第一次对话-验证-gateway-状态与-web-ui-首次连接.md#安全警告必须设置密码)
 
 ---
 

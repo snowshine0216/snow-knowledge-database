@@ -1,5 +1,10 @@
 ---
-tags: [geektime, ai-agents, vibe-coding, agent-builder]
+tags:
+  - geektime
+  - ai-agents
+  - vibe-coding
+  - agent-builder
+  - openclaw
 source: https://time.geekbang.org/column/article/954954
 ---
 

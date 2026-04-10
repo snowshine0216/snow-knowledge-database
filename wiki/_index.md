@@ -15,21 +15,6 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Long-Running Agent Harness](concepts/long-running-agent-harness.md) | harness-engineering, ai-agents, long-running-agents, anthropic | Anthropic's blueprint for multi-hour agent tasks using adversarial evaluation and context management |
 | [CREAO: Consumer-Grade Agent Harness](concepts/creao-consumer-agent-harness.md) | ai-agents, agent-harness, consumer-ai, creao, startup, automation | Consumer-grade Agent Harness turning natural language into persistently running agents without coding |
 | [OpenClaw Architecture](concepts/openclaw-architecture.md) | openclaw, ai-agents, architecture, fault-tolerance, agent-loop | Five-layer onion architecture, three-tier Agent Loop, and seven-level fault tolerance for a production multi-platform agent system |
-| [OpenClaw 课程介绍](concepts/001-课程介绍.md) | openclaw, ai-agent, geektime, course-intro, productivity | OpenClaw 定位为第二大脑，每周节省四小时，60+ 讲覆盖从入门到企业级 Agent 矩阵 |
-| [OpenClaw：你的第一号数字员工](concepts/002-openclaw-digital-employee.md) | openclaw, ai-agent, digital-employee, unix-philosophy, skills | 工作闭环 Agent，Skills 机制自我扩展，27.9 万 Star，UNIX 哲学驱动 |
-| [OpenClaw 爆火逻辑：龙虾文化与开源增长](concepts/003-openclaw-viral-culture.md) | openclaw, ai-agent, open-source, community, growth-hacking, security | 四要素爆火：精准定位 + 传奇故事 + 龙虾文化符号 + 赛博养成玩法，4 个月超越 React 成 GitHub 全球第一 |
-| [OpenClaw 三层架构：Gateway、Node、Channel](concepts/004-openclaw-gateway-node-channel.md) | openclaw, ai-agent, architecture, gateway, node, channel, unix-philosophy | Gateway 调度大脑 + Node 执行手臂 + Channel 平台适配，命令行为终极接口的本地优先架构 |
-| [OpenClaw 部署选型：本地 vs 云端](concepts/005-openclaw-local-vs-cloud-install.md) | openclaw, ai-agent, installation, local-first, cloud, macos, deployment | Mac 用户首选本地部署，模型 API 成本才是主要开销，Qcolo 图形化一键安装 |
-| [OpenClaw Mac 极速安装：curl 一键脚本](concepts/006-openclaw-curl-install.md) | openclaw, ai-agent, installation, macos, curl, cli, api-key | curl 安装原生完整版，全跳过初始配置，国内推荐 Kimi API，openclaw CLI 验证健康 |
-| [OpenClaw 生态集成：接入微信与飞书](concepts/007-openclaw-wechat-feishu.md) | openclaw, ai-agent, wechat, feishu, channel, integration | 微信扫码最简单；飞书需创建自定义机器人应用获取 App ID + Secret，企业场景更强 |
-| [OpenClaw 云端一键镜像部署](concepts/008-openclaw-cloud-deploy.md) | openclaw, ai-agent, cloud, deployment, aliyun, tencent-cloud | 腾讯云/阿里云镜像一键部署，30 分钟小白上手，主要成本是 LLM API 非服务器 |
-| [OpenClaw 极致性价比：模型分层路由策略](concepts/009-openclaw-model-cost.md) | openclaw, ai-agent, cost-optimization, model-routing, llm, pricing | 95% 简单任务用 Kimi，5% 复杂任务用 Claude Opus，设预算熔断，月成本咖啡钱 |
-| [OpenClaw 彻底卸载与干净重装](concepts/010-openclaw-clean-reinstall.md) | openclaw, ai-agent, uninstall, troubleshooting, clean-install | 报错积累时推倒重来效率更高，uninstall 前备份记忆，云端关闭续费吊销旧 Key |
-| [OpenClaw Gateway 状态验证与 Web UI](concepts/011-openclaw-gateway-webui.md) | openclaw, ai-agent, gateway, web-ui, health-check, security | openclaw health 验证安装，Gateway 睡眠后需重启，Web UI 必须设密码防同网络控制 |
-| [OpenClaw Skills：AI 的岗位培训包](concepts/012-openclaw-skills-concept.md) | openclaw, ai-agent, skills, automation, memory | Skills 封装 AI 能力，对话即安装，永久可用；解决重复劳动/忘偏好/上下文负担三痛点 |
-| [ClawHub：OpenClaw 官方技能市场](concepts/013-openclaw-clawhub.md) | openclaw, clawhub, skills, marketplace, search-strategy, quality-filter | 1.3 万 Skills 中 20% 优质，需用开发者术语搜索，Stars+Downloads 双高为可靠筛选信号 |
-| [OpenClaw 办公 Skills Top 10](concepts/014-openclaw-office-skills.md) | openclaw, skills, office-productivity, workflow-automation, clawhub | 10 类高频通用办公 Skill 精选，优先装 Google Search+Summarizer+Git，Skill 组合解锁自动化工作流 |
-| [OpenClaw 核心配置文件：AID × KTV 框架](concepts/015-openclaw-config-file.md) | openclaw, system-prompt, configuration, persona, ai-agent, prompt-engineering | AID（身份/能力/指令）+ KTV（知识/任务/价值）框架，从工具使用者升级为工具构建者 |
 | [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
 | [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
 | [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
@@ -157,40 +142,60 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
-| [开篇词: 共生而非替代](courses/claude-code-engineering/001-开篇词-共生而非替代-极客和-AI-.md) | claude-code, geektime, introduction | Course introduction: VibeCoding era, humans + AI co-engineering |
-| [01: 登台远望 — Claude Code Overview](courses/claude-code-engineering/001-01-登台远望-Claude-Cod.md) | claude-code, geektime, architecture, overview | Claude Code system architecture and design philosophy |
-| [02: 过目不忘 — Memory & CLAUDE.md](courses/claude-code-engineering/002-02-过目不忘-Claude-Cod.md) | claude-code, memory, claude-md | Claude Code memory system and CLAUDE.md configuration |
-| [03: 分而治之 — Sub-Agents](courses/claude-code-engineering/003-03-分而治之-Sub-Agents.md) | claude-code, sub-agents | Divide-and-conquer with sub-agents for complex tasks |
-| [04: 量体裁衣 — Sub-Agent to Skill](courses/claude-code-engineering/004-04-量体裁衣-从-Sub-Agen.md) | claude-code, sub-agents, skills | Evolving sub-agents into reusable skills |
-| [05: 明察秋毫 — Read-Only Audit Agents](courses/claude-code-engineering/005-05-明察秋毫-构建只读型安全审计子.md) | claude-code, security, audit | Building read-only security audit sub-agents |
-| [06: 去芜存菁 — High-Noise Task Processing](courses/claude-code-engineering/006-06-去芜存菁-高噪声任务处理-测试.md) | claude-code, testing, noise | Processing high-noise tasks like test output |
-| [07: 百舸争流 — Parallel Exploration](courses/claude-code-engineering/007-07-百舸争流-多任务并行探索与流水.md) | claude-code, parallel, pipeline | Multi-task parallel exploration and pipeline processing |
-| [08: 群策群力 — Agent Teams](courses/claude-code-engineering/008-08-群策群力-Agent-Team.md) | claude-code, agent-teams, multi-agent | Coordinating agent teams for collaborative problem-solving |
-| [09: 加餐 — Sub-Agent Summary](courses/claude-code-engineering/009-加餐-子代理专题总结-春节练习.md) | claude-code, sub-agents, review | Sub-agent topic summary and practice exercises |
-| [10: 触类旁通 — SKILL.md Structure](courses/claude-code-engineering/010-09-触类旁通-SKILL-md-结.md) | claude-code, skills, skill-md | SKILL.md file structure and design patterns |
-| [11: 令行禁止 — Task-Type Skills](courses/claude-code-engineering/011-10-令行禁止-任务型-Skills.md) | claude-code, skills, task-type | Building task-oriented skills for specific workflows |
-| [12: 循序渐进 — Progressive Disclosure](courses/claude-code-engineering/012-11-循序渐进-渐进式披露架构设计.md) | claude-code, skills, progressive-disclosure | Progressive disclosure architecture in skill design |
-| [13: 珠联璧合 — Skills + Sub-Agents](courses/claude-code-engineering/013-12-珠联璧合-Skills-与-S.md) | claude-code, skills, sub-agents, composition | Composing skills with sub-agents for complex workflows |
-| [14: 纲举目张 — Skills Architecture](courses/claude-code-engineering/014-13-纲举目张-Skills-架构定.md) | claude-code, skills, architecture | Defining the skills architecture and design principles |
-| [15: 星火燎原 — From Claude Code to…](courses/claude-code-engineering/015-14-星火燎原-从Claude-Co.md) | claude-code, ecosystem | Claude Code's expanding ecosystem and future direction |
-| [16: 加餐 — Skills Summary](courses/claude-code-engineering/016-加餐-Skills专题总结.md) | claude-code, skills, review | Skills topic summary and key takeaways |
-| [17: 防微杜渐 — Hooks Event-Driven](courses/claude-code-engineering/017-15-防微杜渐-Hooks-事件驱动.md) | claude-code, hooks, event-driven | Hooks system for event-driven automation |
-| [18: 未雨绸缪 — Hooks Advanced Patterns](courses/claude-code-engineering/018-16-未雨绸缪-Hooks-高级模式.md) | claude-code, hooks, advanced | Advanced hooks patterns and production use cases |
-| [19: 海纳百川 — MCP Protocol](courses/claude-code-engineering/019-17-海纳百川-MCP-协议与外部工.md) | claude-code, mcp, protocol | MCP protocol integration with external tools |
-| [20: 庖丁解牛 — Tools System](courses/claude-code-engineering/020-18-庖丁解牛-Tools-工具系统.md) | claude-code, tools, system | Deep dive into the Claude Code tools system |
-| [21: 热点加餐 — OpenClaw](courses/claude-code-engineering/021-热点加餐-从-OpenClaw-到.md) | claude-code, openclaw, bonus | Bonus: from OpenClaw to the broader agent ecosystem |
+| [开篇词: 共生而非替代](courses/claude-code-engineering/001-introduction-coexistence-not-replacement.md) | claude-code, geektime, introduction | Course introduction: VibeCoding era, humans + AI co-engineering |
+| [01: 登台远望 — Claude Code Overview](courses/claude-code-engineering/001-01-overview-claude-code-technology-landscape.md) | claude-code, geektime, architecture, overview | Claude Code system architecture and design philosophy |
+| [02: 过目不忘 — Memory & CLAUDE.md](courses/claude-code-engineering/002-02-memory-system-claude-md.md) | claude-code, memory, claude-md | Claude Code memory system and CLAUDE.md configuration |
+| [03: 分而治之 — Sub-Agents](courses/claude-code-engineering/003-03-sub-agents-core-concepts-value.md) | claude-code, sub-agents | Divide-and-conquer with sub-agents for complex tasks |
+| [04: 量体裁衣 — Sub-Agent to Skill](courses/claude-code-engineering/004-04-sub-agents-to-multi-agent-guide.md) | claude-code, sub-agents, skills | Evolving sub-agents into reusable skills |
+| [05: 明察秋毫 — Read-Only Audit Agents](courses/claude-code-engineering/005-05-read-only-security-audit-subagent.md) | claude-code, security, audit | Building read-only security audit sub-agents |
+| [06: 去芜存菁 — High-Noise Task Processing](courses/claude-code-engineering/006-06-high-noise-task-handling-testing.md) | claude-code, testing, noise | Processing high-noise tasks like test output |
+| [07: 百舸争流 — Parallel Exploration](courses/claude-code-engineering/007-07-parallel-exploration-pipeline-orchestration.md) | claude-code, parallel, pipeline | Multi-task parallel exploration and pipeline processing |
+| [08: 群策群力 — Agent Teams](courses/claude-code-engineering/008-08-agent-teams-multi-session-collaboration.md) | claude-code, agent-teams, multi-agent | Coordinating agent teams for collaborative problem-solving |
+| [09: 加餐 — Sub-Agent Summary](courses/claude-code-engineering/009-bonus-subagent-summary-spring-practice.md) | claude-code, sub-agents, review | Sub-agent topic summary and practice exercises |
+| [10: 触类旁通 — SKILL.md Structure](courses/claude-code-engineering/010-09-skill-md-structure-trigger-mechanism.md) | claude-code, skills, skill-md | SKILL.md file structure and design patterns |
+| [11: 令行禁止 — Task-Type Skills](courses/claude-code-engineering/011-10-task-skills-slash-commands-practice.md) | claude-code, skills, task-type | Building task-oriented skills for specific workflows |
+| [12: 循序渐进 — Progressive Disclosure](courses/claude-code-engineering/012-11-progressive-disclosure-architecture.md) | claude-code, skills, progressive-disclosure | Progressive disclosure architecture in skill design |
+| [13: 珠联璧合 — Skills + Sub-Agents](courses/claude-code-engineering/013-12-skills-subagent-integration-practice.md) | claude-code, skills, sub-agents, composition | Composing skills with sub-agents for complex workflows |
+| [14: 纲举目张 — Skills Architecture](courses/claude-code-engineering/014-13-skills-architecture-advanced-capabilities.md) | claude-code, skills, architecture | Defining the skills architecture and design principles |
+| [15: 星火燎原 — From Claude Code to…](courses/claude-code-engineering/015-14-claude-code-to-industry-standards.md) | claude-code, ecosystem | Claude Code's expanding ecosystem and future direction |
+| [16: 加餐 — Skills Summary](courses/claude-code-engineering/016-bonus-skills-topic-summary.md) | claude-code, skills, review | Skills topic summary and key takeaways |
+| [17: 防微杜渐 — Hooks Event-Driven](courses/claude-code-engineering/017-15-hooks-event-driven-automation.md) | claude-code, hooks, event-driven | Hooks system for event-driven automation |
+| [18: 未雨绸缪 — Hooks Advanced Patterns](courses/claude-code-engineering/018-16-hooks-advanced-patterns-engineering.md) | claude-code, hooks, advanced | Advanced hooks patterns and production use cases |
+| [19: 海纳百川 — MCP Protocol](courses/claude-code-engineering/019-17-mcp-protocol-external-tools.md) | claude-code, mcp, protocol | MCP protocol integration with external tools |
+| [20: 庖丁解牛 — Tools System](courses/claude-code-engineering/020-18-tools-system-internals-analysis.md) | claude-code, tools, system | Deep dive into the Claude Code tools system |
+| [21: 热点加餐 — OpenClaw](courses/claude-code-engineering/021-bonus-openclaw-to-opencode-agent-design.md) | claude-code, openclaw, bonus | Bonus: from OpenClaw to the broader agent ecosystem |
 
-### GeekTime OpenClaw Agent Course (7 chapters) — NEW
+### OpenClaw Core Principles in Practice (7 chapters)
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
-| [开篇词: VibeCoding 时代](courses/geektime-openclaw-agent/001-开篇词-VibeCoding-时代.md) | openclaw, geektime, vibecoding | Everyone can become an Agent Builder in the VibeCoding era |
-| [01: OpenClaw System Architecture](courses/geektime-openclaw-agent/002-01-OpenClaw-系统架构全景.md) | openclaw, architecture, agent-system | High-cohesion low-coupling agent system design panorama |
-| [02: Local-First Privacy](courses/geektime-openclaw-agent/003-02-Local-First-隐私哲.md) | openclaw, local-first, privacy, data-sovereignty | Local-First philosophy and data sovereignty advantages for agents |
-| [03: Unified Messaging Model](courses/geektime-openclaw-agent/004-03-统一消息模型与多平台适配-如何.md) | openclaw, messaging, multi-platform | Building the agent's "universal adapter" for cross-platform messaging |
-| [04: Three-Layer Architecture](courses/geektime-openclaw-agent/005-04-三层架构与执行流程总览-Age.md) | openclaw, architecture, agent-loop | Agent Perception→Thinking→Action execution cycle |
-| [05: Fault Tolerance](courses/geektime-openclaw-agent/006-05-核心重试循环与七重容错策略-生.md) | openclaw, fault-tolerance, retry | Production-grade 7-level progressive degradation strategy |
-| [06: Single LLM Attempt Flow](courses/geektime-openclaw-agent/007-06-单次-LLM-尝试的完整流程.md) | openclaw, llm, tool-registration | Complete lifecycle of a single LLM call from tool registration onwards |
+| [开篇词: VibeCoding 时代](courses/openclaw-core-principles-in-practice/001-introduction-vibe-coding-era.md) | openclaw, geektime, vibecoding | Everyone can become an Agent Builder in the VibeCoding era |
+| [01: OpenClaw System Architecture](courses/openclaw-core-principles-in-practice/002-01-openclaw-architecture-system-design.md) | openclaw, architecture, agent-system | High-cohesion low-coupling agent system design panorama |
+| [02: Local-First Privacy](courses/openclaw-core-principles-in-practice/003-02-local-first-privacy-data-sovereignty.md) | openclaw, local-first, privacy, data-sovereignty | Local-First philosophy and data sovereignty advantages for agents |
+| [03: Unified Messaging Model](courses/openclaw-core-principles-in-practice/004-03-unified-message-model-multi-platform.md) | openclaw, messaging, multi-platform | Building the agent's "universal adapter" for cross-platform messaging |
+| [04: Three-Layer Architecture](courses/openclaw-core-principles-in-practice/005-04-three-layer-architecture-execution-flow.md) | openclaw, architecture, agent-loop | Agent Perception→Thinking→Action execution cycle |
+| [05: Fault Tolerance](courses/openclaw-core-principles-in-practice/006-05-retry-loop-fault-tolerance-graceful-degradation.md) | openclaw, fault-tolerance, retry | Production-grade 7-level progressive degradation strategy |
+| [06: Single LLM Attempt Flow](courses/openclaw-core-principles-in-practice/007-06-single-llm-attempt-complete-workflow.md) | openclaw, llm, tool-registration | Complete lifecycle of a single LLM call from tool registration onwards |
+
+### Mastering OpenClaw — 玩转 OpenClaw (14 chapters)
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [00: Course Intro](courses/mastering-openclaw/001-openclaw-course-intro.md) | openclaw, ai-agent, geektime, course-intro, productivity | OpenClaw 定位为第二大脑，每周节省四小时，60+ 讲覆盖从入门到企业级 Agent 矩阵 |
+| [01: Digital Employee](courses/mastering-openclaw/002-openclaw-digital-employee.md) | openclaw, ai-agent, digital-employee, unix-philosophy, skills | 工作闭环 Agent，Skills 机制自我扩展，27.9 万 Star，UNIX 哲学驱动 |
+| [02: Viral Culture](courses/mastering-openclaw/003-openclaw-viral-culture.md) | openclaw, ai-agent, open-source, community, growth-hacking, security | 四要素爆火：精准定位 + 传奇故事 + 龙虾文化符号 + 赛博养成玩法，4 个月超越 React 成 GitHub 全球第一 |
+| [03: Gateway-Node-Channel Architecture](courses/mastering-openclaw/004-openclaw-gateway-node-channel.md) | openclaw, ai-agent, architecture, gateway, node, channel | Gateway 调度大脑 + Node 执行手臂 + Channel 平台适配，命令行为终极接口的本地优先架构 |
+| [04: Local vs Cloud Install](courses/mastering-openclaw/005-openclaw-local-vs-cloud-install.md) | openclaw, ai-agent, installation, local-first, cloud, macos | Mac 用户首选本地部署，模型 API 成本才是主要开销，Qcolo 图形化一键安装 |
+| [05: Mac curl Install](courses/mastering-openclaw/006-openclaw-curl-install.md) | openclaw, ai-agent, installation, macos, curl, cli, api-key | curl 安装原生完整版，全跳过初始配置，国内推荐 Kimi API，openclaw CLI 验证健康 |
+| [06: WeChat & Feishu Integration](courses/mastering-openclaw/007-openclaw-wechat-feishu.md) | openclaw, ai-agent, wechat, feishu, channel, integration | 微信扫码最简单；飞书需创建自定义机器人应用获取 App ID + Secret，企业场景更强 |
+| [07: Cloud Deploy](courses/mastering-openclaw/008-openclaw-cloud-deploy.md) | openclaw, ai-agent, cloud, deployment, aliyun, tencent-cloud | 腾讯云/阿里云镜像一键部署，30 分钟小白上手，主要成本是 LLM API 非服务器 |
+| [08: Model Cost Optimization](courses/mastering-openclaw/009-openclaw-model-cost.md) | openclaw, ai-agent, cost-optimization, model-routing, llm, pricing | 95% 简单任务用 Kimi，5% 复杂任务用 Claude Opus，设预算熔断，月成本咖啡钱 |
+| [09: Clean Reinstall](courses/mastering-openclaw/010-openclaw-clean-reinstall.md) | openclaw, ai-agent, uninstall, troubleshooting, clean-install | 报错积累时推倒重来效率更高，uninstall 前备份记忆，云端关闭续费吊销旧 Key |
+| [10: Gateway & Web UI](courses/mastering-openclaw/011-openclaw-gateway-webui.md) | openclaw, ai-agent, gateway, web-ui, health-check, security | openclaw health 验证安装，Gateway 睡眠后需重启，Web UI 必须设密码防同网络控制 |
+| [11: Skills Concept](courses/mastering-openclaw/012-openclaw-skills-concept.md) | openclaw, ai-agent, skills, automation, memory | Skills 封装 AI 能力，对话即安装，永久可用；解决重复劳动/忘偏好/上下文负担三痛点 |
+| [12: ClawHub Marketplace](courses/mastering-openclaw/013-openclaw-clawhub.md) | openclaw, clawhub, skills, marketplace, search-strategy, quality-filter | 1.3 万 Skills 中 20% 优质，需用开发者术语搜索，Stars+Downloads 双高为可靠筛选信号 |
+| [13: Office Skills Top 10](courses/mastering-openclaw/014-openclaw-office-skills.md) | openclaw, skills, office-productivity, workflow-automation, clawhub | 10 类高频通用办公 Skill 精选，优先装 Google Search+Summarizer+Git，Skill 组合解锁自动化工作流 |
+| [14: Config File — AID × KTV](courses/mastering-openclaw/015-openclaw-config-file.md) | openclaw, system-prompt, configuration, persona, ai-agent, prompt-engineering | AID（身份/能力/指令）+ KTV（知识/任务/价值）框架，从工具使用者升级为工具构建者 |
 
 ## Workflows — Other
 

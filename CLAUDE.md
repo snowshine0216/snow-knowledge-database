@@ -22,6 +22,14 @@ source: https://example.com/article
 - `tags`: Array of lowercase, hyphen-separated keywords describing the content topic
 - `source`: The canonical URL of the original source material
 
+### Filename Convention
+
+All generated files and directories **must use ASCII-only names** — no Chinese characters, no Unicode. For Chinese-language content, transliterate titles to pinyin before using them as filenames.
+
+- **File/folder names**: `[a-z0-9-]` only (lowercase, digits, hyphens)
+- **Chinese titles**: translate to English, then slugify — never use pinyin or raw Chinese characters
+- ❌ `001-课程介绍.md` → ✅ `001-course-introduction.md`
+
 ---
 
 ## Core Functional Programming Principles

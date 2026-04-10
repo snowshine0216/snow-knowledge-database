@@ -9,9 +9,9 @@ wiki: wiki/concepts/014-openclaw-office-skills.md
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-965449) · 极客时间
 
 ## Outline
-- [为什么要精选办公 Skills](#为什么要精选办公-skills)
-- [Top 10 办公 Skills 精选](#top-10-办公-skills-精选)
-- [组合 Skill 实战案例](#组合-skill-实战案例)
+- [为什么要精选办公 Skills](014-13办公-skills-top-10-从零打造你的龙虾办公室.md#为什么要精选办公-skills)
+- [Top 10 办公 Skills 精选](014-13办公-skills-top-10-从零打造你的龙虾办公室.md#top-10-办公-skills-精选)
+- [组合 Skill 实战案例](014-13办公-skills-top-10-从零打造你的龙虾办公室.md#组合-skill-实战案例)
 
 ---
 

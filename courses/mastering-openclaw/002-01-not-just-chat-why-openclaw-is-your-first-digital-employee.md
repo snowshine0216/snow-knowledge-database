@@ -9,11 +9,11 @@ wiki: wiki/concepts/002-openclaw-digital-employee.md
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-955167) · 极客时间
 
 ## Outline
-- [OpenClaw vs 普通聊天 AI 的本质区别](#openclaw-vs-普通聊天-ai-的本质区别)
-- [诞生故事：Peter 与 Bolt 的语音识别事故](#诞生故事peter-与-bolt-的语音识别事故)
-- [爆火数据：从 0 到 27.9 万 Star](#爆火数据从-0-到-279-万-star)
-- [技术哲学：UNIX 哲学与 Skills 机制](#技术哲学unix-哲学与-skills-机制)
-- [落地场景与生态](#落地场景与生态)
+- [OpenClaw vs 普通聊天 AI 的本质区别](002-01不止是聊天为什么-openclaw-是你的第一号数字员工.md#openclaw-vs-普通聊天-ai-的本质区别)
+- [诞生故事：Peter 与 Bolt 的语音识别事故](002-01不止是聊天为什么-openclaw-是你的第一号数字员工.md#诞生故事peter-与-bolt-的语音识别事故)
+- [爆火数据：从 0 到 27.9 万 Star](002-01不止是聊天为什么-openclaw-是你的第一号数字员工.md#爆火数据从-0-到-279-万-star)
+- [技术哲学：UNIX 哲学与 Skills 机制](002-01不止是聊天为什么-openclaw-是你的第一号数字员工.md#技术哲学unix-哲学与-skills-机制)
+- [落地场景与生态](002-01不止是聊天为什么-openclaw-是你的第一号数字员工.md#落地场景与生态)
 
 ---
 
