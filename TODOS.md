@@ -2,7 +2,7 @@
 
 ## content-summarizer
 
-**Priority:** P2 — Refactor `geektime_course_sync.py` to delegate Cornell Notes formatting to `content-summarizer`, eliminating duplicated template logic. The script currently builds markdown inline via `build_cornell_components()` + `build_markdown()` instead of calling the consolidated formatter like `yt-video-summarizer` and `medium-member-summarizer` do.
+~~**Priority:** P2 — Refactor `geektime_course_sync.py` to delegate Cornell Notes formatting to `content-summarizer`, eliminating duplicated template logic. The script currently builds markdown inline via `build_cornell_components()` + `build_markdown()` instead of calling the consolidated formatter like `yt-video-summarizer` and `medium-member-summarizer` do.~~ **Completed:** v0.3.0.0 (2026-04-10) — `geektime_course_sync.py` now exports `metadata_summary.json` per chapter and delegates all formatting to `content-summarizer` with `content_type: geektime-article`. `html_to_text` and `strip_html_tags` merged into a single function.
 
 ## wiki
 
