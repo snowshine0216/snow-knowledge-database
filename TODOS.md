@@ -6,7 +6,7 @@
 
 ## wiki
 
-**Priority:** P3 — Add a git post-commit hook (or `fswatch`-based watcher) that detects new files in `raw/` and invokes Claude Code to run the full compile pipeline (`scripts/compile.sh` validates, then Claude synthesizes wiki article + updates `_index.md`). Current workflow is fully manual. Note: `compile.sh` is a validation wrapper that prints instructions for Claude Code — it cannot be called standalone by a hook.
+~~**Priority:** P3 — Add a git post-commit hook (or `fswatch`-based watcher) that detects new files in `raw/` and invokes Claude Code to run the full compile pipeline. Current workflow is fully manual.~~ **Completed:** v0.1.3.0 (2026-04-10) — superseded by content-summarizer Wiki Compilation Post-Hook, which auto-compiles wiki articles after every summarization without requiring a git hook.
 
 ~~**Priority:** P3 — Add `scripts/health.sh`: wiki health check that reports stale `_index.md` entries (wiki article exists but no index row), orphaned raw files (not yet compiled), and missing backlinks. Currently at ~45 articles across 3 categories (concepts/tools/workflows).~~ **Completed:** v0.1.0.3 (2026-04-09)
 
