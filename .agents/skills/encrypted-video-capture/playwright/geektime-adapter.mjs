@@ -16,6 +16,7 @@ import { chromium } from "playwright";
 import { parseArgs } from "node:util";
 import fs from "fs";
 import { loadCookies, waitForMarkerFile, waitForVideoEnd } from "./utils.mjs";
+import { sanitizeTitle, parseGeektimeCourseUrl } from "./pure.mjs";
 
 // ── Argument parsing ──────────────────────────────────────────────────────────
 
@@ -44,28 +45,7 @@ if (!args.action || !args.url) {
  * @param {string} raw
  * @returns {string}
  */
-function sanitizeTitle(raw) {
-  return raw
-    .replace(/[^\w \-\u4e00-\u9fff]/gu, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 80);
-}
-
 // ── Geektime API helpers ──────────────────────────────────────────────────────
-
-/**
- * Extract the product ID and type from a Geektime course URL.
- * Supports formats:
- *   /column/<id>   — text+audio column
- *   /video/<id>    — video course
- *   /course/<id>   — alias
- */
-function parseGeektimeCourseUrl(url) {
-  const match = url.match(/\/(column|video|course)\/(\d+)/);
-  if (!match) throw new Error(`Cannot parse Geektime course ID from URL: ${url}`);
-  return { type: match[1], id: match[2] };
-}
 
 /**
  * Call the Geektime column/video articles API to enumerate lectures.
