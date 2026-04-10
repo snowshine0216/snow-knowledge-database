@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0.0] - 2026-04-10
+
+### Added
+- **`encrypted-video-capture` skill**: capture audio from DRM-protected video courses (Geektime, corporate training, webinar replays) via BlackHole + ffmpeg system audio recording. Playwright automation handles Geektime login, lecture enumeration, and 5-tier video-end detection. Transcribes each lecture via the existing ASR pipeline (faster-whisper / OpenRouter / OpenAI) and generates structured `.md` notes per lecture via content-summarizer.
+- **`--audio-file` flag for `extract_video_context.py`**: pass a local WAV/audio file path to bypass yt-dlp URL fetching and call ASR directly. Enables the encrypted-video-capture pipeline to reuse the existing transcription stack without any platform-specific logic.
+- **`preflight.sh`**: validates all dependencies (BlackHole 2ch, ffmpeg, Playwright, ASR provider, disk space) and runs a 2-second test recording to confirm audio capture works before the first lecture.
+- **`setup-guide.md`**: numbered 8-section setup checklist covering BlackHole install, Audio MIDI multi-output configuration, macOS microphone permission, device index verification, and ASR provider setup — with a verified expected preflight output for sanity-checking.
+
+### Changed
+- `extract_video_context.py` `--url` argument is now optional when `--audio-file` is provided; passing neither exits with a clear error.
+
 ## [0.1.2.1] - 2026-04-09
 
 ### Fixed

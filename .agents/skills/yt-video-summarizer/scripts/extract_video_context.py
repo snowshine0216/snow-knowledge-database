@@ -1216,7 +1216,12 @@ def main() -> int:
     load_env_file(Path(__file__).resolve().parent.parent / ".env")
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--url", required=True, help="Video URL (YouTube/Bilibili)")
+    parser.add_argument("--url", required=False, default=None, help="Video URL (YouTube/Bilibili)")
+    parser.add_argument(
+        "--audio-file",
+        default=None,
+        help="Local audio file path (bypasses yt-dlp; use for DRM-captured audio)",
+    )
     parser.add_argument("--out-dir", required=True, help="Output directory")
     parser.add_argument(
         "--cookies-from-browser",
@@ -1268,8 +1273,107 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    if not args.url and not args.audio_file:
+        parser.error("one of --url or --audio-file is required")
+
     out_dir = Path(args.out_dir).expanduser().resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # ── audio-file mode: skip all yt-dlp / platform / metadata steps ────────
+    if args.audio_file:
+        provided_audio = Path(args.audio_file).expanduser().resolve()
+        if not provided_audio.exists():
+            print(f"ERROR: audio file not found: {provided_audio}", file=sys.stderr)
+            return 1
+
+        transcript_path = out_dir / "transcript.txt"
+        transcript_meta_path = out_dir / "transcript_meta.json"
+        bundle_path = out_dir / "bundle.json"
+
+        transcript_source = "metadata-only"
+        asr_model_used: Optional[str] = None
+        asr_error: Optional[str] = None
+        asr_segments_path: Optional[Path] = None
+        transcript_chars = 0
+        transcript_lines = 0
+        asr_errors: List[str] = []
+
+        if args.asr_provider in {"auto", "faster-whisper"}:
+            try:
+                transcript, segments, asr_model_used = transcribe_with_faster_whisper(
+                    provided_audio, args.faster_whisper_model
+                )
+                transcript = transcript.strip()
+                transcript_path.write_text(transcript + "\n", encoding="utf-8")
+                transcript_chars = len(transcript)
+                transcript_lines = len(transcript.splitlines())
+                transcript_source = "asr-faster-whisper"
+                if segments:
+                    asr_segments_path = out_dir / "asr_segments.json"
+                    write_json(asr_segments_path, {"segments": segments})
+            except Exception as exc:
+                asr_errors.append(f"faster-whisper: {exc}")
+
+        if transcript_source == "metadata-only" and args.asr_provider in {"auto", "openai"}:
+            try:
+                model_candidates = [m.strip() for m in args.openai_models.split(",") if m.strip()]
+                transcript, segments, asr_model_used = transcribe_with_openai(provided_audio, model_candidates)
+                transcript = transcript.strip()
+                transcript_path.write_text(transcript + "\n", encoding="utf-8")
+                transcript_chars = len(transcript)
+                transcript_lines = len(transcript.splitlines())
+                transcript_source = "asr-openai"
+                if segments:
+                    asr_segments_path = out_dir / "asr_segments.json"
+                    write_json(asr_segments_path, {"segments": segments})
+            except Exception as exc:
+                asr_errors.append(f"openai: {exc}")
+
+        if asr_errors and transcript_source == "metadata-only":
+            asr_error = " | ".join(asr_errors)
+
+        transcript_meta = {
+            "source": transcript_source,
+            "source_file": None,
+            "subtitle_language": None,
+            "video_original_language": None,
+            "audio_file": str(provided_audio),
+            "asr_model_used": asr_model_used,
+            "asr_error": asr_error,
+            "line_count": transcript_lines,
+            "char_count": transcript_chars,
+        }
+        write_json(transcript_meta_path, transcript_meta)
+
+        bundle = {
+            "url": None,
+            "platform": "local",
+            "used_cookie_retry": False,
+            "bilibili_asr_first": False,
+            "metadata_path": None,
+            "raw_metadata_path": None,
+            "transcript_path": str(transcript_path if transcript_path.exists() else ""),
+            "transcript_meta_path": str(transcript_meta_path),
+            "transcript_source": transcript_source,
+            "subtitle_file": None,
+            "subtitle_language": None,
+            "video_original_language": None,
+            "audio_file": str(provided_audio),
+            "asr_provider": args.asr_provider,
+            "asr_model_used": asr_model_used,
+            "asr_error": asr_error,
+            "asr_segments_path": str(asr_segments_path) if asr_segments_path else None,
+            "focus_sections_requested": [],
+            "focused_sections_json_path": None,
+            "focused_sections_md_path": None,
+            "focused_section_digest_json_path": None,
+            "focused_section_digest_md_path": None,
+        }
+        write_json(bundle_path, bundle)
+        print(json.dumps(bundle, ensure_ascii=False))
+        return 0
+    # ── end audio-file mode ──────────────────────────────────────────────────
+
     platform = platform_from_url(args.url)
 
     try:
