@@ -135,6 +135,13 @@ async function main() {
         }
       }
 
+      // Wait for video element to appear and load before interacting
+      console.error("INFO: Waiting for video element...");
+      await page.waitForFunction(
+        () => Array.from(document.querySelectorAll("video")).some((v) => v.duration > 0),
+        { timeout: 30000 }
+      ).catch(() => console.error("WARNING: Video element not found within 30s, proceeding anyway."));
+
       // Click the play button
       const playButton = page
         .locator("button[aria-label='play'], .video-btn-play, .play-btn, [class*='play']")

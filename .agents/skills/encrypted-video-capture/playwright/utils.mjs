@@ -115,10 +115,13 @@ function setupTier1(page, done) {
   page
     .evaluate(() => {
       return new Promise((res) => {
-        const video = Array.from(document.querySelectorAll("video")).find((v) => v.duration > 0);
-        if (!video) return res("no-video");
-        if (video.ended) return res("already-ended");
-        video.addEventListener("ended", () => res("ended"), { once: true });
+        const poll = () => {
+          const video = Array.from(document.querySelectorAll("video")).find((v) => v.duration > 0);
+          if (!video) { setTimeout(poll, 1000); return; }
+          if (video.ended) { res("already-ended"); return; }
+          video.addEventListener("ended", () => res("ended"), { once: true });
+        };
+        poll();
       });
     })
     .then((r) => done(`tier1:${r}`))
