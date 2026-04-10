@@ -29,8 +29,9 @@ Local prerequisites for ASR fallback:
 - `yt-dlp` must be installed and reachable in the current shell.
 - `ffmpeg` and `ffprobe` must be installed for audio extraction/conversion.
 - If `faster-whisper` was installed into a project virtualenv, activate that env before running the extractor, for example `source .venv/bin/activate`.
-- On the first `faster-whisper` run, the selected model (for example `tiny` or `small`) may need to be downloaded and cached locally. If the machine cannot reach the model host, ASR will fail even when `faster-whisper` is installed.
+- On the first `faster-whisper` run, the selected model (`large-v3` by default) will be downloaded and cached locally. If the machine cannot reach the model host, ASR will fail even when `faster-whisper` is installed.
 - The extractor now auto-loads `.env` from the skill folder, so provider keys can live in `.agents/skills/yt-video-summarizer/.env`.
+- Copy `.env.example` to `.env` in the skill folder to configure `ASR_PROVIDER` (default `faster-whisper`) and `FASTER_WHISPER_MODEL` (default `large-v3`).
 
 OpenRouter setup for `--asr-provider openai`:
 - Set `OPENROUTER_API_KEY` in the skill `.env`.
@@ -54,7 +55,7 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 
 2a. Bilibili standard workflow (recommended default): always pass browser cookies and ASR provider.
 ```bash
-python3 scripts/extract_video_context.py --url "<bilibili_url>" --out-dir "/tmp/yt-video-summarizer" --cookies-from-browser chrome --asr-provider auto
+python3 scripts/extract_video_context.py --url "<bilibili_url>" --out-dir "/tmp/yt-video-summarizer" --cookies-from-browser chrome --asr-provider "${ASR_PROVIDER:-faster-whisper}" --faster-whisper-model "${FASTER_WHISPER_MODEL:-large-v3}"
 ```
 
 3. If extraction fails due YouTube anti-bot checks, retry with browser cookies.
@@ -64,13 +65,13 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 
 4. If no subtitles are available, allow ASR fallback (default behavior for YouTube).
 ```bash
-python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider auto
+python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider "${ASR_PROVIDER:-faster-whisper}" --faster-whisper-model "${FASTER_WHISPER_MODEL:-large-v3}"
 ```
 
 4a. If local ASR is installed in a virtualenv, activate it explicitly before running the extractor.
 ```bash
 source .venv/bin/activate
-python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider faster-whisper
+python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-video-summarizer" --asr-provider faster-whisper --faster-whisper-model "${FASTER_WHISPER_MODEL:-large-v3}"
 ```
 
 4b. If `faster-whisper` reports a missing snapshot or Hub timeout, the problem is usually model download/caching rather than subtitle extraction or audio download.

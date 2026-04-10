@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0.1] - 2026-04-11
+
+### Changed
+- **yt-video-summarizer defaults to faster-whisper large-v3.** ASR commands now use `${ASR_PROVIDER:-faster-whisper}` and `${FASTER_WHISPER_MODEL:-large-v3}` instead of hardcoded `--asr-provider auto`, matching the `.env`-driven pattern from encrypted-video-capture. A new `.env.example` documents all configurable variables (`ASR_PROVIDER`, `FASTER_WHISPER_MODEL`, `OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `DEFAULT_BROWSER`).
+
 ## [0.3.0.0] - 2026-04-10
 
 ### Added
