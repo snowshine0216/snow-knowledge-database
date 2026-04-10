@@ -48,6 +48,50 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - [ ] Build a character-to-index lookup table and populate a 2D count tensor
 - [ ] Visualize a bigram frequency matrix with `matplotlib.pyplot.imshow`
 
+### Scripts
+
+```python
+# read data and count bigrams in a Python dictionary
+with open('names.txt', 'r') as f:
+    words = f.read().splitlines()
+
+b = {}
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        bigram = (ch1, ch2)
+        b[bigram] = b.get(bigram, 0) + 1
+
+# build stoi / itos lookup tables
+chars = sorted(list(set(''.join(words))))
+stoi = {s: i+1 for i, s in enumerate(chars)}
+stoi['.'] = 0
+itos = {i: s for s, i in stoi.items()}
+
+# build 27×27 count tensor N
+import torch
+N = torch.zeros((27, 27), dtype=torch.int32)
+
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        ix1 = stoi[ch1]
+        ix2 = stoi[ch2]
+        N[ix1, ix2] += 1
+
+# visualize the bigram counts as a heatmap
+from matplotlib import pyplot as plt
+%matplotlib inline
+
+plt.figure(figsize=(16, 16))
+plt.imshow(N, cmap='Blues')
+for i in range(N.shape[0]):
+    for j in range(N.shape[1]):
+        plt.text(j, i, itos[i] + itos[j], ha="center", va="bottom", color="gray")
+        plt.text(j, i, N[i, j].item(), ha="center", va="top", color="gray")
+plt.axis('off')
+```
+
 ---
 
 ## Module 2 — Probabilistic Sampling & Loss Evaluation
@@ -77,6 +121,52 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - [ ] Sample character sequences from a normalized bigram probability table
 - [ ] Compute negative log likelihood as a scalar loss over the entire training set
 - [ ] Apply additive smoothing to a bigram model and understand its effect on the distribution
+
+### Scripts
+
+```python
+# normalize rows to get probability table (with +1 smoothing to avoid zero probs)
+P = (N + 1).float()
+P /= P.sum(1, keepdim=True)  # in-place row normalization; no new memory allocated
+
+# sample the next character for each row
+g = torch.Generator().manual_seed(2147483647)
+ix = torch.multinomial(P, num_samples=1, replacement=True, generator=g)
+for i in range(ix.shape[0]):
+    print(f'the selected char after {itos[i]} is {itos[ix[i].item()]}')
+
+# generate names by sampling character-by-character
+g = torch.Generator().manual_seed(2147483647)
+for _ in range(100):
+    ix = 0
+    out = []
+    while True:
+        p = P[ix]
+        ix = torch.multinomial(p, num_samples=1, replacement=True, generator=g).item()
+        out.append(itos[ix])
+        if ix == 0:
+            break
+    print(''.join(out))
+
+# compute negative log likelihood loss over the full dataset
+# GOAL: maximize likelihood ≡ maximize log-likelihood ≡ minimize NLL
+log_likelihood = 0.0
+n = 0
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        ix1 = stoi[ch1]
+        ix2 = stoi[ch2]
+        prob = P[ix1, ix2]
+        logprob = torch.log(prob)
+        print(f'{ch1}{ch2}: {prob:.4f} {logprob:.4f}')
+        log_likelihood += logprob
+        n += 1
+
+print(f'log likelihood: {log_likelihood:.4f}')
+nll = -log_likelihood / n  # normalized negative log likelihood
+print(f'nll: {nll:.4f}')
+```
 
 ---
 
@@ -108,6 +198,34 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - [ ] Construct `(Xs, Ys)` integer pair datasets from raw text
 - [ ] One-hot encode integer inputs and multiply through a weight matrix
 - [ ] Apply softmax to obtain per-example probability distributions over the vocabulary
+
+### Scripts
+
+```python
+# create the training set of bigram (input, target) pairs
+xs, ys = [], []
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        ix1 = stoi[ch1]
+        ix2 = stoi[ch2]
+        xs.append(ix1)
+        ys.append(ix2)
+xs = torch.tensor(xs)
+ys = torch.tensor(ys)
+print(xs.shape, ys.shape)
+
+# forward pass: one-hot encode → linear layer → softmax
+from torch.nn import functional as F
+xenc = F.one_hot(xs, num_classes=27).float()  # (N, 27) one-hot input
+W = torch.randn((27, 27), generator=g, requires_grad=True)
+logits = xenc @ W                              # (N, 27) raw scores
+
+# softmax: exponentiate then normalize each row
+counts = logits.exp()
+probs = counts / counts.sum(1, keepdim=True)   # (N, 27) probability distribution
+print(probs.shape)
+```
 
 ---
 
@@ -143,6 +261,48 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - [ ] Add L2 regularization to the loss and understand its effect on learned probabilities
 - [ ] Sample from the trained neural net model
 
+### Scripts
+
+```python
+# vectorized NLL loss: pluck the probability of the correct label for each example
+loss = -probs[torch.arange(228146), ys].log().mean()
+print(loss)
+
+# full training loop: 200 gradient descent steps
+xenc = F.one_hot(xs, num_classes=27).float()
+W = torch.randn((27, 27), generator=g, requires_grad=True)
+for _ in range(200):
+    # forward pass
+    logits = xenc @ W
+    counts = logits.exp()
+    probs = counts / counts.sum(1, keepdim=True)
+    loss = -probs[torch.arange(probs.shape[0]), ys].log().mean()
+
+    # backward pass
+    W.grad = None        # zero the gradients (equivalent to optimizer.zero_grad())
+    loss.backward()      # compute all gradients via autograd
+
+    # gradient descent update
+    W.data += -50 * W.grad
+    print(loss.item())
+
+# sample names from the trained neural net model
+g = torch.Generator().manual_seed(2147483647)
+for _ in range(5):
+    ix = 0
+    out = []
+    while True:
+        xenc = F.one_hot(torch.tensor([ix]), num_classes=27).float()
+        logits = xenc @ W
+        counts = logits.exp()
+        p = counts / counts.sum(1, keepdim=True)
+        ix = torch.multinomial(p, num_samples=1, replacement=True, generator=g).item()
+        out.append(itos[ix])
+        if ix == 0:
+            break
+    print(''.join(out))
+```
+
 ---
 
 ## Course Summary
@@ -171,3 +331,4 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - **Transcript source:** `asr-openai`
 - **Cookie-auth retry:** used
 - **Data gaps:** transcript was ASR-generated; minor transcription artifacts possible in code variable names
+- **Notebook:** `build_makemore_part1.ipynb`

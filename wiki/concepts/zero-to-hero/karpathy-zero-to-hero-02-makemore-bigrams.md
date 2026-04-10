@@ -3,17 +3,17 @@ tags: [language-model, bigram, character-level, pytorch, neural-network, softmax
 source: https://www.youtube.com/watch?v=PaCmpygFfXo
 ---
 
-# Course: The spelled-out intro to language modeling: building makemore
+# The spelled-out intro to language modeling: building makemore
 
 > **Instructor:** Andrej Karpathy
 > **Duration:** 1 h 57 min | **Published:** 2022-09-07
-> **Views:** 1,120,197 | **Likes:** 18,673
-> **Prerequisites:** Python basics; familiarity with [[01-the-spelled-out-intro-to-neural-networks-and-backpropagation-building-micrograd_VMj-3S1tku0|MicroGrad]] (autograd / backprop concepts)
+> **Prerequisites:** Python basics; familiarity with [[karpathy-zero-to-hero-01-micrograd|MicroGrad]] (autograd / backprop concepts)
 > **Code/Links:** [makemore on GitHub](https://github.com/karpathy/makemore) · [Jupyter notebook](https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part1_bigrams.ipynb)
+> **Series:** [[karpathy-zero-to-hero-01-micrograd|← Part 1: Micrograd]] | [[karpathy-zero-to-hero-03-makemore-mlp|Part 3: MLP →]]
 
 ---
 
-## Course Overview
+## Overview
 
 This lecture builds MakeMore, a character-level language model trained on 32,000 baby names to generate new name-like strings. Starting from raw data exploration, it constructs a bigram language model first by direct counting, then from scratch as a single-layer neural network optimized with gradient descent. By the end you understand how the two approaches are mathematically identical, why the neural network formulation is far more extensible, and have all the machinery needed to scale up to transformers in later videos.
 
@@ -23,17 +23,6 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 
 **Timestamps:** `00:00:00 – 00:20:54` (~21 min)
 
-### Lessons
-
-| # | Title | Timestamp |
-|---|-------|-----------|
-| 1.1 | Intro: what is MakeMore? | 00:00:00 |
-| 1.2 | Reading and exploring names.txt | 00:03:03 |
-| 1.3 | Exploring bigrams in the dataset | 00:06:24 |
-| 1.4 | Counting bigrams in a Python dictionary | 00:09:24 |
-| 1.5 | Counting bigrams in a 2D `torch.Tensor` | 00:12:45 |
-| 1.6 | Visualizing the bigram tensor with matplotlib | 00:18:19 |
-
 ### Key Concepts
 
 - **Character-level language model**: models sequences one character at a time; predicts the next character given the preceding context.
@@ -42,27 +31,55 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - **`torch.Tensor` for counts**: a 27×27 integer tensor `N` where `N[i, j]` = number of times character `j` follows character `i` in the corpus.
 - **`stoi` / `itos` mappings**: dictionaries for character↔integer conversion; constructed with `enumerate(sorted(set(all_chars)))`.
 
-### Learning Objectives
+### Scripts
 
-- [ ] Load a text dataset and extract character bigrams with Python's `zip` trick
-- [ ] Build a character-to-index lookup table and populate a 2D count tensor
-- [ ] Visualize a bigram frequency matrix with `matplotlib.pyplot.imshow`
+```python
+# read data and count bigrams in a Python dictionary
+with open('names.txt', 'r') as f:
+    words = f.read().splitlines()
+
+b = {}
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        bigram = (ch1, ch2)
+        b[bigram] = b.get(bigram, 0) + 1
+
+# build stoi / itos lookup tables
+chars = sorted(list(set(''.join(words))))
+stoi = {s: i+1 for i, s in enumerate(chars)}
+stoi['.'] = 0
+itos = {i: s for s, i in stoi.items()}
+
+# build 27×27 count tensor N
+import torch
+N = torch.zeros((27, 27), dtype=torch.int32)
+
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        ix1 = stoi[ch1]
+        ix2 = stoi[ch2]
+        N[ix1, ix2] += 1
+
+# visualize the bigram counts as a heatmap
+from matplotlib import pyplot as plt
+%matplotlib inline
+
+plt.figure(figsize=(16, 16))
+plt.imshow(N, cmap='Blues')
+for i in range(N.shape[0]):
+    for j in range(N.shape[1]):
+        plt.text(j, i, itos[i] + itos[j], ha="center", va="bottom", color="gray")
+        plt.text(j, i, N[i, j].item(), ha="center", va="top", color="gray")
+plt.axis('off')
+```
 
 ---
 
 ## Module 2 — Probabilistic Sampling & Loss Evaluation
 
 **Timestamps:** `00:20:54 – 01:02:57` (~42 min)
-
-### Lessons
-
-| # | Title | Timestamp |
-|---|-------|-----------|
-| 2.1 | Consolidating start/end into a single `.` token | 00:20:54 |
-| 2.2 | Sampling from the bigram model | 00:24:02 |
-| 2.3 | Vectorized row normalization & tensor broadcasting | 00:36:17 |
-| 2.4 | Loss function: negative log likelihood | 00:50:14 |
-| 2.5 | Model smoothing with fake counts | 01:00:50 |
 
 ### Key Concepts
 
@@ -72,28 +89,57 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - **Tensor broadcasting**: operating on rows or columns of a 2D tensor without an explicit loop — `N / N.sum(1, keepdim=True)` normalizes all rows at once.
 - **Model smoothing**: add fake counts (e.g., `+1`) to every entry before normalizing; prevents zero-probability bigrams and avoids `-inf` log loss.
 
-### Learning Objectives
+### Scripts
 
-- [ ] Sample character sequences from a normalized bigram probability table
-- [ ] Compute negative log likelihood as a scalar loss over the entire training set
-- [ ] Apply additive smoothing to a bigram model and understand its effect on the distribution
+```python
+# normalize rows to get probability table (with +1 smoothing to avoid zero probs)
+P = (N + 1).float()
+P /= P.sum(1, keepdim=True)  # in-place row normalization; no new memory allocated
+
+# sample the next character for each row
+g = torch.Generator().manual_seed(2147483647)
+ix = torch.multinomial(P, num_samples=1, replacement=True, generator=g)
+for i in range(ix.shape[0]):
+    print(f'the selected char after {itos[i]} is {itos[ix[i].item()]}')
+
+# generate names by sampling character-by-character
+g = torch.Generator().manual_seed(2147483647)
+for _ in range(100):
+    ix = 0
+    out = []
+    while True:
+        p = P[ix]
+        ix = torch.multinomial(p, num_samples=1, replacement=True, generator=g).item()
+        out.append(itos[ix])
+        if ix == 0:
+            break
+    print(''.join(out))
+
+# compute negative log likelihood loss over the full dataset
+# GOAL: maximize likelihood ≡ maximize log-likelihood ≡ minimize NLL
+log_likelihood = 0.0
+n = 0
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        ix1 = stoi[ch1]
+        ix2 = stoi[ch2]
+        prob = P[ix1, ix2]
+        logprob = torch.log(prob)
+        print(f'{ch1}{ch2}: {prob:.4f} {logprob:.4f}')
+        log_likelihood += logprob
+        n += 1
+
+print(f'log likelihood: {log_likelihood:.4f}')
+nll = -log_likelihood / n  # normalized negative log likelihood
+print(f'nll: {nll:.4f}')
+```
 
 ---
 
 ## Module 3 — Neural Network Forward Pass
 
 **Timestamps:** `01:02:57 – 01:26:17` (~23 min)
-
-### Lessons
-
-| # | Title | Timestamp |
-|---|-------|-----------|
-| 3.1 | Part 2 intro: the neural network approach | 01:02:57 |
-| 3.2 | Creating the bigram dataset `(Xs, Ys)` | 01:05:26 |
-| 3.3 | One-hot encoding integers for neural net input | 01:10:01 |
-| 3.4 | Single linear layer via matrix multiplication | 01:13:53 |
-| 3.5 | Softmax: turning logits into probabilities | 01:18:46 |
-| 3.6 | Summary & preview of upcoming videos | 01:26:17 |
 
 ### Key Concepts
 
@@ -103,29 +149,39 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - **Softmax**: `probs = counts / counts.sum(1, keepdim=True)` where `counts = logits.exp()`. Converts logits to a valid probability distribution (positive, sums to 1).
 - **`requires_grad=True`**: tells PyTorch to track operations on `W` so `.backward()` can populate `W.grad`.
 
-### Learning Objectives
+### Scripts
 
-- [ ] Construct `(Xs, Ys)` integer pair datasets from raw text
-- [ ] One-hot encode integer inputs and multiply through a weight matrix
-- [ ] Apply softmax to obtain per-example probability distributions over the vocabulary
+```python
+# create the training set of bigram (input, target) pairs
+xs, ys = [], []
+for w in words:
+    chs = ['.'] + list(w) + ['.']
+    for ch1, ch2 in zip(chs, chs[1:]):
+        ix1 = stoi[ch1]
+        ix2 = stoi[ch2]
+        xs.append(ix1)
+        ys.append(ix2)
+xs = torch.tensor(xs)
+ys = torch.tensor(ys)
+print(xs.shape, ys.shape)
+
+# forward pass: one-hot encode → linear layer → softmax
+from torch.nn import functional as F
+xenc = F.one_hot(xs, num_classes=27).float()  # (N, 27) one-hot input
+W = torch.randn((27, 27), generator=g, requires_grad=True)
+logits = xenc @ W                              # (N, 27) raw scores
+
+# softmax: exponentiate then normalize each row
+counts = logits.exp()
+probs = counts / counts.sum(1, keepdim=True)   # (N, 27) probability distribution
+print(probs.shape)
+```
 
 ---
 
 ## Module 4 — Training Loop: Backward Pass & Optimization
 
 **Timestamps:** `01:26:17 – 01:56:16` (~30 min)
-
-### Lessons
-
-| # | Title | Timestamp |
-|---|-------|-----------|
-| 4.1 | Vectorized NLL loss over the full dataset | 01:35:49 |
-| 4.2 | `loss.backward()` and gradient update in PyTorch | 01:38:36 |
-| 4.3 | Putting it all together (full training loop) | 01:42:55 |
-| 4.4 | Note 1: one-hot × W = row lookup into W | 01:47:49 |
-| 4.5 | Note 2: model smoothing = regularization loss | 01:50:18 |
-| 4.6 | Sampling from the trained neural net | 01:54:31 |
-| 4.7 | Conclusion | 01:56:16 |
 
 ### Key Concepts
 
@@ -135,39 +191,60 @@ This lecture builds MakeMore, a character-level language model trained on 32,000
 - **One-hot × W = row selection**: multiplying a one-hot vector by `W` simply selects the row of `W` corresponding to the active index — identical to the lookup in the counting approach.
 - **Regularization as smoothing**: adding `λ * (W**2).mean()` to the loss penalizes large weights, pushing predictions toward uniform — mathematically equivalent to additive count smoothing.
 
-### Learning Objectives
+### Scripts
 
-- [ ] Compute the NLL loss in vectorized form using advanced PyTorch indexing
-- [ ] Run a complete gradient descent loop (zero grad → forward → loss → backward → update)
-- [ ] Explain why the one-hot linear model and the counting model are equivalent
-- [ ] Add L2 regularization to the loss and understand its effect on learned probabilities
-- [ ] Sample from the trained neural net model
+```python
+# vectorized NLL loss: pluck the probability of the correct label for each example
+loss = -probs[torch.arange(228146), ys].log().mean()
+print(loss)
+
+# full training loop: 200 gradient descent steps
+xenc = F.one_hot(xs, num_classes=27).float()
+W = torch.randn((27, 27), generator=g, requires_grad=True)
+for _ in range(200):
+    # forward pass
+    logits = xenc @ W
+    counts = logits.exp()
+    probs = counts / counts.sum(1, keepdim=True)
+    loss = -probs[torch.arange(probs.shape[0]), ys].log().mean()
+
+    # backward pass
+    W.grad = None        # zero the gradients (equivalent to optimizer.zero_grad())
+    loss.backward()      # compute all gradients via autograd
+
+    # gradient descent update
+    W.data += -50 * W.grad
+    print(loss.item())
+
+# sample names from the trained neural net model
+g = torch.Generator().manual_seed(2147483647)
+for _ in range(5):
+    ix = 0
+    out = []
+    while True:
+        xenc = F.one_hot(torch.tensor([ix]), num_classes=27).float()
+        logits = xenc @ W
+        counts = logits.exp()
+        p = counts / counts.sum(1, keepdim=True)
+        ix = torch.multinomial(p, num_samples=1, replacement=True, generator=g).item()
+        out.append(itos[ix])
+        if ix == 0:
+            break
+    print(''.join(out))
+```
 
 ---
 
-## Course Summary
-
-### The 5 Big Ideas
+## The 5 Big Ideas
 
 1. **Bigram as the simplest language model**: predicting only from the immediately preceding character; easy to implement by counting and normalizing a 2D array.
 2. **Negative log likelihood is the right loss**: for multi-class prediction, NLL (cross-entropy) directly measures how well the model assigns probability to the true next character.
 3. **Neural net = differentiable lookup table**: a one-hot input times a weight matrix is just a row selection; this realization connects gradient descent to direct counting.
 4. **Softmax is the canonical output layer**: exponentiate logits → normalize → get probabilities. Used identically whether the net has one layer or a hundred.
-5. **Gradient-based training is infinitely scalable**: counting works only for bigrams, but the neural net formulation extends naturally to MLPs, RNNs, and Transformers feeding arbitrary context.
+5. **Gradient-based training is infinitely scalable**: counting works only for bigrams, but the neural net formulation extends naturally to [[karpathy-zero-to-hero-03-makemore-mlp|MLPs]], RNNs, and Transformers feeding arbitrary context.
 
-### Recommended Exercises
+## Related
 
-- **E01**: Train a trigram language model (two characters → predict third) using either counting or a neural net; compare loss to the bigram baseline.
-- **E02**: Split the dataset 80/10/10 (train/dev/test); train only on the training set and evaluate on dev and test to observe generalization.
-- **E03**: Use the dev set to tune the smoothing strength (additive count or regularization λ); plot train vs. dev loss as smoothing varies.
-- **E04**: Remove `F.one_hot` and instead directly index into rows of `W` — confirm the loss is identical.
-- **E05**: Replace the manual NLL computation with `F.cross_entropy`; verify the same loss; understand why `cross_entropy` is numerically preferred.
-- **E06**: Design your own follow-on exercise and complete it.
-
----
-
-## Source Notes
-
-- **Transcript source:** `asr-openai`
-- **Cookie-auth retry:** used
-- **Data gaps:** transcript was ASR-generated; minor transcription artifacts possible in code variable names
+- [[karpathy-zero-to-hero-01-micrograd|Part 1: Micrograd — autograd from scratch]]
+- [[karpathy-zero-to-hero-03-makemore-mlp|Part 3: MLP — embeddings and multi-layer networks]]
+- [[karpathy-zero-to-hero-04-makemore-batchnorm|Part 4: BatchNorm — activations and gradients]]
