@@ -17,10 +17,20 @@ SESSION_ID="${3:?}"
 READY_FILE="/tmp/evc-ffmpeg-ready-${SESSION_ID}"
 PID_FILE="/tmp/evc-ffmpeg-${SESSION_ID}.pid"
 
+FFMPEG_PID=""
+
 cleanup() {
   rm -f "$PID_FILE"
 }
 trap cleanup EXIT
+
+# On SIGINT: forward to ffmpeg so it flushes and exits cleanly, then wait.
+stop_recording() {
+  [ -n "$FFMPEG_PID" ] && kill -INT "$FFMPEG_PID" 2>/dev/null || true
+  wait "$FFMPEG_PID" 2>/dev/null || true
+  exit 0
+}
+trap stop_recording INT TERM
 
 # Start ffmpeg. We use a pipe to detect the first audio frame.
 # The "-progress pipe:2" flag emits progress events to stderr once
