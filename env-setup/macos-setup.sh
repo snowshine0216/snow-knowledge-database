@@ -108,7 +108,7 @@ install_homebrew() {
 
 install_brew_packages() {
   log "Installing Homebrew packages"
-  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun
+  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun bats-core
 }
 
 load_nvm() {
