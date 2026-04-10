@@ -18,6 +18,22 @@ export function sanitizeTitle(raw) {
 }
 
 /**
+ * Build the playback URL for a lecture given course type, course ID, and article ID.
+ * - course: https://time.geekbang.org/course/detail/<courseId>-<articleId>
+ * - column/video: https://time.geekbang.org/<type>/<courseId>/<articleId>
+ * @param {string} courseType
+ * @param {string} courseId
+ * @param {string|number} articleId
+ * @returns {string}
+ */
+export function buildLectureUrl(courseType, courseId, articleId) {
+  if (courseType === "course") {
+    return `https://time.geekbang.org/course/detail/${courseId}-${articleId}`;
+  }
+  return `https://time.geekbang.org/${courseType}/${courseId}/${articleId}`;
+}
+
+/**
  * Extract the product ID and type from a Geektime course URL.
  * Supports formats:
  *   /column/<id>   — text+audio column

@@ -5,7 +5,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { sanitizeTitle, parseGeektimeCourseUrl } from "./pure.mjs";
+import { sanitizeTitle, parseGeektimeCourseUrl, buildLectureUrl } from "./pure.mjs";
 
 // ── sanitizeTitle ─────────────────────────────────────────────────────────────
 
@@ -68,5 +68,28 @@ test("parseGeektimeCourseUrl: throws on unrecognized URL", () => {
   assert.throws(
     () => parseGeektimeCourseUrl("https://example.com/unknown/path"),
     /Cannot parse Geektime course ID/
+  );
+});
+
+// ── buildLectureUrl ───────────────────────────────────────────────────────────
+
+test("buildLectureUrl: course type uses detail/<courseId>-<articleId>", () => {
+  assert.equal(
+    buildLectureUrl("course", "101123301", "955166"),
+    "https://time.geekbang.org/course/detail/101123301-955166"
+  );
+});
+
+test("buildLectureUrl: column type uses /<type>/<courseId>/<articleId>", () => {
+  assert.equal(
+    buildLectureUrl("column", "100083501", "123"),
+    "https://time.geekbang.org/column/100083501/123"
+  );
+});
+
+test("buildLectureUrl: video type uses /<type>/<courseId>/<articleId>", () => {
+  assert.equal(
+    buildLectureUrl("video", "100082601", "456"),
+    "https://time.geekbang.org/video/100082601/456"
   );
 });

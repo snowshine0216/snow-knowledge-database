@@ -16,7 +16,7 @@ import { chromium } from "playwright";
 import { parseArgs } from "node:util";
 import fs from "fs";
 import { loadCookies, waitForMarkerFile, waitForVideoEnd } from "./utils.mjs";
-import { sanitizeTitle, parseGeektimeCourseUrl } from "./pure.mjs";
+import { sanitizeTitle, parseGeektimeCourseUrl, buildLectureUrl } from "./pure.mjs";
 import { ffmpegReadyPath, videoEndedPath } from "./pathConstants.mjs";
 
 // ── Argument parsing ──────────────────────────────────────────────────────────
@@ -46,34 +46,41 @@ const API_PAGE_SIZE = 500;
 // ── Geektime API helpers ──────────────────────────────────────────────────────
 
 /**
- * Call the Geektime column/video articles API to enumerate lectures.
- * @param {import('playwright').Page} page
+ * Call the Geektime column/video articles API directly from Node.js.
+ * Bypasses Chrome entirely for enumerate — no page.goto() needed.
+ * @param {Array<{name,value,domain}>} cookies  - from loadCookies()
  * @param {string} courseId
  * @param {string} courseType
  * @returns {Promise<Array<{idx: string, title: string, url: string, duration: number}>>}
  */
-async function fetchLectureList(page, courseId, courseType) {
+async function fetchLectureList(cookies, courseId, courseType) {
   const endpoint = courseType === "video" ? GEEKTIME_VIDEO_API : GEEKTIME_COLUMN_API;
 
-  const response = await page.evaluate(
-    async ({ endpoint, courseId, pageSize }) => {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cid: courseId,
-          order: "earliest",
-          prev: 0,
-          sample: false,
-          size: pageSize,
-        }),
-        credentials: "include",
-      });
-      return res.json();
-    },
-    { endpoint, courseId, pageSize: API_PAGE_SIZE }
-  );
+  // Build Cookie header — only send geekbang.org cookies to avoid 400 "header too large".
+  const cookieHeader = cookies
+    .filter((c) => c.domain && c.domain.includes("geekbang.org"))
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
 
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Cookie": cookieHeader,
+      "Origin": "https://time.geekbang.org",
+      "Referer": "https://time.geekbang.org/",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/136 Safari/537.36",
+    },
+    body: JSON.stringify({
+      cid: courseId,
+      order: "earliest",
+      prev: 0,
+      sample: false,
+      size: API_PAGE_SIZE,
+    }),
+  });
+
+  const response = await res.json();
   const articles = response?.data?.list || [];
   if (articles.length === 0) {
     throw new Error(`Geektime API returned 0 lectures for course ${courseId}. Check authentication.`);
@@ -90,7 +97,7 @@ async function fetchLectureList(page, courseId, courseType) {
   return validArticles.map((a, i) => ({
     idx: String(i + 1).padStart(3, "0"),
     title: sanitizeTitle(a.article_title || a.title || `lecture-${i + 1}`),
-    url: `https://time.geekbang.org/${courseType}/${courseId}/${a.id}`,
+    url: buildLectureUrl(courseType, courseId, a.id),
     duration: a.video_time || a.audio_time || 0,
   }));
 }
@@ -101,30 +108,51 @@ async function main() {
   const cookieFile = args.cookies || "";
   const cookies = cookieFile ? loadCookies(cookieFile) : [];
 
-  const CDP_URL = process.env.CHROME_CDP_URL || "http://localhost:9222";
+  // ── enumerate: pure HTTP fetch, no Chrome needed ────────────────────────────
+  if (args.action === "enumerate") {
+    const { type, id } = parseGeektimeCourseUrl(args.url);
+    console.error(`INFO: Fetching lecture list for course ${id} (${type}) via API`);
+    const lectures = await fetchLectureList(cookies, id, type);
+    process.stdout.write(JSON.stringify(lectures, null, 2) + "\n");
+    return;
+  }
+
+  // ── play: requires Chrome via CDP ────────────────────────────────────────────
+  const CDP_URL = process.env.CHROME_CDP_URL || "http://127.0.0.1:9222";
+  console.error(`INFO: Connecting to CDP at ${CDP_URL}`);
   const browser = await chromium.connectOverCDP(CDP_URL);
+  console.error(`INFO: CDP connected`);
   const context = browser.contexts()[0] || await browser.newContext();
-  try {
-    if (cookies.length > 0) {
-      await context.addCookies(cookies);
-    }
 
-    const page = await context.newPage();
-    if (args.action === "enumerate") {
-      await page.goto("https://time.geekbang.org", { waitUntil: "domcontentloaded", timeout: 30000 });
+  // Reuse an existing live Geektime tab. Skip chrome:// internals and about:blank
+  // — blank tabs can be in a dormant state that silently hangs on page.goto().
+  const existingPages = context.pages();
+  const navigatablePage = existingPages.find((p) => {
+    const u = p.url();
+    return !u.startsWith("chrome://") &&
+           !u.startsWith("chrome-extension://") &&
+           u !== "about:blank";
+  });
+  const page = navigatablePage || await context.newPage();
+  console.error(`INFO: Using page: ${page.url()}`);
 
-      const { type, id } = parseGeektimeCourseUrl(args.url);
-      const lectures = await fetchLectureList(page, id, type);
+  // Bring the tab to front so Chrome doesn't throttle background-tab navigations.
+  await page.bringToFront().catch(() => {});
 
-      process.stdout.write(JSON.stringify(lectures, null, 2) + "\n");
-    } else if (args.action === "play") {
+  if (cookies.length > 0) {
+    await context.addCookies(cookies);
+  }
+
+  if (args.action === "play") {
       const sessionId = args["session-id"];
       const duration = parseInt(args.duration || "0", 10);
       const readyFile = ffmpegReadyPath(sessionId);
       const endedFile = videoEndedPath(sessionId);
 
       // Navigate to lecture
+      console.error(`INFO: Navigating to ${args.url}`);
       await page.goto(args.url, { waitUntil: "domcontentloaded", timeout: 30000 });
+      console.error(`INFO: Page loaded — title: ${await page.title()}`);
 
       // Wait for ffmpeg ready signal before clicking play
       if (sessionId) {
@@ -177,9 +205,8 @@ async function main() {
       console.error(`Unknown action: ${args.action}`);
       process.exit(1);
     }
-  } finally {
-    await browser.close();
-  }
+    // Leave the tab at its current URL (lecture page) so Chrome stays visible
+    // and the next lecture can reuse this live tab.
 }
 
 main().catch((err) => {
