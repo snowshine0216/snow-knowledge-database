@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3.0] - 2026-04-10
+
+### Added
+- **Auto-wiki post-hook in content-summarizer.** Summarizing a YouTube video, Medium article, or PDF now automatically produces both the detailed summary file and a wiki article. No second manual compile step needed. The post-hook runs collision detection, synthesizes a scaled wiki article, and updates `wiki/_index.md` atomically.
+- **`scripts/wiki-collision-check.sh`** — deterministic bash collision detector. Takes a source URL and comma-separated tags, returns `CREATE`, `ENRICH <file>`, or `SKIP`. Primary check greps individual wiki file frontmatter for the source URL (not `_index.md`); secondary checks slug existence; tertiary checks tag overlap (≥4 non-generic shared tags). Configurable via `GENERIC_TAGS` and `ENRICH_THRESHOLD` env vars.
+- **`scripts/backfill-wiki.sh`** — discovery script that scans `courses/`, `interview-summarizes/`, `tech-notes/`, `repo-analysis/`, and `sources/` for summarized files not yet compiled to `wiki/`. Prints a numbered list and per-file Claude Code instructions for batch compilation.
+- **Wiki workflow documented in `CLAUDE.md`** — three new lines describing auto-compilation, collision detection, and backfill.
+
 ## [0.1.2.1] - 2026-04-09
 
 ### Fixed
