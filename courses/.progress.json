@@ -52,13 +52,13 @@
       "retries": 0
     },
     "011": {
-      "status": "pending",
-      "title": "10第一次对话验证 Gateway 状态与 Web UI 首次连接",
+      "status": "done",
+      "title": "10第一次对话-Gateway状态与WebUI",
       "retries": 0
     },
     "012": {
-      "status": "pending",
-      "title": "11Skill 本质论为什么说 Skills 是 AI 的岗位培训包",
+      "status": "done",
+      "title": "11Skill本质论-岗位培训包",
       "retries": 0
     },
     "013": {

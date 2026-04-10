@@ -25,6 +25,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [OpenClaw 云端一键镜像部署](concepts/008-openclaw-cloud-deploy.md) | openclaw, ai-agent, cloud, deployment, aliyun, tencent-cloud | 腾讯云/阿里云镜像一键部署，30 分钟小白上手，主要成本是 LLM API 非服务器 |
 | [OpenClaw 极致性价比：模型分层路由策略](concepts/009-openclaw-model-cost.md) | openclaw, ai-agent, cost-optimization, model-routing, llm, pricing | 95% 简单任务用 Kimi，5% 复杂任务用 Claude Opus，设预算熔断，月成本咖啡钱 |
 | [OpenClaw 彻底卸载与干净重装](concepts/010-openclaw-clean-reinstall.md) | openclaw, ai-agent, uninstall, troubleshooting, clean-install | 报错积累时推倒重来效率更高，uninstall 前备份记忆，云端关闭续费吊销旧 Key |
+| [OpenClaw Gateway 状态验证与 Web UI](concepts/011-openclaw-gateway-webui.md) | openclaw, ai-agent, gateway, web-ui, health-check, security | openclaw health 验证安装，Gateway 睡眠后需重启，Web UI 必须设密码防同网络控制 |
+| [OpenClaw Skills：AI 的岗位培训包](concepts/012-openclaw-skills-concept.md) | openclaw, ai-agent, skills, automation, memory | Skills 封装 AI 能力，对话即安装，永久可用；解决重复劳动/忘偏好/上下文负担三痛点 |
 | [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
 | [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
 | [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
