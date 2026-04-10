@@ -143,8 +143,23 @@ async function main() {
         // Some lectures auto-play; if no play button found, that's fine.
       });
 
+      // Set playback speed (clamp to [1.0, 2.0], default 1.0 on invalid)
+      const rawSpeed = parseFloat(process.env.PLAYBACK_SPEED || "1.0");
+      const speed = isNaN(rawSpeed) ? 1.0 : Math.min(2.0, Math.max(1.0, rawSpeed));
+      if (!isNaN(rawSpeed) && rawSpeed !== speed) {
+        console.error(`WARNING: PLAYBACK_SPEED=${rawSpeed} out of range [1.0, 2.0], clamped to ${speed}.`);
+      }
+      const applySpeed = () =>
+        page.evaluate((s) => {
+          const video = document.querySelector("video");
+          if (video) video.playbackRate = s;
+        }, speed).catch(() => {});
+      await applySpeed();
+      const speedInterval = setInterval(applySpeed, 5000);
+
       // Wait for video to end
       await waitForVideoEnd(page, duration);
+      clearInterval(speedInterval);
 
       // Write ended marker
       if (sessionId) {

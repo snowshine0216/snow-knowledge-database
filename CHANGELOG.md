@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0.0] - 2026-04-10
+
+### Added
+- **Streaming ASR preview for encrypted-video-capture.** A new `streaming-asr.mjs` script runs in parallel with BlackHole recording, tailing the growing WAV file in 10-second chunks (320 KB at 16 kHz/mono/16-bit). Each chunk is wrapped in a minimal WAV header in-memory and sent to the ASR API, producing JSONL transcript entries with timestamps. If streaming coverage reaches 80% of the final WAV duration, the streaming transcript is used directly — skipping the batch transcription step and delivering a preview mid-lecture.
+- **Playback speed control for encrypted-video-capture.** Set `PLAYBACK_SPEED=1.5` (or any value 1.0–2.0) in `.env` to record at faster than real-time. The adapter sets `video.playbackRate` after clicking play, re-pins it every 5 seconds to prevent player resets, and adjusts all wall-clock timeouts accordingly (`WALL_TIMEOUT = LECTURE_DURATION / PLAYBACK_SPEED`).
+- **Obsidian `_index.md` auto-update** (Step 8a). After all lectures in a course are processed, `encrypted-video-capture` scans the output directory and appends a wikilink row per lecture to `_index.md`. Idempotent — existing rows are not duplicated.
+- **Wiki backfill check** (Step 8b). After course completion, any lecture `.md` file not yet compiled to `wiki/` runs through `wiki-collision-check.sh` → `compile.sh`. Skips lectures already handled by the content-summarizer post-hook.
+
+### Changed
+- **geektime-course-summarizer delegates to content-summarizer.** The extractor script (`geektime_course_sync.py`) no longer builds Cornell Notes markdown inline. Instead it writes a `metadata_summary.json` per chapter (title, source URL, article ID, chapter title, author, course names, plain-text content, language). Claude then invokes the `content-summarizer` skill with `content_type: geektime-article` — the same delegation pattern used by `yt-video-summarizer`. This removes ~250 lines of duplicated template logic and ensures all sources produce consistent note formatting.
+- **`html_to_text` and `strip_html_tags` merged** into a single `html_to_text(content, preserve_newlines=True)`. Pass `preserve_newlines=False` to get the collapsed-whitespace behavior previously only available via `strip_html_tags`.
+
 ## [0.2.2.0] - 2026-04-10
 
 ### Changed

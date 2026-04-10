@@ -14,3 +14,6 @@ export const ffmpegPidPath = (sessionId) => `/tmp/evc-ffmpeg-${sessionId}.pid`;
 
 /** Path to the file geektime-adapter writes when the video 'ended' event fires. */
 export const videoEndedPath = (sessionId) => `/tmp/evc-video-ended-${sessionId}`;
+
+/** Path to the JSONL file streaming-asr.mjs writes transcript chunks to. */
+export const transcriptLog = (sessionId) => `/tmp/evc-transcript-${sessionId}.jsonl`;

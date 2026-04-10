@@ -5,7 +5,7 @@ A personal knowledge repository for curated notes, references, and study materia
 ## What This Repo Contains
 
 - `raw/` — raw source intake (articles, posts, transcripts clipped with frontmatter)
-- `wiki/` — LLM-compiled knowledge layer (`_index.md` master index + `concepts/`, `tools/`, `workflows/`)
+- `wiki/` — LLM-compiled knowledge layer (`_index.md` master index + `concepts/`, `courses/`, `tools/`, `workflows/`)
 - `scripts/` — CLI tools: `search.sh` (keyword search), `compile.sh` (raw→wiki trigger), `wiki-collision-check.sh` (CREATE/ENRICH/SKIP detector), `backfill-wiki.sh` (find uncompiled summaries)
 - `_templates/` — Templater templates for consistent frontmatter on new notes
 - Topic folders for notes (for example, `essence-of-linear-algebra/`)
@@ -52,6 +52,8 @@ See [wiki/_index.md](wiki/_index.md) for the full article index.
 - [YouTube/Bilibili video summarizer](.agents/skills/yt-video-summarizer/SKILL.md)
 - [Medium article summarizer](.agents/skills/medium-member-summarizer/SKILL.md)
 - [Content summarizer (formatting hub)](.agents/skills/content-summarizer/SKILL.md) — shared output templates for all content types
+- [GeekTime course summarizer](.agents/skills/geektime-course-summarizer/SKILL.md) — fetches and summarizes GeekTime courses via content-summarizer
+- [Encrypted video capture](.agents/skills/encrypted-video-capture/SKILL.md) — capture audio from DRM-protected video courses via BlackHole + ffmpeg
 
 ## Environment Setup
 
@@ -122,6 +124,7 @@ raw/          ← intake: clip sources here (frontmatter required: tags, source)
 wiki/
   _index.md   ← master index (LLM reads this first)
   concepts/   ← compiled concept articles
+  courses/    ← multi-chapter course notes (3Blue1Brown, Karpathy, GeekTime, etc.)
   tools/      ← tool notes
   workflows/  ← process descriptions
 site/         ← Next.js wiki website (deployed to Vercel)
