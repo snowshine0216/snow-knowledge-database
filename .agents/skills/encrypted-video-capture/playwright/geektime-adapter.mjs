@@ -101,7 +101,11 @@ async function main() {
   const cookieFile = args.cookies || "";
   const cookies = cookieFile ? loadCookies(cookieFile) : [];
 
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({
+    headless: false,
+    executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    args: ["--user-data-dir=/tmp/evc-chrome-profile"],
+  });
   try {
     const context = await browser.newContext();
 
@@ -158,7 +162,8 @@ async function main() {
       const speedInterval = setInterval(applySpeed, 5000);
 
       // Wait for video to end
-      await waitForVideoEnd(page, duration);
+      const endTier = await waitForVideoEnd(page, duration);
+      console.error(`INFO: Video ended via ${endTier}`);
       clearInterval(speedInterval);
 
       // Write ended marker
