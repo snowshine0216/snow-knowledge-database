@@ -6,7 +6,7 @@ A personal knowledge repository for curated notes, references, and study materia
 
 - `raw/` — raw source intake (articles, posts, transcripts clipped with frontmatter)
 - `wiki/` — LLM-compiled knowledge layer (`_index.md` master index + `concepts/`, `tools/`, `workflows/`)
-- `scripts/` — CLI tools: `search.sh` (keyword search) and `compile.sh` (raw→wiki trigger)
+- `scripts/` — CLI tools: `search.sh` (keyword search), `compile.sh` (raw→wiki trigger), `wiki-collision-check.sh` (CREATE/ENRICH/SKIP detector), `backfill-wiki.sh` (find uncompiled summaries)
 - `_templates/` — Templater templates for consistent frontmatter on new notes
 - Topic folders for notes (for example, `essence-of-linear-algebra/`)
 - Obsidian workspace configuration in `.obsidian/`
@@ -29,9 +29,16 @@ It's a Next.js 16 App Router site in `site/` — SSG-generated, auto-deploys on 
 # Search the knowledge base
 ./scripts/search.sh "rag retrieval"
 
-# Compile a raw source into the wiki
+# Compile a raw source into the wiki (manual, for raw/ clippings)
 ./scripts/compile.sh raw/article.md          # → follow printed Claude Code instruction
 ./scripts/compile.sh raw/article.md tools    # → compile to wiki/tools/
+
+# Auto-compilation (YouTube, Medium, PDF)
+# Summarizing via yt-video-summarizer / medium-member-summarizer / pdf-summarizer
+# automatically runs the Wiki Compilation Post-Hook — no manual compile step needed.
+
+# Find summaries not yet compiled to wiki/
+./scripts/backfill-wiki.sh
 ```
 
 See [wiki/_index.md](wiki/_index.md) for the full article index.
