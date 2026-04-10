@@ -204,7 +204,7 @@ If `YTDLP_AUDIO` is still empty:
 
 Parse playback speed (clamp to [1.0, 2.0]):
 ```bash
-PLAYBACK_SPEED="${PLAYBACK_SPEED:-1.0}"
+PLAYBACK_SPEED="${PLAYBACK_SPEED:-2.0}"
 # Wall-clock timeout = real duration / speed (min 60s if duration unknown)
 if [ "${LECTURE_DURATION:-0}" -gt 0 ]; then
   WALL_TIMEOUT=$(echo "$LECTURE_DURATION $PLAYBACK_SPEED" | awk '{t=int($1/$2); print (t<60)?60:t}')

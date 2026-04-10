@@ -56,7 +56,7 @@ async function fetchLectureList(page, courseId, courseType) {
   const endpoint = courseType === "video" ? GEEKTIME_VIDEO_API : GEEKTIME_COLUMN_API;
 
   const response = await page.evaluate(
-    async ({ endpoint, courseId }) => {
+    async ({ endpoint, courseId, pageSize }) => {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,13 +65,13 @@ async function fetchLectureList(page, courseId, courseType) {
           order: "earliest",
           prev: 0,
           sample: false,
-          size: API_PAGE_SIZE,
+          size: pageSize,
         }),
         credentials: "include",
       });
       return res.json();
     },
-    { endpoint, courseId }
+    { endpoint, courseId, pageSize: API_PAGE_SIZE }
   );
 
   const articles = response?.data?.list || [];
@@ -143,8 +143,8 @@ async function main() {
         // Some lectures auto-play; if no play button found, that's fine.
       });
 
-      // Set playback speed (clamp to [1.0, 2.0], default 1.0 on invalid)
-      const rawSpeed = parseFloat(process.env.PLAYBACK_SPEED || "1.0");
+      // Set playback speed (clamp to [1.0, 2.0], default 2.0 on invalid)
+      const rawSpeed = parseFloat(process.env.PLAYBACK_SPEED || "2.0");
       const speed = isNaN(rawSpeed) ? 1.0 : Math.min(2.0, Math.max(1.0, rawSpeed));
       if (!isNaN(rawSpeed) && rawSpeed !== speed) {
         console.error(`WARNING: PLAYBACK_SPEED=${rawSpeed} out of range [1.0, 2.0], clamped to ${speed}.`);

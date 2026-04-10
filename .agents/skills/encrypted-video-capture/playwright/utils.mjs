@@ -29,7 +29,14 @@ export function loadCookies(cookieFilePath) {
       value: value.trim(),
       domain: domain.trim(),
       path: cookiePath.trim(),
-      expires: parseInt(expiresStr, 10) || -1,
+      expires: (() => {
+        const n = parseInt(expiresStr, 10);
+        if (isNaN(n) || n === 0) return -1;
+        // Chrome exports cookie expiry as microseconds since 1601-01-01 (Chrome epoch).
+        // Values > 2e10 are in microseconds; convert to Unix seconds.
+        if (n > 2e10) return Math.round(n / 1e6) - 11644473600;
+        return n < -1 ? -1 : n;
+      })(),
       httpOnly,
       secure: secure.trim().toUpperCase() === "TRUE",
       sameSite: "Lax",

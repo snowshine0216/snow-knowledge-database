@@ -48,25 +48,27 @@ if ! command -v node &>/dev/null; then
   exit 1
 fi
 
-# Check Playwright is installed (look for the package in node_modules or globally)
-if ! node -e "require('playwright')" 2>/dev/null && \
-   ! node -e "require('@playwright/test')" 2>/dev/null; then
+# Check Playwright CLI is available and Chromium is installed
+if ! npx playwright --version &>/dev/null; then
   echo "ERROR: Playwright not found. CAUSE: @playwright/test or playwright npm package not installed. FIX: npm install -g playwright && npx playwright install chromium"
   exit 1
 fi
 
-# Check Chromium binary exists
-if ! npx playwright --version &>/dev/null; then
-  echo "ERROR: Playwright CLI not available. CAUSE: playwright not in PATH. FIX: npm install -g playwright"
-  exit 1
-fi
-
 # ── 5. ASR provider ──────────────────────────────────────────────────────────
-VENV_PYTHON="${SKILL_DIR}/../../yt-video-summarizer/venv/bin/python"
 HAS_FW=false
-if [ -f "$VENV_PYTHON" ] && "$VENV_PYTHON" -c "import faster_whisper" 2>/dev/null; then
-  HAS_FW=true
-fi
+# Check faster-whisper in: skill-local venv, project .venv, or system python3
+for CANDIDATE_PYTHON in \
+  "${SKILL_DIR}/../yt-video-summarizer/venv/bin/python" \
+  "${SKILL_DIR}/../../.venv/bin/python" \
+  "$(command -v python3 2>/dev/null)" \
+  "$(command -v python 2>/dev/null)"; do
+  if [ -n "$CANDIDATE_PYTHON" ] && [ -f "$CANDIDATE_PYTHON" ] && \
+     "$CANDIDATE_PYTHON" -c "import faster_whisper" 2>/dev/null; then
+    HAS_FW=true
+    FASTER_WHISPER_PYTHON="$CANDIDATE_PYTHON"
+    break
+  fi
+done
 
 HAS_OR=false
 if [ -n "${OPENROUTER_API_KEY:-}" ] || [ -n "${OPENAI_API_KEY:-}" ]; then

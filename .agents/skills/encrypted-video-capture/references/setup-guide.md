@@ -9,6 +9,11 @@ Follow these 8 sections in order. Each section has a verification step — compl
 
 Estimated time: **15–20 minutes** (one-time setup).
 
+> **Before running `/encrypted-video-capture`, complete these 3 manual steps:**
+> 1. Create a Multi-Output Device in Audio MIDI Setup (§2)
+> 2. Set it as system audio output (§3)
+> 3. Install ASR — either `pip install faster-whisper` (local) or set `OPENROUTER_API_KEY` in `.env` (cloud) (§7)
+
 ---
 
 ## 1. Install BlackHole 2ch
@@ -116,16 +121,14 @@ Choose one:
 ### Option A: faster-whisper (local, recommended)
 
 ```bash
-cd .agents/skills/yt-video-summarizer
-python -m venv venv
-source venv/bin/activate
+cd .claude/skills/yt-video-summarizer
 pip install faster-whisper
 ```
 
 **Verify:**
 
 ```bash
-venv/bin/python -c "import faster_whisper; print('OK')"
+python3 -c "import faster_whisper; print('OK')"
 # OK
 ```
 
