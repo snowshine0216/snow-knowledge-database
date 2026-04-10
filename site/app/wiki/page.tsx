@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getAllArticles } from '@/lib/content'
 import type { Article } from '@/lib/types'
 
-const CATEGORIES = ['concepts', 'tools', 'workflows']
+const CATEGORIES = ['concepts', 'tools', 'workflows', 'courses']
 
 function subfolderLabel(name: string): string {
   return name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())

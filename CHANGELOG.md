@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2.0] - 2026-04-10
+
+### Changed
+- **Wiki reorganization: courses get their own category.** All 7 multi-chapter course directories (Karpathy Zero to Hero, 3Blue1Brown Essence of Calculus, 3Blue1Brown Essence of Linear Algebra, 3Blue1Brown Neural Networks, StatQuest Neural Networks, Claude Code Engineering, GeekTime OpenClaw Agent) moved from `wiki/concepts/` to a new `wiki/courses/` category. Standalone concept articles remain in `wiki/concepts/`. The site now surfaces courses under their own nav category.
+
 ## [0.2.1.0] - 2026-04-10
 
 ### Added
