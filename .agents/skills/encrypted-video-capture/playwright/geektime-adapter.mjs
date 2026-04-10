@@ -101,14 +101,10 @@ async function main() {
   const cookieFile = args.cookies || "";
   const cookies = cookieFile ? loadCookies(cookieFile) : [];
 
-  const browser = await chromium.launch({
-    headless: false,
-    executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    args: ["--user-data-dir=/tmp/evc-chrome-profile"],
-  });
+  const CDP_URL = process.env.CHROME_CDP_URL || "http://localhost:9222";
+  const browser = await chromium.connectOverCDP(CDP_URL);
+  const context = browser.contexts()[0] || await browser.newContext();
   try {
-    const context = await browser.newContext();
-
     if (cookies.length > 0) {
       await context.addCookies(cookies);
     }
