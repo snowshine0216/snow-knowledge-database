@@ -1,5 +1,5 @@
 ---
-tags: [env-setup, mac, homebrew, nvm, conda, java, mitmproxy, kubectl]
+tags: [env-setup, mac, homebrew, nvm, conda, java, mitmproxy, kubectl, audio]
 source: https://microstrategy-my.sharepoint.com/personal/xuyin_microstrategy_com/_layouts/15/Doc.aspx?sourcedoc={012e0fa7-27fa-49ef-b133-948eec6b586f}&action=edit&wd=target%28Environemnt%20Setup.one%7C2bfde96d-9f56-6047-9368-2a88190c24b7%2FSetup%20macbook%7Cd386c0e4-511f-6b43-99ce-9ad883ad82e4%2F%29
 ---
 
@@ -77,3 +77,10 @@ source: https://microstrategy-my.sharepoint.com/personal/xuyin_microstrategy_com
     ```bash
     brew install --cask dbeaver-community
     ```
+
+15. **BlackHole** (virtual audio driver for recording system audio)
+    ```bash
+    brew install blackhole-2ch
+    ```
+    - Creates a virtual 2-channel audio device
+    - Use with Audio MIDI Setup to route system audio for recording
