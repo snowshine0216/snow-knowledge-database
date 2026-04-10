@@ -52,6 +52,7 @@ The gain compensates for the contractive effect of each nonlinearity. PyTorch: `
 ---
 
 ## 3. Batch Normalization
+![[file-20260411062603478.png|350]]
 
 **Core insight:** If you want Gaussian pre-activations, just *normalize* them. Standardization is differentiable — include it in the graph and backpropagate through it.
 

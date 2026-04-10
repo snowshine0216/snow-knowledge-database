@@ -104,6 +104,7 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 | 3.6 | Real-world example: ResNet-50 walkthrough | 1:04:50 |
 
 ### Key Concepts
+![[file-20260411062510464.png|336]]
 
 - **Core insight:** If you want roughly Gaussian pre-activations, just *normalize* them. Standardization is differentiable, so you can include it in the computational graph and backpropagate through it.
 
