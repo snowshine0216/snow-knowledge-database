@@ -12,13 +12,13 @@
       "retries": 0
     },
     "003": {
-      "status": "recording",
+      "status": "done",
       "title": "02养虾人文化拆解从 ClawdBot 到 GitHub 全球第一的爆火逻辑",
       "retries": 0
     },
     "004": {
-      "status": "recording",
-      "title": "03核心三层架构",
+      "status": "done",
+      "title": "03核心三层架构5分钟听懂-gateway-node-channel-运行机制",
       "retries": 0
     },
     "005": {
