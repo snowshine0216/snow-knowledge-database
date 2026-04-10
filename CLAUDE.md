@@ -160,3 +160,6 @@ Key routing rules:
 - To search: run `./scripts/search.sh "query"` → read matching files
 - Wiki articles MUST use `[[wikilinks]]` (not `[markdown links]`) for Obsidian backlinks and graph view
 - After every compile, verify `wiki/_index.md` has a new row
+- **Auto-compilation**: `content-summarizer` skill automatically runs the Wiki Compilation Post-Hook after every summarization — no manual compile step needed for yt-video, medium, and pdf sources
+- **Collision detection**: `scripts/wiki-collision-check.sh <url> <tags>` — outputs `CREATE`, `ENRICH <file>`, or `SKIP`. Called by the post-hook; can also be run manually to check before compiling
+- **Backfill**: run `./scripts/backfill-wiki.sh` to find summarized files not yet compiled to wiki/

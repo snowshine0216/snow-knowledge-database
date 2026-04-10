@@ -140,3 +140,117 @@ Rules for `book-chapter`:
 - Write in the original content language unless the user requests translation.
 - Do not invent facts not present in the extracted content.
 - If transcript is unavailable, state that clearly and summarize from title/description/chapters/metadata only.
+
+---
+
+## Wiki Compilation Post-Hook
+
+After the detailed file is written successfully, run this post-hook to create or update a wiki article. **The detailed file is always preserved regardless of wiki outcome.**
+
+### Step 1 — Guard
+
+```bash
+test -f "scripts/wiki-collision-check.sh"
+```
+
+If the script is missing, print:
+```
+Wiki post-hook: scripts/wiki-collision-check.sh not found — skipping
+```
+Then add `wiki: failed` to the detailed file's frontmatter and stop. Do not treat this as an error.
+
+### Step 2 — Prepare inputs
+
+- **Source URL**: use the `source` frontmatter value from the detailed file.
+- **Tags string**: convert the `tags` YAML array to comma-separated, no spaces.
+  - Example: `tags: [rag, llm, retrieval]` → `"rag,llm,retrieval"`
+- **Slug derivation**: take the detailed file's stem, strip a trailing `_[a-f0-9]{8}` hash suffix if present, use the result as the wiki article slug.
+  - Example: `my-article_abc12345.md` → slug `my-article`
+  - Example: `karpathy-loopy-era-ai.md` → slug `karpathy-loopy-era-ai` (no change)
+
+### Step 3 — Run collision check
+
+```bash
+scripts/wiki-collision-check.sh "<source-url>" "<tags-string>"
+```
+
+Capture the output and branch on the first word.
+
+### Step 4 — Branch on result
+
+#### If `CREATE`
+
+1. Choose the wiki category using this mapping:
+
+   | content_type | Default category | Tag-based override |
+   |---|---|---|
+   | lecture-video, tutorial | concepts | tags include "tool", "cli", "sdk", "library" → tools |
+   | interview, talk | concepts | — |
+   | article, paper | concepts | tags include "workflow", "pipeline", "automation" → workflows |
+   | repo-analysis | tools | — |
+   | course-chapter | concepts | — |
+
+2. Synthesize a wiki article. Length scales with source depth:
+   - Source < 1 000 words → wiki article 200–300 words
+   - Source 1 000–3 000 words → wiki article 300–500 words
+   - Source > 3 000 words → wiki article 500–800 words
+
+3. Wiki article format:
+   ```markdown
+   ---
+   tags: [tag1, tag2, ...]
+   source: <same canonical URL>
+   ---
+   # <Title>
+
+   <One-paragraph overview>
+
+   ## Key Concepts
+   - **<concept>**: <definition>
+
+   ## Key Takeaways
+   - <bullet>
+
+   ## See Also
+   - [[related-wiki-slug]]
+   ```
+   Use `[[wikilinks]]` for cross-references (Obsidian format). Do NOT use `[markdown links]`.
+
+4. Write the article to `wiki/{category}/{slug}.md`.
+
+5. Update `wiki/_index.md`: add one row to the appropriate `## {Category}` table:
+   ```
+   | [{Title}]({category}/{slug}.md) | {comma-separated tags} | {one-line summary} |
+   ```
+
+6. Add `wiki: wiki/{category}/{slug}.md` to the detailed file's frontmatter.
+
+7. Print: `Wiki post-hook: CREATE → wiki/{category}/{slug}.md`
+
+#### If `ENRICH <wiki-file>`
+
+1. Read the existing wiki article at `<wiki-file>`.
+2. Append a `## Related sources` section at the end of the file (create the section if it doesn't exist; if it already exists, add to it):
+   ```markdown
+   ## Related sources
+
+   - **[{detailed file title}]**: <one-paragraph synthesis of what the new source adds that the existing article doesn't cover>. See also: [[{detailed-file-slug}]]
+   ```
+   Do NOT rewrite or modify any existing body content.
+3. Add `wiki: <wiki-file>` to the detailed file's frontmatter.
+4. Print: `Wiki post-hook: ENRICH → <wiki-file>`
+5. Note: to revert an ENRICH, run `git checkout <wiki-file>`.
+
+#### If `SKIP`
+
+1. Add `wiki: <path-from-SKIP-output>` to the detailed file's frontmatter. If the SKIP output didn't include a path, add `wiki: skip`.
+2. Print: `Wiki post-hook: SKIP — already compiled`
+
+### Step 5 — On any failure
+
+If any step above fails (write error, parse error, etc.):
+- Print: `Wiki post-hook: FAILED — <reason>`
+- Add `wiki: failed` to the detailed file's frontmatter.
+- Continue. The detailed file is preserved.
+
+To retry a failed compilation: search for `wiki: failed` in your summaries directory, re-read the file, and re-run the post-hook steps manually.
