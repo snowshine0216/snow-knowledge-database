@@ -156,10 +156,36 @@ async function main() {
       const readyFile = ffmpegReadyPath(sessionId);
       const endedFile = videoEndedPath(sessionId);
 
+      // Clear saved video progress from localStorage before navigating.
+      // Geektime player stores watch position under keys matching the lecture ID.
+      // We clear on the current page (any origin), then clear again after navigation.
+      await page.evaluate(() => {
+        try { localStorage.clear(); } catch (_) {}
+        try { sessionStorage.clear(); } catch (_) {}
+      }).catch(() => {});
+
       // Navigate to lecture
       console.error(`INFO: Navigating to ${args.url}`);
       await page.goto(args.url, { waitUntil: "domcontentloaded", timeout: 30000 });
       console.error(`INFO: Page loaded — title: ${await page.title()}`);
+
+      // Clear again after navigation on the new origin before player initializes.
+      await page.evaluate(() => {
+        try { localStorage.clear(); } catch (_) {}
+        try { sessionStorage.clear(); } catch (_) {}
+        // Also clear any IndexedDB progress keys
+        try {
+          if (typeof indexedDB !== "undefined") {
+            const req = indexedDB.databases ? indexedDB.databases() : null;
+            // Just target any video_time or progress key
+            for (const key of Object.keys(localStorage)) {
+              if (/progress|time|position|current/i.test(key)) {
+                localStorage.removeItem(key);
+              }
+            }
+          }
+        } catch (_) {}
+      }).catch(() => {});
 
       // Wait for ffmpeg ready signal before clicking play
       if (sessionId) {
@@ -229,6 +255,25 @@ async function main() {
         }, speed).catch(() => null);
       const videoState = await applySpeed();
       console.error(`INFO: Video state after play: ${JSON.stringify(videoState)}`);
+
+      // Post-play seek: if player restored a saved position, force back to 0.
+      // Retry up to 5× with 500ms gaps — some DRM players restore position asynchronously.
+      if (videoState && videoState.ct > 5) {
+        console.error(`INFO: Post-play seek to 0 (ct was ${videoState.ct})`);
+        for (let i = 0; i < 5; i++) {
+          await page.evaluate(() => {
+            const v = document.querySelector("video");
+            if (v) { v.currentTime = 0; }
+          }).catch(() => {});
+          await new Promise((r) => setTimeout(r, 500));
+          const stateCheck = await applySpeed();
+          if (stateCheck && stateCheck.ct < 5) {
+            console.error(`INFO: Post-play seek succeeded on attempt ${i + 1}: ct=${stateCheck.ct}`);
+            break;
+          }
+        }
+      }
+
       const speedInterval = setInterval(() => applySpeed().catch(() => {}), 5000);
 
       // Wall-clock safety timer: write ended marker after expected play time + 60s grace.

@@ -27,6 +27,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [OpenClaw 彻底卸载与干净重装](concepts/010-openclaw-clean-reinstall.md) | openclaw, ai-agent, uninstall, troubleshooting, clean-install | 报错积累时推倒重来效率更高，uninstall 前备份记忆，云端关闭续费吊销旧 Key |
 | [OpenClaw Gateway 状态验证与 Web UI](concepts/011-openclaw-gateway-webui.md) | openclaw, ai-agent, gateway, web-ui, health-check, security | openclaw health 验证安装，Gateway 睡眠后需重启，Web UI 必须设密码防同网络控制 |
 | [OpenClaw Skills：AI 的岗位培训包](concepts/012-openclaw-skills-concept.md) | openclaw, ai-agent, skills, automation, memory | Skills 封装 AI 能力，对话即安装，永久可用；解决重复劳动/忘偏好/上下文负担三痛点 |
+| [ClawHub：OpenClaw 官方技能市场](concepts/013-openclaw-clawhub.md) | openclaw, clawhub, skills, marketplace, search-strategy, quality-filter | 1.3 万 Skills 中 20% 优质，需用开发者术语搜索，Stars+Downloads 双高为可靠筛选信号 |
+| [OpenClaw 办公 Skills Top 10](concepts/014-openclaw-office-skills.md) | openclaw, skills, office-productivity, workflow-automation, clawhub | 10 类高频通用办公 Skill 精选，优先装 Google Search+Summarizer+Git，Skill 组合解锁自动化工作流 |
 | [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
 | [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
 | [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
