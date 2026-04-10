@@ -31,8 +31,19 @@ Load `.env` if it exists in this skill directory:
 
 Required env vars (with defaults):
 - `OUTPUT_DIR` — default: `courses/` relative to cwd
-- `ASR_PROVIDER` — default: `auto`
+- `ASR_PROVIDER` — default: `openai` (uses OpenRouter when `OPENROUTER_API_KEY` is set, mirrors yt-video-summarizer)
 - `BLACKHOLE_DEVICE` — auto-detected by preflight; override if needed
+
+OpenRouter transcription setup (same as yt-video-summarizer):
+- `OPENROUTER_API_KEY` — required for OpenRouter ASR path
+- `OPENROUTER_BASE_URL` — optional, default `https://openrouter.ai/api/v1`
+- `OPENROUTER_TRANSCRIPTION_MODEL` — optional, default `openai/gpt-audio-mini`
+- `OPENROUTER_TRANSCRIPTION_CHUNK_SECONDS` — optional, default `600`
+- `OPENROUTER_TRANSCRIPTION_MAX_BYTES` — optional, default `12582912`
+
+Simplified Chinese output:
+- Install `opencc-python-reimplemented` (`pip install opencc-python-reimplemented`) or the native `opencc` CLI for automatic Traditional→Simplified conversion.
+- Without opencc, the `output_language: simplified_chinese` metadata hint instructs content-summarizer to output in Simplified Chinese.
 
 ### 1. Lock File Check
 
@@ -108,11 +119,20 @@ If `LECTURE_LIST` is empty or the command exits non-zero:
 ERROR: No lectures found at <URL>. CAUSE: Geektime API returned empty list or authentication failed. FIX: Re-open Chrome, log into Geektime, and re-run. If persists, check if the course URL is a valid column/course URL.
 ```
 
-Derive `COURSE_NAME` for the output directory from the course URL:
+Derive `COURSE_NAME` for the output directory from the enumeration result and course URL:
 ```bash
-# Extract the numeric course ID from the URL (e.g., 100083501 from .../column/intro/100083501)
+# Prefer the course title returned by the adapter; fall back to numeric ID
 COURSE_ID=$(echo "$COURSE_URL" | grep -oE '[0-9]{5,}' | tail -1)
-COURSE_NAME="${COURSE_ID:-unknown-course}"
+COURSE_TITLE=$(echo "$LECTURE_LIST" | jq -r '.[0].course_title // ""' 2>/dev/null)
+if [ -n "$COURSE_TITLE" ]; then
+  # Sanitize CJK + ASCII, kebab-case, max 60 chars; prefix with ID for uniqueness
+  COURSE_TITLE_SLUG=$(echo "$COURSE_TITLE" \
+    | python3 -c "import sys, re; raw=sys.stdin.read().strip(); print(re.sub(r'[^\w \-\u4e00-\u9fff]', '', raw, flags=re.UNICODE).strip()[:60])" \
+    | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | sed 's/-\{2,\}/-/g')
+  COURSE_NAME="${COURSE_ID}-${COURSE_TITLE_SLUG}"
+else
+  COURSE_NAME="${COURSE_ID:-unknown-course}"
+fi
 mkdir -p "${OUTPUT_DIR}/${COURSE_NAME}"
 ```
 
@@ -186,10 +206,12 @@ jq --arg idx "$IDX" --arg title "$SAFE_TITLE" \
 #### 7c. yt-dlp Probe (Direct Download Attempt)
 
 ```bash
+AUDIO_TMP_DIR="/tmp/evc-audio/${COURSE_NAME}"
+mkdir -p "$AUDIO_TMP_DIR"
 YTDLP_AUDIO=""
-if yt-dlp --simulate --cookies "$COOKIE_FILE" "$LECTURE_URL" 2>/dev/null; then
+if timeout 15s yt-dlp --simulate --cookies "$COOKIE_FILE" "$LECTURE_URL" 2>/dev/null; then
   # Direct download available — use it instead of BlackHole
-  YTDLP_AUDIO="${OUTPUT_DIR}/tmp_${IDX}.m4a"
+  YTDLP_AUDIO="${AUDIO_TMP_DIR}/tmp_${IDX}.m4a"
   yt-dlp --cookies "$COOKIE_FILE" -x --audio-format m4a \
     -o "$YTDLP_AUDIO" "$LECTURE_URL" 2>/dev/null && \
     echo "INFO: yt-dlp direct download succeeded for lecture $IDX."
@@ -213,9 +235,11 @@ else
 fi
 ```
 
-Start recording in background:
+Start recording in background. Audio is stored under `/tmp/evc-audio/<COURSE_NAME>/` so temp files never land in the output repo:
 ```bash
-WAV_FILE="${OUTPUT_DIR}/tmp_${IDX}.wav"
+AUDIO_TMP_DIR="/tmp/evc-audio/${COURSE_NAME}"
+mkdir -p "$AUDIO_TMP_DIR"
+WAV_FILE="${AUDIO_TMP_DIR}/tmp_${IDX}.wav"
 bash "$(dirname "$0")/scripts/record-audio.sh" \
   "$BLACKHOLE_DEVICE" "$WAV_FILE" "$SESSION_ID" &
 RECORD_PID=$!
@@ -323,16 +347,18 @@ if [ -f "$TRANSCRIPT_LOG" ]; then
 fi
 ```
 
-If streaming coverage < 80%, fall back to batch ASR:
+If streaming coverage < 80%, fall back to batch ASR via OpenRouter (same path as yt-video-summarizer):
 ```bash
 if [ -z "$STREAMING_TRANSCRIPT" ]; then
-  ASR_OUT_DIR="${OUTPUT_DIR}/tmp_asr_${IDX}"
-  python "$(dirname "$0")/../../yt-video-summarizer/scripts/extract_video_context.py" \
+  ASR_OUT_DIR="/tmp/evc-audio/${COURSE_NAME}/asr_${IDX}"
+  # Use OpenRouter for transcription when OPENROUTER_API_KEY is set (mirrors yt-video-summarizer)
+  # Set ASR_PROVIDER=openai in .env to force OpenRouter; auto falls back to faster-whisper first.
+  python3 "$(dirname "$0")/../../yt-video-summarizer/scripts/extract_video_context.py" \
     --audio-file "$AUDIO_FILE" \
     --out-dir "$ASR_OUT_DIR" \
-    --asr-provider "${ASR_PROVIDER:-auto}"
+    --asr-provider "${ASR_PROVIDER:-openai}"
   if [ $? -ne 0 ]; then
-    echo "ERROR: ASR transcription failed for lecture $IDX. CAUSE: faster-whisper venv missing or OPENROUTER_API_KEY not set. FIX: Activate the faster-whisper venv or set OPENROUTER_API_KEY in .env."
+    echo "ERROR: ASR transcription failed for lecture $IDX. CAUSE: faster-whisper venv missing or OPENROUTER_API_KEY not set. FIX: Set OPENROUTER_API_KEY in .env (mirrors yt-video-summarizer OpenRouter setup)."
     jq --arg idx "$IDX" \
       '.lectures[$idx].status = "failed" | .lectures[$idx].retries = (.lectures[$idx].retries // 0) + 1' \
       "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
@@ -349,12 +375,35 @@ jq --arg idx "$IDX" '.lectures[$idx].status = "summarizing"' \
   "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
 ```
 
-Read transcript:
+Read transcript (prefer streaming if available, otherwise read from ASR output dir):
 ```bash
-TRANSCRIPT=$(cat "${ASR_OUT_DIR}/transcript.txt" 2>/dev/null || echo "")
+if [ -n "$STREAMING_TRANSCRIPT" ]; then
+  TRANSCRIPT="$STREAMING_TRANSCRIPT"
+else
+  TRANSCRIPT=$(cat "${ASR_OUT_DIR}/transcript.txt" 2>/dev/null || echo "")
+fi
 ```
 
-Invoke content-summarizer with `content_type=lecture-text`:
+Convert Traditional Chinese to Simplified Chinese (if the transcript contains Chinese characters):
+```bash
+HAS_CHINESE=$(echo "$TRANSCRIPT" | python3 -c "
+import sys, re
+text = sys.stdin.read()
+print('yes' if re.search(r'[\u4e00-\u9fff]', text) else 'no')
+")
+if [ "$HAS_CHINESE" = "yes" ]; then
+  # Use opencc if available; otherwise pass a conversion hint to the summarizer
+  if command -v opencc >/dev/null 2>&1; then
+    TRANSCRIPT=$(echo "$TRANSCRIPT" | opencc -c t2s)
+    echo "INFO: Converted transcript from Traditional to Simplified Chinese via opencc."
+  else
+    echo "INFO: opencc not found — passing simplified_chinese hint to content-summarizer."
+    SIMPLIFIED_CHINESE_HINT="true"
+  fi
+fi
+```
+
+Invoke content-summarizer with `content_type=lecture-text`. Pass the **raw transcript** directly — content-summarizer handles all formatting:
 
 Build metadata JSON safely (avoids injection if LECTURE_URL contains quotes):
 ```bash
@@ -362,20 +411,24 @@ METADATA_JSON=$(jq -n \
   --arg title "$SAFE_TITLE" \
   --arg source "$LECTURE_URL" \
   --arg num "$IDX" \
-  '{"title":$title,"source":$source,"lecture_number":$num}')
+  --arg lang "${SIMPLIFIED_CHINESE_HINT:+simplified_chinese}" \
+  '{"title":$title,"source":$source,"lecture_number":$num,"output_language":($lang // "auto")}')
 ```
 
 Use the Skill tool to invoke `content-summarizer` with:
 - `content_type`: `lecture-text`
-- `content`: the transcript text
-- `metadata`: `$METADATA_JSON` (the JSON string built above)
+- `content`: the raw transcript text (no pre-processing; let content-summarizer handle it)
+- `metadata`: `$METADATA_JSON` (the JSON string built above; includes `output_language: simplified_chinese` when Chinese is detected and opencc is unavailable)
 - `save_path`: `${OUTPUT_DIR}/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md`
 
 #### 7h. Cleanup Temp Files
 
 ```bash
-rm -f "$AUDIO_FILE" "${AUDIO_FILE%.wav}.m4a"
+rm -f "$AUDIO_FILE" "${AUDIO_FILE%.m4a}.m4a" "${AUDIO_FILE%.wav}.wav"
 rm -rf "$ASR_OUT_DIR"
+# Note: /tmp/evc-audio/${COURSE_NAME}/ dir is intentionally left in place across
+# lectures so --resume can reuse audio if recording succeeded but ASR failed.
+# Full dir is removed only on explicit clean-up or after course completes successfully.
 ```
 
 Update progress to `done`:
@@ -470,6 +523,7 @@ done
 | `ERROR: BlackHole device not found` | BlackHole not installed or multi-output not configured | Follow setup-guide.md §1–3 |
 | `ERROR: No lectures found at <URL>` | API auth failure or wrong URL | Re-login to Geektime in Chrome, retry |
 | `ERROR: ffmpeg did not start recording within 15s` | Wrong BLACKHOLE_DEVICE index | Verify with `ffmpeg -f avfoundation -list_devices true -i ""` |
-| `ERROR: ASR transcription failed` | faster-whisper venv missing or API key not set | Activate venv or set `OPENROUTER_API_KEY` |
+| `ERROR: ASR transcription failed` | `OPENROUTER_API_KEY` not set or network error | Set `OPENROUTER_API_KEY` in `.env`; mirrors yt-video-summarizer OpenRouter setup |
+| `INFO: opencc not found` | opencc not installed | `pip install opencc-python-reimplemented` or `brew install opencc`; content-summarizer hint used as fallback |
 | `WARNING: >80% silence` | Multi-Output Device not selected as system output | System Settings → Sound → Output → Multi-Output Device |
 | `ERROR: .progress.json has schemaVersion 'X'` | Stale progress file from older version | Delete `.progress.json` to start fresh |
