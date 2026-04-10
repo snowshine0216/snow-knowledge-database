@@ -23,6 +23,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [OpenClaw Mac 极速安装：curl 一键脚本](concepts/006-openclaw-curl-install.md) | openclaw, ai-agent, installation, macos, curl, cli, api-key | curl 安装原生完整版，全跳过初始配置，国内推荐 Kimi API，openclaw CLI 验证健康 |
 | [OpenClaw 生态集成：接入微信与飞书](concepts/007-openclaw-wechat-feishu.md) | openclaw, ai-agent, wechat, feishu, channel, integration | 微信扫码最简单；飞书需创建自定义机器人应用获取 App ID + Secret，企业场景更强 |
 | [OpenClaw 云端一键镜像部署](concepts/008-openclaw-cloud-deploy.md) | openclaw, ai-agent, cloud, deployment, aliyun, tencent-cloud | 腾讯云/阿里云镜像一键部署，30 分钟小白上手，主要成本是 LLM API 非服务器 |
+| [OpenClaw 极致性价比：模型分层路由策略](concepts/009-openclaw-model-cost.md) | openclaw, ai-agent, cost-optimization, model-routing, llm, pricing | 95% 简单任务用 Kimi，5% 复杂任务用 Claude Opus，设预算熔断，月成本咖啡钱 |
 | [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
 | [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
 | [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
