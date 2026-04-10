@@ -116,7 +116,8 @@ function setupTier1(page, done) {
     .evaluate(() => {
       return new Promise((res) => {
         const poll = () => {
-          const video = Array.from(document.querySelectorAll("video")).find((v) => v.duration > 0);
+          // Accept any video element — duration may be 0 for DRM/custom players
+          const video = document.querySelector("video");
           if (!video) { setTimeout(poll, 1000); return; }
           if (video.ended) { res("already-ended"); return; }
           video.addEventListener("ended", () => res("ended"), { once: true });
@@ -140,10 +141,14 @@ function setupTier1(page, done) {
 function setupTier2to4(page, done, effectiveDuration) {
   let lastTime = -1;
   let stallCount = 0;
+  // Don't trigger stall detection until video has been playing for at least this long
+  const startMs = Date.now();
+  const MIN_PLAY_MS = 10000; // wait 10s before declaring a stall
   return setInterval(async () => {
     const ct = await page
       .evaluate(() => {
-        const v = Array.from(document.querySelectorAll("video")).find((x) => x.duration > 0);
+        // Accept any video element — duration may be 0 for DRM/custom players
+        const v = document.querySelector("video");
         return v ? { currentTime: v.currentTime, duration: v.duration, ended: v.ended } : null;
       })
       .catch(() => null);
@@ -152,7 +157,7 @@ function setupTier2to4(page, done, effectiveDuration) {
 
     if (ct.ended) { done("tier2:ended-flag"); return; }
 
-    // Tier 3: currentTime ≥ duration + grace period
+    // Tier 3: currentTime ≥ duration + grace period (only when duration is known)
     if (ct.duration > 0 && ct.currentTime >= ct.duration + END_GRACE_SEC) {
       done("tier3:duration+30");
       return;
@@ -160,7 +165,8 @@ function setupTier2to4(page, done, effectiveDuration) {
 
     if (ct.currentTime === lastTime) {
       stallCount++;
-      if (stallCount >= STALL_THRESHOLD && ct.currentTime > 0) {
+      // Fire stall detection if currentTime stopped advancing and video had played
+      if (stallCount >= STALL_THRESHOLD && (ct.currentTime > 0 || Date.now() - startMs > MIN_PLAY_MS)) {
         done("tier2:stalled");
         return;
       }

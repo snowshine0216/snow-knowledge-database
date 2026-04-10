@@ -163,20 +163,39 @@ async function main() {
         }
       }
 
-      // Wait for video element to appear and load before interacting
+      // Wait for video element to appear (any video element — duration may be 0 for DRM players)
       console.error("INFO: Waiting for video element...");
       await page.waitForFunction(
-        () => Array.from(document.querySelectorAll("video")).some((v) => v.duration > 0),
+        () => document.querySelector("video") !== null,
         { timeout: 30000 }
-      ).catch(() => console.error("WARNING: Video element not found within 30s, proceeding anyway."));
+      ).catch(() => console.error("WARNING: No video element found within 30s, proceeding anyway."));
 
-      // Click the play button
-      const playButton = page
-        .locator("button[aria-label='play'], .video-btn-play, .play-btn, [class*='play']")
-        .first();
-      await playButton.click({ timeout: 10000 }).catch(() => {
-        // Some lectures auto-play; if no play button found, that's fine.
-      });
+      // Try clicking the play button. Geektime uses Aliyun Prism Player —
+      // the big play overlay uses .prism-big-play-btn; the control bar uses .prism-play-btn.
+      // We also try clicking the video element directly as a fallback.
+      const playSelectors = [
+        ".prism-big-play-btn",
+        ".prism-play-btn",
+        ".xgplayer-play",
+        "button[aria-label='play']",
+        "button[aria-label='播放']",
+        ".video-btn-play",
+        ".play-btn",
+      ];
+      let clicked = false;
+      for (const sel of playSelectors) {
+        const btn = page.locator(sel).first();
+        const ok = await btn.click({ timeout: 3000 }).then(() => true).catch(() => false);
+        if (ok) { console.error(`INFO: Clicked play via ${sel}`); clicked = true; break; }
+      }
+      if (!clicked) {
+        // Last resort: click the video element itself (toggles play/pause)
+        await page.evaluate(() => {
+          const v = document.querySelector("video");
+          if (v && v.paused) v.play().catch(() => {});
+        }).catch(() => {});
+        console.error("INFO: No play button found — used video.play() directly");
+      }
 
       // Set playback speed (clamp to [1.0, 2.0], default 2.0 on invalid)
       const rawSpeed = parseFloat(process.env.PLAYBACK_SPEED || "2.0");
@@ -187,15 +206,33 @@ async function main() {
       const applySpeed = () =>
         page.evaluate((s) => {
           const video = document.querySelector("video");
-          if (video) video.playbackRate = s;
-        }, speed).catch(() => {});
-      await applySpeed();
-      const speedInterval = setInterval(applySpeed, 5000);
+          if (video) {
+            video.playbackRate = s;
+            return { rate: video.playbackRate, ct: video.currentTime, dur: video.duration, paused: video.paused };
+          }
+          return null;
+        }, speed).catch(() => null);
+      const videoState = await applySpeed();
+      console.error(`INFO: Video state after play: ${JSON.stringify(videoState)}`);
+      const speedInterval = setInterval(() => applySpeed().catch(() => {}), 5000);
 
-      // Wait for video to end
+      // Wall-clock safety timer: write ended marker after expected play time + 60s grace.
+      // This fires even if the video element exposes no timing (DRM/custom player).
+      let wallTimerHandle = null;
+      if (duration > 0 && sessionId) {
+        const wallMs = Math.ceil(duration * 1000 / speed) + 60000;
+        console.error(`INFO: Wall-clock safety timer set for ${wallMs}ms (${Math.round(wallMs/1000)}s)`);
+        wallTimerHandle = setTimeout(() => {
+          console.error(`INFO: Wall-clock safety timer fired — writing ended marker`);
+          try { fs.writeFileSync(endedFile, "ended"); } catch (_) {}
+        }, wallMs);
+      }
+
+      // Wait for video to end (tier 1-5 event/stall detection)
       const endTier = await waitForVideoEnd(page, duration);
       console.error(`INFO: Video ended via ${endTier}`);
       clearInterval(speedInterval);
+      if (wallTimerHandle) clearTimeout(wallTimerHandle);
 
       // Write ended marker
       if (sessionId) {
