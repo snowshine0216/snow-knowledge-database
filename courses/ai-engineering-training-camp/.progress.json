@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "lectures": {
     "001": {
-      "status": "transcribed",
+      "status": "done",
       "title": "开班直播回放",
       "retries": 0,
-      "transcript": "asr-in-progress"
+      "transcript": "courses/ai-engineering-training-camp/001-开班直播回放.transcript"
     },
     "002": {
       "status": "pending",

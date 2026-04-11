@@ -26,6 +26,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Zhang Xuefeng on Major Selection and Happiness](concepts/zhang-xuefeng-major-selection-happiness.md) | education, career-planning, zhang-xuefeng, gaokao, happiness | Major selection in a saturated economy, gaokao parental anxiety, happiness from impact not comparison |
 | [Hermes Agent vs OpenBB](concepts/hermes-agent-vs-openbb.md) | ai-agents, agent-framework, finance, comparison | Comparison: Hermes Agent (agent orchestration) vs OpenBB (financial data platform) — architecture, use cases, tradeoffs |
 | [Nvidia New Moat Strategy](concepts/nvidia-new-moat-strategy.md) | strategy, nvidia, ai-hardware, moat, open-source | Nvidia's shift from chip vendor to AI operating layer via open-source agent platform (NemoClaw/OpenClaw) |
+| [AI 工程化的三种开发范式](concepts/ai-engineering-three-patterns.md) | ai-engineering, rag, agent, agentic-ai, llm, knowledge-base, workflow | RAG、AI Agent、Agentic AI 三种范式的选型逻辑与工程化视角 |
 
 ## Tools
 
