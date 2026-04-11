@@ -1,9 +1,12 @@
 /**
  * geekbang-u-adapter.mjs — Adapter for Geek University (u.geekbang.org/lesson/{id}).
  *
- * enumerate(): navigates to the lesson URL and extracts title from the page.
- *   Each u.geekbang.org/lesson/{id} URL is a single lesson (not a multi-lesson listing),
- *   so enumerate() returns a one-item array with the lesson as its only lecture.
+ * enumerate(): given a class URL (https://u.geekbang.org/lesson/{classId}), calls
+ *   serv/v1/myclass/info to get all chapters and articles, then batch-fetches each
+ *   article via serv/v1/myclass/article to find those with a non-empty video_id.
+ *   Returns one Lecture entry per video article, ordered by chapter and index.
+ *
+ *   Article URL format: https://u.geekbang.org/lesson/{classId}?article={articleId}
  *
  * play(): navigates to the URL, waits for the standard <video> element, clicks play,
  *   and delegates video-end detection to waitForVideoEnd() from utils.mjs.
@@ -15,17 +18,97 @@ import { waitForMarkerFile, waitForVideoEnd } from "../utils.mjs";
 import { sanitizeTitle, parseGeekbangUUrl } from "../pure.mjs";
 import { ffmpegReadyPath, videoEndedPath } from "../pathConstants.mjs";
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
+
+/**
+ * Build the Authorization header cookie string for u.geekbang.org.
+ * @param {Array<{name:string,value:string,domain:string}>} cookies
+ * @returns {string}
+ */
+function buildCookieHeader(cookies) {
+  return cookies
+    .filter((c) => c.domain && c.domain.includes("geekbang.org"))
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+}
+
+const GEEK_U_BASE = "https://u.geekbang.org";
+const HEADERS = (cookieHeader) => ({
+  "Cookie": cookieHeader,
+  "Content-Type": "application/json",
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/136 Safari/537.36",
+  "Referer": `${GEEK_U_BASE}/`,
+  "Origin": GEEK_U_BASE,
+});
+
+/**
+ * POST to a u.geekbang.org serv endpoint and return the parsed JSON data field.
+ * @param {string} path
+ * @param {object} body
+ * @param {string} cookieHeader
+ * @returns {Promise<object>}
+ */
+async function servPost(path, body, cookieHeader) {
+  const res = await fetch(`${GEEK_U_BASE}${path}`, {
+    method: "POST",
+    headers: HEADERS(cookieHeader),
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`serv POST ${path} failed: ${res.status}`);
+  const json = await res.json();
+  if (json.code !== 0) throw new Error(`serv POST ${path} returned code ${json.code}: ${JSON.stringify(json.error)}`);
+  return json.data;
+}
+
+/**
+ * Check a batch of articles for video content.
+ * Returns articles where video_id is non-empty, with duration in seconds.
+ * Fetches up to BATCH_CONCURRENCY articles in parallel.
+ * @param {number} classId
+ * @param {Array<{article_id:number,article_title:string}>} articles
+ * @param {string} cookieHeader
+ * @returns {Promise<Array<{articleId:number,title:string,videoTimeSec:number}>>}
+ */
+async function batchCheckVideos(classId, articles, cookieHeader) {
+  const CONCURRENCY = 10;
+  const results = [];
+  for (let i = 0; i < articles.length; i += CONCURRENCY) {
+    const batch = articles.slice(i, i + CONCURRENCY);
+    const settled = await Promise.allSettled(
+      batch.map((art) =>
+        servPost("/serv/v1/myclass/article", { class_id: classId, article_id: art.article_id }, cookieHeader)
+          .then((data) => ({
+            articleId: art.article_id,
+            title: sanitizeTitle(data.article_title || art.article_title),
+            videoId: data.video_id || "",
+            videoTimeSec: data.video_time_second || 0,
+          }))
+          .catch((err) => {
+            console.error(`WARNING: Could not fetch article ${art.article_id}: ${err.message}`);
+            return null;
+          })
+      )
+    );
+    for (const s of settled) {
+      if (s.status === "fulfilled" && s.value && s.value.videoId) {
+        results.push(s.value);
+      }
+    }
+    if (i + CONCURRENCY < articles.length) {
+      console.error(`INFO: Checked ${Math.min(i + CONCURRENCY, articles.length)}/${articles.length} articles...`);
+    }
+  }
+  return results;
+}
+
 // ── Geekbang-U enumerate ───────────────────────────────────────────────────────
 
 /**
- * Navigate to the lesson page and extract its title + course_title.
- * Returns a single-item lecture list (one URL = one lesson).
+ * Enumerate all video articles in the class.
+ * Calls serv/v1/myclass/info to get the chapter/article tree, then batch-fetches
+ * each article to find those with video_id set.
  *
- * NOTE: enumerate() for this adapter requires a browser (Playwright page).
- * We use a lightweight fetch + HTML parse to avoid spinning up CDP just for enumerate.
- * Falls back to the URL itself as the title if the fetch fails.
- *
- * @param {string} url
+ * @param {string} url  - https://u.geekbang.org/lesson/{classId}
  * @param {Array<{name,value,domain}>} cookies
  * @returns {Promise<import('./adapter-interface.mjs').Lecture[]>}
  */
@@ -34,64 +117,63 @@ async function enumerate(url, cookies) {
   if (!parsed) {
     throw new Error(`geekbang-u-adapter: Cannot parse lesson ID from URL: ${url}`);
   }
-  const { lessonId } = parsed;
+  const classId = parseInt(parsed.lessonId, 10);
+  const cookieHeader = buildCookieHeader(cookies);
 
-  console.error(`INFO: Fetching lesson metadata for lesson ${lessonId}`);
+  console.error(`INFO: Fetching class info for class_id=${classId}`);
+  const classInfo = await servPost("/serv/v1/myclass/info", { class_id: classId }, cookieHeader);
 
-  // Try to fetch the page HTML to extract the title.
-  const cookieHeader = cookies
-    .filter((c) => c.domain && (c.domain.includes("geekbang.org") || c.domain.includes("u.geekbang.org")))
-    .map((c) => `${c.name}=${c.value}`)
-    .join("; ");
+  // Extract course title from the first article's title suffix or fall back to class ID
+  const courseTitle = classInfo.course_title
+    ? sanitizeTitle(classInfo.course_title)
+    : `class-${classId}`;
+  const chapters = classInfo.lessons || [];
 
-  let title = `lesson-${lessonId}`;
-  let course_title = "";
+  // Flatten all articles, skipping homework (type=8) and known non-video titles
+  const NON_VIDEO_TITLES = new Set(["课件下载", "课程满意度调查"]);
+  const NON_VIDEO_CHAPTERS = new Set(["学习手册", "满意度调查"]);
 
-  try {
-    const res = await fetch(url, {
-      headers: {
-        "Cookie": cookieHeader,
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/136 Safari/537.36",
-        "Referer": "https://u.geekbang.org/",
-      },
-    });
-    if (res.ok) {
-      const html = await res.text();
-
-      // Try <title> tag first — typically "Lesson Title - Geek University" or similar
-      const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-      if (titleMatch) {
-        const rawTitle = titleMatch[1].trim();
-        // Strip common suffixes like " - 极客大学" or " | 极客时间"
-        const cleaned = rawTitle.replace(/\s*[-|].*$/, "").trim();
-        if (cleaned) {
-          title = sanitizeTitle(cleaned);
-          course_title = sanitizeTitle(rawTitle);
-        }
-      }
-
-      // Try <h1> as a fallback for a more specific lesson title
-      const h1Match = html.match(/<h1[^>]*>([^<]+)<\/h1>/i);
-      if (h1Match) {
-        const h1Text = h1Match[1].trim();
-        if (h1Text) {
-          title = sanitizeTitle(h1Text);
-        }
-      }
+  const candidates = [];
+  for (const chapter of chapters) {
+    const chName = chapter.chapter_name || "";
+    if (NON_VIDEO_CHAPTERS.has(chName)) continue;
+    for (const art of (chapter.articles || [])) {
+      if (art.type === 8) continue;
+      if (NON_VIDEO_TITLES.has(art.article_title)) continue;
+      candidates.push({ article_id: art.article_id, article_title: art.article_title, chapter: chName });
     }
-  } catch (err) {
-    console.error(`WARNING: Could not fetch lesson page for title extraction: ${err.message}`);
   }
 
-  console.error(`INFO: Lesson title: "${title}", course_title: "${course_title}"`);
+  console.error(`INFO: Checking ${candidates.length} candidate articles for video content...`);
+  const videoArticles = await batchCheckVideos(classId, candidates, cookieHeader);
+  console.error(`INFO: Found ${videoArticles.length} video articles.`);
 
-  return [{
-    idx: "001",
-    title,
-    url,
-    duration: 0,
-    course_title: course_title || title,
-  }];
+  if (videoArticles.length === 0) {
+    throw new Error(`No video articles found in class_id=${classId}. Check authentication.`);
+  }
+
+  // Map article IDs to their chapter for labeling; preserve original order from classInfo
+  const articleOrder = new Map();
+  let globalIdx = 0;
+  for (const chapter of chapters) {
+    for (const art of (chapter.articles || [])) {
+      articleOrder.set(art.article_id, globalIdx++);
+    }
+  }
+
+  const sorted = videoArticles.sort((a, b) => {
+    const oa = articleOrder.get(a.articleId) ?? 9999;
+    const ob = articleOrder.get(b.articleId) ?? 9999;
+    return oa - ob;
+  });
+
+  return sorted.map((art, i) => ({
+    idx: String(i + 1).padStart(3, "0"),
+    title: art.title,
+    url: `${GEEK_U_BASE}/lesson/${classId}?article=${art.articleId}`,
+    duration: art.videoTimeSec,
+    course_title: courseTitle,
+  }));
 }
 
 // ── Geekbang-U play ────────────────────────────────────────────────────────────
