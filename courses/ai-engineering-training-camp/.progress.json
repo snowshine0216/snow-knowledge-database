@@ -8,17 +8,17 @@
       "transcript": "courses/ai-engineering-training-camp/001-开班直播回放.transcript"
     },
     "002": {
-      "status": "pending",
+      "status": "transcribing",
       "title": "第一次直播答疑",
       "retries": 0
     },
     "003": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "第二次直播答疑",
       "retries": 0
     },
     "004": {
-      "status": "pending",
+      "status": "recording",
       "title": "第三次直播答疑",
       "retries": 0
     },

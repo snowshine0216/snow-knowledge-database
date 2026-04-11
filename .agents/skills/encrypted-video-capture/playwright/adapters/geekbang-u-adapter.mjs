@@ -240,7 +240,7 @@ async function play(page, url, opts) {
     const v = document.querySelector("video");
     if (!v) return null;
     const before = v.currentTime;
-    if (before > 5) v.currentTime = 0;
+    if (before > 1) v.currentTime = 0;
     return { before, after: v.currentTime };
   }).catch(() => null);
   if (seekResult) console.error(`INFO: Seek: ${seekResult.before}s → ${seekResult.after}s`);

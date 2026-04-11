@@ -143,7 +143,7 @@ function setupTier2to4(page, done, effectiveDuration) {
   let stallCount = 0;
   // Don't trigger stall detection until video has been playing for at least this long
   const startMs = Date.now();
-  const MIN_PLAY_MS = 60000; // wait 60s before declaring a stall (covers initial buffering)
+  const MIN_PLAY_MS = 180000; // wait 180s before declaring a stall (covers rebuffering after seek-to-0)
   return setInterval(async () => {
     const ct = await page
       .evaluate(() => {
