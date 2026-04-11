@@ -77,35 +77,13 @@ async function main() {
     return;
   }
 
-  // ── play: launch a new headless=false browser ─────────────────────────────
+  // ── play: CDP (keep-alive) or persistent-context (first launch) ──────────
   if (args.action === "play") {
     const sessionId = args["session-id"];
     if (!sessionId) {
       console.error("ERROR: --session-id is required for play action");
       process.exit(1);
     }
-
-    const userDataDir = resolveChromeUserDataDir(
-      os.homedir(),
-      process.env.CHROME_USER_DATA_DIR,
-      process.platform
-    );
-    console.error(`INFO: Launching Chrome with persistent context — adapter: ${adapter.name}`);
-    console.error(`INFO: Chrome user data dir: ${userDataDir}`);
-
-    const context = await chromium.launchPersistentContext(userDataDir, {
-      channel: "chrome",
-      headless: false,
-      args: [
-        "--autoplay-policy=no-user-gesture-required",
-        "--disable-background-media-suspend",
-        "--no-default-browser-check",
-        "--no-first-run",
-      ],
-    });
-
-    const page = await context.newPage();
-    console.error(`INFO: Chrome launched, new page ready`);
 
     const playbackSpeed = (() => {
       const raw = parseFloat(process.env.PLAYBACK_SPEED || "2.0");
@@ -119,10 +97,65 @@ async function main() {
 
     const durationSec = parseInt(args.duration || "0", 10);
 
-    try {
-      await adapter.play(page, args.url, { playbackSpeed, sessionId, durationSec });
-    } finally {
-      await context.close().catch(() => {});
+    const CDP_URL = process.env.CHROME_CDP_URL;
+
+    if (CDP_URL) {
+      // ── CDP mode: connect to long-running Chrome, disconnect (not close) after ──
+      console.error(`INFO: Connecting to Chrome via CDP at ${CDP_URL} — adapter: ${adapter.name}`);
+      const browser = await chromium.connectOverCDP(CDP_URL);
+      const context = browser.contexts()[0] || await browser.newContext();
+
+      if (cookies.length > 0) {
+        await context.addCookies(cookies);
+        console.error(`INFO: Injected ${cookies.length} cookies`);
+      }
+
+      // Reuse existing navigatable tab or open a new one
+      const existingPages = context.pages();
+      const page = existingPages.find((p) => {
+        const u = p.url();
+        return !u.startsWith("chrome://") && !u.startsWith("chrome-extension://");
+      }) || await context.newPage();
+      await page.bringToFront().catch(() => {});
+      console.error(`INFO: Using tab: ${page.url()}`);
+
+      try {
+        await adapter.play(page, args.url, { playbackSpeed, sessionId, durationSec });
+      } finally {
+        // Close the Playwright connection — Chrome process stays alive for the next lecture
+        await browser.close().catch(() => {});
+      }
+    } else {
+      // ── Persistent-context mode: fresh temp profile per session ────────────
+      const userDataDir = process.env.CHROME_USER_DATA_DIR ||
+        `/tmp/evc-chrome-profile-${args["session-id"]}`;
+      console.error(`INFO: Launching Chrome with temp profile — adapter: ${adapter.name}`);
+      console.error(`INFO: Chrome user data dir: ${userDataDir}`);
+
+      const context = await chromium.launchPersistentContext(userDataDir, {
+        channel: "chrome",
+        headless: false,
+        args: [
+          "--autoplay-policy=no-user-gesture-required",
+          "--disable-background-media-suspend",
+          "--no-default-browser-check",
+          "--no-first-run",
+        ],
+      });
+
+      if (cookies.length > 0) {
+        await context.addCookies(cookies);
+        console.error(`INFO: Injected ${cookies.length} cookies`);
+      }
+
+      const page = await context.newPage();
+      console.error(`INFO: Chrome launched, new page ready`);
+
+      try {
+        await adapter.play(page, args.url, { playbackSpeed, sessionId, durationSec });
+      } finally {
+        await context.close().catch(() => {});
+      }
     }
     return;
   }

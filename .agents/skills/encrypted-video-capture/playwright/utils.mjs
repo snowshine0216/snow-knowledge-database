@@ -101,7 +101,7 @@ export async function findVideoElement(page, timeoutMs = 10000) {
 // ── Tuning constants ──────────────────────────────────────────────────────────
 const MAX_RECORDING_SEC  = 90 * 60;   // Tier 5: absolute timeout (90 min)
 const STALL_POLL_MS      = 2000;      // Tier 2: poll interval for stall detection
-const STALL_THRESHOLD    = 3;         // Tier 2: polls with no change before declaring stall
+const STALL_THRESHOLD    = 15;        // Tier 2: polls with no change = 30s before declaring stall
 const END_GRACE_SEC      = 30;        // Tier 3/4: buffer beyond reported duration
 
 // ── Tier setup helpers ────────────────────────────────────────────────────────
@@ -143,7 +143,7 @@ function setupTier2to4(page, done, effectiveDuration) {
   let stallCount = 0;
   // Don't trigger stall detection until video has been playing for at least this long
   const startMs = Date.now();
-  const MIN_PLAY_MS = 10000; // wait 10s before declaring a stall
+  const MIN_PLAY_MS = 60000; // wait 60s before declaring a stall (covers initial buffering)
   return setInterval(async () => {
     const ct = await page
       .evaluate(() => {

@@ -233,6 +233,18 @@ async function play(page, url, opts) {
     console.error("INFO: No play button found — used video.play() directly");
   }
 
+  // Seek to start AFTER triggering play — the platform restores saved position
+  // asynchronously after play begins, so we must seek after that settles.
+  await new Promise((r) => setTimeout(r, 1500));
+  const seekResult = await page.evaluate(() => {
+    const v = document.querySelector("video");
+    if (!v) return null;
+    const before = v.currentTime;
+    if (before > 5) v.currentTime = 0;
+    return { before, after: v.currentTime };
+  }).catch(() => null);
+  if (seekResult) console.error(`INFO: Seek: ${seekResult.before}s → ${seekResult.after}s`);
+
   const applySpeed = () =>
     page.evaluate((s) => {
       const video = document.querySelector("video");

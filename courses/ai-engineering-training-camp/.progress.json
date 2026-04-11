@@ -1,1 +1,31 @@
-{"schemaVersion":1,"lectures":{}}
+{
+  "schemaVersion": 1,
+  "lectures": {
+    "001": {
+      "status": "transcribed",
+      "title": "开班直播回放",
+      "retries": 0,
+      "transcript": "asr-in-progress"
+    },
+    "002": {
+      "status": "pending",
+      "title": "第一次直播答疑",
+      "retries": 0
+    },
+    "003": {
+      "status": "recording",
+      "title": "第二次直播答疑",
+      "retries": 0
+    },
+    "004": {
+      "status": "pending",
+      "title": "第三次直播答疑",
+      "retries": 0
+    },
+    "005": {
+      "status": "pending",
+      "title": "第四次直播答疑",
+      "retries": 0
+    }
+  }
+}

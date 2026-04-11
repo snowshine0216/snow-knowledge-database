@@ -31,6 +31,8 @@ rm -rf "${PROFILE_DIR}/Default/Sessions" "${PROFILE_DIR}/Default/Session Storage
   --disable-session-crashed-bubble \
   --disable-infobars \
   --restore-last-session=false \
+  --autoplay-policy=no-user-gesture-required \
+  --disable-background-media-suspend \
   "about:blank" \
   >/tmp/evc-chrome-cdp.log 2>&1 &
 CHROME_PID=$!
