@@ -1,3 +1,8 @@
+---
+tags: [video-capture, asr, geektime, drm, lecture-notes]
+source: internal
+---
+
 # Skill: encrypted-video-capture
 
 Capture audio from DRM-protected video courses (Geektime, corporate training, webinar replays), transcribe via ASR, and generate structured Markdown lecture notes — one `.md` file per lecture.
@@ -11,6 +16,14 @@ Capture audio from DRM-protected video courses (Geektime, corporate training, we
 - `--dry-run`: enumerate lectures and print total estimated recording time; exit without recording
 - `--resume`: skip lectures already marked `done` in `.progress.json`; retry `failed` up to 2×
 
+Supported URLs:
+```
+https://time.geekbang.org/column/<id>
+https://time.geekbang.org/video/<id>
+https://time.geekbang.org/course/<id>
+https://u.geekbang.org/lesson/<id>
+```
+
 ## Prerequisites
 
 Run `./scripts/preflight.sh` before the first use. See `references/setup-guide.md` for the
@@ -22,7 +35,32 @@ BlackHole + Audio MIDI Setup steps.
 
 When the user invokes this skill with a course URL, follow these steps exactly.
 
-### 0. Environment Setup
+### 0. URL Validation (fast-fail before any I/O)
+
+Validate the URL immediately — before cookie export, before preflight, before anything else:
+```bash
+ADAPTER_CHECK=$(node -e "
+  import('./playwright/adapters/adapter-interface.mjs').then(m => {
+    const a = m.resolveAdapter(process.argv[1]);
+    if (!a) {
+      console.error('ERROR: Unsupported URL: ' + process.argv[1]);
+      console.error('Supported platforms:');
+      for (const p of m.supportedUrlPatterns()) console.error('  - ' + p);
+      process.exit(1);
+    }
+    console.log(a.name);
+  });
+" -- "$COURSE_URL" 2>&1)
+ADAPTER_EXIT=$?
+if [ $ADAPTER_EXIT -ne 0 ]; then
+  echo "$ADAPTER_CHECK"
+  exit 1
+fi
+ADAPTER_NAME="$ADAPTER_CHECK"
+echo "INFO: Adapter resolved: $ADAPTER_NAME"
+```
+
+### 0b. Environment Setup
 
 Load `.env` if it exists in this skill directory:
 ```bash
@@ -104,11 +142,11 @@ yt-dlp --cookies-from-browser "${DEFAULT_BROWSER:-chrome}" --cookies "$COOKIE_FI
   --skip-download "$COURSE_URL" 2>/dev/null || true
 ```
 
-### 4. Lecture Enumeration (Geektime API)
+### 4. Lecture Enumeration
 
-Use the Playwright adapter to enumerate lectures:
+Use the platform-agnostic runner to enumerate lectures (dispatches to the correct adapter automatically):
 ```bash
-LECTURE_LIST=$(node "$(dirname "$0")/playwright/geektime-adapter.mjs" \
+LECTURE_LIST=$(node "$(dirname "$0")/playwright/runner.mjs" \
   --action enumerate \
   --url "$COURSE_URL" \
   --cookies "$COOKIE_FILE")
@@ -116,7 +154,7 @@ LECTURE_LIST=$(node "$(dirname "$0")/playwright/geektime-adapter.mjs" \
 
 If `LECTURE_LIST` is empty or the command exits non-zero:
 ```
-ERROR: No lectures found at <URL>. CAUSE: Geektime API returned empty list or authentication failed. FIX: Re-open Chrome, log into Geektime, and re-run. If persists, check if the course URL is a valid column/course URL.
+ERROR: No lectures found at <URL>. CAUSE: Adapter returned empty list or authentication failed. FIX: Re-open Chrome, log into the platform, and re-run. If persists, verify the URL is a supported format (see Supported URLs above).
 ```
 
 Derive `COURSE_NAME` for the output directory from the enumeration result and course URL:
@@ -138,8 +176,9 @@ mkdir -p "${OUTPUT_DIR}/${COURSE_NAME}"
 
 ### 5. Dry Run (if --dry-run)
 
-Print each lecture title and index, then total estimated recording time (30 min × count):
+Print adapter name, then each lecture title and index, then total estimated recording time (30 min × count):
 ```
+Adapter: <adapter-name> (<course-url>)
 Lecture 001: <title>  (~30 min)
 Lecture 002: <title>  (~30 min)
 ...
@@ -272,7 +311,7 @@ ASR_STREAM_PID=$!
 Start Playwright — navigate to lecture and click play (pass adjusted duration for timeout):
 ```bash
 ADJUSTED_DURATION=$(echo "${LECTURE_DURATION:-0} $PLAYBACK_SPEED" | awk '{print int($1/$2)}')
-PLAYBACK_SPEED="$PLAYBACK_SPEED" node "$(dirname "$0")/playwright/geektime-adapter.mjs" \
+PLAYBACK_SPEED="$PLAYBACK_SPEED" node "$(dirname "$0")/playwright/runner.mjs" \
   --action play \
   --url "$LECTURE_URL" \
   --cookies "$COOKIE_FILE" \
@@ -519,9 +558,10 @@ done
 
 | Error | Cause | Fix |
 |-------|-------|-----|
+| `ERROR: Unsupported URL: <url>` | URL does not match any registered adapter | Use a supported URL format (see Supported URLs above) |
 | `ERROR: Another session is running (PID N)` | Lock file with live PID | Wait or kill the PID and delete `/tmp/encrypted-video-capture.lock` |
 | `ERROR: BlackHole device not found` | BlackHole not installed or multi-output not configured | Follow setup-guide.md §1–3 |
-| `ERROR: No lectures found at <URL>` | API auth failure or wrong URL | Re-login to Geektime in Chrome, retry |
+| `ERROR: No lectures found at <URL>` | Adapter returned empty list or auth failed | Re-login to the platform in Chrome, retry |
 | `ERROR: ffmpeg did not start recording within 15s` | Wrong BLACKHOLE_DEVICE index | Verify with `ffmpeg -f avfoundation -list_devices true -i ""` |
 | `ERROR: ASR transcription failed` | `OPENROUTER_API_KEY` not set or network error | Set `OPENROUTER_API_KEY` in `.env`; mirrors yt-video-summarizer OpenRouter setup |
 | `INFO: opencc not found` | opencc not installed | `pip install opencc-python-reimplemented` or `brew install opencc`; content-summarizer hint used as fallback |
