@@ -34,3 +34,7 @@ source: https://u.geekbang.org/lesson/818?article=939542
 
 - [[ai-engineering-three-patterns]]
 - [[lora-fine-tuning]]
+
+## Related sources
+
+- **[002-first-qa-session]**: 第一次直播答疑补充了意图识别、RAG 和 Agent 场景的**模型选型对比**（BGE-M3 vs Jina Embedding、BERT-Chinese 系列、70B Agent 模型），以及 **LangSmith vs LangFuse 企业交付分层策略**（开发用 LangSmith、生产用 LangFuse），还有 **RAG 与文件上下文方式的架构对比**和**ML/深度学习与大模型的分工**这两个本篇未涉及的维度。See also: [[002-first-qa-session]]
