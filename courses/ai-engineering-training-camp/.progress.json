@@ -20,9 +20,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/003-第二次直播答疑.transcript"
     },
     "004": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "第三次直播答疑",
-      "retries": 0
+      "retries": 0,
+      "transcript": "courses/ai-engineering-training-camp/004-third-qa-session.transcript"
     },
     "005": {
       "status": "transcribing",
