@@ -27,6 +27,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Hermes Agent vs OpenBB](concepts/hermes-agent-vs-openbb.md) | ai-agents, agent-framework, finance, comparison | Comparison: Hermes Agent (agent orchestration) vs OpenBB (financial data platform) — architecture, use cases, tradeoffs |
 | [Nvidia New Moat Strategy](concepts/nvidia-new-moat-strategy.md) | strategy, nvidia, ai-hardware, moat, open-source | Nvidia's shift from chip vendor to AI operating layer via open-source agent platform (NemoClaw/OpenClaw) |
 | [AI 工程化的三种开发范式](concepts/ai-engineering-three-patterns.md) | ai-engineering, rag, agent, agentic-ai, llm, knowledge-base, workflow | RAG、AI Agent、Agentic AI 三种范式的选型逻辑与工程化视角 |
+| [AI 工程化实战问答：微调、延迟与 LangChain 迁移](concepts/003-second-qa-session.md) | fine-tuning, lora, intent-recognition, latency, langchain, observability, langchain-migration, agent | LoRA 数据要求、意图识别延迟拆解、LangFuse 可观测性、LangChain 0.x→1.0 迁移 |
 
 ## Tools
 

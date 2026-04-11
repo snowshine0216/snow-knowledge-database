@@ -13,17 +13,18 @@
       "retries": 0
     },
     "003": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "第二次直播答疑",
-      "retries": 0
+      "retries": 0,
+      "transcript": "courses/ai-engineering-training-camp/003-第二次直播答疑.transcript"
     },
     "004": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "第三次直播答疑",
       "retries": 0
     },
     "005": {
-      "status": "pending",
+      "status": "recording",
       "title": "第四次直播答疑",
       "retries": 0
     }
