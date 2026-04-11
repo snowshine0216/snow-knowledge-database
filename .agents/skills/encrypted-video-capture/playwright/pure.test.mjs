@@ -5,7 +5,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { sanitizeTitle, parseGeektimeCourseUrl, buildLectureUrl, parseGeekbangUUrl, validateLectureList } from "./pure.mjs";
+import { sanitizeTitle, parseGeektimeCourseUrl, buildLectureUrl, parseGeekbangUUrl, validateLectureList, resolveChromeUserDataDir } from "./pure.mjs";
 
 // ── sanitizeTitle ─────────────────────────────────────────────────────────────
 
@@ -186,4 +186,34 @@ test("validateLectureList: throws if duration is a string", () => {
 
 test("validateLectureList: throws for non-object item", () => {
   assert.throws(() => validateLectureList([null]), /not an object/);
+});
+
+// ── resolveChromeUserDataDir ──────────────────────────────────────────────────
+
+test("resolveChromeUserDataDir: uses env override when set", () => {
+  assert.equal(
+    resolveChromeUserDataDir("/Users/foo", "/custom/chrome-data", "darwin"),
+    "/custom/chrome-data"
+  );
+});
+
+test("resolveChromeUserDataDir: returns macOS path for darwin", () => {
+  assert.equal(
+    resolveChromeUserDataDir("/Users/foo", undefined, "darwin"),
+    "/Users/foo/Library/Application Support/Google/Chrome"
+  );
+});
+
+test("resolveChromeUserDataDir: returns Linux path for linux", () => {
+  assert.equal(
+    resolveChromeUserDataDir("/home/foo", undefined, "linux"),
+    "/home/foo/.config/google-chrome"
+  );
+});
+
+test("resolveChromeUserDataDir: env override takes precedence over platform", () => {
+  assert.equal(
+    resolveChromeUserDataDir("/home/foo", "/override", "linux"),
+    "/override"
+  );
 });

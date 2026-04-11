@@ -15,10 +15,12 @@
  *     --session-id <id> [--duration <sec>]
  */
 
+import os from "node:os";
 import { chromium } from "playwright";
 import { parseArgs } from "node:util";
 import { loadCookies } from "./utils.mjs";
 import { resolveAdapter, supportedUrlPatterns } from "./adapters/adapter-interface.mjs";
+import { resolveChromeUserDataDir } from "./pure.mjs";
 
 // ── Argument parsing ──────────────────────────────────────────────────────────
 
@@ -75,7 +77,7 @@ async function main() {
     return;
   }
 
-  // ── play: requires Chrome via CDP ──────────────────────────────────────────
+  // ── play: launch a new headless=false browser ─────────────────────────────
   if (args.action === "play") {
     const sessionId = args["session-id"];
     if (!sessionId) {
@@ -83,35 +85,27 @@ async function main() {
       process.exit(1);
     }
 
-    const CDP_URL = process.env.CHROME_CDP_URL || "http://127.0.0.1:9222";
-    console.error(`INFO: Connecting to CDP at ${CDP_URL}`);
-    const browser = await chromium.connectOverCDP(CDP_URL);
-    console.error(`INFO: CDP connected — adapter: ${adapter.name}`);
-    const context = browser.contexts()[0] || await browser.newContext();
+    const userDataDir = resolveChromeUserDataDir(
+      os.homedir(),
+      process.env.CHROME_USER_DATA_DIR,
+      process.platform
+    );
+    console.error(`INFO: Launching Chrome with persistent context — adapter: ${adapter.name}`);
+    console.error(`INFO: Chrome user data dir: ${userDataDir}`);
 
-    // Prefer a live navigatable tab; fall back to about:blank (fresh launch);
-    // create a new page only if no tabs exist at all.
-    const existingPages = context.pages();
-    const navigatablePage =
-      existingPages.find((p) => {
-        const u = p.url();
-        return !u.startsWith("chrome://") &&
-               !u.startsWith("chrome-extension://") &&
-               u !== "about:blank";
-      }) ||
-      existingPages.find((p) => {
-        const u = p.url();
-        return !u.startsWith("chrome://") && !u.startsWith("chrome-extension://");
-      });
-    const page = navigatablePage || await context.newPage();
-    console.error(`INFO: Using page (${existingPages.length} existing): ${page.url()}`);
+    const context = await chromium.launchPersistentContext(userDataDir, {
+      channel: "chrome",
+      headless: false,
+      args: [
+        "--autoplay-policy=no-user-gesture-required",
+        "--disable-background-media-suspend",
+        "--no-default-browser-check",
+        "--no-first-run",
+      ],
+    });
 
-    // Bring tab to front so Chrome doesn't throttle background-tab navigations.
-    await page.bringToFront().catch(() => {});
-
-    if (cookies.length > 0) {
-      await context.addCookies(cookies);
-    }
+    const page = await context.newPage();
+    console.error(`INFO: Chrome launched, new page ready`);
 
     const playbackSpeed = (() => {
       const raw = parseFloat(process.env.PLAYBACK_SPEED || "2.0");
@@ -125,7 +119,11 @@ async function main() {
 
     const durationSec = parseInt(args.duration || "0", 10);
 
-    await adapter.play(page, args.url, { playbackSpeed, sessionId, durationSec });
+    try {
+      await adapter.play(page, args.url, { playbackSpeed, sessionId, durationSec });
+    } finally {
+      await context.close().catch(() => {});
+    }
     return;
   }
 

@@ -68,6 +68,26 @@ export function parseGeekbangUUrl(url) {
 }
 
 /**
+ * Resolve the Chrome user data directory for the current OS.
+ * Falls back to platform-specific defaults when CHROME_USER_DATA_DIR is not set.
+ * @param {string} homedir - os.homedir()
+ * @param {string|undefined} envOverride - CHROME_USER_DATA_DIR env var value
+ * @param {string} platform - process.platform
+ * @returns {string}
+ */
+export function resolveChromeUserDataDir(homedir, envOverride, platform) {
+  if (envOverride) return envOverride;
+  if (platform === "win32") {
+    return homedir + "\\AppData\\Local\\Google\\Chrome\\User Data";
+  }
+  if (platform === "linux") {
+    return homedir + "/.config/google-chrome";
+  }
+  // darwin (macOS) and other POSIX
+  return homedir + "/Library/Application Support/Google/Chrome";
+}
+
+/**
  * Validate the shape of a lecture list returned by an adapter's enumerate().
  * Throws with a clear message if any required field is missing or malformed.
  * @param {unknown} list
