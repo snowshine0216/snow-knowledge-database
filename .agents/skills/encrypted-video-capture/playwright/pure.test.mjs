@@ -5,7 +5,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { sanitizeTitle, parseGeektimeCourseUrl, buildLectureUrl } from "./pure.mjs";
+import { sanitizeTitle, parseGeektimeCourseUrl, buildLectureUrl, parseGeekbangUUrl, validateLectureList } from "./pure.mjs";
 
 // ── sanitizeTitle ─────────────────────────────────────────────────────────────
 
@@ -92,4 +92,98 @@ test("buildLectureUrl: video type uses /<type>/<courseId>/<articleId>", () => {
     buildLectureUrl("video", "100082601", "456"),
     "https://time.geekbang.org/video/100082601/456"
   );
+});
+
+// ── parseGeekbangUUrl ─────────────────────────────────────────────────────────
+
+test("parseGeekbangUUrl: parses /lesson/<id>", () => {
+  const result = parseGeekbangUUrl("https://u.geekbang.org/lesson/818");
+  assert.deepEqual(result, { lessonId: "818" });
+});
+
+test("parseGeekbangUUrl: parses URL with trailing slash", () => {
+  const result = parseGeekbangUUrl("https://u.geekbang.org/lesson/818/");
+  assert.deepEqual(result, { lessonId: "818" });
+});
+
+test("parseGeekbangUUrl: parses URL with query params", () => {
+  const result = parseGeekbangUUrl("https://u.geekbang.org/lesson/818?ref=home");
+  assert.deepEqual(result, { lessonId: "818" });
+});
+
+test("parseGeekbangUUrl: returns null for non-geekbang-u hostname", () => {
+  assert.equal(parseGeekbangUUrl("https://time.geekbang.org/lesson/818"), null);
+});
+
+test("parseGeekbangUUrl: returns null for missing lesson ID", () => {
+  assert.equal(parseGeekbangUUrl("https://u.geekbang.org/lesson/"), null);
+});
+
+test("parseGeekbangUUrl: returns null for non-numeric lesson ID", () => {
+  assert.equal(parseGeekbangUUrl("https://u.geekbang.org/lesson/abc"), null);
+});
+
+test("parseGeekbangUUrl: returns null for unrelated path", () => {
+  assert.equal(parseGeekbangUUrl("https://u.geekbang.org/course/818"), null);
+});
+
+test("parseGeekbangUUrl: returns null for invalid URL string", () => {
+  assert.equal(parseGeekbangUUrl("not-a-url"), null);
+});
+
+// ── validateLectureList ───────────────────────────────────────────────────────
+
+const validLecture = {
+  idx: "001",
+  title: "Introduction",
+  url: "https://u.geekbang.org/lesson/818",
+  duration: 0,
+  course_title: "Advanced Go",
+};
+
+test("validateLectureList: passes for valid list", () => {
+  assert.doesNotThrow(() => validateLectureList([validLecture]));
+});
+
+test("validateLectureList: passes for multiple items", () => {
+  const list = [
+    validLecture,
+    { ...validLecture, idx: "002", title: "Lecture 2" },
+  ];
+  assert.doesNotThrow(() => validateLectureList(list));
+});
+
+test("validateLectureList: throws for non-array", () => {
+  assert.throws(() => validateLectureList(null), /must be an array/);
+  assert.throws(() => validateLectureList("string"), /must be an array/);
+});
+
+test("validateLectureList: throws for empty array", () => {
+  assert.throws(() => validateLectureList([]), /empty/);
+});
+
+test("validateLectureList: throws for missing idx field", () => {
+  const { idx: _, ...noIdx } = validLecture;
+  assert.throws(() => validateLectureList([noIdx]), /"idx"/);
+});
+
+test("validateLectureList: throws for missing course_title field", () => {
+  const { course_title: _, ...noCourseTitle } = validLecture;
+  assert.throws(() => validateLectureList([noCourseTitle]), /"course_title"/);
+});
+
+test("validateLectureList: throws for missing duration field", () => {
+  const { duration: _, ...noDuration } = validLecture;
+  assert.throws(() => validateLectureList([noDuration]), /"duration"/);
+});
+
+test("validateLectureList: throws if duration is a string", () => {
+  assert.throws(
+    () => validateLectureList([{ ...validLecture, duration: "60" }]),
+    /duration.*number/
+  );
+});
+
+test("validateLectureList: throws for non-object item", () => {
+  assert.throws(() => validateLectureList([null]), /not an object/);
 });

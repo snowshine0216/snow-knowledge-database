@@ -47,3 +47,64 @@ export function parseGeektimeCourseUrl(url) {
   if (!match) throw new Error(`Cannot parse Geektime course ID from URL: ${url}`);
   return { type: match[1], id: match[2] };
 }
+
+/**
+ * Extract the lesson ID from a Geek University lesson URL.
+ * Supports: https://u.geekbang.org/lesson/<id>
+ * @param {string} url
+ * @returns {{ lessonId: string }|null} null if the URL does not match.
+ */
+export function parseGeekbangUUrl(url) {
+  let normalized;
+  try {
+    normalized = new URL(url);
+  } catch {
+    return null;
+  }
+  if (normalized.hostname !== "u.geekbang.org") return null;
+  const match = normalized.pathname.match(/^\/lesson\/(\d+)/);
+  if (!match) return null;
+  return { lessonId: match[1] };
+}
+
+/**
+ * Validate the shape of a lecture list returned by an adapter's enumerate().
+ * Throws with a clear message if any required field is missing or malformed.
+ * @param {unknown} list
+ * @throws {Error}
+ */
+export function validateLectureList(list) {
+  if (!Array.isArray(list)) {
+    throw new Error("Lecture list must be an array");
+  }
+  if (list.length === 0) {
+    throw new Error("Lecture list is empty");
+  }
+  const required = ["idx", "title", "url", "duration", "course_title"];
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i];
+    if (!item || typeof item !== "object") {
+      throw new Error(`Lecture[${i}] is not an object`);
+    }
+    for (const key of required) {
+      if (!(key in item)) {
+        throw new Error(`Lecture[${i}] is missing required field: "${key}"`);
+      }
+    }
+    if (typeof item.idx !== "string" || !item.idx) {
+      throw new Error(`Lecture[${i}].idx must be a non-empty string`);
+    }
+    if (typeof item.title !== "string") {
+      throw new Error(`Lecture[${i}].title must be a string`);
+    }
+    if (typeof item.url !== "string" || !item.url) {
+      throw new Error(`Lecture[${i}].url must be a non-empty string`);
+    }
+    if (typeof item.duration !== "number") {
+      throw new Error(`Lecture[${i}].duration must be a number`);
+    }
+    if (typeof item.course_title !== "string") {
+      throw new Error(`Lecture[${i}].course_title must be a string`);
+    }
+  }
+}
