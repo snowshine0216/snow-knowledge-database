@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "lectures": {
     "001": {
-      "status": "done",
-      "title": "课程介绍",
+      "status": "recording",
+      "title": "开班直播回放",
       "retries": 0
     },
     "002": {
