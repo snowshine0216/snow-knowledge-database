@@ -69,9 +69,9 @@ OpenClaw 的 Skill 安装方式极其简单——**直接和龙虾对话**：
 
 ---
 
-## 实战：Agent Rich 爬取示例
+## 实战：Agent Reach 爬取示例
 
-**Agent Rich** 是一个网页/社交媒体内容爬取 Skill：
+**Agent Reach** 是一个网页/社交媒体内容爬取 Skill：
 
 安装后验证：
 ```
