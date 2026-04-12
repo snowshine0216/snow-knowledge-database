@@ -205,13 +205,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/035-4langchain链的解析2.transcript"
     },
     "036": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "5意图识别流水线设计",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/036-5意图识别流水线设计.transcript"
     },
     "037": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "6上下文理解与记忆管理",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/037-6上下文理解与记忆管理.transcript"
+    },
+    "038": {
+      "status": "transcribing",
+      "title": "7让系统会行动",
+      "retries": 0
+    },
+    "039": {
+      "status": "recording",
+      "title": "8用LangGraph实现多轮对话流程控制1",
       "retries": 0
     }
   }
