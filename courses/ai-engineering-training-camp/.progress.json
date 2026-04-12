@@ -101,13 +101,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/017-2微调相关的基础概念与tokenizers解析.transcript"
     },
     "018": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "3高效微调实践",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/018-3高效微调实践.transcript"
     },
     "019": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "4实验管理与超参数优化",
+      "retries": 0
+    },
+    "020": {
+      "status": "recording",
+      "title": "5模型评估与上线决策压缩部署项目实践",
       "retries": 0
     }
   }
