@@ -26,12 +26,13 @@
       "transcript": "courses/ai-engineering-training-camp/004-third-qa-session.transcript"
     },
     "005": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "第四次直播答疑",
-      "retries": 0
+      "retries": 0,
+      "transcript": "courses/ai-engineering-training-camp/005-fourth-qa-session.transcript"
     },
     "006": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1什么是 AI 工程化",
       "retries": 0
     }
