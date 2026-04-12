@@ -217,13 +217,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/037-6上下文理解与记忆管理.transcript"
     },
     "038": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "7让系统会行动",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/038-7让系统会行动.transcript"
     },
     "039": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "8用LangGraph实现多轮对话流程控制1",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/039-8用langgraph实现多轮对话流程控制1.transcript"
+    },
+    "040": {
+      "status": "transcribing",
+      "title": "9用LangGraph实现多轮对话流程控制2",
+      "retries": 0
+    },
+    "041": {
+      "status": "recording",
+      "title": "10用LangGraph实现多轮对话流程控制3",
       "retries": 0
     }
   }
