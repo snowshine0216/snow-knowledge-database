@@ -38,12 +38,12 @@
       "md": "courses/ai-engineering-training-camp/006-what-is-ai-engineering.md"
     },
     "007": {
-      "status": "transcribing",
+      "status": "done",
       "title": "2大模型调用与函数调用基础",
       "retries": 0
     },
     "008": {
-      "status": "transcribing",
+      "status": "done",
       "title": "3LangChain核心组件概述",
       "retries": 0
     },
