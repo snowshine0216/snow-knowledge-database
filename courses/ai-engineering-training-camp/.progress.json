@@ -78,7 +78,7 @@
       "retries": 0
     },
     "014": {
-      "status": "transcribing",
+      "status": "done",
       "title": "模块一实践一基于 LangChain 构建一个多任务问答助手",
       "retries": 0
     },

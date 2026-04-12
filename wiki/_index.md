@@ -38,6 +38,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [LlamaIndex 与 RAG 知识增强系统](concepts/011-llamaindex-and-rag-systems.md) | llamaindex, rag, knowledge-augmentation, vector-db, ocr, retrieval, ai-engineering | RAG vs Tool Calling 根本区别、LlamaIndex 两阶段工作流、OCR+RAG 变形、混合检索架构 |
 | [Prompt 工程与 Agent 多轮对话设计](concepts/012-prompt-engineering-and-agent-design.md) | prompt-engineering, agent, slot-filling, intent-recognition, memory, state-machine, jinja2 | Jinja2 模板、对话状态机、三层记忆、IR+SF 多轮对话、四级降级容错 |
 | [多 Agent 协作、LoRA 微调与生产部署](concepts/013-multi-agent-finetuning-deployment.md) | multi-agent, autogen, lora, fine-tuning, rag, deployment, security, production | Group Chat 与 Debate 两种协作模式、LoRA 原理、RAG vs 微调选型、三层防注入 |
+| [LangChain 多任务问答助手实战](concepts/014-langchain-multitask-qa-practice.md) | langchain, agent, tool-calling, redis, caching, pydantic, python-engineering, practice | venv/requirements/.env 三件套、工具调用追踪、Redis 缓存 API 结果 |
 | [多 Agent 协同客服系统实战](concepts/015-multi-agent-customer-service-practice.md) | multi-agent, autogen, customer-service, fastapi, retry, slot-filling, practice | AutoGen GroupChat 五 Agent 角色设计、指数退避重试装饰器、槽位填充入口 |
 
 ## Tools
