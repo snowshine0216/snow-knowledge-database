@@ -149,14 +149,16 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/025-3完整的-rag-分析-qanything1.transcript"
     },
     "026": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "4完整的 RAG 分析-QAnything2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/026-4完整的-rag-分析-qanything2.transcript"
     },
     "027": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "5完整的 RAG 分析-QAnything3",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/027-5完整的-rag-分析-qanything3.transcript"
     },
     "028": {
       "status": "transcribed",
@@ -186,13 +188,18 @@
       "retries": 1
     },
     "033": {
-      "status": "transcribing",
+      "status": "failed",
       "title": "2深入输入输出",
-      "retries": 0
+      "retries": 1
     },
     "034": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "3LangChain链的解析1",
+      "retries": 0
+    },
+    "035": {
+      "status": "recording",
+      "title": "4LangChain链的解析2",
       "retries": 0
     }
   }
