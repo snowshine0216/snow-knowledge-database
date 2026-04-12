@@ -63,7 +63,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 ## Courses
 
-### Karpathy Zero to Hero (6 chapters)
+### Karpathy Zero to Hero (7 chapters)
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
@@ -72,6 +72,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [03: MLP](courses/zero-to-hero/karpathy-zero-to-hero-03-makemore-mlp.md) | multilayer-perceptron, embeddings, language-model, zero-to-hero | MLP language model (Bengio 2003): embeddings, minibatch training, LR search, train/dev/test splits |
 | [04: BatchNorm](courses/zero-to-hero/karpathy-zero-to-hero-04-makemore-batchnorm.md) | neural-networks, batch-normalization, kaiming-init, activations, zero-to-hero | Activation/gradient diagnostics, Kaiming init, and BatchNorm to stabilize deep MLP training |
 | [05: Backprop Ninja](courses/zero-to-hero/karpathy-zero-to-hero-05-makemore-backprop-ninja.md) | backpropagation, deep-learning, pytorch, batchnorm, gradients, zero-to-hero | Manual tensor-level backprop through full MLP+BatchNorm; analytical CE and BN backward formulas |
+| [06: WaveNet](courses/zero-to-hero/karpathy-zero-to-hero-06-makemore-wavenet.md) | wavenet, convolutional, deep-learning, pytorch, makemore, zero-to-hero | Hierarchical tree-structured language model mirroring WaveNet; FlattenConsecutive, BatchNorm1D 3D bug |
 | [Build GPT](courses/zero-to-hero/karpathy-zero-to-hero-build-gpt.md) | gpt, transformers, self-attention, nanoGPT, zero-to-hero | Build a decoder-only Transformer in ~200 lines; self-attention, multi-head, residual, LayerNorm |
 | [GPT Tokenizer](courses/zero-to-hero/karpathy-zero-to-hero-gpt-tokenizer.md) | tokenization, bpe, tiktoken, sentencepiece, zero-to-hero | BPE tokenizer from scratch; explains LLM quirks (spelling, arithmetic, glitch tokens) via tokenization |
 
