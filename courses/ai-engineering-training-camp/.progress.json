@@ -131,9 +131,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/022-模块二实践二基于-lora-微调一个垂直领域客服问答模型.transcript"
     },
     "023": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1解构 RAG",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/023-1解构-rag.transcript"
     },
     "024": {
       "status": "transcribed",
@@ -153,8 +154,45 @@
       "retries": 0
     },
     "027": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "5完整的 RAG 分析-QAnything3",
+      "retries": 0
+    },
+    "028": {
+      "status": "transcribed",
+      "title": "6提升 RAG 效果的一些方法1",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/028-6提升-rag-效果的一些方法1.transcript"
+    },
+    "029": {
+      "status": "transcribed",
+      "title": "7提升 RAG 效果的一些方法2",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/029-7提升-rag-效果的一些方法2.transcript"
+    },
+    "030": {
+      "status": "failed",
+      "title": "模块三实践一构建一个基于 FAISSMilvus 的 FAQ 检索系统",
+      "retries": 1
+    },
+    "031": {
+      "status": "failed",
+      "title": "模块三实践二构建一个基于 FAISSMilvus 的 FAQ 检索系统",
+      "retries": 1
+    },
+    "032": {
+      "status": "failed",
+      "title": "1构建第一个对话链与FastAPI封装",
+      "retries": 1
+    },
+    "033": {
+      "status": "transcribing",
+      "title": "2深入输入输出",
+      "retries": 0
+    },
+    "034": {
+      "status": "recording",
+      "title": "3LangChain链的解析1",
       "retries": 0
     }
   }
