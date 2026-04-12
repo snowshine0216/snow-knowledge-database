@@ -32,24 +32,31 @@
       "transcript": "courses/ai-engineering-training-camp/005-fourth-qa-session.transcript"
     },
     "006": {
-      "status": "done",
+      "status": "transcribed",
       "title": "1什么是 AI 工程化",
       "retries": 0,
-      "md": "courses/ai-engineering-training-camp/006-what-is-ai-engineering.md"
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/006-1什么是-ai-工程化.transcript"
     },
     "007": {
-      "status": "done",
+      "status": "transcribed",
       "title": "2大模型调用与函数调用基础",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/007-2大模型调用与函数调用基础.transcript"
     },
     "008": {
-      "status": "done",
+      "status": "transcribed",
       "title": "3LangChain核心组件概述",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/008-3langchain核心组件概述.transcript"
     },
     "009": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "4Function Calling与MCP基础",
+      "retries": 0
+    },
+    "010": {
+      "status": "recording",
+      "title": "5LangChain核心组件详解",
       "retries": 0
     }
   }
