@@ -73,10 +73,9 @@
       "retries": 0
     },
     "013": {
-      "status": "transcribed",
-      "title": "8多Agent协作与轻量微调工程化部署",
-      "retries": 0,
-      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/013-8多agent协作与轻量微调工程化部署.transcript"
+      "status": "done",
+      "title": "多Agent协作与轻量微调工程化部署",
+      "retries": 0
     },
     "014": {
       "status": "transcribing",

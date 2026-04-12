@@ -37,6 +37,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [LangChain 六大模块深解](concepts/010-langchain-core-components-detailed.md) | langchain, langgraph, langsmith, agent, memory, rag, callback, lcel, tool-calling | Model I/O、RAG、Memory、Tools、Callback、LCEL 六模块职责，LangGraph 协作模式 |
 | [LlamaIndex 与 RAG 知识增强系统](concepts/011-llamaindex-and-rag-systems.md) | llamaindex, rag, knowledge-augmentation, vector-db, ocr, retrieval, ai-engineering | RAG vs Tool Calling 根本区别、LlamaIndex 两阶段工作流、OCR+RAG 变形、混合检索架构 |
 | [Prompt 工程与 Agent 多轮对话设计](concepts/012-prompt-engineering-and-agent-design.md) | prompt-engineering, agent, slot-filling, intent-recognition, memory, state-machine, jinja2 | Jinja2 模板、对话状态机、三层记忆、IR+SF 多轮对话、四级降级容错 |
+| [多 Agent 协作、LoRA 微调与生产部署](concepts/013-multi-agent-finetuning-deployment.md) | multi-agent, autogen, lora, fine-tuning, rag, deployment, security, production | Group Chat 与 Debate 两种协作模式、LoRA 原理、RAG vs 微调选型、三层防注入 |
 
 ## Tools
 

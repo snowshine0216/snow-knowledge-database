@@ -1,6 +1,7 @@
 ---
 tags: [multi-agent, autogen, langchain, fine-tuning, lora, rag, deployment, security, production, ai-engineering]
 source: https://u.geekbang.org/lesson/818?article=927430
+wiki: wiki/concepts/013-multi-agent-finetuning-deployment.md
 ---
 
 # 013: 多 Agent 协作、轻量微调与工程化部署
