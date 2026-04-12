@@ -50,9 +50,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/008-3langchain核心组件概述.transcript"
     },
     "009": {
-      "status": "done",
+      "status": "transcribed",
       "title": "4Function Calling与MCP基础",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/009-4function-calling与mcp基础.transcript"
     },
     "010": {
       "status": "transcribing",
@@ -60,8 +61,13 @@
       "retries": 0
     },
     "011": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "6LlamaIndex 与知识增强系统",
+      "retries": 0
+    },
+    "012": {
+      "status": "recording",
+      "title": "7Prompt Engineering 高阶技巧Agent 设计与多轮对话逻辑",
       "retries": 0
     }
   }
