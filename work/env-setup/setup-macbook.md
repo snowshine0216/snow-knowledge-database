@@ -84,3 +84,8 @@ source: https://microstrategy-my.sharepoint.com/personal/xuyin_microstrategy_com
     ```
     - Creates a virtual 2-channel audio device
     - Use with Audio MIDI Setup to route system audio for recording
+
+16. **LibreOffice**
+    ```bash
+    brew install --cask libreoffice
+    ```
