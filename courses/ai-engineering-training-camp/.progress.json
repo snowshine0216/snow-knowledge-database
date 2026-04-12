@@ -78,9 +78,10 @@
       "retries": 0
     },
     "014": {
-      "status": "done",
+      "status": "transcribed",
       "title": "模块一实践一基于 LangChain 构建一个多任务问答助手",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/014-模块一实践一基于-langchain-构建一个多任务问答助手.transcript"
     },
     "015": {
       "status": "done",
@@ -88,13 +89,19 @@
       "retries": 0
     },
     "016": {
-      "status": "done",
+      "status": "transcribed",
       "title": "1工程准备与数据工程基础",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/016-1工程准备与数据工程基础.transcript"
     },
     "017": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "2微调相关的基础概念与tokenizers解析",
+      "retries": 0
+    },
+    "018": {
+      "status": "recording",
+      "title": "3高效微调实践",
       "retries": 0
     }
   }
