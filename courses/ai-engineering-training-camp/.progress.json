@@ -229,13 +229,31 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/039-8用langgraph实现多轮对话流程控制1.transcript"
     },
     "040": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "9用LangGraph实现多轮对话流程控制2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/040-9用langgraph实现多轮对话流程控制2.transcript"
     },
     "041": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "10用LangGraph实现多轮对话流程控制3",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/041-10用langgraph实现多轮对话流程控制3.transcript"
+    },
+    "042": {
+      "status": "transcribed",
+      "title": "11工具调用引擎设计热更新机制",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/042-11工具调用引擎设计热更新机制.transcript"
+    },
+    "043": {
+      "status": "transcribing",
+      "title": "模块四实践一设计一个支持多轮对话的订单查询客服流程",
+      "retries": 0
+    },
+    "044": {
+      "status": "recording",
+      "title": "模块四实践二设计可插拔的意图识别与对话管理模块支持热更新",
       "retries": 0
     }
   }
