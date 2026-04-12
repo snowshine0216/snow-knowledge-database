@@ -30,6 +30,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [AI 工程化实战问答：微调、延迟与 LangChain 迁移](concepts/003-second-qa-session.md) | fine-tuning, lora, intent-recognition, latency, langchain, observability, langchain-migration, agent | LoRA 数据要求、意图识别延迟拆解、LangFuse 可观测性、LangChain 0.x→1.0 迁移 |
 | [LoRA 训练诊断、模型评估与 AI 中台稳定层设计](concepts/004-third-qa-session.md) | fine-tuning, lora, model-evaluation, rouge, bleu, llm-as-judge, agent-security, ai-platform, rag | 训练曲线四象限诊断、LLM-as-Judge 评测、Agent 安全双重威胁、AI 中台稳定层 vs 易变层 |
 | [Agent 软性逻辑、槽位填充与评估框架](concepts/005-fourth-qa-session.md) | agent, intent-recognition, slot-filling, human-in-the-loop, mcp, multimodal, industrial-ai, agent-evaluation | 软硬逻辑对照、槽位填充机制、Human-in-the-Loop 实现、agent 业务层 + 技术层评估 |
+| [AI 工程化：分层架构与 Multi-Agent 编排模式](concepts/006-what-is-ai-engineering.md) | ai-engineering, layered-architecture, multi-agent, design-patterns, mcp, function-calling, rag | 八层逻辑架构、MCP vs Function Calling 层级关系、六种 Multi-Agent 编排模式 |
 
 ## Tools
 
