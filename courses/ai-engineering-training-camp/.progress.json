@@ -265,13 +265,31 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/045-1多agent系统基础概念与多agent框架简介.transcript"
     },
     "046": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "2主流 Agent 协作框架对比与案例1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/046-2主流-agent-协作框架对比与案例1.transcript"
     },
     "047": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "3主流 Agent 协作框架对比与案例2",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/047-3主流-agent-协作框架对比与案例2.transcript"
+    },
+    "048": {
+      "status": "transcribed",
+      "title": "4主流 Agent 协作框架对比与案例3",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/048-4主流-agent-协作框架对比与案例3.transcript"
+    },
+    "049": {
+      "status": "transcribing",
+      "title": "5MCP 与 A2A 协议详解-MCP1",
+      "retries": 0
+    },
+    "050": {
+      "status": "recording",
+      "title": "6MCP 与 A2A 协议详解-MCP2",
       "retries": 0
     }
   }
