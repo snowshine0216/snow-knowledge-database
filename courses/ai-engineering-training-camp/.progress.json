@@ -193,13 +193,25 @@
       "retries": 1
     },
     "034": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "3LangChain链的解析1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/034-3langchain链的解析1.transcript"
     },
     "035": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "4LangChain链的解析2",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/035-4langchain链的解析2.transcript"
+    },
+    "036": {
+      "status": "transcribing",
+      "title": "5意图识别流水线设计",
+      "retries": 0
+    },
+    "037": {
+      "status": "recording",
+      "title": "6上下文理解与记忆管理",
       "retries": 0
     }
   }
