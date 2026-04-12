@@ -35,6 +35,21 @@
       "status": "transcribing",
       "title": "1什么是 AI 工程化",
       "retries": 0
+    },
+    "007": {
+      "status": "transcribing",
+      "title": "2大模型调用与函数调用基础",
+      "retries": 0
+    },
+    "008": {
+      "status": "transcribing",
+      "title": "3LangChain核心组件概述",
+      "retries": 0
+    },
+    "009": {
+      "status": "recording",
+      "title": "4Function Calling与MCP基础",
+      "retries": 0
     }
   }
 }

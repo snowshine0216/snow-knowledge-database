@@ -16,6 +16,7 @@ import {
   updateProgress,
   saveProgress,
   initProgress,
+  migrateV1toV2,
 } from "./progress.mjs";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -33,17 +34,24 @@ function cleanup(filePath) {
 test("loadProgress: returns empty progress when file does not exist", () => {
   const p = tmpFile();
   const result = loadProgress(p);
-  assert.deepEqual(result, { schemaVersion: SCHEMA_VERSION, lectures: {} });
+  assert.deepEqual(result, { schemaVersion: SCHEMA_VERSION, courseUrl: null, courseName: null, enumeratedAt: null, lectures: {} });
 });
 
-test("loadProgress: reads a valid progress file", () => {
+test("loadProgress: reads a valid v2 progress file", () => {
   const p = tmpFile();
-  const data = { schemaVersion: 1, lectures: { "001": { status: "done", retries: 0 } } };
+  const data = {
+    schemaVersion: 2,
+    courseUrl: "https://example.com/course/1",
+    courseName: "test-course",
+    enumeratedAt: "2026-01-01T00:00:00Z",
+    lectures: { "001": { title: "Intro", url: "https://example.com/1", duration: 3600, status: "done", retries: 0 } },
+  };
   fs.writeFileSync(p, JSON.stringify(data), "utf8");
   try {
     const result = loadProgress(p);
-    assert.equal(result.schemaVersion, 1);
-    assert.deepEqual(result.lectures["001"], { status: "done", retries: 0 });
+    assert.equal(result.schemaVersion, 2);
+    assert.equal(result.courseUrl, "https://example.com/course/1");
+    assert.deepEqual(result.lectures["001"], { title: "Intro", url: "https://example.com/1", duration: 3600, status: "done", retries: 0 });
   } finally {
     cleanup(p);
   }
@@ -201,9 +209,15 @@ test("updateProgress: sets status to summarizing", () => {
 
 // ── saveProgress / initProgress ───────────────────────────────────────────────
 
-test("saveProgress: persists progress to disk and round-trips", () => {
+test("saveProgress: persists v2 progress to disk and round-trips", () => {
   const p = tmpFile();
-  const progress = { schemaVersion: 1, lectures: { "001": { status: "done", retries: 0 } } };
+  const progress = {
+    schemaVersion: 2,
+    courseUrl: "https://example.com/course/1",
+    courseName: "test-course",
+    enumeratedAt: "2026-01-01T00:00:00Z",
+    lectures: { "001": { title: "Intro", url: "https://example.com/1", duration: 3600, status: "done", retries: 0 } },
+  };
   try {
     saveProgress(p, progress);
     const loaded = loadProgress(p);
@@ -225,6 +239,81 @@ test("initProgress: creates a fresh progress file", () => {
   } finally {
     cleanup(p);
   }
+});
+
+// ── v1 → v2 migration ─────────────────────────────────────────────────────────
+
+test("loadProgress: v1 file → migrates to v2, preserves status/retries", () => {
+  const p = tmpFile();
+  const v1Data = { schemaVersion: 1, lectures: { "001": { status: "done", retries: 0 } } };
+  fs.writeFileSync(p, JSON.stringify(v1Data), "utf8");
+  try {
+    const result = loadProgress(p);
+    assert.equal(result.schemaVersion, 2, "schemaVersion bumped to 2");
+    assert.equal(result.lectures["001"].status, "done", "status preserved");
+    assert.equal(result.lectures["001"].retries, 0, "retries preserved");
+  } finally {
+    cleanup(p);
+  }
+});
+
+test("migration: v1 → v2 adds courseUrl: null, enumeratedAt: null, courseName: null at top level", () => {
+  const v1 = { schemaVersion: 1, lectures: { "001": { status: "done", retries: 0 } } };
+  const v2 = migrateV1toV2(v1);
+  assert.equal(v2.schemaVersion, 2);
+  assert.equal(v2.courseUrl, null);
+  assert.equal(v2.enumeratedAt, null);
+  assert.equal(v2.courseName, null);
+  assert.ok(v2.lectures["001"], "lectures preserved");
+});
+
+test("migration: normalizes 'transcribed' status to 'done'", () => {
+  const v1 = {
+    schemaVersion: 1,
+    lectures: {
+      "001": { status: "transcribed", retries: 0 },
+      "002": { status: "done", retries: 0 },
+      "003": { status: "failed", retries: 1 },
+    },
+  };
+  const v2 = migrateV1toV2(v1);
+  assert.equal(v2.lectures["001"].status, "done", "'transcribed' normalized to 'done'");
+  assert.equal(v2.lectures["002"].status, "done", "'done' stays 'done'");
+  assert.equal(v2.lectures["003"].status, "failed", "'failed' stays 'failed'");
+});
+
+// ── updateProgress field preservation ────────────────────────────────────────
+
+test("updateProgress: preserves url/duration/title when updating status", () => {
+  const progress = {
+    schemaVersion: 2,
+    courseUrl: "https://example.com/course/1",
+    courseName: "test",
+    enumeratedAt: "2026-01-01T00:00:00Z",
+    lectures: {
+      "001": { title: "Intro", url: "https://example.com/1", duration: 3600, status: "recording", retries: 0 },
+    },
+  };
+  const result = updateProgress(progress, "001", "done");
+  assert.equal(result.lectures["001"].status, "done");
+  assert.equal(result.lectures["001"].title, "Intro", "title preserved");
+  assert.equal(result.lectures["001"].url, "https://example.com/1", "url preserved");
+  assert.equal(result.lectures["001"].duration, 3600, "duration preserved");
+});
+
+test("updateProgress: preserves title when updating status (v1 compat — no url/duration)", () => {
+  const progress = {
+    schemaVersion: 2,
+    courseUrl: null,
+    courseName: null,
+    enumeratedAt: null,
+    lectures: {
+      "001": { title: "Intro", status: "recording", retries: 0 },
+    },
+  };
+  const result = updateProgress(progress, "001", "done");
+  assert.equal(result.lectures["001"].status, "done");
+  assert.equal(result.lectures["001"].title, "Intro", "title preserved even without url/duration");
 });
 
 // ── Resume scenario ───────────────────────────────────────────────────────────
