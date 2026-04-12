@@ -95,7 +95,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/016-1工程准备与数据工程基础.transcript"
     },
     "017": {
-      "status": "transcribing",
+      "status": "done",
       "title": "2微调相关的基础概念与tokenizers解析",
       "retries": 0
     },

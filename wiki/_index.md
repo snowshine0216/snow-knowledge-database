@@ -41,6 +41,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [LangChain 多任务问答助手实战](concepts/014-langchain-multitask-qa-practice.md) | langchain, agent, tool-calling, redis, caching, pydantic, python-engineering, practice | venv/requirements/.env 三件套、工具调用追踪、Redis 缓存 API 结果 |
 | [多 Agent 协同客服系统实战](concepts/015-multi-agent-customer-service-practice.md) | multi-agent, autogen, customer-service, fastapi, retry, slot-filling, practice | AutoGen GroupChat 五 Agent 角色设计、指数退避重试装饰器、槽位填充入口 |
 | [微调工程准备与数据工程基础](concepts/016-engineering-prep-and-data-engineering.md) | fine-tuning, docker, dvc, tokenizer, data-engineering, environment-management | Docker 环境一致性、Tokenizer 错配防范、DVC 数据版本控制三件套 |
+| [微调基础概念与 Tokenizer 深解](concepts/017-finetuning-concepts-and-tokenizers.md) | fine-tuning, tokenizer, peft, lora, vram, bpe, wordpiece, transformer | 五种微调类型、BPE vs WordPiece、VRAM 平方关系公式、max_lens 选取策略 |
 
 ## Tools
 
