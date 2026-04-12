@@ -33,6 +33,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [AI 工程化：分层架构与 Multi-Agent 编排模式](concepts/006-what-is-ai-engineering.md) | ai-engineering, layered-architecture, multi-agent, design-patterns, mcp, function-calling, rag | 八层逻辑架构、MCP vs Function Calling 层级关系、六种 Multi-Agent 编排模式 |
 | [大模型调用基础与 Function Calling 设计哲学](concepts/007-llm-invocation-and-function-calling-basics.md) | python, conda, virtual-environment, api-key-security, llm-invocation, function-calling, tool-calling, mcp | Python 虚拟环境规范、API Key 安全、三种调用方式、Function Calling 两步走与解耦价值 |
 | [LangChain vs. LangGraph：工具箱与流程引擎](concepts/008-langchain-core-components.md) | langchain, langgraph, autogen, multi-agent, tools, memory, function-calling, agent-framework | LangChain 三大组件、LangGraph 流程引擎、AutoGen 物流客服 Multi-Agent 演示 |
+| [Function Calling 深解与 MCP 对比](concepts/009-function-calling-and-mcp-basics.md) | function-calling, tool-calling, mcp, agent, openai, api-design, security | Tool Calling 五步流程、工具定义最佳实践、FC vs MCP 定位与安全对比 |
 
 ## Tools
 
