@@ -83,13 +83,18 @@
       "retries": 0
     },
     "015": {
-      "status": "transcribing",
-      "title": "模块一实践二构建一个多 Agent 协同客服系统",
+      "status": "done",
+      "title": "多 Agent 协同客服系统实战",
       "retries": 0
     },
     "016": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1工程准备与数据工程基础",
+      "retries": 0
+    },
+    "017": {
+      "status": "recording",
+      "title": "2微调相关的基础概念与tokenizers解析",
       "retries": 0
     }
   }
