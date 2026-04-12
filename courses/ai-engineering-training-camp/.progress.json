@@ -247,13 +247,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/042-11工具调用引擎设计热更新机制.transcript"
     },
     "043": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "模块四实践一设计一个支持多轮对话的订单查询客服流程",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/043-模块四实践一设计一个支持多轮对话的订单查询客服流程.transcript"
     },
     "044": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "模块四实践二设计可插拔的意图识别与对话管理模块支持热更新",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/044-模块四实践二设计可插拔的意图识别与对话管理模块支持热更新.transcript"
+    },
+    "045": {
+      "status": "transcribing",
+      "title": "1多Agent系统基础概念与多Agent框架简介",
+      "retries": 0
+    },
+    "046": {
+      "status": "recording",
+      "title": "2主流 Agent 协作框架对比与案例1",
       "retries": 0
     }
   }
