@@ -259,13 +259,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/044-模块四实践二设计可插拔的意图识别与对话管理模块支持热更新.transcript"
     },
     "045": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1多Agent系统基础概念与多Agent框架简介",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/045-1多agent系统基础概念与多agent框架简介.transcript"
     },
     "046": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "2主流 Agent 协作框架对比与案例1",
+      "retries": 0
+    },
+    "047": {
+      "status": "recording",
+      "title": "3主流 Agent 协作框架对比与案例2",
       "retries": 0
     }
   }
