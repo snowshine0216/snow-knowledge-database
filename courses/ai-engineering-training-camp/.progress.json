@@ -56,18 +56,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/009-4function-calling与mcp基础.transcript"
     },
     "010": {
-      "status": "done",
-      "title": "LangChain核心组件详解",
-      "retries": 0
+      "status": "transcribed",
+      "title": "5LangChain核心组件详解",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/010-5langchain核心组件详解.transcript"
     },
     "011": {
-      "status": "done",
-      "title": "LlamaIndex与知识增强系统",
-      "retries": 0
+      "status": "transcribed",
+      "title": "6LlamaIndex 与知识增强系统",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/011-6llamaindex-与知识增强系统.transcript"
     },
     "012": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "7Prompt Engineering 高阶技巧Agent 设计与多轮对话逻辑",
+      "retries": 0
+    },
+    "013": {
+      "status": "recording",
+      "title": "8多Agent协作与轻量微调工程化部署",
       "retries": 0
     }
   }
