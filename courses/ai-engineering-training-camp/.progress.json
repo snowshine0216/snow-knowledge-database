@@ -73,13 +73,24 @@
       "retries": 0
     },
     "013": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "8多Agent协作与轻量微调工程化部署",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/013-8多agent协作与轻量微调工程化部署.transcript"
     },
     "014": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "模块一实践一基于 LangChain 构建一个多任务问答助手",
+      "retries": 0
+    },
+    "015": {
+      "status": "transcribing",
+      "title": "模块一实践二构建一个多 Agent 协同客服系统",
+      "retries": 0
+    },
+    "016": {
+      "status": "recording",
+      "title": "1工程准备与数据工程基础",
       "retries": 0
     }
   }
