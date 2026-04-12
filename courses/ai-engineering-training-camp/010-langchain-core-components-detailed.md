@@ -1,6 +1,7 @@
 ---
 tags: [langchain, langgraph, langsmith, agent, memory, rag, callback, lcel, tool-calling, ai-engineering]
 source: https://u.geekbang.org/lesson/818?article=927427
+wiki: wiki/concepts/010-langchain-core-components-detailed.md
 ---
 
 # 010: LangChain 核心组件详解

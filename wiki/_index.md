@@ -34,6 +34,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [大模型调用基础与 Function Calling 设计哲学](concepts/007-llm-invocation-and-function-calling-basics.md) | python, conda, virtual-environment, api-key-security, llm-invocation, function-calling, tool-calling, mcp | Python 虚拟环境规范、API Key 安全、三种调用方式、Function Calling 两步走与解耦价值 |
 | [LangChain vs. LangGraph：工具箱与流程引擎](concepts/008-langchain-core-components.md) | langchain, langgraph, autogen, multi-agent, tools, memory, function-calling, agent-framework | LangChain 三大组件、LangGraph 流程引擎、AutoGen 物流客服 Multi-Agent 演示 |
 | [Function Calling 深解与 MCP 对比](concepts/009-function-calling-and-mcp-basics.md) | function-calling, tool-calling, mcp, agent, openai, api-design, security | Tool Calling 五步流程、工具定义最佳实践、FC vs MCP 定位与安全对比 |
+| [LangChain 六大模块深解](concepts/010-langchain-core-components-detailed.md) | langchain, langgraph, langsmith, agent, memory, rag, callback, lcel, tool-calling | Model I/O、RAG、Memory、Tools、Callback、LCEL 六模块职责，LangGraph 协作模式 |
 
 ## Tools
 
