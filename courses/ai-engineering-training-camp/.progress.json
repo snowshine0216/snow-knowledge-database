@@ -136,8 +136,25 @@
       "retries": 0
     },
     "024": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "2使用 LlamaIndex 实现 RAG",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/024-2使用-llamaindex-实现-rag.transcript"
+    },
+    "025": {
+      "status": "transcribed",
+      "title": "3完整的 RAG 分析-QAnything1",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/025-3完整的-rag-分析-qanything1.transcript"
+    },
+    "026": {
+      "status": "transcribing",
+      "title": "4完整的 RAG 分析-QAnything2",
+      "retries": 0
+    },
+    "027": {
+      "status": "recording",
+      "title": "5完整的 RAG 分析-QAnything3",
       "retries": 0
     }
   }
