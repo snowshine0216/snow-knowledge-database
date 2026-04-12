@@ -68,13 +68,18 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/011-6llamaindex-与知识增强系统.transcript"
     },
     "012": {
-      "status": "transcribing",
-      "title": "7Prompt Engineering 高阶技巧Agent 设计与多轮对话逻辑",
+      "status": "done",
+      "title": "Prompt Engineering高阶技巧Agent设计与多轮对话逻辑",
       "retries": 0
     },
     "013": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "8多Agent协作与轻量微调工程化部署",
+      "retries": 0
+    },
+    "014": {
+      "status": "recording",
+      "title": "模块一实践一基于 LangChain 构建一个多任务问答助手",
       "retries": 0
     }
   }
