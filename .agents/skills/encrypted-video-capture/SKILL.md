@@ -174,6 +174,38 @@ fi
 mkdir -p "${OUTPUT_DIR}/${COURSE_NAME}"
 ```
 
+Write lecture metadata into `.progress.json` (schemaVersion 2). This persists the lecture list across reboots — resuming never requires re-enumeration:
+```bash
+PROGRESS_FILE="${OUTPUT_DIR}/${COURSE_NAME}/.progress.json"
+python3 - <<'EOF'
+import json, sys, datetime, shutil
+progress_file, lecture_list_json, course_url, course_name = sys.argv[1:]
+with open(progress_file) as f:
+    prog = json.load(f)
+lectures = json.loads(lecture_list_json)
+prog['schemaVersion'] = 2
+prog['courseUrl'] = course_url
+prog['courseName'] = course_name
+prog['enumeratedAt'] = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+for lec in lectures:
+    idx = str(lec['idx'])
+    existing = prog['lectures'].get(idx, {})
+    prog['lectures'][idx] = {
+        'title': lec.get('title') or existing.get('title'),
+        'url': lec.get('url') or existing.get('url'),
+        'duration': lec.get('duration') or existing.get('duration'),
+        'status': existing.get('status', 'pending'),
+        'retries': existing.get('retries', 0),
+    }
+tmp = progress_file + '.tmp'
+with open(tmp, 'w') as f:
+    json.dump(prog, f, ensure_ascii=False, indent=2)
+shutil.move(tmp, progress_file)
+print(f'INFO: Wrote {len(lectures)} lectures to {progress_file}')
+EOF
+python3 - "$PROGRESS_FILE" "$LECTURE_LIST" "$COURSE_URL" "$COURSE_NAME"
+```
+
 ### 5. Dry Run (if --dry-run)
 
 Print adapter name, then each lecture title and index, then total estimated recording time (30 min × count):
@@ -189,18 +221,67 @@ Exit 0.
 
 ### 6. Load / Initialize Progress
 
+`PROGRESS_FILE` is set in Step 4 as `${OUTPUT_DIR}/${COURSE_NAME}/.progress.json`. Load it (or initialize) and handle v1→v2 migration:
+
 ```bash
-PROGRESS_FILE="${OUTPUT_DIR}/.progress.json"
 if [ -f "$PROGRESS_FILE" ]; then
   SCHEMA_VERSION=$(jq -r '.schemaVersion // "missing"' "$PROGRESS_FILE")
-  if [ "$SCHEMA_VERSION" != "1" ]; then
-    echo "ERROR: .progress.json has schemaVersion '$SCHEMA_VERSION'. CAUSE: Stale or incompatible progress file. FIX: Delete $PROGRESS_FILE to start fresh, or migrate manually."
+  if [ "$SCHEMA_VERSION" = "1" ]; then
+    # Auto-migrate v1 → v2 in-place. url/duration fields will be null until Step 4 enumeration runs.
+    python3 - <<'EOF'
+import json, shutil, sys
+progress_file = sys.argv[1]
+with open(progress_file) as f:
+    data = json.load(f)
+migrated = {
+    'schemaVersion': 2,
+    'courseUrl': None,
+    'courseName': None,
+    'enumeratedAt': None,
+    'lectures': {},
+}
+for idx, entry in data.get('lectures', {}).items():
+    status = 'done' if entry.get('status') == 'transcribed' else entry.get('status', 'pending')
+    migrated['lectures'][idx] = {
+        'title': entry.get('title'),
+        'url': None,
+        'duration': None,
+        'status': status,
+        'retries': entry.get('retries', 0),
+    }
+tmp = progress_file + '.tmp'
+with open(tmp, 'w') as f:
+    json.dump(migrated, f, ensure_ascii=False, indent=2)
+shutil.move(tmp, progress_file)
+print(f'INFO: Migrated {progress_file} from schemaVersion 1 → 2')
+EOF
+    python3 - "$PROGRESS_FILE"
+  elif [ "$SCHEMA_VERSION" != "2" ]; then
+    echo "ERROR: .progress.json has schemaVersion '$SCHEMA_VERSION'. CAUSE: Stale or incompatible progress file. FIX: Delete $PROGRESS_FILE to start fresh."
     exit 1
   fi
 else
-  echo '{"schemaVersion":1,"lectures":{}}' > "$PROGRESS_FILE"
+  echo '{"schemaVersion":2,"courseUrl":null,"courseName":null,"enumeratedAt":null,"lectures":{}}' > "$PROGRESS_FILE"
 fi
 ```
+
+### 6b. Generate Per-Course Loop Script
+
+Generate `courses/<name>/evc-loop.py` from the shared template if it doesn't exist yet. This script is what you run to resume captures after a reboot — no Claude session required:
+
+```bash
+LOOP_SCRIPT="${OUTPUT_DIR}/${COURSE_NAME}/evc-loop.py"
+if [ ! -f "$LOOP_SCRIPT" ]; then
+  python3 "$(dirname "$0")/scripts/loop.py" \
+    --course-dir "${OUTPUT_DIR}/${COURSE_NAME}" \
+    --generate
+  echo "INFO: Loop script generated: ${LOOP_SCRIPT}"
+  echo "INFO: After this session, resume anytime with:"
+  echo "      python3 ${LOOP_SCRIPT}"
+fi
+```
+
+The generated script has `COURSE_DIR` hardcoded. It reads `courseUrl` + lecture list from `.progress.json` and auto-refreshes cookies from Chrome on every startup. To update it after a template change, delete and re-run.
 
 ### 7. Per-Lecture Loop
 
@@ -566,4 +647,6 @@ done
 | `ERROR: ASR transcription failed` | `OPENROUTER_API_KEY` not set or network error | Set `OPENROUTER_API_KEY` in `.env`; mirrors yt-video-summarizer OpenRouter setup |
 | `INFO: opencc not found` | opencc not installed | `pip install opencc-python-reimplemented` or `brew install opencc`; content-summarizer hint used as fallback |
 | `WARNING: >80% silence` | Multi-Output Device not selected as system output | System Settings → Sound → Output → Multi-Output Device |
-| `ERROR: .progress.json has schemaVersion 'X'` | Stale progress file from older version | Delete `.progress.json` to start fresh |
+| `ERROR: .progress.json has schemaVersion 'X'` | Stale or unrecognized schema (v1 is auto-migrated; others are fatal) | Delete `.progress.json` to start fresh |
+| `ERROR: courseUrl is not set` | First loop.py run on a v1-migrated file without `--url` | Run `python3 courses/<name>/evc-loop.py --url <course-url>` |
+| `WARNING: Cookie export failed` | Chrome not running or yt-dlp not in PATH | Start Chrome, then retry |

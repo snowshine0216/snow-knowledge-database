@@ -10,3 +10,7 @@
 __pycache__/
 .gstack/
 .claude/worktrees
+
+# EVC: scratch files and generated per-course scripts
+tmp/
+courses/**/evc-loop.py
