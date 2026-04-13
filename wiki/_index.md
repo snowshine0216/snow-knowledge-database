@@ -81,6 +81,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Memory System and Vector-Based Long-Term Memory Management](concepts/064-memory-system-vector-long-term-memory.md) | memory-system, vector-database, long-term-memory, short-term-memory, langgraph, faiss, embeddings | Short-term vs long-term memory architecture in LangGraph agents: recency vs semantic retrieval, context window management, and FAISS-based persistent vector storage |
 | [Knowledge Graph & Redis for Long-Term Memory Management](concepts/065-knowledge-graph-long-term-memory.md) | knowledge-graph, long-term-memory, redis, neo4j, langchain, agent, rag | Knowledge graphs (entity-relation triples, Neo4j) and Redis (TTL hot-cache + LangChain session history) as two complementary approaches to AI agent long-term memory |
 | [Memory Management Common Problems in AI Agents](concepts/066-memory-management-common-problems.md) | memory-management, agent, langgraph, long-term-memory, redis, vector-database, session-management | Five production pitfalls: InMemorySaver persistence, retry policy, FAISS sharding, Dify mem0 integration, composite session ID design |
+| [Agent Observability](concepts/067-agent-observability.md) | agent, observability, langsmith, langgraph, tracing, llm-ops | LangSmith setup and limits, LangGraph time-travel, Coze as reference debugging UX, and Gemini Fullstack Quickstart |
 
 ## Tools
 
