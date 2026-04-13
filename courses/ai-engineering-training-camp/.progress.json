@@ -366,7 +366,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/062-模块六实践一设计并实现一套面向-agent-任务规划的-dsl-语言.transcript"
     },
     "063": {
-      "status": "transcribing",
+      "status": "done",
       "title": "模块六实践二开发对应的解析器与执行引擎支持动态加载与运行",
       "retries": 0
     },

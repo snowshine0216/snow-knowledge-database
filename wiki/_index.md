@@ -77,6 +77,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [NL2SQL Introduction](concepts/058-nl2sql-introduction.md) | nl2sql, text-to-sql, rag, llm, fine-tuning, lora | Four-stage history of NL2SQL and two current paths: RAG-based (Vanna.ai) vs parameter fine-tuning (DB-GPT Hub, LLaMA Factory) |
 | [Text-to-SQL Security: Defense-in-Depth for NL2SQL Systems](concepts/061-text2sql-security.md) | text-to-sql, nl2sql, sql-injection, data-security, llm, access-control, human-in-the-loop | Four-layer security gateway (keyword filter, RBAC, template generation, risk scoring) for protecting Text-to-SQL systems against prompt injection and unauthorized data access |
 | [Agent Task Planning DSL Practice](concepts/062-agent-task-planning-dsl-practice.md) | dsl, agent, task-planning, langgraph, low-code, workflow, yaml | DSL-driven orchestration layer that converts YAML configs into LangGraph workflows, bridging natural language / low-code UIs to agent execution engines |
+| [DSL Parser and Execution Engine with Dynamic Hot-Reload](concepts/063-dsl-parser-hot-reload-engine.md) | dsl, parser, execution-engine, hot-reload, fastapi, langgraph, workflow | Hash-based hot-reload for DSL-driven LangGraph workflows in a FastAPI service, with caching and SQLite trace logging |
 
 ## Tools
 
