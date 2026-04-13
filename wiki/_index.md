@@ -79,6 +79,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Agent Task Planning DSL Practice](concepts/062-agent-task-planning-dsl-practice.md) | dsl, agent, task-planning, langgraph, low-code, workflow, yaml | DSL-driven orchestration layer that converts YAML configs into LangGraph workflows, bridging natural language / low-code UIs to agent execution engines |
 | [DSL Parser and Execution Engine with Dynamic Hot-Reload](concepts/063-dsl-parser-hot-reload-engine.md) | dsl, parser, execution-engine, hot-reload, fastapi, langgraph, workflow | Hash-based hot-reload for DSL-driven LangGraph workflows in a FastAPI service, with caching and SQLite trace logging |
 | [Knowledge Graph & Redis for Long-Term Memory Management](concepts/065-knowledge-graph-long-term-memory.md) | knowledge-graph, long-term-memory, redis, neo4j, langchain, agent, rag | Knowledge graphs (entity-relation triples, Neo4j) and Redis (TTL hot-cache + LangChain session history) as two complementary approaches to AI agent long-term memory |
+| [Memory Management Common Problems in AI Agents](concepts/066-memory-management-common-problems.md) | memory-management, agent, langgraph, long-term-memory, redis, vector-database, session-management | Five production pitfalls: InMemorySaver persistence, retry policy, FAISS sharding, Dify mem0 integration, composite session ID design |
 
 ## Tools
 
