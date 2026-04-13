@@ -70,6 +70,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [MCP Protocol — Building and Connecting Servers (Part 2)](concepts/050-mcp-protocol-part-2.md) | mcp, agent, fastapi, langgraph, python, llm-tools, ai-engineering | fastapi-mcp wraps existing REST APIs; fastmcp builds from scratch; MultiServerMCPClient fans out to many servers; always add auth to write-capable MCP endpoints |
 | [A2A (Agent-to-Agent) Protocol](concepts/051-a2a-protocol.md) | a2a, agent-to-agent, multi-agent, protocol, mcp | Google's open protocol for standardized cross-framework agent-to-agent communication, the stateful complement to MCP's stateless agent-to-tool connections |
 | [Multi-Agent Error Handling and Recovery](concepts/052-multi-agent-error-handling.md) | multi-agent, error-handling, retry, circuit-breaker, langgraph, fault-tolerance | Retry policies, circuit breakers, fallback strategies, and stateful design patterns for production multi-agent systems |
+| [gRPC Communication, State Sync & Task Queue Persistence](concepts/054-grpc-state-sync-task-queue.md) | grpc, redis, task-queue, state-sync, persistence, agent, distributed-systems | 单进程内存 Agent 演进为 Redis 生产者-消费者 + gRPC 流式通信 + 分布式锁的生产级架构 |
 
 ## Tools
 
