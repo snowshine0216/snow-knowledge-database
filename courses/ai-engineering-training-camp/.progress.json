@@ -402,7 +402,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/068-5gemini-fullstack-langgraph-quickstart源码剖析1.transcript"
     },
     "069": {
-      "status": "transcribed",
+      "status": "failed",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript"
@@ -418,8 +418,13 @@
       "retries": 0
     },
     "072": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "9移动端大模型部署",
+      "retries": 0
+    },
+    "073": {
+      "status": "recording",
+      "title": "10Agent自主学习-强化学习1",
       "retries": 0
     }
   }
