@@ -12,6 +12,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 |------|------|-----------------|
 | [LLM Knowledge Base](concepts/llm-knowledge-base.md) | llm, pkm, rag, obsidian | Workflow for building personal wikis with LLMs using raw→compile→Q&A pipeline |
 | [Harness Engineering](concepts/harness-engineering.md) | harness-engineering, prompt-engineering, context-engineering, agent | Third paradigm shift in AI engineering: orchestrating reliable agent execution via six-layer architecture |
+| [OpenAI Frontier: Zero-Human-Coding Practice](concepts/openai-frontier-zero-human-coding.md) | harness-engineering, openai, codex, symphony, agent-native-development | OpenAI Frontier 团队 100 万行代码 / 零人工编码 / 合并后 review 的 Harness Engineering 实践，含 Symphony 与 Ghost Library |
 | [Long-Running Agent Harness](concepts/long-running-agent-harness.md) | harness-engineering, ai-agents, long-running-agents, anthropic | Anthropic's blueprint for multi-hour agent tasks using adversarial evaluation and context management |
 | [CREAO: Consumer-Grade Agent Harness](concepts/creao-consumer-agent-harness.md) | ai-agents, agent-harness, consumer-ai, creao, startup, automation | Consumer-grade Agent Harness turning natural language into persistently running agents without coding |
 | [OpenClaw Architecture](concepts/openclaw-architecture.md) | openclaw, ai-agents, architecture, fault-tolerance, agent-loop | Five-layer onion architecture, three-tier Agent Loop, and seven-level fault tolerance for a production multi-platform agent system |
