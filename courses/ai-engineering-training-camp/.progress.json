@@ -456,9 +456,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/077-3基于-fastapi-构建模型基础服务.transcript"
     },
     "078": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "4熟悉 Kubernetes 编排基础",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/078-4熟悉-kubernetes-编排基础.transcript"
     },
     "079": {
       "status": "transcribed",
@@ -467,13 +468,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/079-5搭建监控系统.transcript"
     },
     "080": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "6搭建日志收集系统",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/080-6搭建日志收集系统.transcript"
     },
     "081": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1核心概念与底层原理1",
+      "retries": 0
+    },
+    "082": {
+      "status": "recording",
+      "title": "2核心概念与底层原理2",
       "retries": 0
     }
   }
