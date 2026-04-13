@@ -516,18 +516,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/087-7langchain异步开发进阶向量数据库与gpu1.transcript"
     },
     "088": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "8LangChain异步开发进阶向量数据库与GPU2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/088-8langchain异步开发进阶向量数据库与gpu2.transcript"
     },
     "089": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1项目背景",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/089-1项目背景.transcript"
     },
     "090": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "2项目需求与原型设计1",
+      "retries": 0
+    },
+    "091": {
+      "status": "recording",
+      "title": "3项目需求与原型设计2",
       "retries": 0
     }
   }
