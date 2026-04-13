@@ -72,6 +72,11 @@ article's own structure so the reader can navigate by section.
   own heading hierarchy. Do not reorganize or merge.
 - **Include data**: numbers, percentages, benchmarks, and concrete claims go into
   Section Summaries, not just Key Takeaways.
+- **Concreteness rule (see SKILL.md)**: every Key Takeaway and Insight bullet
+  must carry a concrete anchor — a number, a named tool/file, a one-line story,
+  or a counterexample. Abstract claims like "X matters" or "be careful with Y"
+  without a specific anchor are a failure. If the source has ≥5 quantitative
+  facts, add a `## Key Numbers` table before Key Takeaways.
 - **Quote sparingly**: use blockquotes only for statements that are both important and
   lose meaning when paraphrased.
 - **Executive Summary comes first**: it is the entry point; write it after reading the

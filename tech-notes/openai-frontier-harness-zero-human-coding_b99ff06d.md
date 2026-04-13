@@ -37,15 +37,17 @@ Ryan Lopopolo 来自 OpenAI 新成立的 Frontier 团队，他们维护着一个
 - 抽样代码样本来反推团队卡点，从细节中抽离去看更高维度。
 
 ### 5. 可观测性优先：把模型从盒子里放出来
-- 入口是 Codex，不是先搭环境再放 agent。先拉起 coding agent，再通过 skills 和 scripts 让它自行启动整套栈。
-- 用 MISE + Victoria Stack（vector / logging / metrics / API）+ Python 胶水代码，半个下午搭好可观测栈。
+- 入口是 Codex，不是先搭环境再放 agent。先拉起 coding agent，再通过 skills 和 scripts 让它自行启动整套栈（vector → logging → metrics → API）。
+- 用 MISE + Victoria Stack（Go 二进制）+ Python 胶水代码，**半个下午**搭好可观测栈。Ryan 选择高层级、快开发的工具链，能拉到本地直接跑。
+- **闭环示例**：Codex 写 Grafana dashboard JSON 直接发布，并对接告警系统。告警触发时 agent 已经掌握所有上下文（仪表盘定义、监控项、代码库里哪一行日志触发警报），甚至能诊断"静默事故"——自主判断是仪表盘漏掉了监控还是底层埋点有问题，一次性修掉。"全栈工程师"式排查：从后端逻辑到前端展示。
 - 推理模型 vs 4 系：过去模型必须装进预定义状态迁移的盒子，现在 harness 本身就是盒子，给路径选项 + 上下文，让模型判断。
 
 ### 6. Skills：在概念诞生之前他们已经"重新发明"了 skills
-- ~100 行总目录 + 多个小 skill 文件：`core_beliefs.md`、`tech_tracker.md`、`quality_score.md`、`spec.md`、`agent.md` 等。
-- `tech_tracker` / `quality_score` 是小脚手架：Markdown 表格作为 hook，让 Codex review 业务逻辑、对照 guardrails、列出改进 ticket。
-- 整个代码库实际只用约 6 个 skill；**新需求优先编码进现有 skill**，而不是新造。
-- "模型天生渴望文字" — 把过程知识沉淀进文档（如线上事故修复时同步更新可靠性文档"所有网络调用必须设 timeout"）。
+- ~100 行总目录 + 多个小 skill 文件：`core_beliefs.md`、`tech_tracker.md`、`quality_score.md`、`spec.md`、`agent.md` 等。开始做这套时 skills 这个概念都还不存在。
+- `tech_tracker` / `quality_score` 是小脚手架：**一张 Markdown 表格作为 hook**，让 Codex review 应用里所有业务逻辑、对照 guardrails、再给自己列出改进 ticket。在没用 Linear 之前，任务就直接记在 Markdown，再拉一个 agent 一个个销项。
+- 整个代码库实际只用约 6 个 skill；**新需求优先编码进现有 skill**，而不是新造。理由：调整 agent 行为的成本比改"人类驾驶员"行为更低。
+- "模型天生渴望文字" — 把过程知识沉淀进文档。
+  - **具体案例**：线上服务因漏写 timeout 触发报警 → Ryan 在 Slack `@Codex`：「我准备通过加 timeout 修这个问题，你顺便更新可靠性文档，把『所有网络调用必须设置 timeout』写进去」→ 不只是打补丁，而是把"什么是正确做法"沉淀到系统里 → 主 root agent 后续都遵守 → 还能基于这条规矩蒸馏出测试用例或训练 Code Review Agent 收紧可接受范围。
 
 ### 7. Code Review Agent 与"反驳权"
 - 本地 Codex CLI 写改动 → 推 PR → review agent 自动评论 → 写代码的 Codex 必须确认并回应。
@@ -59,10 +61,17 @@ Ryan Lopopolo 来自 OpenAI 新成立的 Frontier 团队，他们维护着一个
 - "我现在根本不需要操心，只要把笔记本电脑开着。"
 
 ### 9. Symphony：Ghost Library
-- Elixir 实现，由 Alex Kotliarskyi 完成。模型自己选了 Elixir，因为 GenServer + 进程监督天然适合 agent 任务编排。
+- Elixir 实现，由 Alex Kotliarskyi 完成。**模型自己选了 Elixir**：它的 GenServer + 进程监督机制天然适合给每个执行中的任务开一个"小型守护进程"护送到完成。Ryan 个人不会写 Elixir，但已经不重要了——"工具是否适合这份工作"才重要。
 - 6 层架构：Product Owner、Strategy、Configuration、Coordination、Execution、Integration、Observability。
-- **Spec 分发模型**（Twitter 上有人称之为 Ghost Libraries）：分享专有仓库的脚手架抽离 → Codex 草拟 Spec → tmux 团队的离线 Codex 实现 → 另一组 Codex 对照上游审查、修正 Spec → 反复迭代直到高保真。
-- "Rework"状态：PR 升级到人工审核时，行就合并、不行就清空工作树和 PR 推倒重来。
+- **Spec 分发模型**（Twitter 上有人称之为 Ghost Libraries）：
+  1. 把专有仓库的脚手架抽离到一个新仓库
+  2. 让 Codex 参考老库草拟 Spec
+  3. 启动一个 tmux 团队，拉起离线 Codex 根据 Spec 实现
+  4. 启动另一组 tmux + Codex，对照上游源码做对标审查、修正 Spec、缩小偏差
+  5. 像 **Ralph Wiggum 风格**一轮又一轮迭代，直到磨出一份高保真 Spec
+- **Policy 层示例**：不需要写一堆代码保证"系统必须等 CI 通过"，只要把 `gh` CLI 给它 + 一段文本"CI 必须通过"就够了。
+- **"Rework" 状态**：PR 提交并升级到人工审核时，审核成本本就该极低——行就合并，不行就让 Elixir 服务**直接清空整个工作树和 PR 推倒重来**，然后反思"为什么刚才产出的是垃圾、agent 在哪儿搞错了"，修正后再回到"进行中"状态。
+- **Spec 是蓝图不是死法**：Linear/GitHub 这些工具被写进 Spec，但都是可替换的——可换成 Jira/Bitbucket。但 ID 格式、单 agent loop 逻辑必须严紧。
 
 ### 10. 软件得写给模型看
 - 调低对"传统人类可读性"的追求，换取更极致的智能体可读性。
@@ -70,22 +79,26 @@ Ryan Lopopolo 来自 OpenAI 新成立的 Frontier 团队，他们维护着一个
 - "代码就是上下文"、"代码就是提示词" — X/Y/Z 目录的包结构、语言、模式都统一，才能产生杠杆。
 
 ### 11. 依赖内部化（Vendoring Everything）
-- 同意 Bret Taylor "软件依赖会消失"。
-- 几千行的依赖一个下午就可以内部化，剥掉无关部分。
-- Codex Security 可以低摩擦审查内部化的依赖，比给上游提 PR 等发布快得多。
-- 边界：像 Linux/MySQL/Datadog/Temporal 这种规模和"很多双眼一起看"的安全性还是不一样。
+- 同意 Bret Taylor（OpenAI 董事长，听完 Ryan 的播客后真的参与讨论）"软件依赖会消失"。
+- 几千行的依赖一个下午就可以内部化。**关键 trick**：你压根不需要里面大部分内容——内部化时把通用但和你无关的部分全剥掉，只留真正需要的，专注解决具体问题。
+- **真实案例**：MCP / Playwright 改造。Ryan 不喜欢 MCP 因为 harness 会强行注入 token、干扰自动压缩、agent 可能忘记怎么用工具。他在 Playwright 里其实只用 ~3 种调用。后来"团队某人 vibe 了一个本地守护进程启动 Playwright + 极简命令行工具驱动"——Ryan 完全不知道这件事发生了，他只是运行 Codex，"突然就能用了，而且更好用"。
+- Codex Security 可以低摩擦审查内部化的依赖，比给上游提 PR → 等发布 → 拉回 → 验证传递依赖兼容快得多。
+- 边界：像 Linux/MySQL/Datadog/Temporal 这种规模和"很多双眼一起看"的安全性（"开源安全最好的消毒剂是放在阳光下"）还是不一样。
 
 ### 12. CLI 优于 GUI for Agent
-- "CLI 最大的好处是省 token，而且容易被进一步改造成更省 token 的形式。"
-- 给 prettier 加 `--silent`：agent 不关心每个文件是否已格式化，只关心结果。
-- pnpm `--recursive` 输出"文字大山"，外面包一层脚本只过滤核心信息。
-- 把不文本化的东西转成文本：UI 用 OCR 栅格化喂给 agent。
+- "CLI 最大的好处是省 token，而且容易被进一步改造成更省 token 的形式。"Ryan 现在和 GitHub Web UI 唯一的互动是 `gh pr view --web` 扫一眼然后 "行，发吧"。
+- **prettier `--silent`**：agent 不关心每个文件是不是"已经格式化过了"，它只需要知道：格式化好了还是没好，再决定要不要写入。
+- **pnpm `--recursive` 包装**：原始递归输出是"一座文字大山"，绝大部分是无关紧要的成功记录。Frontier 在外面再封装一层脚本，只过滤出核心信息（异常 / 失败）。
+- 类比 Buildkite/Jenkins：开发效能团队把异常从日志海洋里提出来置顶——CLI 工具应该原生这么做。
+- **反例（"过度服务人类反而是错的"）**：内部用户性能问题 → tar 包 trace → 值班工程师和 Codex 一下午做了一个超漂亮的 Next.js 本地 trace 可视化工具——但这工具完全没必要。"你直接启动 Codex，把 tar 包丢给它问同样的问题，马上就能得到答案。"硬把工程师拽在链路里就是错的。
+- **把不文本化的东西转成文本**：agent 不会"看到一个红框"，它在 latent space 里理解概念。UI → 图像栅格化 → OCR → 喂给 agent，比让 agent 直接"看"更可靠。两种方法可以同时做。
 
 ### 13. Skill Distillation（技能蒸馏）
-- 把会话日志丢回 Codex 问"你觉得怎样能把这工具用得更好？"
-- 整个团队的日志放进 blob storage，每天跑 agent 分析"团队还能在哪里做得更好"，写回仓库 → 每个人免费吃到他人的经验。
-- PR 评论、构建失败 = 反馈信号 = 缺失的 guardrail，全部吸收回仓库。
+- **个人级**：把自己的 Codex 会话日志直接丢回 Codex，问"你觉得我怎样才能把这个工具用得更好？"内部表情包：「你直接 Codex 一下就好了」。
+- **团队级**：整个团队的会话日志统一进 blob storage，每天跑 agent 分析"团队还能在哪里做得更好？这些经验该怎么写回仓库？" → 每个人免费吃到他人的经验红利。
+- PR 评论 = 反馈信号 = 当前代码偏离"好的标准"。构建失败 = 信号 = 某个时刻 agent 缺了上下文。全部吸收回仓库。
 - "每一次报错都在提醒：agent 写出的代码与某个尚未被显性化的非功能性需求发生了错位。"
+- **"递归"应用案例**：Ryan 在 Twitter 上看到很多人直接把他的 Harness Engineering 文章链接丢给 o1/Codex 说"把我的 repo 变成这样" — 效果"好得离谱"。
 
 ### 14. 不要把 Agent 关进太小的盒子
 - Agent 应对所在领域有完整可访问性。
@@ -97,14 +110,42 @@ Ryan Lopopolo 来自 OpenAI 新成立的 Frontier 团队，他们维护着一个
 - 类比 RL：on-policy harness 处在分布之内，不会给模型继续进化带来摩擦。
 
 ### 16. 模型边界（5.4 时点）
-- 还做不到：从全新产品想法直接一枪到底跑通原型；最棘手的乱糟糟重构。
+- 还做不到：从全新产品想法直接一枪到底跑通原型（mock → 真能玩的产品，没有现成页面参考）；最棘手的乱糟糟重构（拆分单体架构）—— 这两类是 Ryan 最频繁打断、亲自介入的地方。
 - 复杂度从"低复杂度任务"扩展到"低复杂度 + 大任务"并行（一个月内的进步）。
-- "永远不要和模型对赌。"
+- 5.4 是首个真正把 Codex 级编码能力 + 通用推理 + computer use + 视觉合到同一模型里的版本。Codex 直接写了 OpenAI 关于 5.4 的那篇博客文章。
+- **关于 Spark（小快模型）**：Ryan 还没完全想明白怎么用——把它当超高推理模型用时，它在写出第一行代码前已经先跑完三轮压缩。但对 lint 规则生成、文档更新、快速原型很合适（Frontier 已有完善的 ESLint 基础设施，Spark 在"拿反馈→转 lint 规则"这件事上特别强）。
+- "永远不要和模型对赌。"做的所有事必须能兼容模型每一次进化。
 
 ### 17. 公司上下文 + 文化即 Skill
-- `core_beliefs.md`：团队成员、产品、终端客户、试点客户、12 个月愿景。
-- 甚至有 skill 教 agent 怎么生成"高糊表情包"、怎么融入 Slack 公司文化。
+- `core_beliefs.md`：团队成员、产品、终端客户、试点客户、12 个月愿景。**全是 agent 必需的上下文**——直接影响构建什么样的软件。
+- 甚至有 skill 教 agent **怎么正确生成"高糊表情包"**、怎么融入 Slack 公司文化。Codex 现在能用 Slack ChatGPT app，可以让 agent 替自己整活儿。"幽默感也是上下文的一部分。"
 - 5.4 在幽默感上明显接近"我自己"。
+
+### 18. 多人 + 多智能体的协调成本
+- 团队每天站立会开 **45 分钟**——必须把当前状态扩散给所有人，因为每个人完全不知道彼此的 agent 在做什么（参考前面 Playwright 例子）。
+- 仓库结构 ~500 个 NPM 包对 7 人团队过度设计——但每人实际带 10–50 agent 时就合理了。"切开空间避免互相踩。"
+- 大量使用 git worktree（Cursor 团队想干掉 worktree 因为 merge conflict，Ryan 不在乎："模型解 merge conflict 非常擅长，而且代码反正可抛弃"）。
+- 大量使用 Slack 派发 Codex 做动作型/弹性修复/知识同步——成本极低。
+
+### 19. 数据 Agent 案例
+- Frontier 内部 data agent：让公司数据本体对 agent 可访问，让它理解仓库里到底有什么。
+- "Active user"定义：公司里五个数据科学家定义出的"黄金标准"。
+- 涉及内部政治：贡献怎么算（市场部 vs 销售加起来超过 100%）——agent 必须先理解 revenue/客户分层/产品线，才能做"不只会写代码"的工作。
+
+## 实际数字一览
+
+| 维度 | 数字 |
+|---|---|
+| 团队规模 | 3 人起步 → 7 人 |
+| 代码量 | 100 万+ 行 |
+| 仓库结构 | ~500 NPM 包 |
+| 人均 PR/天 | 5.2 之前 ~3.5 → 5.2 之后 5–10 |
+| 每日 token 消耗 | > 10 亿 / 人 |
+| 估算 token 成本 | ~$2k–3k / 人 / 天 |
+| 构建时间上限 | 60 秒 |
+| 代码库实际用到的 skill | ~6 个 |
+| 主目录长度 | ~100 行 |
+| 站立会时长 | 45 分钟 |
 
 ## Key Quotes
 

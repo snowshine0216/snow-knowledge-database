@@ -59,6 +59,21 @@ source: <canonical_url>
 
 Template structural labels (section headers, table column names like "Key Points", "Timeline") stay in **English**. The **content** within those sections follows the original source language. Do not translate content unless the user explicitly requests it.
 
+## Concreteness Rule (mandatory for all templates)
+
+Bullets must be self-contained and **specific**. A summary that only states the abstract claim ("don't put agents in small boxes", "code is throwaway") is a failure mode — it forces the reader back to the source and erases the reasoning that makes the claim memorable.
+
+For every non-trivial claim in the summary, attach at least one of:
+- a **concrete story / anecdote** from the source ("线上服务漏写 timeout 触发报警 → Slack `@Codex` 让它顺手更新可靠性文档")
+- a **specific number / unit / threshold** ("60-second build cap", "500 NPM packages for a 7-person team", "$2-3k token spend per person per day")
+- a **named tool / file / command** ("`prettier --silent`", "`gh pr view --web`", "`core_beliefs.md`", "Victoria Stack + MISE")
+- a **counterexample** the speaker rejected ("the team built a Next.js trace viewer in an afternoon — but it was the wrong move; just hand the tar to Codex directly")
+- a **mechanism** ("Symphony's Rework state clears the worktree and PR, then asks why the agent produced garbage")
+
+If the source contains a vivid example for a claim and you omit it, the summary is wrong. Prefer 8 well-grounded bullets to 16 abstract ones. When in doubt, include the example.
+
+For long-form sources (interviews, talks, deep articles), include a **Key Numbers / Quick Facts table** when the source contains ≥5 quantitative facts. It is the single highest-ROI section for future recall.
+
 ---
 
 ## Format Templates
@@ -194,6 +209,8 @@ Capture the output and branch on the first word.
    - Source < 1 000 words → wiki article 200–300 words
    - Source 1 000–3 000 words → wiki article 300–500 words
    - Source > 3 000 words → wiki article 500–800 words
+
+   **Concreteness still applies in the wiki article.** Each Key Concept bullet must be self-contained — the reader of the wiki should not have to open the detailed file to understand what the concept actually means in practice. Attach a specific tool, number, file name, or one-sentence anecdote inline (sub-bullet is fine). If the source has ≥5 quantitative facts, include a Key Numbers table here too.
 
 3. Wiki article format:
    ```markdown
