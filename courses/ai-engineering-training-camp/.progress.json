@@ -366,13 +366,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/062-模块六实践一设计并实现一套面向-agent-任务规划的-dsl-语言.transcript"
     },
     "063": {
-      "status": "done",
+      "status": "transcribed",
       "title": "模块六实践二开发对应的解析器与执行引擎支持动态加载与运行",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/063-模块六实践二开发对应的解析器与执行引擎支持动态加载与运行.transcript"
     },
     "064": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1记忆系统与基于向量的长期记忆管理",
+      "retries": 0
+    },
+    "065": {
+      "status": "recording",
+      "title": "2基于知识图谱的长期记忆管理与redis",
       "retries": 0
     }
   }
