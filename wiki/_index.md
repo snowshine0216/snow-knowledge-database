@@ -68,6 +68,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Agent 协作框架：LangGraph MAS、CrewAI 对比与提示词设计](concepts/048-agent-collaboration-frameworks-3.md) | agent, multi-agent, langgraph, crewai, mas, supervisor | LangGraph 六种多 Agent 架构对比 CrewAI 的声明式风格，及多 Agent 提示词四原则 |
 | [MCP（模型上下文协议）深度解析](concepts/049-mcp-and-a2a-protocols-1.md) | mcp, model-context-protocol, function-calling, tools, sse | MCP 三层架构（Host/Client/Server）、三种原语（Tool/Resource/Prompt）及与 Function Calling 的本质区别 |
 | [MCP Protocol — Building and Connecting Servers (Part 2)](concepts/050-mcp-protocol-part-2.md) | mcp, agent, fastapi, langgraph, python, llm-tools, ai-engineering | fastapi-mcp wraps existing REST APIs; fastmcp builds from scratch; MultiServerMCPClient fans out to many servers; always add auth to write-capable MCP endpoints |
+| [A2A (Agent-to-Agent) Protocol](concepts/051-a2a-protocol.md) | a2a, agent-to-agent, multi-agent, protocol, mcp | Google's open protocol for standardized cross-framework agent-to-agent communication, the stateful complement to MCP's stateless agent-to-tool connections |
+| [Multi-Agent Error Handling and Recovery](concepts/052-multi-agent-error-handling.md) | multi-agent, error-handling, retry, circuit-breaker, langgraph, fault-tolerance | Retry policies, circuit breakers, fallback strategies, and stateful design patterns for production multi-agent systems |
 
 ## Tools
 

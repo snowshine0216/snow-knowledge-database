@@ -295,15 +295,14 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/050-6mcp-与-a2a-协议详解-mcp2.transcript"
     },
     "051": {
-      "status": "transcribing",
+      "status": "done",
       "title": "7MCP 与 A2A 协议详解-A2A",
       "retries": 0
     },
     "052": {
-      "status": "transcribed",
+      "status": "done",
       "title": "8多Agent系统的异常处理与恢复机制",
-      "retries": 0,
-      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/052-8多agent系统的异常处理与恢复机制.transcript"
+      "retries": 0
     },
     "053": {
       "status": "transcribing",
