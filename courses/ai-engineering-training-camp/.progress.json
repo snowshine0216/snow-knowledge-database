@@ -504,13 +504,24 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/085-5fastapi深度集成1.transcript"
     },
     "086": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "6FastAPI深度集成2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/086-6fastapi深度集成2.transcript"
     },
     "087": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "7LangChain异步开发进阶向量数据库与GPU1",
+      "retries": 0
+    },
+    "088": {
+      "status": "transcribing",
+      "title": "8LangChain异步开发进阶向量数据库与GPU2",
+      "retries": 0
+    },
+    "089": {
+      "status": "recording",
+      "title": "1项目背景",
       "retries": 0
     }
   }
