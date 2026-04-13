@@ -413,9 +413,10 @@
       "retries": 0
     },
     "071": {
-      "status": "transcribing",
+      "status": "done",
       "title": "8Agent在多模态推理任务中的典型场景",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/071-8agent在多模态推理任务中的典型场景.transcript"
     },
     "072": {
       "status": "transcribing",
@@ -423,8 +424,13 @@
       "retries": 0
     },
     "073": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "10Agent自主学习-强化学习1",
+      "retries": 0
+    },
+    "074": {
+      "status": "recording",
+      "title": "11Agent自主学习-强化学习2",
       "retries": 0
     }
   }
