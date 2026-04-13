@@ -318,13 +318,13 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/054-模块五实践二支持-grpc-通信-状态同步-任务队列持久化.transcript"
     },
     "055": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1DSL设计原则与应用场景",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/055-1dsl设计原则与应用场景.transcript"
     },
     "056": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2使用 ANTLR与Lark 解析 DSL 语法1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/056-2使用-antlr与lark-解析-dsl-语法1.transcript"
