@@ -474,13 +474,24 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/080-6搭建日志收集系统.transcript"
     },
     "081": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1核心概念与底层原理1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/081-1核心概念与底层原理1.transcript"
     },
     "082": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "2核心概念与底层原理2",
+      "retries": 0
+    },
+    "083": {
+      "status": "transcribing",
+      "title": "3并行机制对比分析1",
+      "retries": 0
+    },
+    "084": {
+      "status": "recording",
+      "title": "4并行机制对比分析2",
       "retries": 0
     }
   }
