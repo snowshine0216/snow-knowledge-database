@@ -377,8 +377,18 @@
       "retries": 0
     },
     "065": {
-      "status": "recording",
+      "status": "done",
       "title": "2基于知识图谱的长期记忆管理与redis",
+      "retries": 0
+    },
+    "066": {
+      "status": "transcribing",
+      "title": "3记忆管理中的常见问题",
+      "retries": 0
+    },
+    "067": {
+      "status": "recording",
+      "title": "4Agent可观测性构建",
       "retries": 0
     }
   }
