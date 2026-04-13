@@ -396,13 +396,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/067-4agent可观测性构建.transcript"
     },
     "068": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "5Gemini-fullstack-langgraph-quickstart源码剖析1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/068-5gemini-fullstack-langgraph-quickstart源码剖析1.transcript"
     },
     "069": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
+      "retries": 0
+    },
+    "070": {
+      "status": "recording",
+      "title": "7Agent在多模态任务中的推理与典型场景",
       "retries": 0
     }
   }
