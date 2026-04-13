@@ -432,13 +432,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/073-10agent自主学习-强化学习1.transcript"
     },
     "074": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "11Agent自主学习-强化学习2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/074-11agent自主学习-强化学习2.transcript"
     },
     "075": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1Docker 容器化打包与镜像构建流程1",
+      "retries": 0
+    },
+    "076": {
+      "status": "recording",
+      "title": "2Docker 容器化打包与镜像构建流程2",
       "retries": 0
     }
   }
