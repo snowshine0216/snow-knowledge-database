@@ -75,6 +75,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Parsing DSL Grammar with ANTLR and Lark](concepts/056-antlr-lark-dsl-parsing.md) | dsl, antlr, lark, parsing, ast, langgraph, llm | How to define, validate, and LLM-edit domain-specific languages using Lark (Python) and ANTLR4 (multi-language), wired into a 7-step LangGraph pipeline |
 | [DSL生产化：模板填充、热更新与多Agent协作](concepts/057-antlr-lark-dsl-parsing-2.md) | dsl, antlr, lark, ast, agent, langgraph, llm, workflow | Production DSL patterns: template injection to prevent hallucination, hot-reload via LangGraph, and multi-agent DSL sharing |
 | [NL2SQL Introduction](concepts/058-nl2sql-introduction.md) | nl2sql, text-to-sql, rag, llm, fine-tuning, lora | Four-stage history of NL2SQL and two current paths: RAG-based (Vanna.ai) vs parameter fine-tuning (DB-GPT Hub, LLaMA Factory) |
+| [Text-to-SQL Security: Defense-in-Depth for NL2SQL Systems](concepts/061-text2sql-security.md) | text-to-sql, nl2sql, sql-injection, data-security, llm, access-control, human-in-the-loop | Four-layer security gateway (keyword filter, RBAC, template generation, risk scoring) for protecting Text-to-SQL systems against prompt injection and unauthorized data access |
+| [Agent Task Planning DSL Practice](concepts/062-agent-task-planning-dsl-practice.md) | dsl, agent, task-planning, langgraph, low-code, workflow, yaml | DSL-driven orchestration layer that converts YAML configs into LangGraph workflows, bridging natural language / low-code UIs to agent execution engines |
 
 ## Tools
 
