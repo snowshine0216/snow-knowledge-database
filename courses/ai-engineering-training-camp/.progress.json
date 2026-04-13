@@ -330,18 +330,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/056-2使用-antlr与lark-解析-dsl-语法1.transcript"
     },
     "057": {
-      "status": "done",
+      "status": "transcribed",
       "title": "3使用 ANTLR与Lark 解析 DSL 语法2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/057-3使用-antlr与lark-解析-dsl-语法2.transcript"
     },
     "058": {
-      "status": "done",
+      "status": "transcribed",
       "title": "4NL2SQL简介",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/058-4nl2sql简介.transcript"
     },
     "059": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "5NL2SQL详解1",
+      "retries": 0
+    },
+    "060": {
+      "status": "recording",
+      "title": "6NL2SQL详解2",
       "retries": 0
     }
   }
