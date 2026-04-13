@@ -438,13 +438,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/074-11agent自主学习-强化学习2.transcript"
     },
     "075": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1Docker 容器化打包与镜像构建流程1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/075-1docker-容器化打包与镜像构建流程1.transcript"
     },
     "076": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "2Docker 容器化打包与镜像构建流程2",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/076-2docker-容器化打包与镜像构建流程2.transcript"
+    },
+    "077": {
+      "status": "transcribing",
+      "title": "3基于 FastAPI 构建模型基础服务",
+      "retries": 0
+    },
+    "078": {
+      "status": "recording",
+      "title": "4熟悉 Kubernetes 编排基础",
       "retries": 0
     }
   }
