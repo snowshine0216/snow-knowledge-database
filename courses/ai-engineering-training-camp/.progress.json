@@ -295,9 +295,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/050-6mcp-与-a2a-协议详解-mcp2.transcript"
     },
     "051": {
-      "status": "done",
+      "status": "transcribed",
       "title": "7MCP 与 A2A 协议详解-A2A",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/051-7mcp-与-a2a-协议详解-a2a.transcript"
     },
     "052": {
       "status": "done",
@@ -310,8 +311,13 @@
       "retries": 0
     },
     "054": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "模块五实践二支持 gRPC 通信 状态同步 任务队列持久化",
+      "retries": 0
+    },
+    "055": {
+      "status": "recording",
+      "title": "1DSL设计原则与应用场景",
       "retries": 0
     }
   }
