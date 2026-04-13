@@ -289,7 +289,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/049-5mcp-与-a2a-协议详解-mcp1.transcript"
     },
     "050": {
-      "status": "transcribed",
+      "status": "done",
       "title": "6MCP 与 A2A 协议详解-MCP2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/050-6mcp-与-a2a-协议详解-mcp2.transcript"
@@ -300,8 +300,13 @@
       "retries": 0
     },
     "052": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "8多Agent系统的异常处理与恢复机制",
+      "retries": 0
+    },
+    "053": {
+      "status": "recording",
+      "title": "模块五实践一开发一个基于 MCP 协议的多 Agent 协作系统",
       "retries": 0
     }
   }

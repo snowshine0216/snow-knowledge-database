@@ -67,6 +67,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Agent 协作框架：Round-Robin、Swarm 与人机协作](concepts/047-agent-collaboration-frameworks-2.md) | agent, multi-agent, autogen, agentchat, swarm, round-robin | AgentChat 中 Round-Robin 轮循、Swarm 去中心化移交与 Human-in-the-Loop 模式的原理与实践 |
 | [Agent 协作框架：LangGraph MAS、CrewAI 对比与提示词设计](concepts/048-agent-collaboration-frameworks-3.md) | agent, multi-agent, langgraph, crewai, mas, supervisor | LangGraph 六种多 Agent 架构对比 CrewAI 的声明式风格，及多 Agent 提示词四原则 |
 | [MCP（模型上下文协议）深度解析](concepts/049-mcp-and-a2a-protocols-1.md) | mcp, model-context-protocol, function-calling, tools, sse | MCP 三层架构（Host/Client/Server）、三种原语（Tool/Resource/Prompt）及与 Function Calling 的本质区别 |
+| [MCP Protocol — Building and Connecting Servers (Part 2)](concepts/050-mcp-protocol-part-2.md) | mcp, agent, fastapi, langgraph, python, llm-tools, ai-engineering | fastapi-mcp wraps existing REST APIs; fastmcp builds from scratch; MultiServerMCPClient fans out to many servers; always add auth to write-capable MCP endpoints |
 
 ## Tools
 
