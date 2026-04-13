@@ -408,9 +408,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript"
     },
     "070": {
-      "status": "done",
+      "status": "transcribed",
       "title": "7Agent在多模态任务中的推理与典型场景",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/070-7agent在多模态任务中的推理与典型场景.transcript"
     },
     "071": {
       "status": "done",
@@ -419,18 +420,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/071-8agent在多模态推理任务中的典型场景.transcript"
     },
     "072": {
-      "status": "done",
+      "status": "transcribed",
       "title": "9移动端大模型部署",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/072-9移动端大模型部署.transcript"
     },
     "073": {
-      "status": "done",
+      "status": "transcribed",
       "title": "10Agent自主学习-强化学习1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/073-10agent自主学习-强化学习1.transcript"
     },
     "074": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "11Agent自主学习-强化学习2",
+      "retries": 0
+    },
+    "075": {
+      "status": "recording",
+      "title": "1Docker 容器化打包与镜像构建流程1",
       "retries": 0
     }
   }
