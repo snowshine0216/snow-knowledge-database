@@ -1,6 +1,6 @@
 ---
 tags: [fine-tuning, tokenizer, transformer, lora, peft, vram, gpu, bpe, wordpiece, ai-engineering]
-source: https://u.geekbang.org/lesson/818?article=927434
+source: https://u.geekbang.org/lesson/818?article=927433
 wiki: wiki/concepts/017-finetuning-concepts-and-tokenizers.md
 ---
 

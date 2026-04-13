@@ -78,7 +78,7 @@
       "retries": 0
     },
     "014": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块一实践一基于 LangChain 构建一个多任务问答助手",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/014-模块一实践一基于-langchain-构建一个多任务问答助手.transcript"
@@ -89,85 +89,85 @@
       "retries": 0
     },
     "016": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1工程准备与数据工程基础",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/016-1工程准备与数据工程基础.transcript"
     },
     "017": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2微调相关的基础概念与tokenizers解析",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/017-2微调相关的基础概念与tokenizers解析.transcript"
     },
     "018": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3高效微调实践",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/018-3高效微调实践.transcript"
     },
     "019": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4实验管理与超参数优化",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/019-4实验管理与超参数优化.transcript"
     },
     "020": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5模型评估与上线决策压缩部署项目实践",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/020-5模型评估与上线决策压缩部署项目实践.transcript"
     },
     "021": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块二实践一训练一个意图识别模型并部署为 API",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/021-模块二实践一训练一个意图识别模型并部署为-api.transcript"
     },
     "022": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块二实践二基于 LoRA 微调一个垂直领域客服问答模型",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/022-模块二实践二基于-lora-微调一个垂直领域客服问答模型.transcript"
     },
     "023": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1解构 RAG",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/023-1解构-rag.transcript"
     },
     "024": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2使用 LlamaIndex 实现 RAG",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/024-2使用-llamaindex-实现-rag.transcript"
     },
     "025": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3完整的 RAG 分析-QAnything1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/025-3完整的-rag-分析-qanything1.transcript"
     },
     "026": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4完整的 RAG 分析-QAnything2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/026-4完整的-rag-分析-qanything2.transcript"
     },
     "027": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5完整的 RAG 分析-QAnything3",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/027-5完整的-rag-分析-qanything3.transcript"
     },
     "028": {
-      "status": "transcribed",
+      "status": "done",
       "title": "6提升 RAG 效果的一些方法1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/028-6提升-rag-效果的一些方法1.transcript"
     },
     "029": {
-      "status": "transcribed",
+      "status": "done",
       "title": "7提升 RAG 效果的一些方法2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/029-7提升-rag-效果的一些方法2.transcript"
@@ -175,127 +175,133 @@
     "030": {
       "status": "failed",
       "title": "模块三实践一构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 1
+      "retries": 0
     },
     "031": {
       "status": "failed",
       "title": "模块三实践二构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 1
+      "retries": 0
     },
     "032": {
       "status": "failed",
       "title": "1构建第一个对话链与FastAPI封装",
-      "retries": 1
+      "retries": 0
     },
     "033": {
       "status": "failed",
       "title": "2深入输入输出",
-      "retries": 1
+      "retries": 0
     },
     "034": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3LangChain链的解析1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/034-3langchain链的解析1.transcript"
     },
     "035": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4LangChain链的解析2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/035-4langchain链的解析2.transcript"
     },
     "036": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5意图识别流水线设计",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/036-5意图识别流水线设计.transcript"
     },
     "037": {
-      "status": "transcribed",
+      "status": "done",
       "title": "6上下文理解与记忆管理",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/037-6上下文理解与记忆管理.transcript"
     },
     "038": {
-      "status": "transcribed",
+      "status": "done",
       "title": "7让系统会行动",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/038-7让系统会行动.transcript"
     },
     "039": {
-      "status": "transcribed",
+      "status": "done",
       "title": "8用LangGraph实现多轮对话流程控制1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/039-8用langgraph实现多轮对话流程控制1.transcript"
     },
     "040": {
-      "status": "transcribed",
+      "status": "done",
       "title": "9用LangGraph实现多轮对话流程控制2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/040-9用langgraph实现多轮对话流程控制2.transcript"
     },
     "041": {
-      "status": "transcribed",
+      "status": "done",
       "title": "10用LangGraph实现多轮对话流程控制3",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/041-10用langgraph实现多轮对话流程控制3.transcript"
     },
     "042": {
-      "status": "transcribed",
+      "status": "done",
       "title": "11工具调用引擎设计热更新机制",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/042-11工具调用引擎设计热更新机制.transcript"
     },
     "043": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块四实践一设计一个支持多轮对话的订单查询客服流程",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/043-模块四实践一设计一个支持多轮对话的订单查询客服流程.transcript"
     },
     "044": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块四实践二设计可插拔的意图识别与对话管理模块支持热更新",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/044-模块四实践二设计可插拔的意图识别与对话管理模块支持热更新.transcript"
     },
     "045": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1多Agent系统基础概念与多Agent框架简介",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/045-1多agent系统基础概念与多agent框架简介.transcript"
     },
     "046": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2主流 Agent 协作框架对比与案例1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/046-2主流-agent-协作框架对比与案例1.transcript"
     },
     "047": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3主流 Agent 协作框架对比与案例2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/047-3主流-agent-协作框架对比与案例2.transcript"
     },
     "048": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4主流 Agent 协作框架对比与案例3",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/048-4主流-agent-协作框架对比与案例3.transcript"
     },
     "049": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5MCP 与 A2A 协议详解-MCP1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/049-5mcp-与-a2a-协议详解-mcp1.transcript"
     },
     "050": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "6MCP 与 A2A 协议详解-MCP2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/050-6mcp-与-a2a-协议详解-mcp2.transcript"
     },
     "051": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "7MCP 与 A2A 协议详解-A2A",
+      "retries": 0
+    },
+    "052": {
+      "status": "recording",
+      "title": "8多Agent系统的异常处理与恢复机制",
       "retries": 0
     }
   }

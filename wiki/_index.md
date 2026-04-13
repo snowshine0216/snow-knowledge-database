@@ -42,6 +42,31 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [多 Agent 协同客服系统实战](concepts/015-multi-agent-customer-service-practice.md) | multi-agent, autogen, customer-service, fastapi, retry, slot-filling, practice | AutoGen GroupChat 五 Agent 角色设计、指数退避重试装饰器、槽位填充入口 |
 | [微调工程准备与数据工程基础](concepts/016-engineering-prep-and-data-engineering.md) | fine-tuning, docker, dvc, tokenizer, data-engineering, environment-management | Docker 环境一致性、Tokenizer 错配防范、DVC 数据版本控制三件套 |
 | [微调基础概念与 Tokenizer 深解](concepts/017-finetuning-concepts-and-tokenizers.md) | fine-tuning, tokenizer, peft, lora, vram, bpe, wordpiece, transformer | 五种微调类型、BPE vs WordPiece、VRAM 平方关系公式、max_lens 选取策略 |
+| [高效微调实践：LoRA 原理与 Swift 实战](concepts/018-efficient-finetuning-practice.md) | lora, fine-tuning, peft, modelscope, swift, transformer, embedding | Embedding 冻结、LoRA 低秩分解原理、ModelScope Swift 自我认知与意图识别微调实战 |
+| [LLM 微调实验管理与超参数优化](concepts/019-experiment-management-hyperparameter-optimization.md) | experiment-management, hyperparameter, fine-tuning, lora, training | 三关键参数（学习率/LoRA rank/epoch）、Loss 曲线四象限诊断、Checkpoint 选取策略 |
+| [模型压缩与生产部署](concepts/model-compression-and-deployment.md) | model-compression, quantization, vllm, deployment, lora | LoRA 微调 + INT4 量化，vLLM 推理服务，Nginx→FastAPI→vLLM 架构，灰度发布与快速回退 |
+| [意图识别模型的 LoRA 微调与 API 部署](concepts/intent-recognition-lora-fine-tuning.md) | intent-recognition, lora, fine-tuning, fastapi, peft | LoRA 微调意图识别模型，FastAPI 部署，Swift/PEFT/LLaMA-Factory 三工具对比 |
+| [垂直领域 LoRA 微调（客服问答模型）](concepts/vertical-domain-lora-finetuning.md) | lora, fine-tuning, vertical-domain, customer-service, sft | JSONL 语料准备、字段映射、训练→合并→FastAPI 部署链路 |
+| [RAG 架构](concepts/rag-architecture.md) | rag, retrieval, chunking, reranking, llamaindex | RAG 原理：双流程架构、五阶段框架、检索优化技术与评估指标体系 |
+| [LlamaIndex RAG 实现](concepts/llamaindex-rag.md) | llamaindex, rag, python, embedding | LlamaIndex 五行代码实现 RAG，国内模型接入，持久化存储 |
+| [QAnything 企业级 RAG](concepts/qanything-rag.md) | qanything, enterprise-rag, hybrid-retrieval, reranking | 网易 QAnything 架构分析：两段式 Rerank 解决 top-k 问题，混合检索 |
+| [RAG 效果提升方法](concepts/rag-improvement-methods.md) | rag-improvement, chunking, hybrid-retrieval, reranking | 提升 RAG 效果的进阶方法：高级分块、混合检索、Reranker 选型、查询改写 |
+| [LangChain LCEL 与 Runnable 体系](concepts/langchain-lcel-runnable.md) | langchain, lcel, runnable, async, streaming | LCEL pipe 操作符原理、Runnable 体系、invoke/ainvoke/stream/batch 用法与并行分支 |
+| [LangChain 错误处理与降级模式](concepts/langchain-error-handling-patterns.md) | langchain, chain, fallback, retry, error-handling | 三层 Fallback 降级、try/except 替代条件判断、装饰器实现超时与指数退避重试 |
+| [意图识别流水线设计](concepts/intent-recognition-pipeline.md) | intent-recognition, slot-filling, langchain, agent, pipeline | 规则引擎/LLM RouterChain/向量相似度三方案对比，槽位填充与兜底设计最佳实践 |
+| [LangChain Memory Management](concepts/langchain-memory-management.md) | langchain, memory, context-window, session, redis | 多层记忆机制：BufferMemory、滑动窗口、Redis 持久化、Mem0 跨会话长期记忆 |
+| [LangChain Agent: ReAct & Tool Use](concepts/langchain-agent-react-tool-use.md) | langchain, agent, react, tool-use, function-calling | ReAct 思考→行动→观察循环、@tool 装饰器、AgentExecutor 安全参数 |
+| [LangGraph Fundamentals](concepts/langgraph-fundamentals.md) | langgraph, state-graph, node, edge, workflow | LangGraph 三大核心概念（节点/边/状态）、DAG vs DCG、TypedDict 状态定义与 Hello World 入门 |
+| [LangGraph Advanced Patterns](concepts/langgraph-advanced-patterns.md) | langgraph, conditional-edge, reducer, rag, subgraph | 条件边路由、Reducer 更新策略、子图、超步执行模型，及 LangGraph 与 RAG 结合的完整工作流 |
+| [LangGraph State Control](concepts/langgraph-state-control.md) | langgraph, checkpoint, state-snapshot, human-in-the-loop | 检查点机制、状态快照查看、时间旅行回放、人机协同中断，及 LangGraph Studio 调试工具 |
+| [工具调用引擎设计与热更新机制](concepts/042-tool-calling-engine-hot-reload.md) | tool-calling, hot-reload, langgraph, importlib, watchdog | 使用 importlib + WatchDog + tenacity + Redis 实现 LangGraph 工具的运行时动态加载与热更新 |
+| [多轮对话订单查询客服：LangGraph 实践](concepts/043-multi-turn-order-service.md) | langgraph, multi-turn-dialog, order-service, rag, asr, ocr | 用 LangGraph Thread ID + SQLite Checkpointer 构建多轮对话客服，集成 RAG、ASR、OCR 多模态输入 |
+| [可插拔意图识别与 LangGraph 动态图热更新](concepts/044-pluggable-intent-hot-reload.md) | langgraph, pluggable-architecture, hot-reload, dynamic-graph | DynamicGraphManager 封装节点注册与热编译，实现运行时无停机插入/删除意图处理节点 |
+| [Multi-Agent System Fundamentals](concepts/multi-agent-system-fundamentals.md) | multi-agent, mas, autogen, langgraph, crewai | MAS 基础概念：为什么需要多 Agent、设计要素、通信挑战、业界争论与三大主流框架概览 |
+| [AutoGen Collaboration Patterns](concepts/autogen-collaboration-patterns.md) | autogen, mas, agentchat, workflow, mcp, a2a | AutoGen 四种协作模式（顺序工作流/群聊/辩论/反思）、AgentChat 高层抽象及 MCP/A2A 演化路径 |
+| [Agent 协作框架：Round-Robin、Swarm 与人机协作](concepts/047-agent-collaboration-frameworks-2.md) | agent, multi-agent, autogen, agentchat, swarm, round-robin | AgentChat 中 Round-Robin 轮循、Swarm 去中心化移交与 Human-in-the-Loop 模式的原理与实践 |
+| [Agent 协作框架：LangGraph MAS、CrewAI 对比与提示词设计](concepts/048-agent-collaboration-frameworks-3.md) | agent, multi-agent, langgraph, crewai, mas, supervisor | LangGraph 六种多 Agent 架构对比 CrewAI 的声明式风格，及多 Agent 提示词四原则 |
+| [MCP（模型上下文协议）深度解析](concepts/049-mcp-and-a2a-protocols-1.md) | mcp, model-context-protocol, function-calling, tools, sse | MCP 三层架构（Host/Client/Server）、三种原语（Tool/Resource/Prompt）及与 Function Calling 的本质区别 |
 
 ## Tools
 
