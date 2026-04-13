@@ -300,13 +300,19 @@
       "retries": 0
     },
     "052": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "8多Agent系统的异常处理与恢复机制",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/052-8多agent系统的异常处理与恢复机制.transcript"
     },
     "053": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "模块五实践一开发一个基于 MCP 协议的多 Agent 协作系统",
+      "retries": 0
+    },
+    "054": {
+      "status": "recording",
+      "title": "模块五实践二支持 gRPC 通信 状态同步 任务队列持久化",
       "retries": 0
     }
   }
