@@ -510,9 +510,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/086-6fastapi深度集成2.transcript"
     },
     "087": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "7LangChain异步开发进阶向量数据库与GPU1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/087-7langchain异步开发进阶向量数据库与gpu1.transcript"
     },
     "088": {
       "status": "transcribing",
@@ -520,8 +521,13 @@
       "retries": 0
     },
     "089": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1项目背景",
+      "retries": 0
+    },
+    "090": {
+      "status": "recording",
+      "title": "2项目需求与原型设计1",
       "retries": 0
     }
   }
