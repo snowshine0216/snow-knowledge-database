@@ -402,13 +402,24 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/068-5gemini-fullstack-langgraph-quickstart源码剖析1.transcript"
     },
     "069": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript"
     },
     "070": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "7Agent在多模态任务中的推理与典型场景",
+      "retries": 0
+    },
+    "071": {
+      "status": "transcribing",
+      "title": "8Agent在多模态推理任务中的典型场景",
+      "retries": 0
+    },
+    "072": {
+      "status": "recording",
+      "title": "9移动端大模型部署",
       "retries": 0
     }
   }
