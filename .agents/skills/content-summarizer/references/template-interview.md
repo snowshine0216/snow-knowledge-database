@@ -97,3 +97,9 @@ the key idea, why it matters, and how to apply it. This section answers:
   phrasing. Do not flatten colorful language into generic summary prose.
 - **Sub-sections within chapters**: if a single segment covers 2+ distinct ideas,
   break them into `####` sub-headings (like the zhang-xuefeng example style).
+- **Concreteness rule (see SKILL.md)**: each Detailed Chapter Summary and Playbook
+  bullet must carry a specific anchor — number, named tool, file/command, story,
+  or counterexample. Bullets like "they care a lot about build speed" are wrong;
+  "build cap is 60s — over budget triggers a rewrite of the build graph
+  (Makefile → Bazel → Turbo → Nx)" is right. If the source has ≥5 quantitative
+  facts, add a `## Key Numbers` table before Key Quotes.
