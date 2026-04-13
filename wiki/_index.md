@@ -82,6 +82,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Knowledge Graph & Redis for Long-Term Memory Management](concepts/065-knowledge-graph-long-term-memory.md) | knowledge-graph, long-term-memory, redis, neo4j, langchain, agent, rag | Knowledge graphs (entity-relation triples, Neo4j) and Redis (TTL hot-cache + LangChain session history) as two complementary approaches to AI agent long-term memory |
 | [Memory Management Common Problems in AI Agents](concepts/066-memory-management-common-problems.md) | memory-management, agent, langgraph, long-term-memory, redis, vector-database, session-management | Five production pitfalls: InMemorySaver persistence, retry policy, FAISS sharding, Dify mem0 integration, composite session ID design |
 | [Agent Observability](concepts/067-agent-observability.md) | agent, observability, langsmith, langgraph, tracing, llm-ops | LangSmith setup and limits, LangGraph time-travel, Coze as reference debugging UX, and Gemini Fullstack Quickstart |
+| [Gemini Fullstack LangGraph Quickstart — 源码剖析](concepts/068-gemini-fullstack-langgraph.md) | langgraph, gemini, fullstack, agent, fastapi, react, sse, streaming, source-code-analysis | Google 全栈 AI Agent 示例项目源码解析：Research Agent 架构、useStream SSE 通信、langgraph.json 配置、Python 模块化拆分 |
 
 ## Tools
 
