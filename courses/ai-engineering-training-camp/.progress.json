@@ -492,13 +492,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/083-3并行机制对比分析1.transcript"
     },
     "084": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "4并行机制对比分析2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/084-4并行机制对比分析2.transcript"
     },
     "085": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "5FastAPI深度集成1",
+      "retries": 0
+    },
+    "086": {
+      "status": "recording",
+      "title": "6FastAPI深度集成2",
       "retries": 0
     }
   }
