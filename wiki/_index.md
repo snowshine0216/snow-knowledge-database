@@ -84,7 +84,10 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Memory Management Common Problems in AI Agents](concepts/066-memory-management-common-problems.md) | memory-management, agent, langgraph, long-term-memory, redis, vector-database, session-management | Five production pitfalls: InMemorySaver persistence, retry policy, FAISS sharding, Dify mem0 integration, composite session ID design |
 | [Agent Observability](concepts/067-agent-observability.md) | agent, observability, langsmith, langgraph, tracing, llm-ops | LangSmith setup and limits, LangGraph time-travel, Coze as reference debugging UX, and Gemini Fullstack Quickstart |
 | [Gemini Fullstack LangGraph Quickstart — 源码剖析](concepts/068-gemini-fullstack-langgraph.md) | langgraph, gemini, fullstack, agent, fastapi, react, sse, streaming, source-code-analysis | Google 全栈 AI Agent 示例项目源码解析：Research Agent 架构、useStream SSE 通信、langgraph.json 配置、Python 模块化拆分 |
+| [Agent 多模态推理与典型场景](concepts/070-agent-multimodal-reasoning-1.md) | agent, multimodal, vision, clip, vector-db, milvus, rpa, image-search, ocr | CLIP + Milvus 实现文字→图像语义搜索，Qwen-VL 视觉理解实现图像→文字，工地/无人机/内容安全典型场景 |
 | [Agent in Multimodal Reasoning — Typical Scenarios](concepts/071-agent-multimodal-reasoning.md) | agent, multimodal, rpa, pyautogui, automation, llm, workflow, tool-use | Three multimodal Agent scenarios (text→image, image→text, RPA); PyAutoGUI vision-feedback loop; RPA tool connecting to Dify via HTTP for LLM-augmented GUI automation |
+| [Mobile LLM Deployment](concepts/072-mobile-llm-deployment.md) | mobile-llm, edge-computing, quantization, model-compression, npu, onnx, llama-cpp | Platform selection, format choice (GGUF/ONNX/TFLite/CoreML), and three compression techniques (pruning, quantization, distillation) for mobile/edge LLM deployment |
+| [Agent Autonomous Learning: Reinforcement Learning (Part 1)](concepts/073-agent-reinforcement-learning-1.md) | reinforcement-learning, agent, q-learning, rlhf, llm, autonomous-learning | RL core loop, Q-learning via CartPole demo, and connection to RLHF/PPO/GRPO for LLM fine-tuning |
 
 ## Tools
 
