@@ -283,13 +283,19 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/048-4主流-agent-协作框架对比与案例3.transcript"
     },
     "049": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "5MCP 与 A2A 协议详解-MCP1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/049-5mcp-与-a2a-协议详解-mcp1.transcript"
     },
     "050": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "6MCP 与 A2A 协议详解-MCP2",
+      "retries": 0
+    },
+    "051": {
+      "status": "recording",
+      "title": "7MCP 与 A2A 协议详解-A2A",
       "retries": 0
     }
   }
