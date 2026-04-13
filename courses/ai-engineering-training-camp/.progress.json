@@ -306,18 +306,25 @@
       "retries": 0
     },
     "053": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "模块五实践一开发一个基于 MCP 协议的多 Agent 协作系统",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/053-模块五实践一开发一个基于-mcp-协议的多-agent-协作系统.transcript"
     },
     "054": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "模块五实践二支持 gRPC 通信 状态同步 任务队列持久化",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/054-模块五实践二支持-grpc-通信-状态同步-任务队列持久化.transcript"
     },
     "055": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1DSL设计原则与应用场景",
+      "retries": 0
+    },
+    "056": {
+      "status": "recording",
+      "title": "2使用 ANTLR与Lark 解析 DSL 语法1",
       "retries": 0
     }
   }

@@ -24,8 +24,59 @@ The Model Context Protocol (MCP) enables LLM agents to invoke external tools thr
 - Always add authentication and access logging before exposing MCP servers in production, especially for tools with write access.
 - Separate MCP endpoints from your public API using different ports and stricter network rules.
 
+## MCP in Multi-Agent Systems (CrewAI Practice)
+
+*Source: [Module 5 Practice — MCP-based Multi-Agent Collaboration](https://u.geekbang.org/lesson/818?article=927469)*
+
+MCP servers can be attached directly to **CrewAI** agents alongside traditional tools. This enables a multi-agent content-generation pipeline (Research → Write → Review) where agents can call MCP-backed tools for specialized data retrieval.
+
+### CrewAI MCP Integration
+
+Specify MCP servers when instantiating a CrewAI `Agent`:
+
+```python
+agent = Agent(
+    role="Researcher",
+    tools=[SerperTool()],
+    mcps=[
+        {"type": "sse", "url": "https://mcp-server.example.com/sse", "api_key": "..."},
+    ]
+)
+```
+
+Each MCP server listed under `mcps` is available as a callable tool during that agent's task execution.
+
+### Multi-Agent Workflow Pattern
+
+A three-agent crew with human approval gates:
+
+1. **Agent1 (Researcher)** — searches topic, proposes 3 research directions with outlines
+2. **Human checkpoint** — user selects a direction
+3. **Agent2 (Writer)** — writes each chapter; human confirms each one before proceeding
+4. **Agent3 (Reviewer)** — polishes the full draft; human confirms before saving
+
+Human-in-the-Loop is implemented as simple `input()` pauses — no special tooling required.
+
+### Checkpoint / Resume
+
+Long multi-agent pipelines benefit from a JSON checkpoint file to survive crashes:
+- Save state (topic, completed chapters, current position) after each major step
+- On restart, detect incomplete checkpoint and offer resume vs. fresh start
+- Track progress by comparing completed chapter count against expected total
+
+### Using Non-OpenAI LLMs with CrewAI
+
+CrewAI defaults to OpenAI. To use Qwen (or any OpenAI-compatible provider):
+
+```python
+os.environ["OPENAI_API_KEY"] = qianwen_api_key
+os.environ["OPENAI_API_BASE"] = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+llm = ChatOpenAI(model="qwen-turbo", ...)
+```
+
 ## See Also
 
 - [[mcp-protocol-intro]]
 - [[langgraph-agent-patterns]]
 - [[llm-tool-use]]
+- [[053-mcp-multi-agent-practice]]
