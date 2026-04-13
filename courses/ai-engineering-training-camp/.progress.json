@@ -372,23 +372,31 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/063-模块六实践二开发对应的解析器与执行引擎支持动态加载与运行.transcript"
     },
     "064": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1记忆系统与基于向量的长期记忆管理",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/064-1记忆系统与基于向量的长期记忆管理.transcript"
     },
     "065": {
-      "status": "done",
+      "status": "transcribed",
       "title": "2基于知识图谱的长期记忆管理与redis",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/065-2基于知识图谱的长期记忆管理与redis.transcript"
     },
     "066": {
-      "status": "done",
+      "status": "transcribed",
       "title": "3记忆管理中的常见问题",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/066-3记忆管理中的常见问题.transcript"
     },
     "067": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "4Agent可观测性构建",
+      "retries": 0
+    },
+    "068": {
+      "status": "recording",
+      "title": "5Gemini-fullstack-langgraph-quickstart源码剖析1",
       "retries": 0
     }
   }
