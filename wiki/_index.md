@@ -73,6 +73,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [gRPC Communication, State Sync & Task Queue Persistence](concepts/054-grpc-state-sync-task-queue.md) | grpc, redis, task-queue, state-sync, persistence, agent, distributed-systems | 单进程内存 Agent 演进为 Redis 生产者-消费者 + gRPC 流式通信 + 分布式锁的生产级架构 |
 | [DSL Design Principles and Application Scenarios](concepts/055-dsl-design-principles.md) | dsl, domain-specific-language, agent, workflow, yaml, sql | Design principles for DSLs in AI agent development: internal vs. external DSL, five quality characteristics, customer-service workflows, multi-agent scheduling, and Text-to-SQL |
 | [Parsing DSL Grammar with ANTLR and Lark](concepts/056-antlr-lark-dsl-parsing.md) | dsl, antlr, lark, parsing, ast, langgraph, llm | How to define, validate, and LLM-edit domain-specific languages using Lark (Python) and ANTLR4 (multi-language), wired into a 7-step LangGraph pipeline |
+| [DSL生产化：模板填充、热更新与多Agent协作](concepts/057-antlr-lark-dsl-parsing-2.md) | dsl, antlr, lark, ast, agent, langgraph, llm, workflow | Production DSL patterns: template injection to prevent hallucination, hot-reload via LangGraph, and multi-agent DSL sharing |
+| [NL2SQL Introduction](concepts/058-nl2sql-introduction.md) | nl2sql, text-to-sql, rag, llm, fine-tuning, lora | Four-stage history of NL2SQL and two current paths: RAG-based (Vanna.ai) vs parameter fine-tuning (DB-GPT Hub, LLaMA Factory) |
 
 ## Tools
 
