@@ -480,18 +480,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/081-1核心概念与底层原理1.transcript"
     },
     "082": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "2核心概念与底层原理2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/082-2核心概念与底层原理2.transcript"
     },
     "083": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "3并行机制对比分析1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/083-3并行机制对比分析1.transcript"
     },
     "084": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "4并行机制对比分析2",
+      "retries": 0
+    },
+    "085": {
+      "status": "recording",
+      "title": "5FastAPI深度集成1",
       "retries": 0
     }
   }
