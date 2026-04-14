@@ -35,3 +35,7 @@ source: https://u.geekbang.org/lesson/818?article=927448
 - [[langchain-lcel-runnable]] — LCEL `|` 管道语义与 Runnable 体系
 - [[langchain-memory-management]] — Memory 机制与 Redis 持久化
 - [[034-langchain-chain-analysis-1]] — LangChain 链源码解析 (Part 1)
+
+## Related sources
+
+- **[033 深入输入输出]**：032 搭了 Hello-World 级别的 `prompt | llm | parser` 链，033 把三件套每一件都做了"自定义化"升级。新增内容：**自定义 PromptTemplate**（动态段落组合 + Pydantic `@validator` 字段校验 + JSON 保存/热加载，替代 `{% if %}` 模板逻辑）；**System vs User Prompt 严格分离**（系统侧是模板工作，用户只填数据 + 选 `type`）；**自建 vLLM Wrapper**（参数按基础/采样/惩罚/流式分类 + 保守/平衡/创意/精确/多样五种 preset，彻底规避业务代码里的参数表）；**自定义 OutputParser**（正则提取"类 JSON"→ 合法 JSON 的兜底方案，以及"微调模型直接产合法 JSON"的根治建议）。See also: [[033-deep-input-output]]
