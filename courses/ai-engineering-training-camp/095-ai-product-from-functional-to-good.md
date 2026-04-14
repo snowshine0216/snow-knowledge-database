@@ -1,0 +1,206 @@
+---
+tags: [ai-product, product-thinking, ux, error-tolerance, data-flywheel, cost-optimization, dsl, requirements-engineering]
+source: https://u.geekbang.org/lesson/818?article=930877
+wiki: wiki/concepts/095-ai-product-from-functional-to-good.md
+---
+
+# 095: AI Product — From Functional to Actually Good
+
+**Source:** [1AI 产品从能做到好用的跨越](https://u.geekbang.org/lesson/818?article=930877)
+
+## Outline
+- [From Technical Thinking to Product Thinking](#from-technical-thinking-to-product-thinking)
+- [The Shell-Wrapping Trap](#the-shell-wrapping-trap)
+- [Perception–Decision–Action Architecture](#perception-decision-action-architecture)
+- [Requirements Distortion and DSL as a Solution](#requirements-distortion-and-dsl-as-a-solution)
+- [Designing for Uncertainty: AI vs Traditional Software](#designing-for-uncertainty-ai-vs-traditional-software)
+- [Three-Layer Error Tolerance Framework](#three-layer-error-tolerance-framework)
+- [Closed-Loop Thinking and Cost Economics](#closed-loop-thinking-and-cost-economics)
+- [Data Flywheel](#data-flywheel)
+
+---
+
+## From Technical Thinking to Product Thinking
+
+工程师的本能是技术可行性优先：接到需求，脑子里首先浮现的是架构选型——用 LangChain、向量数据库、选哪个模型。
+
+产品思维要求在写第一行代码之前先回答三个问题：
+
+1. **用户是谁**：小白用户还是专业用户？
+2. **痛点够不够痛**：有它更好，还是没它不行？
+3. **AI 是最优解吗**：规则引擎有时比大模型更便宜、更稳定、更快。
+
+> 案例：海量日志分析——大模型跟不上速度，规则引擎反而是正确答案。
+
+---
+
+## The Shell-Wrapping Trap
+
+**套壳陷阱**：把 GPT-4 API 套一层 UI 当成产品，本质上只是"搜索框的替代"，是 demo，不是产品。
+
+真正的产品思维 = **价值主张**：用户想完成什么任务，AI 是否有能力精准匹配这个任务。
+
+**反例：保险理赔专员**
+
+- 错误设计：让用户上传发票、问大模型→效率反而降低。
+- 正确目标：5 分钟内判断这张发票能不能报销。
+
+工具的堆叠（LangChain + 向量库 + 模型选型）是功能性质；真正需要做的是**流程重构**。
+
+---
+
+## Perception–Decision–Action Architecture
+
+以自动理赔为例，拆成三层：
+
+| 层次 | 职责 | 技术选型 |
+|------|------|----------|
+| **感知层（看）** | 识别票面数字 | OCR |
+| **决策层（判）** | 应用理赔规则（如金额不超过 1000 元） | 规则引擎（不能交给大模型猜，也不能硬编码） |
+| **行动层（做）** | 自动打款或驳回 | 业务流程 |
+
+正确描述产品应该是：**"基于 OCR + 规则引擎 + 语义判断的自动理赔流水线"**，而不是"聊天机器人"。
+
+---
+
+## Requirements Distortion and DSL as a Solution
+
+**需求失真**：业务方描述模糊，工程师理解偏差，导致 MVP 四不像。
+
+典型案例：护士排班系统
+- 表面需求：智能排班
+- 真实需求：护士长不好意思口头拒绝护士请假，需要 AI 来判断请假理由是否充分
+
+**DSL（领域特定语言）解决方案**：
+
+- 用可视化工作流（如 Dify）表达业务逻辑
+- 业务方能看懂，工程师可直接转换成状态机或规则引擎代码
+- 需求变更时只改 DSL，不改核心代码
+
+**避免两个 MVP 坑**：
+1. **过度设计**：先搭微服务 + 分布式数据库，两周过去核心流程没跑通
+2. **需求反复横跳**：案例——AIoT 智能收货柜上线前加优惠券功能，牵涉新老用户识别、多支付渠道 ID 统一、购物车金额逻辑，工程师几乎崩溃
+
+**DSL 版本管理实践**：
+- 将当前工作流 DSL 存入 Git 做版本
+- 让业务方在 DSL 上试错，不直接动代码
+- 新功能放下一个版本，配合原型让用户直接操作
+
+---
+
+## Designing for Uncertainty: AI vs Traditional Software
+
+传统软件：确定性系统，按下保存按钮数据 100% 写入数据库。
+
+AI 产品：概率性系统，同一个问题每次输出不同——本质是**概率分布**，不是确定答案。
+
+**应对策略**：在团队内部和向用户交付时，都将 AI 定义为"**会犯错误的助手**"。
+
+**反例：AI 简历筛选工具**
+- 大模型默认对有创业经历的候选人打低分（训练数据中此类样本少，模型不理解创业带来的挑战）
+- HR 发现后认为工具有缺陷，产品下线
+- 正确做法：在提示词中为创业经历加分，设计融错机制
+
+设计 AI 产品前应问自己三个问题：
+1. AI 犯错了，用户会受到什么影响？（风险评估）
+2. 犯了错，有没有补救空间？（容错设计）
+3. 用户能否理解 AI 的局限性？（透明化设计）
+
+---
+
+## Three-Layer Error Tolerance Framework
+
+### 第一层：数据层（置信度）
+
+在返回结果时附加额外字段：
+- **置信度**（0–1）：低于阈值时触发重试或走缓存接口
+- **支持结论的证据**：来源文档片段
+- **错误码和超时信息**
+
+置信度计算方式：
+1. **模型原生**：GPT-4、Claude 3 返回对数概率（log probs），取平均值
+2. **外部评估模型**：用更强的模型（如 GPT-4）给主模型（如 GPT-4o mini）的输出打分
+
+### 第二层：交互层（用户感知）
+
+五种设计模式：
+
+| 模式 | 适用场景 | 示例 |
+|------|----------|------|
+| 显示置信度 | 医疗、金融 | 绿/黄/红标记 + "建议咨询专业人士" |
+| 提供可解释性 | 学术、企业决策 | 显示参考来源 |
+| 多路召回 | 创意生成 | AI 生图一次给 4 张供用户选择 |
+| 人工介入接口 | 高风险场景 | "联系专家" / 一键转人工客服 |
+| 允许用户修正 | 智能写作 | 用户可手动编辑 AI 输出 |
+
+### 第三层：架构层（降级预案）
+
+三种降级策略：
+
+1. **静态资源降级**：API 失败时返回预设模板（"当前 AI 服务繁忙，以下是常见问题解答…"），后端设置健康检查自动切换
+2. **规则引擎降级**：置信度低于 0.2–0.3 时，用 if-else 规则引擎替代 AI 回答
+3. **混合模式降级**：先用小模型生成草稿并提示"内容优化中"，GPT-5 就绪后重新生成并更新界面（需前端支持 WebSocket 或轮询）
+
+**金融客服案例（完整三层设计）**：
+
+- 数据层：返回置信度 + 信用卡章程条款引用
+- 交互层：>0.8 直接显示；0.5–0.8 显示"仅供参考，以银行规定为准"；<0.5 显示"人工客服接入中"
+- 架构层：超时触发规则引擎返回常见问题；服务崩溃切静态页面显示 400 热线
+
+---
+
+## Closed-Loop Thinking and Cost Economics
+
+AI 项目失败的主要原因往往不是技术不行，而是**成本核算过不了关**。
+
+**成本测算三问**：
+1. 单次调用成本多少？（GPT-4：$0.03/1K tokens；国内模型如千问 2.5：$0.0005/1K tokens）
+2. 用户使用频率如何？
+3. 产品定价能否覆盖成本？
+
+**成本优化三步**：
+
+1. **用户分层**：免费用户用开源小模型（Llama 3，成本趋近零）；付费用户用 GPT-4/Claude 3
+2. **问题分层**：简单问题（几页文档）用 OCR + 规则引擎；复杂问题（多文档总结）才调用大模型
+3. **模型蒸馏**（有用户规模时）：
+   - 用 GPT-4 回答 10 万条用户问题作为监督数据
+   - 用 LoRA/QLoRA 微调 Llama 3 70B
+   - A/B 测试对比效果和成本
+   - 效果达标后逐步替换，仅在小模型失败时 fallback 到 GPT-4
+
+---
+
+## Data Flywheel
+
+**数据飞轮**：用户使用产品 → 产生行为数据 → 优化产品 → 吸引更多用户 → 正向循环
+
+**隐式反馈钩子设计**：
+
+正向信号（用户不需要主动点赞）：
+- 复制 AI 答案
+- 分享 AI 回答
+- 在答案页面停留超过 30 秒
+
+负向信号：
+- 点击"重新生成"
+- 手动修改 AI 回答后继续对话
+- 答案生成一半就关闭页面
+
+**AI 文案生成工具案例**：
+1. 用户输入需求（如"奶茶店朋友圈文案"）
+2. AI 生成 3 条，用户选其中 1 条
+3. 后台记录用户 ID、请求内容、被选答案 ID
+4. 定期用选中数据做微调或更新知识库
+5. 模型越来越懂当前用户，体验提升 → 用户自发传播 → 新用户增长
+
+**用数据飞轮优化 RAG**：
+- 用户点击 RAG 引用文档 → 相关性 +1
+- 用户忽略引用文档 → 相关性 -1
+- 用户手动上传文档 → 检索时优先使用用户上传文档
+
+**数据飞轮是真正的护城河**：模型可以复制，但业务场景积累的飞轮数据无法复制。
+
+---
+
+## Connections
+- → [[094-core-interaction-capabilities-3]]
