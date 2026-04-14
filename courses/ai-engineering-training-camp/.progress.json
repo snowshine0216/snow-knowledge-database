@@ -558,9 +558,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/094-6补充核心交互能力3.transcript"
     },
     "095": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1AI 产品从能做到好用的跨越",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/095-1ai-产品从能做到好用的跨越.transcript"
     },
     "096": {
       "status": "transcribing",
@@ -573,8 +574,13 @@
       "retries": 0
     },
     "098": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "4AI 伦理数据合规与治理",
+      "retries": 0
+    },
+    "099": {
+      "status": "recording",
+      "title": "5Dify二次开发实践",
       "retries": 0
     }
   }
