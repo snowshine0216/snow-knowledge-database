@@ -180,21 +180,20 @@
       "duration": 2633
     },
     "031": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "模块三实践二构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/031-模块三实践二构建一个基于-faissmilvus-的-faq-检索系统.transcript"
     },
     "032": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1构建第一个对话链与FastAPI封装",
       "retries": 0
     },
     "033": {
-      "status": "failed",
+      "status": "recording",
       "title": "2深入输入输出",
-      "retries": 0,
-      "url": "https://u.geekbang.org/lesson/818?article=927449",
-      "duration": 3642
+      "retries": 0
     },
     "034": {
       "status": "done",
