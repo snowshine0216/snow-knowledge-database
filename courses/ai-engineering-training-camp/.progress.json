@@ -8,61 +8,61 @@
       "transcript": "courses/ai-engineering-training-camp/001-开班直播回放.transcript"
     },
     "002": {
-      "status": "transcribed",
+      "status": "done",
       "title": "第一次直播答疑",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/002-第一次直播答疑.transcript"
     },
     "003": {
-      "status": "transcribed",
+      "status": "done",
       "title": "第二次直播答疑",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/003-第二次直播答疑.transcript"
     },
     "004": {
-      "status": "transcribed",
+      "status": "done",
       "title": "第三次直播答疑",
       "retries": 0,
       "transcript": "courses/ai-engineering-training-camp/004-third-qa-session.transcript"
     },
     "005": {
-      "status": "transcribed",
+      "status": "done",
       "title": "第四次直播答疑",
       "retries": 0,
       "transcript": "courses/ai-engineering-training-camp/005-fourth-qa-session.transcript"
     },
     "006": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1什么是 AI 工程化",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/006-1什么是-ai-工程化.transcript"
     },
     "007": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2大模型调用与函数调用基础",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/007-2大模型调用与函数调用基础.transcript"
     },
     "008": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3LangChain核心组件概述",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/008-3langchain核心组件概述.transcript"
     },
     "009": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4Function Calling与MCP基础",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/009-4function-calling与mcp基础.transcript"
     },
     "010": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5LangChain核心组件详解",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/010-5langchain核心组件详解.transcript"
     },
     "011": {
-      "status": "transcribed",
+      "status": "done",
       "title": "6LlamaIndex 与知识增强系统",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/011-6llamaindex-与知识增强系统.transcript"
@@ -175,22 +175,30 @@
     "030": {
       "status": "failed",
       "title": "模块三实践一构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 0
+      "retries": 0,
+      "url": "https://u.geekbang.org/lesson/818?article=928268",
+      "duration": 2633
     },
     "031": {
       "status": "failed",
       "title": "模块三实践二构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 0
+      "retries": 0,
+      "url": "https://u.geekbang.org/lesson/818?article=928269",
+      "duration": 1728
     },
     "032": {
       "status": "failed",
       "title": "1构建第一个对话链与FastAPI封装",
-      "retries": 0
+      "retries": 0,
+      "url": "https://u.geekbang.org/lesson/818?article=927448",
+      "duration": 4090
     },
     "033": {
       "status": "failed",
       "title": "2深入输入输出",
-      "retries": 0
+      "retries": 0,
+      "url": "https://u.geekbang.org/lesson/818?article=927449",
+      "duration": 3642
     },
     "034": {
       "status": "done",
@@ -295,7 +303,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/050-6mcp-与-a2a-协议详解-mcp2.transcript"
     },
     "051": {
-      "status": "transcribed",
+      "status": "done",
       "title": "7MCP 与 A2A 协议详解-A2A",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/051-7mcp-与-a2a-协议详解-a2a.transcript"
@@ -306,7 +314,7 @@
       "retries": 0
     },
     "053": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块五实践一开发一个基于 MCP 协议的多 Agent 协作系统",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/053-模块五实践一开发一个基于-mcp-协议的多-agent-协作系统.transcript"
@@ -330,13 +338,13 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/056-2使用-antlr与lark-解析-dsl-语法1.transcript"
     },
     "057": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3使用 ANTLR与Lark 解析 DSL 语法2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/057-3使用-antlr与lark-解析-dsl-语法2.transcript"
     },
     "058": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4NL2SQL简介",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/058-4nl2sql简介.transcript"
@@ -354,7 +362,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/060-6nl2sql详解2.transcript"
     },
     "061": {
-      "status": "transcribed",
+      "status": "done",
       "title": "7数据安全text2SQL 安全防护实战",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/061-7数据安全text2sql-安全防护实战.transcript"
@@ -366,31 +374,31 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/062-模块六实践一设计并实现一套面向-agent-任务规划的-dsl-语言.transcript"
     },
     "063": {
-      "status": "transcribed",
+      "status": "done",
       "title": "模块六实践二开发对应的解析器与执行引擎支持动态加载与运行",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/063-模块六实践二开发对应的解析器与执行引擎支持动态加载与运行.transcript"
     },
     "064": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1记忆系统与基于向量的长期记忆管理",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/064-1记忆系统与基于向量的长期记忆管理.transcript"
     },
     "065": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2基于知识图谱的长期记忆管理与redis",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/065-2基于知识图谱的长期记忆管理与redis.transcript"
     },
     "066": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3记忆管理中的常见问题",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/066-3记忆管理中的常见问题.transcript"
     },
     "067": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4Agent可观测性构建",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/067-4agent可观测性构建.transcript"
@@ -405,10 +413,12 @@
       "status": "failed",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
       "retries": 0,
-      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript"
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript",
+      "url": "https://u.geekbang.org/lesson/818?article=927484",
+      "duration": 4647
     },
     "070": {
-      "status": "transcribed",
+      "status": "done",
       "title": "7Agent在多模态任务中的推理与典型场景",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/070-7agent在多模态任务中的推理与典型场景.transcript"
@@ -420,13 +430,13 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/071-8agent在多模态推理任务中的典型场景.transcript"
     },
     "072": {
-      "status": "transcribed",
+      "status": "done",
       "title": "9移动端大模型部署",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/072-9移动端大模型部署.transcript"
     },
     "073": {
-      "status": "transcribed",
+      "status": "done",
       "title": "10Agent自主学习-强化学习1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/073-10agent自主学习-强化学习1.transcript"
@@ -546,7 +556,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/092-4补充核心与交互能力1.transcript"
     },
     "093": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5补充核心与交互能力2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/093-5补充核心与交互能力2.transcript"
@@ -566,20 +576,23 @@
     "096": {
       "status": "done",
       "title": "2垂直领域的深水区1",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/096-2垂直领域的深水区1.transcript"
     },
     "097": {
       "status": "done",
       "title": "3垂直领域的深水区2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/097-3垂直领域的深水区2.transcript"
     },
     "098": {
-      "status": "transcribing",
+      "status": "done",
       "title": "4AI 伦理数据合规与治理",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/098-4ai-伦理数据合规与治理.transcript"
     },
     "099": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "5Dify二次开发实践",
       "retries": 0
     }
