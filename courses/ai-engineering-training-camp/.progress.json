@@ -563,8 +563,18 @@
       "retries": 0
     },
     "096": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "2垂直领域的深水区1",
+      "retries": 0
+    },
+    "097": {
+      "status": "transcribing",
+      "title": "3垂直领域的深水区2",
+      "retries": 0
+    },
+    "098": {
+      "status": "recording",
+      "title": "4AI 伦理数据合规与治理",
       "retries": 0
     }
   }
