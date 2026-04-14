@@ -144,6 +144,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Supermemory](tools/supermemory.md) | memory, rag, mcp, ai-agents, personalization | Persistent memory and context layer for AI systems via API, SDKs, and MCP integrations |
 | [CashClaw](tools/cashclaw.md) | ai-agents, autonomous-agent, marketplace, openclaw | Autonomous work agent for paid task execution on the Moltlaunch onchain marketplace |
 | [MetaClaw](tools/metaclaw.md) | ai-agents, meta-learning, continual-learning, openclaw | Proxy-based meta-learning middleware that evolves agent skills through session summaries and RL |
+| [GBrain: YC CEO 开源的 AI Agent 第二大脑系统](tools/yc-ceo-opensource-gbrain-second-brain.md) | gbrain, second-brain, ai-agent, knowledge-base, mcp, memory, rag, garry-tan, yc | 读-写循环 + 两段页面结构 + RRF 混合检索 + 30 个 MCP 工具，让 AI agent 拥有持续积累的知识底座 |
 
 ## Courses
 
