@@ -173,11 +173,9 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/029-7提升-rag-效果的一些方法2.transcript"
     },
     "030": {
-      "status": "pending",
+      "status": "recording",
       "title": "模块三实践一构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 0,
-      "url": "https://u.geekbang.org/lesson/818?article=928268",
-      "duration": 2633
+      "retries": 0
     },
     "031": {
       "status": "transcribed",
@@ -186,14 +184,16 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/031-模块三实践二构建一个基于-faissmilvus-的-faq-检索系统.transcript"
     },
     "032": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "1构建第一个对话链与FastAPI封装",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/032-1构建第一个对话链与fastapi封装.transcript"
     },
     "033": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "2深入输入输出",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/033-2深入输入输出.transcript"
     },
     "034": {
       "status": "done",
@@ -405,7 +405,7 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/068-5gemini-fullstack-langgraph-quickstart源码剖析1.transcript"
     },
     "069": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
       "retries": 0
     },
