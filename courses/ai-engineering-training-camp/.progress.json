@@ -534,13 +534,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/090-2项目需求与原型设计1.transcript"
     },
     "091": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "3项目需求与原型设计2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/091-3项目需求与原型设计2.transcript"
     },
     "092": {
-      "status": "recording",
+      "status": "transcribed",
       "title": "4补充核心与交互能力1",
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/092-4补充核心与交互能力1.transcript"
+    },
+    "093": {
+      "status": "transcribing",
+      "title": "5补充核心与交互能力2",
+      "retries": 0
+    },
+    "094": {
+      "status": "recording",
+      "title": "6补充核心交互能力3",
       "retries": 0
     }
   }
