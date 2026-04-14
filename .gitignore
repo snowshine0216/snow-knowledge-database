@@ -14,3 +14,6 @@ __pycache__/
 # EVC: scratch files and generated per-course scripts
 tmp/
 courses/**/evc-loop.py
+
+# Raw transcript files (not committed to repo)
+*.transcript
