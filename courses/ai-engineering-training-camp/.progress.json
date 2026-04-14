@@ -191,7 +191,7 @@
       "retries": 0
     },
     "033": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "2深入输入输出",
       "retries": 0
     },
@@ -405,12 +405,9 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/068-5gemini-fullstack-langgraph-quickstart源码剖析1.transcript"
     },
     "069": {
-      "status": "failed",
+      "status": "recording",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
-      "retries": 0,
-      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript",
-      "url": "https://u.geekbang.org/lesson/818?article=927484",
-      "duration": 4647
+      "retries": 0
     },
     "070": {
       "status": "done",
