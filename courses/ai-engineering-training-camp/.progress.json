@@ -546,13 +546,18 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/092-4补充核心与交互能力1.transcript"
     },
     "093": {
-      "status": "transcribing",
+      "status": "done",
       "title": "5补充核心与交互能力2",
       "retries": 0
     },
     "094": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "6补充核心交互能力3",
+      "retries": 0
+    },
+    "095": {
+      "status": "recording",
+      "title": "1AI 产品从能做到好用的跨越",
       "retries": 0
     }
   }

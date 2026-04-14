@@ -107,6 +107,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Project Requirements and Prototype Design Part 1](concepts/090-project-requirements-prototype-1.md) | ai-engineering, product-requirements, prototype, rag, tool-calling | Requirements analysis for the AI customer service system: two core pillars (RAG + Tool Calling), non-functional specs, and iterative version planning. |
 | [Project Requirements and Prototype Design Part 2](concepts/091-project-requirements-prototype-2.md) | ai-engineering, langgraph, routing, intent-recognition, mvp | MVP implementation: why LangGraph over pure LangChain for multi-agent routing, intent recognition with weak models, component testing strategy, LangSmith monitoring. |
 | [Core and Interaction Capabilities Part 1](concepts/092-core-interaction-capabilities-1.md) | ai-engineering, customer-service, quick-commands, session-history, redis | V2 enhancements: greeting API, /help /history /reset slash commands with Python dict mapping, Redis TTL session history, LangGraph Thread ID isolation, true vs shadow delete. |
+| [Core Interaction Capabilities — Part 2](concepts/093-core-interaction-capabilities-2.md) | ai-customer-service, sse, mcp, multimodal, vector-database, model-switching, react-agent | Async suggestion push via SSE/queue, multimodal input handling, MCP server exposure, dynamic vector KB CRUD, and Docker deployment for an AI customer service capstone. |
 
 ## Tools
 
