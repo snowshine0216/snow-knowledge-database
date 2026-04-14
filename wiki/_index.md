@@ -53,6 +53,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [LlamaIndex RAG 实现](concepts/llamaindex-rag.md) | llamaindex, rag, python, embedding | LlamaIndex 五行代码实现 RAG，国内模型接入，持久化存储 |
 | [QAnything 企业级 RAG](concepts/qanything-rag.md) | qanything, enterprise-rag, hybrid-retrieval, reranking | 网易 QAnything 架构分析：两段式 Rerank 解决 top-k 问题，混合检索 |
 | [RAG 效果提升方法](concepts/rag-improvement-methods.md) | rag-improvement, chunking, hybrid-retrieval, reranking | 提升 RAG 效果的进阶方法：高级分块、混合检索、Reranker 选型、查询改写 |
+| [RAG + Knowledge Graph 融合检索](courses/ai-engineering-training-camp/module-3-rag/031-rag-knowledge-graph-fusion.md) | rag, knowledge-graph, neo4j, multi-hop, hybrid-retrieval, entity-extraction, llm, vector-db | 三路并行（向量+关键词+Neo4j 图谱）回答多跳查询；公司股权 demo 数据集；joint-score 平均拉分的陷阱与三路 prompt 拼接的替代方案；构建顺序：RAG 先通、Neo4j 后接 |
 | [LangChain LCEL 与 Runnable 体系](concepts/langchain-lcel-runnable.md) | langchain, lcel, runnable, async, streaming | LCEL pipe 操作符原理、Runnable 体系、invoke/ainvoke/stream/batch 用法与并行分支 |
 | [LangChain 错误处理与降级模式](concepts/langchain-error-handling-patterns.md) | langchain, chain, fallback, retry, error-handling | 三层 Fallback 降级、try/except 替代条件判断、装饰器实现超时与指数退避重试 |
 | [意图识别流水线设计](concepts/intent-recognition-pipeline.md) | intent-recognition, slot-filling, langchain, agent, pipeline | 规则引擎/LLM RouterChain/向量相似度三方案对比，槽位填充与兜底设计最佳实践 |

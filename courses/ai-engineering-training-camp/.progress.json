@@ -173,10 +173,11 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/029-7提升-rag-效果的一些方法2.transcript"
     },
     "030": {
-      "status": "transcribed",
+      "status": "pending",
       "title": "模块三实践一构建一个基于 FAISSMilvus 的 FAQ 检索系统",
       "retries": 0,
-      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/030-模块三实践一构建一个基于-faissmilvus-的-faq-检索系统.transcript"
+      "url": "https://u.geekbang.org/lesson/818?article=928268",
+      "duration": 2633
     },
     "031": {
       "status": "transcribing",
