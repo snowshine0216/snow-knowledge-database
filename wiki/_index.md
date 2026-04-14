@@ -10,6 +10,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
+| [Anthropic 内部：Mythos 模型、100 个原型、Skills 杠杆](concepts/anthropic-internal-100-prototypes-mythos-model-skills.md) | anthropic, claude, claude-cowork, claude-code, ai-agent, mcp, skills, llm, product-design, ai-safety | Felix Rieseberg 专访：Mythos 断层式安全能力、执行成本趋零后 100 个原型并行、Skills=Markdown SOP 出乎意料地有效 |
 | [Eigent AI: Open-Source Cowork and DAG Multi-Agent Architecture](concepts/beating-cowork-with-open-source-cowork_-UoxWCsqIa0.md) | eigent, camel-ai, multi-agent, open-source, dag, browser-automation | Camel AI open-sources their Cowork competitor as a 3-tier Electron+FastAPI+DAG multi-agent desktop app after Anthropic's launch |
 | [LLM Knowledge Base](concepts/llm-knowledge-base.md) | llm, pkm, rag, obsidian | Workflow for building personal wikis with LLMs using raw→compile→Q&A pipeline |
 | [Harness Engineering](concepts/harness-engineering.md) | harness-engineering, prompt-engineering, context-engineering, agent | Third paradigm shift in AI engineering: orchestrating reliable agent execution via six-layer architecture |
