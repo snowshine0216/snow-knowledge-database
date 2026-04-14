@@ -546,18 +546,25 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/092-4补充核心与交互能力1.transcript"
     },
     "093": {
-      "status": "done",
+      "status": "transcribed",
       "title": "5补充核心与交互能力2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/093-5补充核心与交互能力2.transcript"
     },
     "094": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "6补充核心交互能力3",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/094-6补充核心交互能力3.transcript"
     },
     "095": {
-      "status": "recording",
+      "status": "transcribing",
       "title": "1AI 产品从能做到好用的跨越",
+      "retries": 0
+    },
+    "096": {
+      "status": "recording",
+      "title": "2垂直领域的深水区1",
       "retries": 0
     }
   }
