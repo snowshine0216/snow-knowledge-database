@@ -10,6 +10,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
+| [Eigent AI: Open-Source Cowork and DAG Multi-Agent Architecture](concepts/beating-cowork-with-open-source-cowork_-UoxWCsqIa0.md) | eigent, camel-ai, multi-agent, open-source, dag, browser-automation | Camel AI open-sources their Cowork competitor as a 3-tier Electron+FastAPI+DAG multi-agent desktop app after Anthropic's launch |
 | [LLM Knowledge Base](concepts/llm-knowledge-base.md) | llm, pkm, rag, obsidian | Workflow for building personal wikis with LLMs using raw→compile→Q&A pipeline |
 | [Harness Engineering](concepts/harness-engineering.md) | harness-engineering, prompt-engineering, context-engineering, agent | Third paradigm shift in AI engineering: orchestrating reliable agent execution via six-layer architecture |
 | [OpenAI Frontier: Zero-Human-Coding Practice](concepts/openai-frontier-zero-human-coding.md) | harness-engineering, openai, codex, symphony, agent-native-development | OpenAI Frontier 团队 100 万行代码 / 零人工编码 / 合并后 review 的 Harness Engineering 实践，含 Symphony 与 Ghost Library |
