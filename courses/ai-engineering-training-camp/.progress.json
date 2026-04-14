@@ -405,9 +405,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/068-5gemini-fullstack-langgraph-quickstart源码剖析1.transcript"
     },
     "069": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "6Gemini-fullstack-langgraph-quickstart源码剖析2",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/069-6gemini-fullstack-langgraph-quickstart源码剖析2.transcript"
     },
     "070": {
       "status": "done",
