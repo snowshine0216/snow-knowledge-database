@@ -13,6 +13,7 @@ It covers:
 - `bun` (JavaScript runtime and package manager, required by gstack skill)
 - `uv` (fast Python package manager)
 - `graphviz` (graph/diagram rendering)
+- `supabase` CLI (via `supabase/tap`)
 - optional `CC-Switch` for managing Claude Code / Codex / Gemini provider configs on macOS
 - `python3`
 - `yt-dlp`
@@ -26,6 +27,7 @@ It covers:
 - [github-repo-setup.md](./github-repo-setup.md): GitHub remote/auth setup, credential helper config, and troubleshooting notes
 - [pptagent-setup.md](./pptagent-setup.md): PPTAgent environment setup and fixes for Docker sandbox image and `soffice` issues
 - [skills-collections-setup.md](./skills-collections-setup.md): curated skill collections, install commands, and purpose notes (including DingTalk Wukong Skills, gstack, and Zhihu top-10 summary)
+- [supabase-setup.md](./supabase-setup.md): Supabase CLI install, login, and project linking
 
 ## Run It
 
@@ -140,6 +142,21 @@ gh auth login
 
 Installs `bun` via Homebrew. Required by the gstack skill for headless browser testing.
 
+### 6a. Supabase CLI
+
+Installs the Supabase CLI via Homebrew tap:
+
+```bash
+brew install supabase/tap/supabase
+```
+
+After installation, authenticate and link this repo's project (see [supabase-setup.md](./supabase-setup.md) for details):
+
+```bash
+supabase login
+supabase link --project-ref yhbzezkmjiwosdaysgeh
+```
+
 ### 7. YouTube Summarizer Skill Dependencies
 
 The repo’s YouTube summarizer skill uses:
@@ -177,6 +194,7 @@ jq --version
 dot -V
 gh --version
 bun --version
+supabase --version
 python3 .agents/skills/yt-video-summarizer/scripts/extract_video_context.py --help
 python3 -c "from faster_whisper import WhisperModel; print('faster-whisper ok')"
 ```

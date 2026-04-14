@@ -72,6 +72,7 @@ This installs the main toolchain used by this repo:
 - `jq`
 - `nvm` and the current Node.js LTS
 - Codex CLI
+- `supabase` CLI (via `supabase/tap/supabase`) — see [env-setup/supabase-setup.md](env-setup/supabase-setup.md) for `supabase login` and `supabase link --project-ref yhbzezkmjiwosdaysgeh`
 - optional `faster-whisper` for local ASR in the YouTube summarizer skill
 
 If you want to skip local ASR and rely on subtitles or API-based transcription fallback:
