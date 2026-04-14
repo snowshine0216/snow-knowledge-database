@@ -173,11 +173,9 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/029-7提升-rag-效果的一些方法2.transcript"
     },
     "030": {
-      "status": "failed",
+      "status": "recording",
       "title": "模块三实践一构建一个基于 FAISSMilvus 的 FAQ 检索系统",
-      "retries": 0,
-      "url": "https://u.geekbang.org/lesson/818?article=928268",
-      "duration": 2633
+      "retries": 0
     },
     "031": {
       "status": "failed",
@@ -592,9 +590,10 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/098-4ai-伦理数据合规与治理.transcript"
     },
     "099": {
-      "status": "transcribing",
+      "status": "transcribed",
       "title": "5Dify二次开发实践",
-      "retries": 0
+      "retries": 0,
+      "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/099-5dify二次开发实践.transcript"
     }
   }
 }
