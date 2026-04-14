@@ -432,115 +432,115 @@
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/073-10agent自主学习-强化学习1.transcript"
     },
     "074": {
-      "status": "transcribed",
+      "status": "done",
       "title": "11Agent自主学习-强化学习2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/074-11agent自主学习-强化学习2.transcript"
     },
     "075": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1Docker 容器化打包与镜像构建流程1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/075-1docker-容器化打包与镜像构建流程1.transcript"
     },
     "076": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2Docker 容器化打包与镜像构建流程2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/076-2docker-容器化打包与镜像构建流程2.transcript"
     },
     "077": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3基于 FastAPI 构建模型基础服务",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/077-3基于-fastapi-构建模型基础服务.transcript"
     },
     "078": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4熟悉 Kubernetes 编排基础",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/078-4熟悉-kubernetes-编排基础.transcript"
     },
     "079": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5搭建监控系统",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/079-5搭建监控系统.transcript"
     },
     "080": {
-      "status": "transcribed",
+      "status": "done",
       "title": "6搭建日志收集系统",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/080-6搭建日志收集系统.transcript"
     },
     "081": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1核心概念与底层原理1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/081-1核心概念与底层原理1.transcript"
     },
     "082": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2核心概念与底层原理2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/082-2核心概念与底层原理2.transcript"
     },
     "083": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3并行机制对比分析1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/083-3并行机制对比分析1.transcript"
     },
     "084": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4并行机制对比分析2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/084-4并行机制对比分析2.transcript"
     },
     "085": {
-      "status": "transcribed",
+      "status": "done",
       "title": "5FastAPI深度集成1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/085-5fastapi深度集成1.transcript"
     },
     "086": {
-      "status": "transcribed",
+      "status": "done",
       "title": "6FastAPI深度集成2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/086-6fastapi深度集成2.transcript"
     },
     "087": {
-      "status": "transcribed",
+      "status": "done",
       "title": "7LangChain异步开发进阶向量数据库与GPU1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/087-7langchain异步开发进阶向量数据库与gpu1.transcript"
     },
     "088": {
-      "status": "transcribed",
+      "status": "done",
       "title": "8LangChain异步开发进阶向量数据库与GPU2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/088-8langchain异步开发进阶向量数据库与gpu2.transcript"
     },
     "089": {
-      "status": "transcribed",
+      "status": "done",
       "title": "1项目背景",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/089-1项目背景.transcript"
     },
     "090": {
-      "status": "transcribed",
+      "status": "done",
       "title": "2项目需求与原型设计1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/090-2项目需求与原型设计1.transcript"
     },
     "091": {
-      "status": "transcribed",
+      "status": "done",
       "title": "3项目需求与原型设计2",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/091-3项目需求与原型设计2.transcript"
     },
     "092": {
-      "status": "transcribed",
+      "status": "done",
       "title": "4补充核心与交互能力1",
       "retries": 0,
       "transcript": "/Users/xuyin/Documents/Repository/snow-knowledge-database/courses/ai-engineering-training-camp/092-4补充核心与交互能力1.transcript"

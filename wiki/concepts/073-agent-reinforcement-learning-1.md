@@ -50,3 +50,7 @@ Microsoft's **Agent Lightning** framework applies RL to production Agent systems
 - [[Q-Learning]]
 - [[ReAct]]
 - [[AutoGen]]
+
+## Related sources
+
+- **[Lecture 074 — Agent Reinforcement Learning Part 2]**: Extends Part 1 into the practical application of Agent Lightning, Microsoft's zero-code-invasion RL framework for optimizing Agent prompts and responses. Covers the APO (Automatic Prompt Optimization) algorithm that replaces human RLHF feedback with 0-to-1 scalar reward scoring, the MDP-based reward mechanism for automated prompt iteration, and the SearchR1 example for RAG query optimization. Key constraint: requires 40GB+ GPU VRAM to run training; future outlook is that RL will become the standard way to auto-optimize tool calls, memory, and SQL generation in production Agents. See also: [[074-agent-reinforcement-learning-2]]

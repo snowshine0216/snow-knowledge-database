@@ -30,3 +30,7 @@ LangChain 围绕大模型开发构建了一套独有概念体系（LLM、PromptT
 
 - [[008-langchain-core-components]]
 - [[009-function-calling-and-mcp-basics]]
+
+## Related sources
+
+- **[Lecture 087: LangChain Async Development Advanced Part 1]**: 深入讲解了LangChain的异步化迁移策略。核心发现：LCEL中实现了`Runnable`接口的组件（如Chain、VectorStore）内部已自动支持异步，同步改异步只需在调用处将`invoke`改为`ainvoke`并加上`await`；批量任务可用`asyncio.gather`并发执行。同时解析了LangChain版本演进策略：0.1.x（经典）→ LangGraph（工作流）→ 1.0（高层Agent API），三层按复杂度从上向下降级。LangChain 1.0将0.x的Callback机制封装为内置中间件，大幅简化追踪配置。See also: [[087-langchain-async-vectordb-gpu-1]]
