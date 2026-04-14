@@ -1271,7 +1271,15 @@ def main() -> int:
         default=DEFAULT_FOCUS_DIGEST_BULLETS,
         help=f"Max bullets per focused section digest (default: {DEFAULT_FOCUS_DIGEST_BULLETS})",
     )
+    parser.add_argument(
+        "--proxy",
+        default=None,
+        help="Proxy URL passed to yt-dlp (e.g. http://10.27.7.110:8080 or socks5://host:port)",
+    )
     args = parser.parse_args()
+
+    if args.proxy:
+        BASE_YTDLP_FLAGS.extend(["--proxy", args.proxy])
 
     if not args.url and not args.audio_file:
         parser.error("one of --url or --audio-file is required")
