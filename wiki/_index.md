@@ -132,6 +132,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Claude Certified Architect](tools/claude-certified-architect.md) | claude, certification, cca, anthropic, mcp | Anthropic's CCA Foundations exam: 5 domains, anti-patterns, and study guide |
 | [Claude Code Internals](tools/claude-code-internals.md) | claude-code, agent-runtime, slash-commands, memory, mcp | Agent runtime architecture: commands, memory layers, permissions, multi-agent coordinator |
 | [Claude Code Tips Collection](tools/claude-code-tips-collection.md) | claude-code, tips, worktree, batch, simplify | Boris Cherny's 42-tip collection covering plan mode, CLAUDE.md, worktrees, and batch workflows |
+| [45 个 Claude Code 神级技巧](tools/45-claude-code-tips.md) | claude-code, workflow, productivity, ai-coding, cli, devops, tdd, mcp | ykdojo 的 45 条实操技巧：状态栏、系统提示裁剪 50%、tmux 自治循环、容器嵌套 Claude、dx 插件 |
 | [Claude HUD](tools/claude-hud.md) | claude-code, observability, plugin, statusline | Real-time session visibility plugin for Claude Code: context, tools, subagents, plan usage |
 | [Caveman Token Saver](tools/caveman-token-saver.md) | claude-code, token-optimization, caveman, codex, prompt-compression | Output token compression plugin (22–87% savings) via terse response style for Claude Code/Codex |
 | [ARIS Research Framework](tools/aris-research-framework.md) | claude-code, ai-research, automation, multi-agent | Workflow-first autonomous research pipeline with cross-model adversarial review |
