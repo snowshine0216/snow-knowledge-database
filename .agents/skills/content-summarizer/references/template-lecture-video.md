@@ -1,5 +1,7 @@
 # Template: lecture-video
 
+**Precondition:** only use this template when the video has **explicit timestamp chapters in metadata (`chapters` field non-null) AND is a lesson inside a numbered, lesson-ordered course series** (e.g. Karpathy Zero-to-Hero ch. 3, an AI-engineering bootcamp module, a multi-part structured curriculum). Single-session solo live streams, webinar sessions ("Session 1 of …"), conference talks, and one-off solo tutorials are **not** lecture-videos — route them to `template-talk.md` instead. The Outline + Detailed Chapter Summaries structure there is the required fallback when no metadata-chapter/module hierarchy exists.
+
 Produce a **module/chapter-based course notes file** — not a flat summary.
 
 ```markdown

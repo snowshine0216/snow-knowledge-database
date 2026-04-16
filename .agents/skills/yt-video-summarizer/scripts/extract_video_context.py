@@ -1278,8 +1278,11 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    if args.proxy:
-        BASE_YTDLP_FLAGS.extend(["--proxy", args.proxy])
+    proxy = args.proxy
+    if not proxy and args.url and platform_from_url(args.url) == "youtube":
+        proxy = os.environ.get("YT_PROXY") or None
+    if proxy:
+        BASE_YTDLP_FLAGS.extend(["--proxy", proxy])
 
     if not args.url and not args.audio_file:
         parser.error("one of --url or --audio-file is required")

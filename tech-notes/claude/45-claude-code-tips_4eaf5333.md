@@ -1,6 +1,7 @@
 ---
 tags: [claude-code, workflow, productivity, ai-coding, cli, devops, tdd, mcp]
 source: https://zhuanlan.zhihu.com/p/2026601124610815795
+github: https://github.com/ykdojo/claude-code-tips
 wiki: wiki/tools/45-claude-code-tips.md
 ---
 

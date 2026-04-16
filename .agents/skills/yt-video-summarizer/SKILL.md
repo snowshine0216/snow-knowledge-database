@@ -108,9 +108,11 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
 7. Determine `content_type` using this decision tree:
    1. Is the video a 2-person conversation (interview/podcast style)? → `interview`
       (overrides chapter presence: even structured interviews are `interview`)
-   2. Does the video have 3+ distinct timestamp chapters AND is it instructional/educational? → `lecture-video`
-   3. Is the video a standalone conference talk or solo presentation (not conversational, not a course module)? → `talk`
-   4. Default for ambiguous videos: is the format conversational/dialogue-driven? → `interview`. Is it a solo tutorial or single-topic explanation? → `lecture-video`.
+   2. Does the video have **3+ explicit timestamp chapters in the metadata** (`chapters` field is non-null) AND is it a lesson in a numbered, lesson-ordered course series (e.g. Karpathy Zero-to-Hero ch. 3, AI Engineering Bootcamp module 2)? → `lecture-video`
+   3. Is the video a standalone solo presentation — conference talk, keynote, single-session live stream, webinar session ("Session 1 of ..."), or solo tutorial? → `talk` (this is the default for every solo instructional video that is NOT part of a lesson-ordered course sequence)
+   4. Default for ambiguous videos: is the format conversational/dialogue-driven? → `interview`. Is it a solo tutorial or single-topic explanation? → `talk`.
+
+**Format rule (applies to every content_type except pure metadata-only):** the output MUST use the Outline + Detailed Chapter Summaries structure (see `template-talk.md`): numbered Outline, then one `### N. Chapter Title` block per chapter with a `> **Segment**: HH:MM-HH:MM` anchor and structured content. Do NOT use flat bullet lists or a single Timeline section in place of per-chapter content. When metadata `chapters` is null, reconstruct chapter boundaries by searching the VTT/transcript for topic-shift anchors and cite the nearest timestamp.
 
 8. Invoke the `content-summarizer` skill. Pass these fields explicitly:
    - `content_type`: [value from decision tree above]
@@ -146,6 +148,7 @@ Always echo these fields in-conversation so the user can verify:
 
 - YouTube may block anonymous extraction with "Sign in to confirm you're not a bot".
 Default retry browser is Chrome via `--cookies-from-browser chrome`.
+- **YouTube proxy (auto)**: when the URL is `youtube.com` / `youtu.be`, the extractor automatically reads `YT_PROXY` from `.env` and passes it to `yt-dlp` as `--proxy`. This is the default path on this machine (see skill `.env`). It does NOT affect Bilibili or other platforms. You can still override per-call with an explicit `--proxy <url>` flag (which wins over `YT_PROXY`).
 - Bilibili standard policy is cookie-auth + ASR-first. Always run with `--cookies-from-browser chrome --asr-provider auto`.
 - The extractor now applies cookie-auth on metadata fetch when browser cookies are provided.
 - Local ASR fallback uses `faster-whisper` if installed and importable from the active Python environment.
