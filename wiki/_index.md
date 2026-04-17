@@ -311,3 +311,4 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 |------|------|-----------------|
 | [Claude Code Agentic OS](agents/claude-code-agentic-os.md) | claude-code, agentic-os, skills, memory | Architecture pattern for building an agent OS with shared context, memory layers, and skill orchestration |
 | [Claude Code Multi-Agent Setup](agents/claude-code-multi-agent-setup.md) | claude-code, multi-agent, skills, plugins, subagents | Four extension layers (skills, plugins, subagents, agent teams) for scaling Claude Code |
+| [Top 10 Claude Code Frontend Design Skills, Plugins & CLIs](tools/top-10-claude-code-frontend-design-skills-plugins-clis.md) | claude-code, frontend, design, skills, tools, cli, plugins, ui-ux | 10 tools (Impeccable, SkillUI, Stitch, 21st.dev, Playwright CLI, etc.) to fix Claude Code's AI-slop design weakness |
