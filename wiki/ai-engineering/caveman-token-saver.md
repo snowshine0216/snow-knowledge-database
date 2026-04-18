@@ -13,11 +13,11 @@ Caveman injects a system-level style constraint: **fewer words, same correctness
 
 Three compression tiers:
 
-| Mode | Strategy | Typical savings |
-|------|----------|----------------|
-| **Lite** | Strip pleasantries, keep grammar | Low |
-| **Full** | Drop articles, keyword fragments | ~65% avg |
-| **Ultra** | Maximum compression, telegraphic | Up to 87% |
+| Mode      | Strategy                         | Typical savings |
+| --------- | -------------------------------- | --------------- |
+| **Lite**  | Strip pleasantries, keep grammar | Low             |
+| **Full**  | Drop articles, keyword fragments | ~65% avg        |
+| **Ultra** | Maximum compression, telegraphic | Up to 87%       |
 
 ## Key Numbers
 

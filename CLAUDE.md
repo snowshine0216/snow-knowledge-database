@@ -171,3 +171,24 @@ Key routing rules:
 - **Auto-compilation**: `content-summarizer` skill automatically runs the Wiki Compilation Post-Hook after every summarization — no manual compile step needed for yt-video, medium, and pdf sources
 - **Collision detection**: `scripts/wiki-collision-check.sh <url> <tags>` — outputs `CREATE`, `ENRICH <file>`, or `SKIP`. Called by the post-hook; can also be run manually to check before compiling
 - **Backfill**: run `./scripts/backfill-wiki.sh` to find summarized files not yet compiled to wiki/
+
+### Wiki categorization (which topic folder?)
+
+When compiling a new article, pick the single best-fit folder using this decision order. Stop at the first rule that matches — don't pile topics on.
+
+1. **`wiki/claude/`** — Claude Code, Claude API, Claude products, Anthropic-specific tooling (skills, plugins, HUD, Advisor/Monitor/Managed Agents, Anthropic Labs products, Master Claude sessions). Trigger words: `claude-code`, `anthropic`, `claude`, `mcp` *when the subject is a Claude feature*.
+2. **`wiki/agent-frameworks/`** — Agent frameworks, multi-agent orchestration platforms, agent harnesses, autonomous agent products (Hermes, OpenClaw, CREAO, Eigent/Camel, Ruflo, Open SWE, CashClaw, ARIS, agent-persona libraries). "A thing that runs / orchestrates / defines agents" → here.
+3. **`wiki/ai-engineering/`** — General AI/LLM engineering concepts and patterns not tied to a specific product: harness engineering, prompt/context engineering, training pipelines (State of GPT), autonomous research loops, skill-distillation patterns, VLM+tool patterns, token optimization. The "how you build reliable AI systems" bucket.
+4. **`wiki/rag-and-knowledge/`** — RAG architectures, vectorless retrieval, knowledge bases, personal wikis, second-brain systems, PageIndex-style approaches. Retrieval + knowledge management only.
+5. **`wiki/dev-tools/`** — General productivity/dev tools and integrations **not specific to Claude**: Obsidian, OpenBB, Supermemory, MetaClaw, research skills, AI-tool roundups, browser/finance/memory-layer tools.
+6. **`wiki/learning-and-business/`** — Courses, interviews, career/education, study systems, AI startups, product strategy, industry moat analysis, frontend-design roundups, certifications. The "human-side" bucket.
+
+Courses go to `wiki/courses/` — separate structure, untouched by the topic folders.
+
+Tie-breaker rules:
+- A Claude-specific tool beats `dev-tools/` → goes to `claude/` (e.g. Caveman Token Saver is Claude-specific but its *subject* is prompt compression → `ai-engineering/`; Claude HUD is Claude-specific observability → `claude/`).
+- An agent framework named for Claude (e.g. a Claude-Code multi-agent setup guide) still goes to `claude/` if the article is *about using Claude Code*, not *about the agent framework as a product*.
+- When RAG appears inside a general AI-engineering article, pick `ai-engineering/`; only pick `rag-and-knowledge/` if RAG/retrieval is the article's primary subject.
+- When in genuine doubt between two folders, prefer the smaller one (keeps distribution balanced).
+
+`./scripts/compile.sh` defaults to `ai-engineering` when no category is given — override with the second arg (e.g. `./scripts/compile.sh raw/foo.md claude`).
