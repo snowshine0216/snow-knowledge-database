@@ -6,33 +6,96 @@ source: internal
 
 LLM: read this file first on every query. Find relevant articles by tag or summary, then fetch the file contents.
 
-## Concepts
+## Claude
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
-| [Anthropic 内部：Mythos 模型、100 个原型、Skills 杠杆](concepts/anthropic-internal-100-prototypes-mythos-model-skills.md) | anthropic, claude, claude-cowork, claude-code, ai-agent, mcp, skills, llm, product-design, ai-safety | Felix Rieseberg 专访：Mythos 断层式安全能力、执行成本趋零后 100 个原型并行、Skills=Markdown SOP 出乎意料地有效 |
-| [Eigent AI: Open-Source Cowork and DAG Multi-Agent Architecture](tools/beating-cowork-with-open-source-cowork_-UoxWCsqIa0.md) | eigent, camel-ai, multi-agent, open-source, dag, browser-automation | Camel AI open-sources their Cowork competitor as a 3-tier Electron+FastAPI+DAG multi-agent desktop app after Anthropic's launch |
-| [LLM Knowledge Base](concepts/llm-knowledge-base.md) | llm, pkm, rag, obsidian | Workflow for building personal wikis with LLMs using raw→compile→Q&A pipeline |
-| [Harness Engineering](concepts/harness-engineering.md) | harness-engineering, prompt-engineering, context-engineering, agent | Third paradigm shift in AI engineering: orchestrating reliable agent execution via six-layer architecture |
-| [OpenAI Frontier: Zero-Human-Coding Practice](concepts/openai-frontier-zero-human-coding.md) | harness-engineering, openai, codex, symphony, agent-native-development | OpenAI Frontier 团队 100 万行代码 / 零人工编码 / 合并后 review 的 Harness Engineering 实践，含 Symphony 与 Ghost Library |
-| [Long-Running Agent Harness](concepts/long-running-agent-harness.md) | harness-engineering, ai-agents, long-running-agents, anthropic | Anthropic's blueprint for multi-hour agent tasks using adversarial evaluation and context management |
-| [CREAO: Consumer-Grade Agent Harness](concepts/creao-consumer-agent-harness.md) | ai-agents, agent-harness, consumer-ai, creao, startup, automation | Consumer-grade Agent Harness turning natural language into persistently running agents without coding |
-| [OpenClaw Architecture](concepts/openclaw-architecture.md) | openclaw, ai-agents, architecture, fault-tolerance, agent-loop | Five-layer onion architecture, three-tier Agent Loop, and seven-level fault tolerance for a production multi-platform agent system |
-| [PageIndex](concepts/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
-| [Vectorless RAG](concepts/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
-| [Claude Code Language Benchmark](concepts/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
-| [Wiki LLM Personalization](concepts/wiki-llm-personalization.md) | personalization, pkm, wiki, llm, file-over-app, andrej-karpathy | Four principles for AI personalization via local wiki: explicit, owned, file-based, AI-agnostic |
-| [Nuwa Skill Distillation](concepts/nuwa-skill-distillation.md) | ai-agents, mental-models, distillation, claude-code, skills, persona | 女娲.skill: distill thinkers' mental models into runnable skills — Jobs, Musk, Munger, Feynman, Naval, Taleb, Zhang Xuefeng, X Mentor |
-| [Karpathy on Code Agents and the Loopy Era](concepts/karpathy-loopy-era-ai.md) | ai-agents, code-agents, andrej-karpathy, llm, multi-agent | Workflow shift from writing code to orchestrating agents: parallelism, memory, jagged capabilities, AutoResearch |
-| [State of GPT](concepts/state-of-gpt.md) | llm, gpt, training, rlhf, sft, prompt-engineering, rag, fine-tuning, tool-use, karpathy, transformer | Karpathy's Microsoft Build 2023 talk: four-stage GPT pipeline (pretraining→SFT→RM→RLHF) and prompt engineering techniques for bridging the human-LLM cognitive gap |
-| [Lovart AI Startup Playbook](concepts/lovart-ai-startup-playbook.md) | ai-startup, lovart, product-strategy, founder-playbook, ai-native | Chen Mian's founder playbook: high-value needs, upstream positioning, canvas-first AI-native design, survival realism |
-| [Beyond Likability: Female Agency](concepts/beyond-likability-female-agency.md) | interview, female-agency, rosamund-pike, zhou-yijun, parenting | Zhou Yijun x Rosamund Pike on female authority, raising boys in the algorithm era, empathy as professional strength |
-| [Zhang Xuefeng on Major Selection and Happiness](concepts/zhang-xuefeng-major-selection-happiness.md) | education, career-planning, zhang-xuefeng, gaokao, happiness | Major selection in a saturated economy, gaokao parental anxiety, happiness from impact not comparison |
-| [Hermes Agent vs OpenBB](tools/hermes-agent-vs-openbb.md) | ai-agents, agent-framework, finance, comparison | Comparison: Hermes Agent (agent orchestration) vs OpenBB (financial data platform) — architecture, use cases, tradeoffs |
-| [Nvidia New Moat Strategy](concepts/nvidia-new-moat-strategy.md) | strategy, nvidia, ai-hardware, moat, open-source | Nvidia's shift from chip vendor to AI operating layer via open-source agent platform (NemoClaw/OpenClaw) |
-| [AI 工程化的三种开发范式](concepts/ai-engineering-three-patterns.md) | ai-engineering, rag, agent, agentic-ai, llm, knowledge-base, workflow | RAG、AI Agent、Agentic AI 三种范式的选型逻辑与工程化视角 |
-| [Vision Agent with Segmentation Tool](concepts/vision-agent-with-segmentation-tool.md) | vlm, agent, image-segmentation, grounding, vision-agent, object-detection, multimodal | Pattern for pairing a VLM (planner + reasoner) with a small segmentation model (grounding tool) in a bounded agentic loop to fix counting/localization failures |
-| [LLM API Statelessness](concepts/llm-api-statelessness.md) | llm, api, stateless, context-window, prompt-engineering, context-engineering | Each LLM API call is stateless; chat apps fake memory by replaying history. Long chats drift because the replayed bundle fills the context window |
+| [Anthropic 内部：Mythos 模型、100 个原型、Skills 杠杆](claude/anthropic-internal-100-prototypes-mythos-model-skills.md) | anthropic, claude, claude-cowork, claude-code, ai-agent, mcp, skills, llm, product-design, ai-safety | Felix Rieseberg 专访：Mythos 断层式安全能力、执行成本趋零后 100 个原型并行、Skills=Markdown SOP 出乎意料地有效 |
+| [Claude Code Language Benchmark](claude/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
+| [Claude Code Agentic OS](claude/claude-code-agentic-os.md) | claude-code, agentic-os, skills, memory | Architecture pattern for building an agent OS with shared context, memory layers, and skill orchestration |
+| [Claude Code Multi-Agent Setup](claude/claude-code-multi-agent-setup.md) | claude-code, multi-agent, skills, plugins, subagents | Four extension layers (skills, plugins, subagents, agent teams) for scaling Claude Code |
+| [45 个 Claude Code 神级技巧](claude/45-claude-code-tips.md) | claude-code, workflow, productivity, ai-coding, cli, devops, tdd, mcp | ykdojo 的 45 条实操技巧：状态栏、系统提示裁剪 50%、tmux 自治循环、容器嵌套 Claude、dx 插件 |
+| [Claude Code Tips Collection](claude/claude-code-tips-collection.md) | claude-code, tips, worktree, batch, simplify | Boris Cherny's 42-tip collection covering plan mode, CLAUDE.md, worktrees, and batch workflows |
+| [Claude Code Internals](claude/claude-code-internals.md) | claude-code, agent-runtime, slash-commands, memory, mcp | Agent runtime architecture: commands, memory layers, permissions, multi-agent coordinator |
+| [New Claude Features for Developers — Advisor, Monitor, Managed Agents](claude/claude-advisor-monitor-managed-agents.md) | claude, anthropic, advisor-strategy, monitor-tool, managed-agents, claude-code, claude-api, cost-optimization, agent-infrastructure | Advisor Strategy (small executor escalates to Opus, ~2% higher SWE-bench at ~11% lower cost), Monitor Tool (interrupt-driven background processes in Claude Code), Managed Agents (Anthropic-hosted harness at $0.08/session) |
+| [Claude HUD](claude/claude-hud.md) | claude-code, observability, plugin, statusline | Real-time session visibility plugin for Claude Code: context, tools, subagents, plan usage |
+| [Claude Design by Anthropic Labs](claude/claude-design-anthropic-labs.md) | claude, design, anthropic, prototyping, visual-creation, product-announcement, anthropic-labs | Visual creation tool (Opus 4.7, research preview) generating prototypes, decks, and wireframes with brand-system extraction and Claude Code handoff bundles |
+| [Anthropic Dispatch](claude/anthropic-dispatch.md) | claude, anthropic, dispatch, remote-agent | Phone-to-desktop remote control layer for persistent Claude agent sessions |
+| [Master Claude From Scratch — AI for Everyone, Session 1](claude/master-claude-session-1.md) | claude, anthropic, claude-projects, claude-skills, claude-memory, no-code, beginner, live-stream | 2h non-developer intro: Claude ecosystem (Chat/Code/Cowork), Haiku/Sonnet/Opus picking rule, Projects + Skills + Memory, skill × connector composition (Gmail, web search) |
+
+## Agent Frameworks
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [Hermes Agent](agent-frameworks/hermes-agent.md) | ai-agents, agent-framework, python, orchestration | Configurable Python-first agent framework with multi-backend LLM support from Nous Research |
+| [把23个Hermes Agent从GPT切到GLM-5.1的实战经验](agent-frameworks/switched-23-hermes-agents-to-glm-5-1.md) | ai-agents, glm, hermes, multi-agent, llm-comparison, telegram, rate-limiting, zhipu | 5分钟切换23个Agent、成本砍半；GLM-5.1执行力强但多Agent并发触发rate limit是硬伤 |
+| [OpenClaw Architecture](agent-frameworks/openclaw-architecture.md) | openclaw, ai-agents, architecture, fault-tolerance, agent-loop | Five-layer onion architecture, three-tier Agent Loop, and seven-level fault tolerance for a production multi-platform agent system |
+| [CREAO: Consumer-Grade Agent Harness](agent-frameworks/creao-consumer-agent-harness.md) | ai-agents, agent-harness, consumer-ai, creao, startup, automation | Consumer-grade Agent Harness turning natural language into persistently running agents without coding |
+| [Long-Running Agent Harness](agent-frameworks/long-running-agent-harness.md) | harness-engineering, ai-agents, long-running-agents, anthropic | Anthropic's blueprint for multi-hour agent tasks using adversarial evaluation and context management |
+| [Agency Agents ZH](agent-frameworks/agency-agents-zh.md) | ai-agents, prompt-library, multi-agent, localization | 186 Chinese-localized AI agent personas with install/convert scripts for multiple agent IDEs |
+| [Eigent AI: Open-Source Cowork and DAG Multi-Agent Architecture](agent-frameworks/beating-cowork-with-open-source-cowork_-UoxWCsqIa0.md) | eigent, camel-ai, multi-agent, open-source, dag, browser-automation | Camel AI open-sources their Cowork competitor as a 3-tier Electron+FastAPI+DAG multi-agent desktop app after Anthropic's launch |
+| [Open SWE](agent-frameworks/open-swe.md) | ai-agents, coding-agent, langgraph, github | Open-source internal coding agent framework triggered from Slack, Linear, and GitHub |
+| [Ruflo](agent-frameworks/ruflo.md) | ai-agents, orchestration, mcp, multi-agent | TypeScript-based multi-agent orchestration platform with CLI, MCP, hooks, and security layers |
+| [CashClaw](agent-frameworks/cashclaw.md) | ai-agents, autonomous-agent, marketplace, openclaw | Autonomous work agent for paid task execution on the Moltlaunch onchain marketplace |
+| [ARIS Research Framework](agent-frameworks/aris-research-framework.md) | claude-code, ai-research, automation, multi-agent | Workflow-first autonomous research pipeline with cross-model adversarial review |
+
+## AI Engineering
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [Harness Engineering](ai-engineering/harness-engineering.md) | harness-engineering, prompt-engineering, context-engineering, agent | Third paradigm shift in AI engineering: orchestrating reliable agent execution via six-layer architecture |
+| [State of GPT](ai-engineering/state-of-gpt.md) | llm, gpt, training, rlhf, sft, prompt-engineering, rag, fine-tuning, tool-use, karpathy, transformer | Karpathy's Microsoft Build 2023 talk: four-stage GPT pipeline (pretraining→SFT→RM→RLHF) and prompt engineering techniques for bridging the human-LLM cognitive gap |
+| [LLM API Statelessness](ai-engineering/llm-api-statelessness.md) | llm, api, stateless, context-window, prompt-engineering, context-engineering | Each LLM API call is stateless; chat apps fake memory by replaying history. Long chats drift because the replayed bundle fills the context window |
+| [Nuwa Skill Distillation](ai-engineering/nuwa-skill-distillation.md) | ai-agents, mental-models, distillation, claude-code, skills, persona | 女娲.skill: distill thinkers' mental models into runnable skills — Jobs, Musk, Munger, Feynman, Naval, Taleb, Zhang Xuefeng, X Mentor |
+| [AI 工程化的三种开发范式](ai-engineering/ai-engineering-three-patterns.md) | ai-engineering, rag, agent, agentic-ai, llm, knowledge-base, workflow | RAG、AI Agent、Agentic AI 三种范式的选型逻辑与工程化视角 |
+| [OpenAI Frontier: Zero-Human-Coding Practice](ai-engineering/openai-frontier-zero-human-coding.md) | harness-engineering, openai, codex, symphony, agent-native-development | OpenAI Frontier 团队 100 万行代码 / 零人工编码 / 合并后 review 的 Harness Engineering 实践，含 Symphony 与 Ghost Library |
+| [AutoResearch (Karpathy's Autonomous Experiment Loop)](ai-engineering/autoresearch-karpathy.md) | autoresearch, andrej-karpathy, ai-agents, recursive-self-improvement, claude-code, codex, prompt-engineering, mlops, automation, david-ondrej | Three-file loop (`program.md`/`train.py`/`prepare.py`); agent edits one file, never the metric; ~100 overnight experiments; demo took portfolio site 50 ms→25 ms in 4 min |
+| [Karpathy on Code Agents and the Loopy Era](ai-engineering/karpathy-loopy-era-ai.md) | ai-agents, code-agents, andrej-karpathy, llm, multi-agent | Workflow shift from writing code to orchestrating agents: parallelism, memory, jagged capabilities, AutoResearch |
+| [Vision Agent with Segmentation Tool](ai-engineering/vision-agent-with-segmentation-tool.md) | vlm, agent, image-segmentation, grounding, vision-agent, object-detection, multimodal | Pattern for pairing a VLM (planner + reasoner) with a small segmentation model (grounding tool) in a bounded agentic loop to fix counting/localization failures |
+| [Caveman Token Saver](ai-engineering/caveman-token-saver.md) | claude-code, token-optimization, caveman, codex, prompt-compression | Output token compression plugin (22–87% savings) via terse response style for Claude Code/Codex |
+
+## RAG and Knowledge
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [LLM Knowledge Base](rag-and-knowledge/llm-knowledge-base.md) | llm, pkm, rag, obsidian | Workflow for building personal wikis with LLMs using raw→compile→Q&A pipeline |
+| [Vectorless RAG](rag-and-knowledge/vectorless-rag.md) | rag, llm, retrieval, vectorless-rag, vector-db | Retrieval architecture using LLM reasoning over document trees instead of embedding similarity |
+| [PageIndex](rag-and-knowledge/pageindex.md) | rag, llm, pageindex, retrieval, hierarchical-index | LLM-driven hierarchical tree index replacing vector search for structured document RAG |
+| [Wiki LLM Personalization](rag-and-knowledge/wiki-llm-personalization.md) | personalization, pkm, wiki, llm, file-over-app, andrej-karpathy | Four principles for AI personalization via local wiki: explicit, owned, file-based, AI-agnostic |
+| [GBrain: YC CEO 开源的 AI Agent 第二大脑系统](rag-and-knowledge/yc-ceo-opensource-gbrain-second-brain.md) | gbrain, second-brain, ai-agent, knowledge-base, mcp, memory, rag, garry-tan, yc | 读-写循环 + 两段页面结构 + RRF 混合检索 + 30 个 MCP 工具，让 AI agent 拥有持续积累的知识底座 |
+
+## Dev Tools
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [Hermes Agent vs OpenBB](dev-tools/hermes-agent-vs-openbb.md) | ai-agents, agent-framework, finance, comparison | Comparison: Hermes Agent (agent orchestration) vs OpenBB (financial data platform) — architecture, use cases, tradeoffs |
+| [OpenBB](dev-tools/openbb.md) | finance, data-platform, python, analytics | Open-source financial data and analytics platform with provider-agnostic architecture |
+| [Obsidian Usage](dev-tools/obsidian-usage.md) | obsidian, note-taking, knowledge-management, sync | Practical Obsidian setup patterns: sync, AI integration, mobile, export, and knowledge graph |
+| [Supermemory](dev-tools/supermemory.md) | memory, rag, mcp, ai-agents, personalization | Persistent memory and context layer for AI systems via API, SDKs, and MCP integrations |
+| [MetaClaw](dev-tools/metaclaw.md) | ai-agents, meta-learning, continual-learning, openclaw | Proxy-based meta-learning middleware that evolves agent skills through session summaries and RL |
+| [Last30Days Skill](dev-tools/last30days-skill.md) | claude-code, research-skill, trend-analysis, recency | Research skill aggregating 30-day social/web discussions into citation-backed outputs |
+| [AI Tools Roundup](dev-tools/ai-tools-roundup.md) | ai-tools, google-ai-studio, replicate, voice-writing | Reference overview of Google AI Studio, Replicate, and Rhyme.ink |
+
+## Learning and Business
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [Best ML Courses 2026 (Marina Wyss's Top-5 Ranking)](learning-and-business/best-ml-courses-2026.md) | machine-learning, ml-courses, mlops, andrew-ng, datacamp, made-with-ml, ml-zoomcamp, course-review, ml-engineering, marina-wyss | 50+ courses ranked across 4 axes; Andrew Ng (8.0) last for zero MLOps, ML Zoomcamp (8.8) wins as only one covering both sides; meta-lesson: stack two courses |
+| [Learning Retention System (Active Recall + Spacing + Interleaving + Walk-and-Talk)](learning-and-business/learning-retention-system.md) | learning-to-learn, study-skills, active-recall, spaced-repetition, interleaving, feynman-technique, cognitive-science, retention, marina-wyss | Marina Wyss's 4-method study system grounded in cognitive science: pretest/active-recall (~80% vs ~34% retention), spacing (+25% compounding), interleaving (63% vs 20%), walk-and-talk dual coding |
+| [Coding Interviews 2026: The Fractured Landscape](learning-and-business/coding-interviews-2026.md) | coding-interviews, hiring, ai-coding, leetcode, claude-code, codex, software-engineering, ml-engineering, t-shaped-engineer, marina-wyss | Pragmatic Summit synthesis: 4 incompatible interview modes (AI-banned LeetCode, Meta-style AI-native two-stage, GitHub-as-interview, ML-from-scratch); highest-ROI tactic is asking the recruiter |
+| [Beyond Likability: Female Agency](learning-and-business/beyond-likability-female-agency.md) | interview, female-agency, rosamund-pike, zhou-yijun, parenting | Zhou Yijun x Rosamund Pike on female authority, raising boys in the algorithm era, empathy as professional strength |
+| [Zhang Xuefeng on Major Selection and Happiness](learning-and-business/zhang-xuefeng-major-selection-happiness.md) | education, career-planning, zhang-xuefeng, gaokao, happiness | Major selection in a saturated economy, gaokao parental anxiety, happiness from impact not comparison |
+| [Claude Certified Architect](learning-and-business/claude-certified-architect.md) | claude, certification, cca, anthropic, mcp | Anthropic's CCA Foundations exam: 5 domains, anti-patterns, and study guide |
+| [Lovart AI Startup Playbook](learning-and-business/lovart-ai-startup-playbook.md) | ai-startup, lovart, product-strategy, founder-playbook, ai-native | Chen Mian's founder playbook: high-value needs, upstream positioning, canvas-first AI-native design, survival realism |
+| [Nvidia New Moat Strategy](learning-and-business/nvidia-new-moat-strategy.md) | strategy, nvidia, ai-hardware, moat, open-source | Nvidia's shift from chip vendor to AI operating layer via open-source agent platform (NemoClaw/OpenClaw) |
+| [Top 10 Claude Code Frontend Design Skills, Plugins & CLIs](learning-and-business/top-10-claude-code-frontend-design-skills-plugins-clis.md) | claude-code, frontend, design, skills, tools, cli, plugins, ui-ux | 10 tools (Impeccable, SkillUI, Stitch, 21st.dev, Playwright CLI, etc.) to fix Claude Code's AI-slop design weakness |
+
+## Courses
+
+### AI Engineering Training Camp (selected livestreams + modules)
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
 | [AI 工程化实战问答：微调、延迟与 LangChain 迁移](courses/ai-engineering-training-camp/livestreams/003-second-qa-session.md) | fine-tuning, lora, intent-recognition, latency, langchain, observability, langchain-migration, agent | LoRA 数据要求、意图识别延迟拆解、LangFuse 可观测性、LangChain 0.x→1.0 迁移 |
 | [LoRA 训练诊断、模型评估与 AI 中台稳定层设计](courses/ai-engineering-training-camp/livestreams/004-third-qa-session.md) | fine-tuning, lora, model-evaluation, rouge, bleu, llm-as-judge, agent-security, ai-platform, rag | 训练曲线四象限诊断、LLM-as-Judge 评测、Agent 安全双重威胁、AI 中台稳定层 vs 易变层 |
 | [Agent 软性逻辑、槽位填充与评估框架](courses/ai-engineering-training-camp/livestreams/005-fourth-qa-session.md) | agent, intent-recognition, slot-filling, human-in-the-loop, mcp, multimodal, industrial-ai, agent-evaluation | 软硬逻辑对照、槽位填充机制、Human-in-the-Loop 实现、agent 业务层 + 技术层评估 |
@@ -97,7 +160,6 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Agent in Multimodal Reasoning — Typical Scenarios](courses/ai-engineering-training-camp/module-7-memory-advanced/071-agent-multimodal-reasoning.md) | agent, multimodal, rpa, pyautogui, automation, llm, workflow, tool-use | Three multimodal Agent scenarios (text→image, image→text, RPA); PyAutoGUI vision-feedback loop; RPA tool connecting to Dify via HTTP for LLM-augmented GUI automation |
 | [Mobile LLM Deployment](courses/ai-engineering-training-camp/module-7-memory-advanced/072-mobile-llm-deployment.md) | mobile-llm, edge-computing, quantization, model-compression, npu, onnx, llama-cpp | Platform selection, format choice (GGUF/ONNX/TFLite/CoreML), and three compression techniques (pruning, quantization, distillation) for mobile/edge LLM deployment |
 | [Agent Autonomous Learning: Reinforcement Learning (Part 1)](courses/ai-engineering-training-camp/module-7-memory-advanced/073-agent-reinforcement-learning-1.md) | reinforcement-learning, agent, q-learning, rlhf, llm, autonomous-learning | RL core loop, Q-learning via CartPole demo, and connection to RLHF/PPO/GRPO for LLM fine-tuning |
-| [Agent Autonomous Learning: Reinforcement Learning (Part 2)](concepts/074-agent-reinforcement-learning-2.md) | reinforcement-learning, agent, rlhf, ppo, agent-lightning | Microsoft's Agent Lightning framework applies RL to auto-optimize Agent prompts using APO and MDP-based 0-to-1 reward scoring, replacing human RLHF feedback. |
 | [Docker Containerization and Image Build Workflow (Part 1)](courses/ai-engineering-training-camp/module-8-deployment/075-docker-containerization-1.md) | docker, fastapi, uvicorn, langgraph, deployment | FastAPI + Uvicorn containerization stack for AI model delivery, covering the three key deployment challenges and code modularization best practices. |
 | [Docker Containerization and Image Build Workflow (Part 2)](courses/ai-engineering-training-camp/module-8-deployment/076-docker-containerization-2.md) | docker, docker-compose, dify, deployment | Dify's multi-container production architecture as a reference case; Docker Compose management and early-version strategy for reading large open-source codebases. |
 | [Building a Basic Model Service with FastAPI](courses/ai-engineering-training-camp/module-8-deployment/077-fastapi-model-service.md) | fastapi, ollama, vllm, model-service, streaming | Wrapping Ollama/VLLM/Transformer models with FastAPI to expose standardized HTTP interfaces with streaming support and health checks. |
@@ -110,7 +172,6 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Python Parallel Mechanisms Part 2](courses/ai-engineering-training-camp/module-9-async-fastapi/084-parallel-mechanisms-2.md) | python, async, concurrency, multiprocessing, cprofile, pyspy | cProfile and py-spy profiling tools; process pool + coroutine hybrid architecture for mixed CPU/IO workloads |
 | [FastAPI Deep Integration Part 1](courses/ai-engineering-training-camp/module-9-async-fastapi/085-fastapi-deep-integration-1.md) | fastapi, pydantic, websocket, redis, async | RESTful design principles, Pydantic LLM output validation with JSON Schema, WebSocket streaming, Redis exact-match caching |
 | [FastAPI Deep Integration Part 2](courses/ai-engineering-training-camp/module-9-async-fastapi/086-fastapi-deep-integration-2.md) | asyncpg, sqlalchemy, orm, token-bucket, redis, postgresql | asyncpg vs SQLAlchemy ORM for async DB access; token bucket rate limiting middleware; fail-fast exception strategy |
-| [LangChain Async Advanced Part 1](concepts/087-langchain-async-vectordb-gpu-1.md) | langchain, async, lcel, runnable, callback, langsmith | Sync-to-async migration for LCEL Runnable chains; asyncio.gather batch concurrency; LangChain version strategy (0.x/LangGraph/1.0); Callback mechanism and LangSmith tracing |
 | [LangChain Async Advanced Part 2](courses/ai-engineering-training-camp/module-9-async-fastapi/088-langchain-async-vectordb-gpu-2.md) | langgraph, async, timeout, retry, faiss, gpu, cuda | LangGraph async node timeout decorators; exponential backoff + jitter retry; Faiss GPU acceleration with automatic CPU fallback |
 | [Capstone Project Background](courses/ai-engineering-training-camp/module-10-final-project/089-project-background.md) | ai-engineering, capstone-project, customer-service, rag | Introduces the AI customer service capstone project: LLM product development philosophy, vertical-first strategy, and analogous scenario prototyping. |
 | [Project Requirements and Prototype Design Part 1](courses/ai-engineering-training-camp/module-10-final-project/090-project-requirements-prototype-1.md) | ai-engineering, product-requirements, prototype, rag, tool-calling | Requirements analysis for the AI customer service system: two core pillars (RAG + Tool Calling), non-functional specs, and iterative version planning. |
@@ -123,41 +184,6 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Deep Waters of Vertical Domain AI (Part 2)](courses/ai-engineering-training-camp/module-11-production/097-vertical-domain-deep-water-2.md) | vertical-domain, medical, guardrail, human-in-the-loop, multi-agent | Healthcare AI challenges: ontology mapping for dirty terminology data, two-stage guardrail system (pre/post-generation), and Human-in-the-Loop pre-consultation architecture. |
 | [AI Ethics, Data Compliance, and Governance](courses/ai-engineering-training-camp/module-11-production/098-ai-ethics-compliance-governance.md) | ai-ethics, data-compliance, governance, privacy, fairness, security, llm | Fairness/bias detection, PII/PHI de-identification pipelines, differential privacy, federated learning, prompt injection defense, and continuous governance frameworks for AI systems. |
 | [Dify 二次开发实践](courses/ai-engineering-training-camp/module-11-production/099-dify-secondary-development.md) | dify, secondary-development, plugin, mcp, external-knowledge-base, langfuse, nginx, postgresql | Decision tree for Dify extension — MCP → API → external knowledge base → plugin → Dify-Plus sidecar admin. Only modify core Dify code as last resort; Dify-Plus's NGX + Go Admin Server pattern (zero API code changes) is the reference for enterprise secondary development. |
-| [把23个Hermes Agent从GPT切到GLM-5.1的实战经验](agents/switched-23-hermes-agents-to-glm-5-1.md) | ai-agents, glm, hermes, multi-agent, llm-comparison, telegram, rate-limiting, zhipu | 5分钟切换23个Agent、成本砍半；GLM-5.1执行力强但多Agent并发触发rate limit是硬伤 |
-| [Learning Retention System (Active Recall + Spacing + Interleaving + Walk-and-Talk)](concepts/learning-retention-system.md) | learning-to-learn, study-skills, active-recall, spaced-repetition, interleaving, feynman-technique, cognitive-science, retention, marina-wyss | Marina Wyss's 4-method study system grounded in cognitive science: pretest/active-recall (~80% vs ~34% retention), spacing (+25% compounding), interleaving (63% vs 20%), walk-and-talk dual coding |
-| [Best ML Courses 2026 (Marina Wyss's Top-5 Ranking)](concepts/best-ml-courses-2026.md) | machine-learning, ml-courses, mlops, andrew-ng, datacamp, made-with-ml, ml-zoomcamp, course-review, ml-engineering, marina-wyss | 50+ courses ranked across 4 axes; Andrew Ng (8.0) last for zero MLOps, ML Zoomcamp (8.8) wins as only one covering both sides; meta-lesson: stack two courses |
-| [Coding Interviews 2026: The Fractured Landscape](concepts/coding-interviews-2026.md) | coding-interviews, hiring, ai-coding, leetcode, claude-code, codex, software-engineering, ml-engineering, t-shaped-engineer, marina-wyss | Pragmatic Summit synthesis: 4 incompatible interview modes (AI-banned LeetCode, Meta-style AI-native two-stage, GitHub-as-interview, ML-from-scratch); highest-ROI tactic is asking the recruiter |
-| [AutoResearch (Karpathy's Autonomous Experiment Loop)](concepts/autoresearch-karpathy.md) | autoresearch, andrej-karpathy, ai-agents, recursive-self-improvement, claude-code, codex, prompt-engineering, mlops, automation, david-ondrej | Three-file loop (`program.md`/`train.py`/`prepare.py`); agent edits one file, never the metric; ~100 overnight experiments; demo took portfolio site 50 ms→25 ms in 4 min |
-
-## Tools
-
-| File | Tags | One-line summary |
-|------|------|-----------------|
-| [Obsidian Usage](tools/obsidian-usage.md) | obsidian, note-taking, knowledge-management, sync | Practical Obsidian setup patterns: sync, AI integration, mobile, export, and knowledge graph |
-| [AI Tools Roundup](tools/ai-tools-roundup.md) | ai-tools, google-ai-studio, replicate, voice-writing | Reference overview of Google AI Studio, Replicate, and Rhyme.ink |
-| [Anthropic Dispatch](tools/anthropic-dispatch.md) | claude, anthropic, dispatch, remote-agent | Phone-to-desktop remote control layer for persistent Claude agent sessions |
-| [Claude Certified Architect](tools/claude-certified-architect.md) | claude, certification, cca, anthropic, mcp | Anthropic's CCA Foundations exam: 5 domains, anti-patterns, and study guide |
-| [Claude Code Internals](tools/claude-code-internals.md) | claude-code, agent-runtime, slash-commands, memory, mcp | Agent runtime architecture: commands, memory layers, permissions, multi-agent coordinator |
-| [Claude Code Tips Collection](tools/claude-code-tips-collection.md) | claude-code, tips, worktree, batch, simplify | Boris Cherny's 42-tip collection covering plan mode, CLAUDE.md, worktrees, and batch workflows |
-| [45 个 Claude Code 神级技巧](tools/45-claude-code-tips.md) | claude-code, workflow, productivity, ai-coding, cli, devops, tdd, mcp | ykdojo 的 45 条实操技巧：状态栏、系统提示裁剪 50%、tmux 自治循环、容器嵌套 Claude、dx 插件 |
-| [Claude HUD](tools/claude-hud.md) | claude-code, observability, plugin, statusline | Real-time session visibility plugin for Claude Code: context, tools, subagents, plan usage |
-| [Caveman Token Saver](tools/caveman-token-saver.md) | claude-code, token-optimization, caveman, codex, prompt-compression | Output token compression plugin (22–87% savings) via terse response style for Claude Code/Codex |
-| [ARIS Research Framework](tools/aris-research-framework.md) | claude-code, ai-research, automation, multi-agent | Workflow-first autonomous research pipeline with cross-model adversarial review |
-| [Agency Agents ZH](tools/agency-agents-zh.md) | ai-agents, prompt-library, multi-agent, localization | 186 Chinese-localized AI agent personas with install/convert scripts for multiple agent IDEs |
-| [Open SWE](tools/open-swe.md) | ai-agents, coding-agent, langgraph, github | Open-source internal coding agent framework triggered from Slack, Linear, and GitHub |
-| [Hermes Agent](agents/hermes-agent.md) | ai-agents, agent-framework, python, orchestration | Configurable Python-first agent framework with multi-backend LLM support from Nous Research |
-| [OpenBB](tools/openbb.md) | finance, data-platform, python, analytics | Open-source financial data and analytics platform with provider-agnostic architecture |
-| [Last30Days Skill](tools/last30days-skill.md) | claude-code, research-skill, trend-analysis, recency | Research skill aggregating 30-day social/web discussions into citation-backed outputs |
-| [Ruflo](tools/ruflo.md) | ai-agents, orchestration, mcp, multi-agent | TypeScript-based multi-agent orchestration platform with CLI, MCP, hooks, and security layers |
-| [Supermemory](tools/supermemory.md) | memory, rag, mcp, ai-agents, personalization | Persistent memory and context layer for AI systems via API, SDKs, and MCP integrations |
-| [CashClaw](tools/cashclaw.md) | ai-agents, autonomous-agent, marketplace, openclaw | Autonomous work agent for paid task execution on the Moltlaunch onchain marketplace |
-| [MetaClaw](tools/metaclaw.md) | ai-agents, meta-learning, continual-learning, openclaw | Proxy-based meta-learning middleware that evolves agent skills through session summaries and RL |
-| [GBrain: YC CEO 开源的 AI Agent 第二大脑系统](tools/yc-ceo-opensource-gbrain-second-brain.md) | gbrain, second-brain, ai-agent, knowledge-base, mcp, memory, rag, garry-tan, yc | 读-写循环 + 两段页面结构 + RRF 混合检索 + 30 个 MCP 工具，让 AI agent 拥有持续积累的知识底座 |
-| [Master Claude From Scratch — AI for Everyone, Session 1](tools/master-claude-session-1.md) | claude, anthropic, claude-projects, claude-skills, claude-memory, no-code, beginner, live-stream | 2h non-developer intro: Claude ecosystem (Chat/Code/Cowork), Haiku/Sonnet/Opus picking rule, Projects + Skills + Memory, skill × connector composition (Gmail, web search) |
-| [New Claude Features for Developers — Advisor, Monitor, Managed Agents](tools/claude-advisor-monitor-managed-agents.md) | claude, anthropic, advisor-strategy, monitor-tool, managed-agents, claude-code, claude-api, cost-optimization, agent-infrastructure | Advisor Strategy (small executor escalates to Opus, ~2% higher SWE-bench at ~11% lower cost), Monitor Tool (interrupt-driven background processes in Claude Code), Managed Agents (Anthropic-hosted harness at $0.08/session) |
-| [Claude Design by Anthropic Labs](tools/claude-design-anthropic-labs.md) | claude, design, anthropic, prototyping, visual-creation, product-announcement, anthropic-labs | Visual creation tool (Opus 4.7, research preview) generating prototypes, decks, and wireframes with brand-system extraction and Claude Code handoff bundles |
-
-## Courses
 
 ### Karpathy Zero to Hero (7 chapters)
 
@@ -305,11 +331,3 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [12: ClawHub Marketplace](courses/mastering-openclaw/013-openclaw-clawhub.md) | openclaw, clawhub, skills, marketplace, search-strategy, quality-filter | 1.3 万 Skills 中 20% 优质，需用开发者术语搜索，Stars+Downloads 双高为可靠筛选信号 |
 | [13: Office Skills Top 10](courses/mastering-openclaw/014-openclaw-office-skills.md) | openclaw, skills, office-productivity, workflow-automation, clawhub | 10 类高频通用办公 Skill 精选，优先装 Google Search+Summarizer+Git，Skill 组合解锁自动化工作流 |
 | [14: Config File — AID × KTV](courses/mastering-openclaw/015-openclaw-config-file.md) | openclaw, system-prompt, configuration, persona, ai-agent, prompt-engineering | AID（身份/能力/指令）+ KTV（知识/任务/价值）框架，从工具使用者升级为工具构建者 |
-
-## Workflows — Other
-
-| File | Tags | One-line summary |
-|------|------|-----------------|
-| [Claude Code Agentic OS](agents/claude-code-agentic-os.md) | claude-code, agentic-os, skills, memory | Architecture pattern for building an agent OS with shared context, memory layers, and skill orchestration |
-| [Claude Code Multi-Agent Setup](agents/claude-code-multi-agent-setup.md) | claude-code, multi-agent, skills, plugins, subagents | Four extension layers (skills, plugins, subagents, agent teams) for scaling Claude Code |
-| [Top 10 Claude Code Frontend Design Skills, Plugins & CLIs](tools/top-10-claude-code-frontend-design-skills-plugins-clis.md) | claude-code, frontend, design, skills, tools, cli, plugins, ui-ux | 10 tools (Impeccable, SkillUI, Stitch, 21st.dev, Playwright CLI, etc.) to fix Claude Code's AI-slop design weakness |

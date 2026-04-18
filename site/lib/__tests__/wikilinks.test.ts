@@ -14,6 +14,7 @@ function makeIndex(slugs: string[]): WikiIndex {
       slug,
       title: slug,
       category: 'ai-engineering',
+      subfolder: null,
       tags: [],
       source: '',
       content: '',
