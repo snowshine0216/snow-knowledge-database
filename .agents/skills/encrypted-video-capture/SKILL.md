@@ -71,6 +71,23 @@ Required env vars (with defaults):
 - `OUTPUT_DIR` — default: `courses/` relative to cwd
 - `ASR_PROVIDER` — default: `openai` (uses OpenRouter when `OPENROUTER_API_KEY` is set, mirrors yt-video-summarizer)
 - `BLACKHOLE_DEVICE` — auto-detected by preflight; override if needed
+- `EVC_TMP` — default: `./tmp/evc` relative to cwd (project-local, persistent across reboots). **Never use `/tmp/`** — macOS clears `/tmp/` aggressively, and extended transcription jobs lose their audio mid-flight.
+
+### 0c. Resolve Project-Local TMP Directory
+
+All per-session artifacts (audio files, cookies, readiness markers, streaming transcripts) MUST live under `$EVC_TMP` — a project-relative directory, not the system `/tmp/`. `/tmp/` is ephemeral on macOS (cleared on reboot and periodically by the OS) and has caused data loss across long-running transcription jobs.
+
+```bash
+# Resolve project root (fallback to cwd if not in a git repo)
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+EVC_TMP="${EVC_TMP:-$REPO_ROOT/tmp/evc}"
+mkdir -p "$EVC_TMP"
+echo "INFO: EVC_TMP=$EVC_TMP"
+# Ensure ./tmp/ is gitignored so artifacts don't leak into commits
+if ! grep -qE '^/?tmp/?$' "$REPO_ROOT/.gitignore" 2>/dev/null; then
+  echo "WARNING: tmp/ is not in $REPO_ROOT/.gitignore — consider adding it."
+fi
+```
 
 OpenRouter transcription setup (same as yt-video-summarizer):
 - `OPENROUTER_API_KEY` — required for OpenRouter ASR path
@@ -86,7 +103,7 @@ Simplified Chinese output:
 ### 1. Lock File Check
 
 ```bash
-LOCK_FILE="/tmp/encrypted-video-capture.lock"
+LOCK_FILE="$EVC_TMP/encrypted-video-capture.lock"
 SESSION_ID="$(date +%s)-$$"
 
 if [ -f "$LOCK_FILE" ]; then
@@ -105,11 +122,11 @@ Set up cleanup trap (runs on EXIT, SIGINT, SIGTERM):
 ```bash
 cleanup() {
   rm -f "$LOCK_FILE"
-  rm -f "/tmp/evc-cookies-${SESSION_ID}.txt"
-  rm -f "/tmp/evc-ffmpeg-ready-${SESSION_ID}"
-  rm -f "/tmp/evc-ffmpeg-${SESSION_ID}.pid"
-  rm -f "/tmp/evc-video-ended-${SESSION_ID}"
-  rm -f "/tmp/evc-prog.tmp"
+  rm -f "$EVC_TMP/cookies-${SESSION_ID}.txt"
+  rm -f "$EVC_TMP/ffmpeg-ready-${SESSION_ID}"
+  rm -f "$EVC_TMP/ffmpeg-${SESSION_ID}.pid"
+  rm -f "$EVC_TMP/video-ended-${SESSION_ID}"
+  rm -f "$EVC_TMP/prog.tmp"
 }
 trap cleanup EXIT INT TERM
 ```
@@ -136,7 +153,7 @@ fi
 
 Export Chrome cookies to a temp file (600 perms):
 ```bash
-COOKIE_FILE="/tmp/evc-cookies-${SESSION_ID}.txt"
+COOKIE_FILE="$EVC_TMP/cookies-${SESSION_ID}.txt"
 touch "$COOKIE_FILE" && chmod 600 "$COOKIE_FILE"
 yt-dlp --cookies-from-browser "${DEFAULT_BROWSER:-chrome}" --cookies "$COOKIE_FILE" \
   --skip-download "$COURSE_URL" 2>/dev/null || true
@@ -320,13 +337,13 @@ Update progress to `recording`:
 ```bash
 jq --arg idx "$IDX" --arg title "$SAFE_TITLE" \
   '.lectures[$idx] = {status: "recording", title: $title, retries: (.lectures[$idx].retries // 0)}' \
-  "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
+  "$PROGRESS_FILE" > $EVC_TMP/prog.tmp && mv $EVC_TMP/prog.tmp "$PROGRESS_FILE"
 ```
 
 #### 7c. yt-dlp Probe (Direct Download Attempt)
 
 ```bash
-AUDIO_TMP_DIR="/tmp/evc-audio/${COURSE_NAME}"
+AUDIO_TMP_DIR="$EVC_TMP/audio/${COURSE_NAME}"
 mkdir -p "$AUDIO_TMP_DIR"
 YTDLP_AUDIO=""
 if timeout 15s yt-dlp --simulate --cookies "$COOKIE_FILE" "$LECTURE_URL" 2>/dev/null; then
@@ -355,9 +372,9 @@ else
 fi
 ```
 
-Start recording in background. Audio is stored under `/tmp/evc-audio/<COURSE_NAME>/` so temp files never land in the output repo:
+Start recording in background. Audio is stored under `$EVC_TMP/audio/<COURSE_NAME>/` so temp files never land in the output repo:
 ```bash
-AUDIO_TMP_DIR="/tmp/evc-audio/${COURSE_NAME}"
+AUDIO_TMP_DIR="$EVC_TMP/audio/${COURSE_NAME}"
 mkdir -p "$AUDIO_TMP_DIR"
 WAV_FILE="${AUDIO_TMP_DIR}/tmp_${IDX}.wav"
 bash "$(dirname "$0")/scripts/record-audio.sh" \
@@ -367,7 +384,7 @@ RECORD_PID=$!
 
 Wait for the ffmpeg ready signal (max 15s):
 ```bash
-READY_FILE="/tmp/evc-ffmpeg-ready-${SESSION_ID}"
+READY_FILE="$EVC_TMP/ffmpeg-ready-${SESSION_ID}"
 WAIT=0
 until [ -f "$READY_FILE" ] || [ $WAIT -ge 15 ]; do sleep 1; WAIT=$((WAIT+1)); done
 if [ ! -f "$READY_FILE" ]; then
@@ -382,7 +399,7 @@ Start the streaming ASR preview in background immediately after ffmpeg is ready.
 It tails the growing WAV independently and writes JSONL chunks to a session log.
 
 ```bash
-TRANSCRIPT_LOG="/tmp/evc-transcript-${SESSION_ID}.jsonl"
+TRANSCRIPT_LOG="$EVC_TMP/transcript-${SESSION_ID}.jsonl"
 node "$(dirname "$0")/scripts/streaming-asr.mjs" \
   --wav "$WAV_FILE" \
   --session-id "$SESSION_ID" &
@@ -402,7 +419,7 @@ PLAYBACK_SPEED="$PLAYBACK_SPEED" node "$(dirname "$0")/playwright/runner.mjs" \
 
 Wait for video-ended marker (poll 1s; max WALL_TIMEOUT):
 ```bash
-ENDED_FILE="/tmp/evc-video-ended-${SESSION_ID}"
+ENDED_FILE="$EVC_TMP/video-ended-${SESSION_ID}"
 ELAPSED=0
 until [ -f "$ENDED_FILE" ] || [ $ELAPSED -ge "$WALL_TIMEOUT" ]; do
   sleep 1; ELAPSED=$((ELAPSED+1))
@@ -445,7 +462,7 @@ fi
 Update progress to `transcribing`:
 ```bash
 jq --arg idx "$IDX" '.lectures[$idx].status = "transcribing"' \
-  "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
+  "$PROGRESS_FILE" > $EVC_TMP/prog.tmp && mv $EVC_TMP/prog.tmp "$PROGRESS_FILE"
 ```
 
 Check streaming ASR coverage before falling back to batch:
@@ -470,7 +487,7 @@ fi
 If streaming coverage < 80%, fall back to batch ASR via OpenRouter (same path as yt-video-summarizer):
 ```bash
 if [ -z "$STREAMING_TRANSCRIPT" ]; then
-  ASR_OUT_DIR="/tmp/evc-audio/${COURSE_NAME}/asr_${IDX}"
+  ASR_OUT_DIR="$EVC_TMP/audio/${COURSE_NAME}/asr_${IDX}"
   # Use OpenRouter for transcription when OPENROUTER_API_KEY is set (mirrors yt-video-summarizer)
   # Set ASR_PROVIDER=openai in .env to force OpenRouter; auto falls back to faster-whisper first.
   python3 "$(dirname "$0")/../../yt-video-summarizer/scripts/extract_video_context.py" \
@@ -481,82 +498,152 @@ if [ -z "$STREAMING_TRANSCRIPT" ]; then
     echo "ERROR: ASR transcription failed for lecture $IDX. CAUSE: faster-whisper venv missing or OPENROUTER_API_KEY not set. FIX: Set OPENROUTER_API_KEY in .env (mirrors yt-video-summarizer OpenRouter setup)."
     jq --arg idx "$IDX" \
       '.lectures[$idx].status = "failed" | .lectures[$idx].retries = (.lectures[$idx].retries // 0) + 1' \
-      "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
+      "$PROGRESS_FILE" > $EVC_TMP/prog.tmp && mv $EVC_TMP/prog.tmp "$PROGRESS_FILE"
     continue
   fi
 fi
 rm -f "$TRANSCRIPT_LOG"
 
-#### 7g. Summarize
+#### 7g. Summarize via Subagent
 
 Update progress to `summarizing`:
 ```bash
 jq --arg idx "$IDX" '.lectures[$idx].status = "summarizing"' \
-  "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
+  "$PROGRESS_FILE" > $EVC_TMP/prog.tmp && mv $EVC_TMP/prog.tmp "$PROGRESS_FILE"
 ```
 
-Read transcript (prefer streaming if available, otherwise read from ASR output dir):
+Read transcript (prefer streaming if available, otherwise read from ASR output dir). Also capture the path so the subagent can read it directly:
 ```bash
 if [ -n "$STREAMING_TRANSCRIPT" ]; then
-  TRANSCRIPT="$STREAMING_TRANSCRIPT"
+  TRANSCRIPT_FILE="$EVC_TMP/transcript-${SESSION_ID}-${IDX}.txt"
+  printf '%s' "$STREAMING_TRANSCRIPT" > "$TRANSCRIPT_FILE"
 else
-  TRANSCRIPT=$(cat "${ASR_OUT_DIR}/transcript.txt" 2>/dev/null || echo "")
+  TRANSCRIPT_FILE="${ASR_OUT_DIR}/transcript.txt"
 fi
 ```
 
 Convert Traditional Chinese to Simplified Chinese (if the transcript contains Chinese characters):
 ```bash
-HAS_CHINESE=$(echo "$TRANSCRIPT" | python3 -c "
+HAS_CHINESE=$(head -c 4000 "$TRANSCRIPT_FILE" | python3 -c "
 import sys, re
 text = sys.stdin.read()
 print('yes' if re.search(r'[\u4e00-\u9fff]', text) else 'no')
 ")
-if [ "$HAS_CHINESE" = "yes" ]; then
-  # Use opencc if available; otherwise pass a conversion hint to the summarizer
-  if command -v opencc >/dev/null 2>&1; then
-    TRANSCRIPT=$(echo "$TRANSCRIPT" | opencc -c t2s)
-    echo "INFO: Converted transcript from Traditional to Simplified Chinese via opencc."
-  else
-    echo "INFO: opencc not found — passing simplified_chinese hint to content-summarizer."
-    SIMPLIFIED_CHINESE_HINT="true"
-  fi
+SIMPLIFIED_CHINESE_HINT=""
+if [ "$HAS_CHINESE" = "yes" ] && command -v opencc >/dev/null 2>&1; then
+  CONVERTED="$EVC_TMP/transcript-${SESSION_ID}-${IDX}-simplified.txt"
+  opencc -c t2s -i "$TRANSCRIPT_FILE" -o "$CONVERTED"
+  TRANSCRIPT_FILE="$CONVERTED"
+  echo "INFO: Converted transcript from Traditional to Simplified Chinese via opencc."
+elif [ "$HAS_CHINESE" = "yes" ]; then
+  SIMPLIFIED_CHINESE_HINT="true"
+  echo "INFO: opencc not found — passing simplified_chinese hint to the subagent."
 fi
 ```
 
-Invoke content-summarizer with `content_type=lecture-text`. Pass the **raw transcript** directly — content-summarizer handles all formatting:
+**Spawn a general-purpose subagent to write the lesson summary.** Each lesson writeup is delegated to an independent agent so (a) the main session doesn't bloat its context with every transcript, (b) writeups can run in parallel when multiple transcripts are ready, and (c) the agent focuses exclusively on producing high-quality, rich pedagogical notes (not just transcript dumps or bullet outlines).
 
-Build metadata JSON safely (avoids injection if LECTURE_URL contains quotes):
-```bash
-METADATA_JSON=$(jq -n \
-  --arg title "$SAFE_TITLE" \
-  --arg source "$LECTURE_URL" \
-  --arg num "$IDX" \
-  --arg lang "${SIMPLIFIED_CHINESE_HINT:+simplified_chinese}" \
-  '{"title":$title,"source":$source,"lecture_number":$num,"output_language":($lang // "auto")}')
+Use the `Agent` tool with `subagent_type: "general-purpose"` and a self-contained prompt that includes:
+
+1. The transcript file path (absolute)
+2. Lesson metadata: index, title, source URL, tags, course name, instructor if known
+3. Two target output paths: `${OUTPUT_DIR}/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md` (raw tree) AND `wiki/courses/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md` (wiki tree)
+4. Simplified-Chinese hint (if `$SIMPLIFIED_CHINESE_HINT` is `true`)
+5. Explicit reference to `references/lesson-writeup-template.md` — the agent MUST match this template format exactly
+
+The subagent prompt MUST include the full template requirements inline (do not assume the agent can infer structure):
+
+```
+You are writing a high-quality lecture note from a course transcript. Read the transcript at $TRANSCRIPT_FILE and produce a Markdown file at BOTH paths listed below (they must be identical content). Follow the template in $SKILL_DIR/references/lesson-writeup-template.md exactly — especially:
+
+REQUIRED STRUCTURE (in this exact order):
+1. YAML frontmatter with `tags` (array) and `source` (URL)
+2. ## Pre-test — at the TOP, BEFORE any content. Italicized priming instruction, then 3 open-ended questions. Follow with a `---` horizontal rule.
+3. # Lecture ${IDX}: ${TITLE} — main heading
+4. **Source:** line with linked URL, course name, platform, instructor (if known)
+5. ## Outline — bulleted list of anchor links to the content sections
+6. `---` horizontal rule
+7. 3–6 rich content sections (## headings). Each section is paragraphs of prose (200–400 words per section typical). NEVER just bullet outlines. Use tables/code blocks where helpful. Explain mechanisms, not just names. Include concrete examples from the transcript.
+8. `---` horizontal rule
+9. ## Post-test — italicized "Close this file. Write or say your answers aloud from memory before revealing the guide" prompt, then 3 open-ended questions (parallel to pre-test but requiring deeper synthesis)
+10. `<details><summary>Answer Guide</summary>` block with numbered, detailed answers (2–4 sentences each). Close with `</details>`.
+
+FORBIDDEN:
+- Writing just a bullet-list outline in place of prose sections
+- Putting the pre-test at the bottom
+- Omitting the answer guide
+- Using `[markdown](links)` instead of `[[wikilinks]]` when referencing other lessons
+- Truncating: aim for 800–1500 words of rich content excluding pre/post-test
+
+After writing, also APPEND the lesson URL and slug to the progress.md update step (step 7i handles this — you do not need to modify progress.md).
+
+SAVE TO BOTH:
+  ${OUTPUT_DIR}/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md
+  wiki/courses/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md
+
+Return only: "WROTE ${IDX}" on success, or "FAILED ${IDX}: <reason>" on error.
 ```
 
-Use the Skill tool to invoke `content-summarizer` with:
-- `content_type`: `lecture-text`
-- `content`: the raw transcript text (no pre-processing; let content-summarizer handle it)
-- `metadata`: `$METADATA_JSON` (the JSON string built above; includes `output_language: simplified_chinese` when Chinese is detected and opencc is unavailable)
-- `save_path`: `${OUTPUT_DIR}/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md`
+Invoke the Agent tool with that prompt. Wait for it to return before proceeding to 7h.
 
 #### 7h. Cleanup Temp Files
 
 ```bash
 rm -f "$AUDIO_FILE" "${AUDIO_FILE%.m4a}.m4a" "${AUDIO_FILE%.wav}.wav"
 rm -rf "$ASR_OUT_DIR"
-# Note: /tmp/evc-audio/${COURSE_NAME}/ dir is intentionally left in place across
+rm -f "$EVC_TMP/transcript-${SESSION_ID}-${IDX}.txt" "$EVC_TMP/transcript-${SESSION_ID}-${IDX}-simplified.txt"
+# Note: $EVC_TMP/audio/${COURSE_NAME}/ dir is intentionally left in place across
 # lectures so --resume can reuse audio if recording succeeded but ASR failed.
 # Full dir is removed only on explicit clean-up or after course completes successfully.
 ```
 
-Update progress to `done`:
+#### 7i. Mark Done and Update progress.md (live, per-lesson)
+
+Update `.progress.json` to `done`:
 ```bash
 jq --arg idx "$IDX" '.lectures[$idx].status = "done"' \
-  "$PROGRESS_FILE" > /tmp/evc-prog.tmp && mv /tmp/evc-prog.tmp "$PROGRESS_FILE"
+  "$PROGRESS_FILE" > $EVC_TMP/prog.tmp && mv $EVC_TMP/prog.tmp "$PROGRESS_FILE"
 echo "  [done] $IDX — ${OUTPUT_DIR}/${COURSE_NAME}/${IDX}-${SAFE_TITLE_KEBAB}.md"
 ```
+
+**ALSO update the human-readable `progress.md` live** (this step runs after EVERY lesson, not just at course-end). Mark the just-completed lesson's row from `⬜ pending` → `✅ done`, and refresh the summary counts at the bottom:
+
+```bash
+PROGRESS_MD="${OUTPUT_DIR}/${COURSE_NAME}/progress.md"
+python3 - "$PROGRESS_MD" "$IDX" "$SAFE_TITLE_KEBAB" "$PROGRESS_FILE" <<'PYEOF'
+import json, re, sys, pathlib
+md_path, idx, slug, json_path = sys.argv[1:]
+md = pathlib.Path(md_path)
+if not md.exists():
+    print(f"WARN: {md_path} missing — skipping live update")
+    sys.exit(0)
+text = md.read_text()
+# Flip any matching row (by idx) from ⬜ pending to ✅ done
+# Matches common patterns: | 001 | [[...]] | ⬜ pending |
+pattern = re.compile(r'(\|\s*' + re.escape(idx) + r'\s*\|[^|]*\|)\s*⬜\s*pending\s*(\|)', re.UNICODE)
+text, n = pattern.subn(r'\1 ✅ done \2', text)
+# Refresh done/pending/failed counts at the bottom (driven by .progress.json)
+prog = json.loads(pathlib.Path(json_path).read_text())
+counts = {'done': 0, 'pending': 0, 'failed': 0}
+for lec in prog.get('lectures', {}).values():
+    s = lec.get('status', 'pending')
+    counts[s if s in counts else 'pending'] += 1
+total = sum(counts.values())
+summary_block = (
+    f"- **Done:** {counts['done']} / {total}\n"
+    f"- **Pending:** {counts['pending']} / {total}\n"
+    f"- **Failed:** {counts['failed']} / {total}"
+)
+text = re.sub(
+    r'- \*\*Done:\*\* \d+ / \d+\n- \*\*Pending:\*\* \d+ / \d+\n- \*\*Failed:\*\* \d+ / \d+',
+    summary_block, text, count=1
+)
+md.write_text(text)
+print(f"INFO: Updated progress.md ({n} row flipped, counts refreshed)")
+PYEOF
+```
+
+If `progress.md` uses a different row format (schema drift across courses), the regex substitution silently no-ops and the status-counts block still refreshes — this is intentional (idempotent, safe).
 
 ### 8. Course Complete
 
@@ -640,7 +727,7 @@ done
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `ERROR: Unsupported URL: <url>` | URL does not match any registered adapter | Use a supported URL format (see Supported URLs above) |
-| `ERROR: Another session is running (PID N)` | Lock file with live PID | Wait or kill the PID and delete `/tmp/encrypted-video-capture.lock` |
+| `ERROR: Another session is running (PID N)` | Lock file with live PID | Wait or kill the PID and delete `$EVC_TMP/encrypted-video-capture.lock` |
 | `ERROR: BlackHole device not found` | BlackHole not installed or multi-output not configured | Follow setup-guide.md §1–3 |
 | `ERROR: No lectures found at <URL>` | Adapter returned empty list or auth failed | Re-login to the platform in Chrome, retry |
 | `ERROR: ffmpeg did not start recording within 15s` | Wrong BLACKHOLE_DEVICE index | Verify with `ffmpeg -f avfoundation -list_devices true -i ""` |
