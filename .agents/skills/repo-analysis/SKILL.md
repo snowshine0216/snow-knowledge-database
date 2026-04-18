@@ -1,6 +1,6 @@
 ---
 name: repo-analysis
-description: "Analyze one or more GitHub repository links and save structured markdown reports into `repo-analysis/<subfolder>/`. Always use the fixed section structure: Repo Snapshot, Primary Use Cases, When To Use, Benefits, Limitations and Risks, Practical Insights."
+description: "Analyze one or more GitHub repository links and save structured markdown reports into the matching top-level topic folder (claude/, agent-frameworks/, ai-engineering/, rag-and-knowledge/, dev-tools/, or learning-and-business/). Always use the fixed section structure: Repo Snapshot, Primary Use Cases, When To Use, Benefits, Limitations and Risks, Practical Insights."
 ---
 
 # Repo Analysis Skill
@@ -21,21 +21,31 @@ Required:
 - One or more GitHub repository URLs
 
 Optional:
-- Target subfolder mapping under `repo-analysis/` (for example `openclaw-related`, `agent-playbooks`, `coding`)
+- Explicit target topic folder (one of the 6 listed below)
 - Output language
 - Analysis depth preference
 
 ## Output Location Rules
 
-1. Always save files under:
-`repo-analysis/<subfolder>/<repo-name>.md`
+1. Save files directly under the matching top-level topic folder:
+`<topic>/<repo-name>.md`
 
-2. If user provides explicit mapping, follow it exactly.
+2. Classify the repo by TOPIC using the 6-folder rule from CLAUDE.md. Decision order (stop at first match):
 
-3. If user does not provide a subfolder, default to:
-`repo-analysis/general/`
+   - **`claude/`** — Claude Code, Claude API, Anthropic tooling, Claude-specific plugins (e.g. claude-hud, auto-claude-code-research-in-sleep, last30days-skill).
+   - **`agent-frameworks/`** — Agent frameworks, multi-agent orchestration, autonomous agent products (e.g. hermes-agent, ruflo, open-swe, cashclaw, agency-agents-zh).
+   - **`ai-engineering/`** — Research/engineering libraries for harness, prompts, training, VLM+tool patterns — NOT tied to a single agent product.
+   - **`rag-and-knowledge/`** — RAG systems, vector/vectorless retrieval, knowledge bases, second-brain systems.
+   - **`dev-tools/`** — Non-Claude-specific dev/productivity tools (e.g. openbb, supermemory, metaclaw).
+   - **`learning-and-business/`** — Course repos, interview prep, career/study systems, startup analyses.
 
-4. Create missing folders automatically.
+3. If user provides an explicit topic folder, follow it exactly.
+
+4. If classification is ambiguous, default to `ai-engineering/`.
+
+5. Create missing folders automatically.
+
+6. The same topic name is reused when compiling the wiki article via `./scripts/compile.sh <path> <topic>` — one decision determines both raw and wiki paths.
 
 ## Required Output Structure (Always)
 
@@ -98,9 +108,12 @@ If important information is missing, state the gap explicitly in `Limitations an
 
 Input:
 - URL: `https://github.com/moltlaunch/cashclaw`
-- Subfolder: `openclaw-related`
+
+Classification: CashClaw is an autonomous-agent product in the OpenClaw family → rule 2 → `agent-frameworks/`.
 
 Output path:
-- `repo-analysis/openclaw-related/cashclaw.md`
+- `agent-frameworks/cashclaw.md`
+
+Wiki compile: `./scripts/compile.sh agent-frameworks/cashclaw.md agent-frameworks` → `wiki/agent-frameworks/cashclaw.md`.
 
 The file must include all required sections in the exact order.

@@ -103,7 +103,7 @@ Invoke the `content-summarizer` skill with:
 - `title`, `source_url`, `date`, `author`: from `metadata.json`
 - `content`: full text from `article_chunked.txt`
 - `language`: `zh` (default for WeChat)
-- `target_directory`: from user's request; default `sources/` for `article`, `tech-notes/` if user asks for tech notes
+- `target_directory`: from user's request. Otherwise, classify by TOPIC using the 6-folder rule in CLAUDE.md: read title + top tags, pick ONE of `claude/`, `agent-frameworks/`, `ai-engineering/`, `rag-and-knowledge/`, `dev-tools/`, `learning-and-business/`. Examples — WeChat post about Claude Code tips → `claude/`; about Hermes/OpenClaw → `agent-frameworks/`; about harness/prompt engineering → `ai-engineering/`; about RAG/second-brain → `rag-and-knowledge/`; about AI tools/Obsidian → `dev-tools/`; about AI startup/industry moat → `learning-and-business/`. The same topic is passed to compile.sh, so one decision sets both raw and wiki paths.
 - `filename`: `{kebab-title}_{hash8}.md` where `hash8` = first 8 chars of `sha256(source_url)`. Title transliterated/translated to ASCII per repo CLAUDE.md filename convention — never use Chinese characters in filenames.
 
 ```bash

@@ -25,15 +25,15 @@ Trigger: user provides a folder path and wants its contents added to the wiki.
 
 1. **Scan the folder** recursively for `.md` files (also handle `.txt` by treating them as markdown). Report what you found:
    ```
-   Found 12 files in tech-notes/:
-   - tech-notes/harness-engineering.md
-   - tech-notes/rag/chunking-strategies.md
+   Found 12 files in ai-engineering/:
+   - ai-engineering/harness-engineering.md
+   - ai-engineering/state-of-gpt.md
    ...
    ```
 
 2. **For each file**, determine:
    - Whether it already has frontmatter (`tags`, `source`). If not, infer tags from content and set `source: internal` (or extract a URL if one appears in the content).
-   - The appropriate wiki category (`concepts`, `tools`, or `workflows`) based on content.
+   - The appropriate wiki category using the 6-folder rule from CLAUDE.md: `claude`, `agent-frameworks`, `ai-engineering`, `rag-and-knowledge`, `dev-tools`, or `learning-and-business`. If the source file already lives in one of the 6 top-level topic folders, REUSE that same name as the wiki category (one classification decision for both trees).
    - A slug for the output filename (lowercase, hyphenated, derived from the title or filename).
 
 3. **Check for collisions** against existing `wiki/_index.md` entries. Skip files that are already indexed (match by source URL or similar title). Report skipped files.
@@ -52,8 +52,8 @@ Trigger: user provides a folder path and wants its contents added to the wiki.
 6. **Report results**:
    ```
    Indexed 10/12 files:
-   - wiki/concepts/harness-engineering.md (new)
-   - wiki/concepts/chunking-strategies.md (new)
+   - wiki/ai-engineering/harness-engineering.md (new)
+   - wiki/rag-and-knowledge/chunking-strategies.md (new)
    Skipped 2 (already indexed):
    - llm-knowledge-base (exists)
    ...
@@ -108,8 +108,8 @@ Trigger: user asks a knowledge question or wants to find wiki content.
 
 **Index example:**
 ```
-User: index the tech-notes folder into wiki
-Action: scan tech-notes/, compile each .md file, update _index.md
+User: index the ai-engineering folder into wiki
+Action: scan ai-engineering/, compile each .md file (category = ai-engineering), update _index.md
 ```
 
 **Search example:**

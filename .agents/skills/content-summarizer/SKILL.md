@@ -195,15 +195,16 @@ Capture the output and branch on the first word.
 
 #### If `CREATE`
 
-1. Choose the wiki category using this mapping:
+1. Choose the wiki category using the 6-folder topic rule from CLAUDE.md. Classify by TOPIC (what the content is *about*), not by content_type (what the source format is). The raw file's parent directory (`target_directory`) should already equal one of the 6 topic names — REUSE that same value here so the raw file and the wiki article land in matching folders. Decision order:
 
-   | content_type | Default category | Tag-based override |
-   |---|---|---|
-   | lecture-video, tutorial | concepts | tags include "tool", "cli", "sdk", "library" → tools |
-   | interview, talk | concepts | — |
-   | article, paper | concepts | tags include "workflow", "pipeline", "automation" → workflows |
-   | repo-analysis | tools | — |
-   | course-chapter | concepts | — |
+   1. **`claude/`** — Claude Code, Claude API, Anthropic-specific tooling, Anthropic Labs products.
+   2. **`agent-frameworks/`** — Agent frameworks, multi-agent orchestration, autonomous agent products (Hermes, OpenClaw, CREAO, Eigent, Ruflo, Open SWE, CashClaw).
+   3. **`ai-engineering/`** — General AI/LLM engineering: harness/prompt/context engineering, training pipelines, autoresearch loops, VLM+tool patterns.
+   4. **`rag-and-knowledge/`** — RAG, vectorless retrieval, knowledge bases, second-brain systems.
+   5. **`dev-tools/`** — Non-Claude-specific productivity/dev tools (Obsidian, OpenBB, Supermemory, MetaClaw, AI-tool roundups).
+   6. **`learning-and-business/`** — Courses, interviews, career/education, study systems, AI startups, industry moat analysis, product strategy.
+
+   If `target_directory` is one of the 6 names, pass it directly as the category. If `target_directory` is `courses/` or `sources/` (intake trees), apply the decision order above from scratch using tags + title.
 
 2. Synthesize a wiki article. Length scales with source depth:
    - Source < 1 000 words → wiki article 200–300 words

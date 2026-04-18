@@ -54,7 +54,7 @@ python3 scripts/extract_medium_context.py \
    - `author`: [from `metadata_summary.json`]
    - `content`: [full text from `article_extracted.md`]
    - `language`: [detected from article content — use dominant script/language of the article body; pass as ISO 639-1 code if determinable, else "unknown"]
-   - `target_directory`: [from user's request; default: `sources/` for article, `courses/<topic>/` for lecture-text]
+   - `target_directory`: [from user's request. Otherwise, classify by TOPIC using the 6-folder rule in CLAUDE.md: read title + top tags, pick ONE of `claude/`, `agent-frameworks/`, `ai-engineering/`, `rag-and-knowledge/`, `dev-tools/`, `learning-and-business/`. Exception: `courses/<topic>/` for lecture-text (separate tree). Examples — Medium post on Claude Code tips → `claude/`; Hermes/Open SWE writeup → `agent-frameworks/`; prompt/harness engineering → `ai-engineering/`; RAG/memory → `rag-and-knowledge/`; Obsidian/AI tool → `dev-tools/`; industry/career → `learning-and-business/`. The same topic is passed to compile.sh, so one decision sets both raw and wiki paths.]
    - `filename`: [for article: `{kebab-title}_{hash8}.md` where hash8 = SHA-256[:8] of URL; for lecture-text: `{NNN}-{kebab-title}.md` if in a course sequence, else `{kebab-title}.md`]
 
 ## Rules

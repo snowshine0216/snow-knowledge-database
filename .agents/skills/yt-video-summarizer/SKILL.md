@@ -124,7 +124,7 @@ python3 scripts/extract_video_context.py --url "<video_url>" --out-dir "/tmp/yt-
    - `views`: [from `metadata_summary.json` view_count]
    - `transcript`: [full content of `transcript.txt`, or "unavailable" if missing]
    - `transcript_source`: [from `metadata_summary.json` — manual/auto/asr/metadata-only]
-   - `target_directory`: [from user's request; default: `interview-summarizes/` for interview/talk, `courses/` for lecture-video]
+   - `target_directory`: [from user's request. Otherwise, classify content by TOPIC using the 6-folder rule in CLAUDE.md, NOT by content type. Read the title + top tags, then pick ONE of: `claude/`, `agent-frameworks/`, `ai-engineering/`, `rag-and-knowledge/`, `dev-tools/`, `learning-and-business/`. Exception: `courses/` for lecture-video (separate tree per the rule). Typical patterns — interview about AI startup/career/product → `learning-and-business/`; talk about harness/prompt engineering → `ai-engineering/`; Claude Code tutorial → `claude/`; agent framework walkthrough → `agent-frameworks/`. The same topic is later passed to compile.sh, so one decision determines both the raw file path AND the wiki path.]
    - `filename`: [`recommended_summary_filename` from `metadata_summary.json`]
 
 ## In-conversation output (before or after saving)

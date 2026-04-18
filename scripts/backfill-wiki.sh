@@ -22,21 +22,24 @@
 #   detection automatically.
 #
 # SCAN_DIRS env var: space-separated list of directories to scan.
-# Default: courses interview-summarizes tech-notes repo-analysis sources
+# Default: the 6 topic folders + courses + sources (raw/intake trees)
 set -uo pipefail
 
-SCAN_DIRS="${SCAN_DIRS:-courses interview-summarizes tech-notes repo-analysis sources}"
+SCAN_DIRS="${SCAN_DIRS:-claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business courses sources}"
 
 # --- Category mapping by directory ---
+# After the flat reorg, topic folder name == wiki category name.
+# courses/ and sources/ are intake/staging trees without a topic split, so
+# default them to ai-engineering; the human can override per-file.
 dir_to_category() {
   local dir="$1"
   case "$dir" in
-    courses)              echo "ai-engineering" ;;
-    interview-summarizes) echo "learning-and-business" ;;
-    tech-notes)           echo "ai-engineering" ;;
-    repo-analysis)        echo "dev-tools" ;;
-    sources)              echo "ai-engineering" ;;
-    *)                    echo "ai-engineering" ;;
+    claude|agent-frameworks|ai-engineering|rag-and-knowledge|dev-tools|learning-and-business)
+      echo "$dir" ;;
+    courses|sources)
+      echo "ai-engineering" ;;
+    *)
+      echo "ai-engineering" ;;
   esac
 }
 
