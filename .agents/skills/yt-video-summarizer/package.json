@@ -1,0 +1,28 @@
+{
+  "name": "yt-video-summarizer",
+  "version": "1.0.0",
+  "description": "Extract metadata and summarize content from YouTube/Bilibili links and courses",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "enumerate": "node playwright/course-enumerator.mjs",
+    "process-course": "python3 scripts/process_course.py"
+  },
+  "keywords": [
+    "youtube",
+    "bilibili",
+    "video",
+    "transcript",
+    "course",
+    "summarizer"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

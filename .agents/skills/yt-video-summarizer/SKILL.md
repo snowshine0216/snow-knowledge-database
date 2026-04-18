@@ -1,28 +1,51 @@
 ---
 name: yt-video-summarizer
-description: Extract metadata and summarize content from YouTube and Bilibili links using yt-dlp. Use this skill whenever a user shares a YouTube/Bilibili URL and asks for summary, key points, transcript-based notes, or video information extraction. Prefer this skill even if the user asks only for "quick summary" because it standardizes metadata extraction, transcript handling, and anti-bot recovery.
+description: Extract metadata and summarize content from YouTube/Bilibili links using yt-dlp. Also process entire courses by enumerating video URLs from course pages (DeepLearning.AI, Coursera, Udemy). Use this skill for single videos or complete course processing with progress tracking.
 ---
 
 # YT Video Summarizer
 
 ## Overview
 
-Use this skill to turn a single YouTube or Bilibili URL into:
+Use this skill to:
+
+### Single Video Processing
+Turn a single YouTube or Bilibili URL into:
 - reliable metadata (title, channel/uploader, upload date, duration, metrics)
 - transcript-backed summary (when subtitles are available)
 - structured key takeaways and a time-based outline
 
+### Course Processing (NEW)
+Extract all video URLs from course pages and process them systematically:
+- **Supported platforms**: DeepLearning.AI, Coursera, Udemy (via Playwright adapters)
+- **Progress tracking**: Saves progress to `progress.md` in course directory
+- **Resume capability**: Continue processing from where you left off
+- **Automatic organization**: Saves to `courses/course-name/` with proper structure
+
+## Usage Modes
+
+### Mode 1: Single Video
+```bash
+/yt-video-summarizer https://www.youtube.com/watch?v=VIDEO_ID
+```
+
+### Mode 2: Course Processing
+```bash
+/yt-video-summarizer https://learn.deeplearning.ai/courses/course-name/lesson --course
+```
+
 Default policy:
-- Process one URL per request.
-- Summary language must match the original video language.
-- Never hardcode output language (for example, never default to Chinese or English).
+- Single videos: Process one URL per request
+- Courses: Enumerate all videos, track progress, process sequentially
+- Summary language must match the original video language
+- Never hardcode output language (for example, never default to Chinese or English)
 - Determine original language in this order:
   1) `metadata_summary.json` -> `original_language`
   2) `raw_metadata.json` -> `language` / `default_audio_language`
   3) transcript language as fallback only when metadata language is missing
-- Prefer transcript-based summarization; fall back to metadata-only summary when no transcript is available.
-- If subtitles are unavailable, use ASR fallback.
-- For Bilibili, use ASR-first workflow with browser cookies: `download audio -> ASR transcript -> transcript-based summary`.
+- Prefer transcript-based summarization; fall back to metadata-only summary when no transcript is available
+- If subtitles are unavailable, use ASR fallback
+- For Bilibili, use ASR-first workflow with browser cookies: `download audio -> ASR transcript -> transcript-based summary`
 Default ASR order is `faster-whisper` (local) then OpenAI API.
 
 Local prerequisites for ASR fallback:
@@ -43,7 +66,62 @@ OpenRouter setup for `--asr-provider openai`:
 - When `OPENROUTER_API_KEY` is present, the script will use OpenRouter instead of the native OpenAI transcription endpoint.
 - Large audio files are chunked automatically for OpenRouter requests; chunk transcripts are joined into one final transcript.
 
-## Workflow
+## Course Processing Prerequisites
+
+- Playwright must be installed: `npm install playwright`
+- Playwright browsers must be available: `npx playwright install`
+- Chrome browser with user data for authentication (for courses requiring login)
+
+Supported course platforms:
+- **DeepLearning.AI**: `https://learn.deeplearning.ai/courses/{course-name}/lesson`
+- **Coursera**: `https://www.coursera.org/learn/{course-name}`
+- **Udemy**: `https://www.udemy.com/course/{course-name}/`
+
+## Course Processing Workflow
+
+When the user provides a course URL (not a single video URL):
+
+1. **Enumerate course lessons using Playwright**:
+   ```bash
+   node playwright/course-enumerator.mjs "<course_url>"
+   ```
+
+2. **Run the course processor**:
+   ```bash
+   python3 scripts/process_course.py "<course_url>" --course-name "fine-tuning-large-language-models"
+   ```
+   - This creates `courses/fine-tuning-large-language-models/progress.md`
+   - Extracts all video URLs from the course page
+   - Processes each video using the standard yt-video-summarizer pipeline
+   - Tracks progress and allows resuming with `--resume`
+
+3. **Progress tracking format**:
+   The `progress.md` file contains:
+   ```json
+   {
+     "courseUrl": "https://learn.deeplearning.ai/courses/...",
+     "courseName": "fine-tuning-large-language-models", 
+     "enumeratedAt": "2024-04-18T19:49:00Z",
+     "lessons": [
+       {
+         "idx": "001",
+         "title": "Introduction",
+         "videoUrl": "https://www.youtube.com/watch?v=...",
+         "lessonUrl": "https://learn.deeplearning.ai/courses/.../lesson/1",
+         "status": "done",
+         "outputFile": "courses/.../001-introduction.md",
+         "processedAt": "2024-04-18T20:15:30Z"
+       }
+     ]
+   }
+   ```
+
+4. **Resume processing**:
+   ```bash
+   python3 scripts/process_course.py --resume --course-name "fine-tuning-large-language-models"
+   ```
+
+## Single Video Workflow
 
 1. Validate input URL.
 Use this skill for `youtube.com`, `youtu.be`, `bilibili.com`, `b23.tv`.

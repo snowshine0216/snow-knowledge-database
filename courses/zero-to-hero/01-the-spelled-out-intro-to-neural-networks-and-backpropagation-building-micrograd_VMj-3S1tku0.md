@@ -18,7 +18,14 @@ source: https://www.youtube.com/watch?v=VMj-3S1tku0
 This course builds a miniature automatic-differentiation engine called **micrograd** entirely from scratch in ~150 lines of Python. By the end you will understand backpropagation — the algorithm powering every modern deep-learning library — at the mathematical atom level, without any tensor abstractions getting in the way. Everything else in PyTorch or JAX is purely efficiency on top of this core idea.
 
 ---
+## Pre-test
 
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does a derivative of a function tell you, and how would you estimate one numerically for a single-variable function?
+2. In a neural network, what is the purpose of backpropagation, and which mathematical rule does it rely on?
+3. What is a Multi-Layer Perceptron (MLP), and how do its layers relate to each other?
+--- 
 ## Module 1 — Calculus Refresher: What Is a Derivative?
 
 **Timestamps:** `00:00:00 – 00:19:09` (~19 min)
@@ -188,15 +195,6 @@ This course builds a miniature automatic-differentiation engine called **microgr
 
 ---
 
-===PRE-TEST===
-## Pre-test
-
-> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
-
-1. What does a derivative of a function tell you, and how would you estimate one numerically for a single-variable function?
-2. In a neural network, what is the purpose of backpropagation, and which mathematical rule does it rely on?
-3. What is a Multi-Layer Perceptron (MLP), and how do its layers relate to each other?
-===POST-TEST===
 ## Post-test
 
 > *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
@@ -213,4 +211,4 @@ This course builds a miniature automatic-differentiation engine called **microgr
 3. The loop: (1) **Forward pass** — compute predictions and loss; (2) **Zero gradients** — reset all `.grad` to 0, because micrograd accumulates gradients with `+=` and stale values from the previous step would corrupt the current update; (3) **Backward pass** — `loss.backward()` fills every parameter's `.grad` via topological-sort traversal; (4) **Parameter update** — `p.data -= lr * p.grad` for every parameter.
 
 </details>
-===END===
+
