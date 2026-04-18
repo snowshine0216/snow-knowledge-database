@@ -70,18 +70,80 @@ git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gst
 cd ~/gstack && ./setup --host codex
 ```
 
+## 3) claude-mem
+
+- Original link: https://github.com/thedotmack/claude-mem
+- Purpose: Semantic memory search MCP for Claude Code — indexes your `.claude/` memory files into a searchable corpus and exposes skills for smart search, timeline views, and knowledge-agent queries.
+
+### Setup
+
+Install the MCP and skills into Claude Code:
+
+```bash
+npx claude-mem install
+```
+
+This registers the `claude-mem` MCP server and adds the skill pack to your Claude Code config.
+
+### Usage in Claude Code
+
+**Search memory** (skill):
+
+```
+/mem-search <query>
+```
+
+Find memories matching a topic. Powered by the `smart_search` MCP tool under the hood.
+
+**View memory timeline**:
+
+```
+/timeline-report
+```
+
+Shows a chronological view of stored observations across your memory files.
+
+**Smart exploration** (browse memory graph):
+
+```
+/smart-explore
+```
+
+Interactively unfolds related memory nodes from a starting topic.
+
+**Run a knowledge-agent query** (deeper reasoning over memory):
+
+```
+/knowledge-agent <question>
+```
+
+**MCP tools exposed** (callable directly by Claude without a skill):
+
+| Tool | Purpose |
+|------|---------|
+| `search` | Keyword search across memory corpus |
+| `smart_search` | Semantic/ranked search |
+| `smart_outline` | Outline structure of a memory topic |
+| `smart_unfold` | Expand a memory node with related context |
+| `timeline` | Chronological observation listing |
+| `get_observations` | Raw observations for a corpus entry |
+| `list_corpora` | List all indexed corpora |
+| `prime_corpus` | Index a new directory as a corpus |
+| `rebuild_corpus` | Re-index after memory files change |
+
 ## Sources
 
 - https://github.com/stvlynn/dingtalk-wukong-skills
 - https://github.com/garrytan/gstack
+- https://github.com/thedotmack/claude-mem
 
-## 3) Zhihu Top 10 Claude Skills (Summary)
+## 4) Zhihu Top 10 Claude Skills (Summary)
 
 - Source article: https://zhuanlan.zhihu.com/p/2015725269667840386
 - Capture method: reuse local browser session and cookies, then parse page HTML
 - Recorded date: 2026-03-28
 
-### 3.1 Superpowers
+### 4.1 Superpowers
 
 - Purpose: A full development workflow skill pack (brainstorming, TDD, code review, Git flow), focused on clarifying requirements before implementation.
 - Setup:
@@ -89,7 +151,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/obra/superpowers
 
-### 3.2 Planning with Files
+### 4.2 Planning with Files
 
 - Purpose: Persist planning/progress/knowledge into Markdown files to reduce context loss.
 - Setup:
@@ -98,7 +160,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/OthmanAdi/planning-with-files
 
-### 3.3 UI UX Pro Max
+### 4.3 UI UX Pro Max
 
 - Purpose: Improve Claude-generated UI quality with richer style and color systems, reducing generic visual output.
 - Setup:
@@ -107,7 +169,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
 
-### 3.4 Code Review
+### 4.4 Code Review
 
 - Purpose: Multi-agent parallel PR review (logic/security/style) with confidence filtering.
 - Setup:
@@ -115,7 +177,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-review
 
-### 3.5 Code Simplifier
+### 4.5 Code Simplifier
 
 - Purpose: Equivalent-code simplification for recently changed code (remove redundancy, simplify branches) without changing behavior.
 - Setup:
@@ -123,7 +185,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-simplifier
 
-### 3.6 Webapp Testing
+### 4.6 Webapp Testing
 
 - Purpose: Automate web app testing flow (Playwright script generation, browser run, screenshots, debug cycle).
 - Setup:
@@ -132,7 +194,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/anthropics/skills/tree/main/skills/webapp-testing
 
-### 3.7 Ralph Loop
+### 4.7 Ralph Loop
 
 - Purpose: Prevents early task termination via stop-hook loops until completion criteria are met.
 - Setup:
@@ -141,7 +203,7 @@ cd ~/gstack && ./setup --host codex
   - No explicit GitHub repo in the article
   - Reference page: https://awesomeclaude.ai/ralph-wiggum
 
-### 3.8 MCP Builder
+### 4.8 MCP Builder
 
 - Purpose: Phased guidance for MCP server development (API understanding, tool design, implementation, testing).
 - Setup:
@@ -150,7 +212,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/anthropics/skills/tree/main/skills/mcp-builder
 
-### 3.9 PPTX
+### 4.9 PPTX
 
 - Purpose: Generate `.pptx` draft slides quickly (template/charts/animation support), then polish manually.
 - Setup:
@@ -159,7 +221,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/anthropics/skills/tree/main/skills/pptx
 
-### 3.10 Skill Creator
+### 4.10 Skill Creator
 
 - Purpose: Create and iterate custom skills, and validate impact with eval workflows.
 - Setup:
@@ -167,7 +229,7 @@ cd ~/gstack && ./setup --host codex
 - Original source:
   - https://github.com/anthropics/claude-plugins-official/tree/main/plugins/skill-creator
 
-### 3.11 Additional resources from the article
+### 4.11 Additional resources from the article
 
 - Anthropic official Skills repo: https://github.com/anthropics/skills
 - Anthropic official Plugins repo: https://github.com/anthropics/claude-plugins-official
