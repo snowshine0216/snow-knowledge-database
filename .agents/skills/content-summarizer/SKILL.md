@@ -76,6 +76,18 @@ For long-form sources (interviews, talks, deep articles), include a **Key Number
 
 ---
 
+## Subagent Invocation Protocol (for long-form course captures)
+
+When called from `encrypted-video-capture` to process many lectures in a single session, the caller dispatches each writeup to a general-purpose subagent instead of formatting inline. The caller's responsibility:
+
+1. Produce a JSON envelope on stdout containing: `idx`, `title`, `source_url`, `tags`, `course_name`, `transcript_path`, `simplified_chinese` (bool), `save_paths` (array of 2 paths: courses/ + wiki/courses/).
+2. Pass that envelope + the full contents of `references/template-lecture-text.md` as the subagent prompt.
+3. The subagent writes IDENTICAL content to both save_paths, matching the template exactly, and returns `WROTE <idx>` on success or `FAILED <idx>: <reason>` on error.
+
+This keeps the main session's context small even when processing 72-lesson courses, and isolates template-matching failures per-lesson.
+
+---
+
 ## Format Templates
 
 ### lecture-video
