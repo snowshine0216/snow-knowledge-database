@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 2,
+  "courseUrl": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/pu5xbv/welcome!",
+  "courseName": "agentic-ai",
+  "enumeratedAt": "2026-04-18T13:34:23Z",
+  "lectures": {
+    "001": {
+      "title": "Welcome",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/pu5xbv/welcome!#",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "002": {
+      "title": "What is agentic AI",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/nae3i1/what-is-agentic-ai%3F",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "003": {
+      "title": "Degrees of autonomy",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/zqs9ty/degrees-of-autonomy",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "004": {
+      "title": "Benefits of agentic AI",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/k2vehc/benefits-of-agentic-ai",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "005": {
+      "title": "Agentic AI applications",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/bvuwkr/agentic-ai-applications",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "006": {
+      "title": "Task decomposition Identifying the steps in a workflow",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/moivygo8/task-decomposition%3A-identifying-the-steps-in-a-workflow",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "007": {
+      "title": "Evaluating agentic AI evals",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/46yh5j/evaluating-agentic-ai-(evals)",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "008": {
+      "title": "Agentic design patterns",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/rm9bg7/agentic-design-patterns",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "009": {
+      "title": "Optional Set up your local environment for the ungraded labs",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/bvuwky83/optional%3A-set-up-your-local-environment-for-the-ungraded-labs",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "010": {
+      "title": "Try the research agent",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/608l3k05/try-the-research-agent",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "011": {
+      "title": "Reflection to improve outputs of a task",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/shknq1/reflection-to-improve-outputs-of-a-task",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "012": {
+      "title": "Why not just direct generation",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/uz37v2/why-not-just-direct-generation",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "013": {
+      "title": "Chart generation workflow",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/moivym/chart-generation-workflow",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "014": {
+      "title": "Ungraded Lab Chart Generation",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/uz37vtiou/ungraded-lab-chart-generation",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "015": {
+      "title": "Evaluating the impact of reflection",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/vtzr25/evaluating-the-impact-of-reflection",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "016": {
+      "title": "Using external feedback",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/txqmf0/using-external-feedback",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "017": {
+      "title": "Ungraded Lab Improving SQL Generation with Reflection",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/2ftgl7o8f/ungraded-lab-improving-sql-generation-with-reflection",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "018": {
+      "title": "M2 Graded Lab",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/gymk4q3p/m2-graded-lab",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "019": {
+      "title": "What are tools",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/3s0czq/what-are-tools%3F",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "020": {
+      "title": "Creating a tool",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/79cpry/creating-a-tool",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "021": {
+      "title": "Tool syntax",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/154qpw/tool-syntax",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "022": {
+      "title": "Ungraded Lab Turning functions into tools",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/536julvp0/ungraded-lab-turning-functions-into-tools",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "023": {
+      "title": "Ungraded Lab Email Assistant Workflow",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/shknqak/ungraded-lab-email-assistant-workflow",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "024": {
+      "title": "Code execution",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/a4gs14/code-execution",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "025": {
+      "title": "MCP",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/x7jowg/mcp",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "026": {
+      "title": "M3 Graded Lab",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/gymk403p/m3-graded-lab",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "027": {
+      "title": "Evaluations evals",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/pu5xbl/evaluations-(evals)",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "028": {
+      "title": "Error analysis and prioritizing next steps",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/2ftglp/error-analysis-and-prioritizing-next-steps",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "029": {
+      "title": "More error analysis examples",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/0kbds1/more-error-analysis-examples",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "030": {
+      "title": "Component-level evaluations",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/fwxyds/component-level-evaluations",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "031": {
+      "title": "Ungraded Lab Adding a component-level eval to the research workflow",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/nae3i1ymg/ungraded-lab-adding-a-component-level-eval-to-the-research-workflow",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "032": {
+      "title": "How to address problems you identify",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/ldf4ci/how-to-address-problems-you-identify",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "033": {
+      "title": "Latency cost optimization",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/154qpa/latency-cost-optimization",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "034": {
+      "title": "Development process summary",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/hl2aj7/development-process-summary",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "035": {
+      "title": "Planning workflows",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/jcl177/planning-workflows",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "036": {
+      "title": "Creating and executing LLM plans",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/wr78er/creating-and-executing-llm-plans",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "037": {
+      "title": "Planning with code execution",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/egr0a8/planning-with-code-execution",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "038": {
+      "title": "Ungraded Lab Customer Service Agent",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/9inumthkb/ungraded-lab-customer-service-agent",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "039": {
+      "title": "Multi-agentic workflows",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/608l3n/multi-agentic-workflows",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "040": {
+      "title": "Ungraded Lab Market Research Team",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/cnd59gh0b/ungraded-lab-market-research-team",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "041": {
+      "title": "Communication patterns for multi-agent systems",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/gymk4l/communication-patterns-for-multi-agent-systems",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "042": {
+      "title": "M5 Graded Assignment - Agentic Workflows",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/moivyiv/m5-graded-assignment---agentic-workflows",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "043": {
+      "title": "Conclusion",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/qjhixk/conclusion",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "044": {
+      "title": "Acknowledgments",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/3s0czw5l3/acknowledgments",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    },
+    "045": {
+      "title": "Join the DeepLearningAI Forum to ask questions get support or share amazing idea",
+      "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/79cpr2i/join-the-deeplearning.ai-forum-to-ask-questions%2C-get-support%2C-or-share-amazing-ideas!",
+      "duration": null,
+      "status": "pending",
+      "retries": 0
+    }
+  }
+}
