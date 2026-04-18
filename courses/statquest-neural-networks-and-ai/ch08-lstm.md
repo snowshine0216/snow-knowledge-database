@@ -3,6 +3,16 @@ tags: [statquest, lstm, long-short-term-memory, sequence-modeling, gating, deep-
 source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai/
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. Basic RNNs suffer from vanishing and exploding gradient problems during training on long sequences. What do you think causes gradients to vanish specifically — and why does this make it hard to learn from early time steps?
+2. "Long Short-Term Memory" suggests two kinds of memory. Before reading, what do you think the difference between the "long-term" and "short-term" parts might be, and how might a network maintain both?
+3. Sigmoid outputs values in (0, 1) and tanh outputs values in (−1, 1). If you had to design a gate that controls "how much of something to keep," which activation would you choose and why?
+
+---
+
 Plan mode is active so I can't write the file without approval. Here is the complete study note — you can approve the file write above or copy it directly:
 
 ---
@@ -105,3 +115,22 @@ self.lstm = nn.LSTM(input_size=1, hidden_size=1)
 - Weights and biases are shared across all unrolled time steps, so model size stays constant regardless of sequence length.
 - In PyTorch, `nn.LSTM(input_size, hidden_size)` handles all gate logic automatically.
 ```
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the Cell State (Long-Term Memory) allows gradients to survive long sequences when the Hidden State alone cannot. What is structurally different about the path each one takes through the unrolled LSTM?
+2. Walk through all three LSTM gates — Forget, Input, Output — and explain what each one decides, which activations it uses, and how it modifies either the Cell State or Hidden State.
+3. The chapter demonstrates the same trained LSTM correctly predicting Day 5 for two companies whose sequences differ only on Day 1. What mechanism inside the LSTM makes this possible — how does that early difference propagate forward to influence later outputs?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The Cell State flows horizontally across the top of the LSTM as a "highway" with no weight matrices sitting directly on the path — it is modified only by element-wise multiplication and addition. Because no weight matrix repeatedly multiplies the Cell State gradient at each time step, the gradient does not shrink or explode across long sequences the way it does through the Hidden State, which passes through weight matrices at every unrolled step.
+2. The **Forget Gate** applies a sigmoid to a weighted combination of the current input and previous hidden state, then multiplies the result (a fraction in (0,1)) by the old Cell State to decide how much to retain. The **Input Gate** uses a sigmoid to scale a tanh-produced candidate value, then adds the result to the (already-forgotten) Cell State to write new information in. The **Output Gate** applies a sigmoid to produce a fraction, then multiplies it by tanh of the updated Cell State to decide how much of the Long-Term Memory to expose as the new Short-Term Memory (Hidden State).
+3. The Cell State preserves the difference introduced on Day 1 by carrying it forward through each unrolled unit with only element-wise operations; the Forget Gate retains most of the Long-Term Memory each step (close to 1.0), so that early distinction persists all the way to Day 5 and causes the final Hidden State — used as the prediction — to differ between the two companies.
+
+</details>

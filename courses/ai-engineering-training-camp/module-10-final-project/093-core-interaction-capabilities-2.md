@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=930874
 wiki: wiki/concepts/093-core-interaction-capabilities-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. SSE（Server-Sent Events）与 WebSocket 在实时推送场景中各有什么特点？你会在什么情况下选择 SSE 而不是 WebSocket？
+2. 在 AI 客服系统中，若直接回答（RAG 检索）与追问建议生成（推理）响应时间差异较大，你会如何设计架构来避免用户等待过久？
+3. 什么是 MCP（Model Context Protocol）？你认为将知识库系统封装为 MCP 服务器有什么优势？
+
+---
+
 # 093: Core Interaction Capabilities — Part 2
 
 **Source:** [5补充核心与交互能力2](https://u.geekbang.org/lesson/818?article=930874)
@@ -282,3 +292,23 @@ logging:
 ## Connections
 - → [[092-core-interaction-capabilities-1]]
 - → [[094-multi-tenant-and-deployment]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 请用自己的话解释"推送建议"功能的异步队列设计方案：为什么要将问答接口和建议生成接口拆开？session_id 在其中扮演什么角色？
+2. 系统的多模型切换机制是如何实现的？当请求包含图片时，系统如何自动选择合适的模型？默认模型的选型原则是什么？
+3. 知识库 CRUD API 在新增内容时如何实现去重？删除接口提供了哪两种匹配方式？后台接口的安全保障机制是什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. RAG 检索约两秒，ReAct 推理建议生成需四到五秒甚至更长，同时返回会拖慢用户体验。因此拆成两个接口：接口1快速返回问答结果，接口2将建议任务写入异步队列（ACIO Queue），通过 SSE/WebSocket 异步推送。不同 session_id 对应独立队列，前端通过 SSE 长连接消费，实现解耦。
+2. 多模型通过配置字典（SUPPORTED_MODELS）管理，`get_model()` 函数按名称取出对应参数实例化，避免业务代码硬编码。当请求含 `image` 字段时自动切换为 `qwen-vl-max` 多模态模型；默认模型选成本最低、速度最快的（如 `qwen-turbo`），备用模型成本略高但质量更好。
+3. 新增时先判断内容是否已存在（`exists(text)`），不重复才写入向量库并用 SHA1 自动生成 ID。删除支持基于内容匹配和基于 ID 精确删除两种方式（推荐用 ID）。后台管理接口通过校验请求头 `X-API-Key` 与 `ADMIN_API_KEY` 是否一致来防止未授权操作。
+
+</details>

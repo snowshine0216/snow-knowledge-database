@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927495
 wiki: wiki/concepts/079-monitoring-system.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 你认为 Prometheus 相比商业监控方案（如 Loki 系列）有哪些主要优势？
+2. 在 Docker 容器内部，如果想访问宿主机上运行的服务，应该使用什么地址？`127.0.0.1` 还是其他地址？
+3. Grafana、Prometheus、Exporter 三个组件各自承担什么职责？它们之间的数据流向是怎样的？
+
+---
+
 # 079: Building a Monitoring System for AI Services
 
 **Source:** [5搭建监控系统](https://u.geekbang.org/lesson/818?article=927495)
@@ -158,3 +168,23 @@ Dashboard 可展示内容：
 ## Connections
 - → [[078-kubernetes-orchestration-basics]]
 - → [[080-log-collection-system]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：为什么在本课场景中，Ollama Exporter 必须用 `host.docker.internal` 而不能用 `127.0.0.1` 连接 Ollama？
+2. 描述这套监控系统的完整搭建流程（从构建镜像到看到 Dashboard），以及各步骤的顺序依赖关系。
+3. 在生产环境中，监控系统如何帮助排查"模型效果下降"和"客户反馈与实际不符"这两类问题？具体看哪些指标？
+
+<details>
+<summary>答案指南</summary>
+
+1. Ollama 运行在 Windows 宿主机，Exporter 运行在 Docker 容器内，属于"容器 → 宿主机"访问方向。在这个方向下，`127.0.0.1` 会指向容器自身而非宿主机，必须使用 `host.docker.internal` 才能正确访问宿主机上的 Ollama（默认端口 11434）。
+2. 流程依次为：构建 ollama-exporter 镜像 → 启动 exporter 容器 → 修改 `prometheus.yaml` 添加抓取配置（targets 指向 exporter 端口）→ 启动 Prometheus 容器 → 启动 Grafana 容器；Grafana 默认连接本机 Prometheus，无需额外配置，最后导入 `dashboard.json` 即可可视化。
+3. 效果下降时检查 GPU 使用率是否不足（推理能力下降）；客户反馈与实际不符时，通过监控查看请求路径——确认请求是否绕过了 RAG/知识图谱直接打到大模型，从而还原操作现场定位根因。
+
+</details>

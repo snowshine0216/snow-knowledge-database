@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927426
 wiki: wiki/concepts/009-function-calling-and-mcp-basics.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. OpenAI 最初将工具调用能力命名为"Function Calling"，后来改名为"Tool Calling"。你认为改名的原因是什么？
+2. 什么是 Agent？它与单纯的工具调用有什么本质区别？
+3. Function Calling 和 MCP 都涉及工具调用，你认为它们分别解决的是哪个层面的问题？
+
+---
+
 # 009: Function Calling 与 MCP 基础
 
 **Source:** [AI 工程化训练营 Function Calling 与 MCP 基础](https://u.geekbang.org/lesson/818?article=927426)
@@ -204,3 +214,23 @@ final_response = client.chat.completions.create(model="gpt-4o", messages=message
 - → [[007-llm-invocation-and-function-calling-basics]]（Function Calling 基础原理）
 - → [[006-what-is-ai-engineering]]（MCP 在协议层，Tool Calling 在应用层的层级解析）
 - → 模块 3：LangChain 中的工具调用封装与可观测性
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 Tool Calling 的五步完整流程，并解释为什么工具必须在客户端执行，而不是在模型端执行？
+2. Function Calling 与 MCP 在安全性和稳定性上有何不同？分别在什么场景下应该优先选择哪种方式？
+3. 定义工具时有哪些最佳实践？请解释"已知参数不要让模型填充"这条原则背后的工程原因。
+
+<details>
+<summary>答案指南</summary>
+
+1. 模型只输出 JSON 指令（`finish_reason = "tool_calls"`）来告知客户端调用哪个工具，工具的实际执行由客户端在本地完成，结果再追加到消息历史后发回模型生成最终答案。工具在客户端执行是安全边界的核心设计——控制权始终在开发者手中。
+2. Function Calling 属于应用层（安全性高、稳定、控制权在开发者，适合内部 API/数据库），MCP 属于协议层（灵活、可从服务器动态获取工具，适合外部 SaaS 服务，但存在第三方安全风险和稳定性较低的问题）。
+3. 核心实践包括：函数名清晰避免缩写、用 `enum` 约束有限值参数、控制工具数量不超过 20 个。"已知参数不让模型填充"的原因是模型在填充确定性信息（如当天日期）时容易出错，应由代码直接获取，只让模型从用户输入中提取真正未知的参数。
+
+</details>

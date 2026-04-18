@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, sub-agents, multi-agent, collaboration]
 source: https://time.geekbang.org/column/article/945358
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. Sub-Agents（子代理）和 Agent Teams（智能体团队）最根本的区别是什么？你认为两者在协作方式上有何不同？
+2. 当多个 Agent 并行调查同一个复杂 bug 时，可能遇到什么协调难题？
+3. 在"分层评审"场景（如 PR Review）中，为什么让单个 Agent 做全面审查可能不如多个专职 Agent 效果好？
+
+---
+
 # 08｜群策群力：Agent Teams多会话协作架构
 
 ## 章节元数据
@@ -111,3 +121,23 @@ source: https://time.geekbang.org/column/article/945358
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：子代理（Sub-Agents）模式有哪个"根本性限制"？Agent Teams 是如何突破这个限制的？
+2. "竞争假设"模式如何对抗单个 Agent 调查时的"锚定效应"？结合 ShopStream 电商项目的三个 bug 假设（JWT / Redis / 负载均衡器）说明其工程价值。
+3. 模块化开发（Module Ownership）模式中的"任务依赖"与"自动解锁"机制是如何协调多个 Teammate 之间的工作顺序的？
+
+<details>
+<summary>答案指南</summary>
+
+1. 子代理只能向主对话汇报，不能互相交流；Agent Teams 允许 Teammates 之间直接沟通、共享发现并互相挑战，实现真正的横向协作而非单纯的层级委派。
+2. 让多个 Teammate 各自持有不同假设（JWT / Redis / Sticky Session），并要求互相挑战对方理论，迫使每个假设经过辩论才能"存活"，从而避免单一调查者因找到一个合理解释就停止挖掘的锚定效应。
+3. 被阻塞的任务在声明所依赖的任务未完成前无法被认领；当依赖任务完成后，被阻塞的任务自动变为可认领状态，从而保证多模块并行开发时接口协调有序，避免上下文混淆。
+
+</details>

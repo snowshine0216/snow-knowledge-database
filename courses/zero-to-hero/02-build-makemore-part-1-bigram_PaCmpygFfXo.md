@@ -3,6 +3,16 @@ tags: [language-model, bigram, character-level, pytorch, neural-network, softmax
 source: https://www.youtube.com/watch?v=PaCmpygFfXo
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. A bigram language model predicts the next character using how many previous characters as context? What makes this the "simplest possible" language model?
+2. In a neural network trained for character prediction, what mathematical operation converts raw output scores (logits) into a valid probability distribution that sums to 1?
+3. If you wanted to measure how well a language model assigns probability to correct next characters across a training set, what loss function would you use, and should you minimize or maximize it?
+
+---
+
 # Course: 02-build-makemore-part-1-bigram
 
 > **Instructor:** Andrej Karpathy
@@ -332,3 +342,23 @@ for _ in range(5):
 - **Cookie-auth retry:** used
 - **Data gaps:** transcript was ASR-generated; minor transcription artifacts possible in code variable names
 - **Notebook:** `build_makemore_part1.ipynb`
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why a single-layer neural network bigram model and the direct counting approach produce mathematically identical results after training converges.
+2. Walk through the full gradient descent training loop for the bigram neural net — what happens at each step, and what does `W.data += -50 * W.grad` actually do to the weight matrix?
+3. Explain how additive count smoothing (adding fake counts) and L2 regularization in the neural net loss are mathematically equivalent, and what effect both have on the learned probability distribution.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Multiplying a one-hot input vector by weight matrix `W` simply selects the row of `W` corresponding to the active character index — identical to the counting table lookup. After gradient descent, `W.exp()` converges to the bigram count matrix, meaning `W` holds log-counts; the two approaches are the same computation reached by different paths.
+2. The loop zeros gradients (`W.grad = None`), runs the forward pass (one-hot → `xenc @ W` → `logits.exp()` → row-normalize to `probs`), computes NLL loss via `probs[arange, ys].log().mean()`, calls `loss.backward()` to populate `W.grad` via autograd, then subtracts the scaled gradient from `W.data` — nudging weights in the direction that reduces the loss.
+3. Adding `+1` fake counts before normalizing prevents zero probabilities and pulls the distribution toward uniform; adding `λ * (W**2).mean()` to the neural net loss penalizes large weights with the same effect — both regularize by discouraging extreme probability assignments and keeping predictions closer to a uniform distribution over characters.
+
+</details>

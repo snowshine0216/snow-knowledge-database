@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, memory, claude-md]
 source: https://time.geekbang.org/column/article/942948
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. Claude Code 每次新对话都会"失忆"——你猜它是通过什么机制来"记住"项目背景和团队规范的？
+2. 如果一个团队想让所有成员的 Claude Code 都遵循同一套公司安全策略，你觉得这份配置应该放在哪里？由谁来管？
+3. CLAUDE.md 的内容在每次对话都会被自动加载进上下文，这对"写什么、不写什么"有什么影响？
+
+---
+
 # 02｜过目不忘：Claude Code 记忆系统与 CLAUDE.md
 
 ## 章节元数据
@@ -100,3 +110,23 @@ source: https://time.geekbang.org/column/article/942948
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Claude Code 的五层记忆架构，说明各层级的作用、存放位置和适合放什么内容。
+2. 项目级 CLAUDE.md（`./CLAUDE.md`）与本地级 CLAUDE.local.md（`./CLAUDE.local.md`）有什么本质区别？各自适合存放哪类信息？
+3. 为什么说"CLAUDE.md 写得好不好，直接决定了 Claude 是靠谱同事还是需要反复培训的实习生"？"Less is More"原则背后的技术原因是什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. 五层从高到低：企业策略级（系统目录，IT统管，存公司合规/安全标准）→ 用户级（`~/.claude/CLAUDE.md`，个人跨项目偏好）→ 项目级（`./CLAUDE.md`，团队共享提交Git，存架构/规范/常用命令）→ 本地级（`./CLAUDE.local.md`，个人不提交Git，存本地环境/敏感信息）→ Skills/文档（偶尔需要时按需加载）。高层级优先加载，为底层提供基础。
+2. 项目级 CLAUDE.md 是团队共享知识，需提交到 Git，所有人共用，适合架构决策、编码规范等；本地级 CLAUDE.local.md 不提交 Git，仅个人可见，适合本地调试技巧、测试账号等敏感或个人专属信息。
+3. CLAUDE.md 的每一行在每次对话开始时都会被自动注入上下文，冗余内容会持续消耗 token；精简不是建议而是必须，"偶尔需要"的内容应放到 Skills 或文档里，只把"每次都需要"的核心规则留在 CLAUDE.md。
+
+</details>

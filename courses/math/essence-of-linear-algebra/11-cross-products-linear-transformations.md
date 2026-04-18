@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, cross-product, duality, linear-transfo
 source: https://www.youtube.com/watch?v=BaM7OCEm3G0
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. The cross product **w₁** × **w₂** produces a vector perpendicular to both inputs — but why does the standard determinant formula actually compute this? What's the deeper reason?
+2. In linear algebra, what does it mean for a function to be "linear"? If f(**v**) = det([**v**, **w₁**, **w₂**]), is this function linear in **v**?
+3. What is the "duality" principle connecting linear maps from ℝ³ → ℝ to vectors in ℝ³?
+
+---
+
 # Cross Products in the Light of Linear Transformations
 
 ## Metadata
@@ -91,3 +101,23 @@ Perpendicularity is not a separately checked property of the formula — it is a
 The same principle recurs throughout mathematics: dual spaces, covariant versus contravariant tensors, the Riesz representation theorem in functional analysis, and the Hodge star operator in differential geometry all express the same fundamental idea — that a linear map from a vector space to its scalar field is equivalent to a vector in that space, once an inner product is chosen.
 
 Recognizing the cross product as the dual vector of the determinant functional reframes the entire construction. The formula is not something to memorize; it is something to re-derive in a few lines from the definition of duality whenever needed. The deeper lesson is that many formulas that appear arbitrary at first become inevitable once the right structural lens is applied.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words how duality is used to *define* the cross product **w₁** × **w₂** — without relying on the component formula.
+2. Why is the cross product **p** = **w₁** × **w₂** guaranteed to be perpendicular to **w₁**? Give the argument using determinants and duality, not coordinate algebra.
+3. The symbolic determinant trick places **î**, **ĵ**, **k̂** in the first column. Why is this technically an abuse of notation, and why is it still valid as a computational shorthand?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Because f(**v**) = det([**v**, **w₁**, **w₂**]) is linear in **v**, the duality principle guarantees a unique vector **p** such that **p** · **v** = f(**v**) for all **v**. That vector **p** is defined to be the cross product — it is the dual vector of the determinant functional, not a formula memorized in coordinates.
+2. Setting **v** = **w₁** gives det([**w₁**, **w₁**, **w₂**]), which has two identical columns and therefore equals zero. Since **p** · **w₁** = 0, **p** is perpendicular to **w₁** — perpendicularity is a direct consequence of the determinant vanishing on repeated inputs.
+3. Mixing vectors (**î**, **ĵ**, **k̂**) with scalars in a determinant row is not formally valid, but it works as shorthand because each basis vector coefficient produced by expanding the determinant is exactly f evaluated at that basis vector — which by duality is the corresponding component of **p**.
+
+</details>

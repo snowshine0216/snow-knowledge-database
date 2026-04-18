@@ -3,6 +3,16 @@ tags: [statquest, neural-networks, fundamentals, deep-learning, weights, biases,
 source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai/
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In a neural network, what is the difference between a **weight** and a **bias** — and what arithmetic operation does each one perform on the data passing through a node?
+2. What does the **ReLU** activation function do to its input, and why do neural networks need activation functions at all?
+3. How does a neural network with only two hidden nodes manage to fit a non-linear curve — what does each node produce, and how does the output node combine them?
+
+---
+
 Using the course-chapter-summarizer skill's writing principles (prose-based, equations inline, clean structure), but following the user's explicitly requested section format since user instructions take priority.
 
 ---
@@ -184,3 +194,22 @@ Full tutorial code: <https://github.com/StatQuest/signa>
 - In PyTorch, every network inherits from `nn.Module` and implements `forward()`; data and
   parameters are stored as **tensors**.
 ```
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Walk through the full forward pass for the Dose → Drug Effectiveness network at Dose = 0.5: write out the linear transformation for each hidden node, apply ReLU, scale by the output weights, and sum to get the prediction.
+2. Explain in your own words why a negative output weight (like −3.89 on the blue path) is useful when building a fitted curve from ReLU nodes.
+3. What two methods must every `nn.Module` subclass implement in PyTorch, and what is the responsibility of each one?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Top node: $1.43(0.5) - 0.61 = 0.105$, ReLU → $0.105$, scaled by $-3.89$ gives $-0.408$. Bottom node: $2.63(0.5) - 0.27 = 1.045$, ReLU → $1.045$, scaled by $1.35$ gives $1.411$. Sum: $\approx 1.0$ — the network predicts full effectiveness at Dose = 0.5.
+2. A negative output weight flips the ReLU's bent line upside down and stretches it; by combining flipped and unflipped bent lines, the summed output can form non-monotonic shapes (peaks, valleys) that match real data patterns.
+3. `__init__` initializes the network's layers, weights, and biases; `forward` defines how input data flows through those components during inference (the forward pass).
+
+</details>

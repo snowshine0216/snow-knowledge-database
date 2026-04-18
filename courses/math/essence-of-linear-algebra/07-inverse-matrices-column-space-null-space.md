@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, inverse-matrix, column-space, null-spa
 source: https://www.youtube.com/watch?v=uQhTuRlWMxw
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. If a matrix transformation "squishes" 3D space down to a 2D plane, what do you think happens to the inverse of that matrix — does it exist, and why or why not?
+2. What do you think the "column space" of a matrix represents geometrically — where do you think its name comes from?
+3. If a 3×3 matrix has rank 1, how many dimensions would you guess the null space has, and what shape would that be?
+
+---
+
 # Inverse Matrices, Column Space, and Null Space
 
 ## Metadata
@@ -74,3 +84,23 @@ The null space is always a subspace: it contains the zero vector and is closed u
 For an $m \times n$ matrix $A$, the rank and the dimension of the null space satisfy $\text{rank}(A) + \dim(\text{null}(A)) = n$, where $n$ is the number of columns (the dimension of the input space).
 
 This is a conservation law for dimensions: whatever dimensionality is preserved in the output must have been "taken away" from the null space. A $3 \times 3$ matrix of rank 1 has a null space of dimension 2 (a plane), since $1 + 2 = 3$. A $3 \times 3$ matrix of rank 2 has a null space of dimension 1 (a line), since $2 + 1 = 3$.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why $\det(A) \neq 0$ is the condition for $A^{-1}$ to exist, using the geometric idea of squishing space.
+2. Describe what the column space tells you about whether the system $A\vec{x} = \vec{v}$ has a solution, and what it means when $A$ is full rank.
+3. State the Rank-Nullity Theorem and explain it as a "conservation law" — what is being conserved, and walk through a concrete 3×3 example.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. When $\det(A) = 0$, the transformation squishes space into a lower dimension (e.g., a plane collapses to a line); you cannot "un-squish" a lower-dimensional output back to the original, so no inverse exists. When $\det(A) \neq 0$, the transformation is reversible and $A^{-1}$ plays $A$ in reverse (e.g., a 90° CCW rotation is undone by a 90° CW rotation).
+2. For $A\vec{x} = \vec{v}$ to have a solution, $\vec{v}$ must lie in the column space of $A$ (the set of all possible outputs); if $\vec{v}$ is outside it, the system is inconsistent. When $A$ is full rank, the column space spans all of $\mathbb{R}^m$, so every $\vec{v}$ is reachable.
+3. The Rank-Nullity Theorem states $\text{rank}(A) + \dim(\text{null}(A)) = n$ (number of columns): dimensions preserved in the output plus dimensions collapsed to zero must sum to the input dimension. For a $3 \times 3$ matrix of rank 2, the null space has dimension 1 (a line), since $2 + 1 = 3$.
+
+</details>

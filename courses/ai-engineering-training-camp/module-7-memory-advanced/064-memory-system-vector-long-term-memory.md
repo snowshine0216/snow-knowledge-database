@@ -3,6 +3,17 @@ tags: [memory-system, vector-database, long-term-memory, short-term-memory, lang
 source: https://u.geekbang.org/lesson/818?article=941180
 wiki: wiki/concepts/064-memory-system-vector-long-term-memory.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When an agent's conversation history exceeds the LLM's context window, what are two strategies you might use to handle the overflow?
+2. In a multi-user LangGraph application using a shared vector store for memory, how would you prevent one user's memories from leaking to another user?
+3. What is the key trade-off between storing conversation history sequentially (recency-based) versus storing it as vector embeddings retrieved by semantic similarity?
+
+---
+
 # 064: Memory System and Vector-Based Long-Term Memory Management
 
 **Source:** [1记忆系统与基于向量的长期记忆管理](https://u.geekbang.org/lesson/818?article=941180)
@@ -192,3 +203,23 @@ The lecture emphasises clean code structure as LangGraph projects grow:
 - [[agent-tools]] — memory save/recall exposed as LangGraph tools
 - [[context-window-management]] — summarisation and trimming strategies
 - [[long-term-memory]] — cross-session personalisation via persistent stores
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why a pure UUID is considered a poor design for `thread_id`, and what the recommended alternative is.
+2. Describe the full flow of the vector-based memory system in p08: what happens at the start of a conversation, during the query, and after the LLM responds?
+3. A colleague suggests using summarisation for every project because "it preserves more information than trimming." Using the scenario examples from this lesson, explain when trimming or semantic retrieval would be preferable to summarisation.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. A pure UUID is unpredictable and cannot be reconstructed later, making it impossible to reliably look up a user's session. The recommended pattern is `user_id + date + consistent hash`, which is unique per user, reproducible, and scoped so sessions can be retrieved deterministically.
+2. At conversation start, top-3 semantically similar memories are loaded from the vector store filtered by `user_id`; the retrieved memories plus the query are passed to the LLM; after the LLM responds, the `save_memory` tool is called to store the new exchange as an embedding in the vector store.
+3. For a translation task, the first few messages contain critical style/tone instructions that must be preserved exactly — trimming the middle pairs keeps those intact better than a lossy summary. For a coding assistant, semantic retrieval surfaces the original requirement message regardless of when it occurred, which is more useful than a rolling summary that may compress away key constraints.
+
+</details>

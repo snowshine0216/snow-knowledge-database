@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927427
 wiki: wiki/concepts/010-langchain-core-components-detailed.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangChain 官方定义了 8 个核心概念，你能说出其中 3 个以上吗？
+2. LCEL（LangChain Expression Language）中的 `|` 管道符大概是做什么用的？
+3. LangGraph 和 LangChain 有什么不同？它们能一起使用吗？
+
+---
+
 # 010: LangChain 核心组件详解
 
 **Source:** [AI 工程化训练营 LangChain 核心组件详解](https://u.geekbang.org/lesson/818?article=927427)
@@ -244,3 +254,23 @@ LangChain（工具箱）
 - → [[008-langchain-core-components]]（LangChain vs. LangGraph 对比与 AutoGen 演示）
 - → [[009-function-calling-and-mcp-basics]]（Tool Calling 原理，LangChain Tools 模块的底层机制）
 - → 模块 3：知识嵌入与 RAG — LangChain RAG 模块深入
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. LangChain 的 Storage 模块实际上解决的是什么问题？请描述一次完整请求中 Memory 的两次交互过程。
+2. Callback 模块的"构造器回调"和"请求回调"分别适用于什么场景？为什么说 Callback 是 LangChain 中最难被替代的模块？
+3. 用自己的话描述 LangGraph 和 LangChain 的协作分工：在一个多步骤 AI 工作流中，哪一层负责规划，哪一层负责执行，LangSmith 在哪个环节介入？
+
+<details>
+<summary>答案指南</summary>
+
+1. Storage（Memory）模块保存对话历史：每次请求先从 Memory **读取**历史记录，将历史与当前输入一起交给 LLM，LLM 输出后再将本次对话**写入** Memory，形成两次 Memory 交互。
+2. 构造器回调作用于全生命周期（适合日志记录、全局监控），请求回调仅作用于单次请求（适合流式输出到 WebSocket）；Callback 实现了控制反转（IoC），其工程化能力（日志、监控、流式）在不使用 LangChain 时最难手写替代。
+3. LangGraph 负责规划层——定义节点（Node）和边（Edge），设计有状态、有循环的整体工作流；LangChain 在每个节点内部实现具体逻辑（LLM 调用、RAG、工具调用等）；LangSmith 通过 LCEL 自动追踪整条调用链，出问题时定位到具体节点。
+
+</details>

@@ -333,3 +333,32 @@ def chat_endpoint(req: ChatRequest):
 - LCEL 的红利：读写清晰、自动类型匹配、原生并行与流式支持、内置调试。
 - **FastAPI 封装**：把 Chain 塞进类的 `__init__`，注意 `self.chain`；session 先用内存 dict，后续课程替换为 Redis。
 - 本讲是模块 4 的 **Hello World**，后续加意图识别、状态机、工具调用、记忆、Agent 组合能力都建立在这条链之上。
+
+---
+
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 LangChain 中，`LLM` 类型和 `ChatModel` 类型的输入输出有什么本质区别？
+2. 一个完整的工业级智能对话系统通常分为哪几个核心层次？每层负责什么？
+3. LCEL（LangChain Expression Language）使用什么操作符来连接提示词模板、语言模型和输出解析器？
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用费曼方法解释：LCEL 的 `|` 管道操作符具体做了什么工作，以及它为什么比手动依次调用三个组件更好？
+2. 在 FastAPI 封装对话链时，为什么把 chain 放进类里后必须写成 `self.chain`？为什么大模型需要显式存储对话历史，而不能自己"记住"上轮内容？
+3. `OutputParser` 有哪三种职责？`CommaSeparatedListOutputParser` 具体是如何处理模型输出的？
+
+<details>
+<summary>答案指南</summary>
+
+1. LCEL 的 `|` 将 PromptTemplate、ChatModel、OutputParser 串成一条链，调用 `chain.invoke()` 时自动完成"格式化提示词 → 调用模型 → 解析输出"的全流程，并在组件间自动做类型转换（如 BaseMessage 自动适配下游 parser），无需手动管理中间变量；额外红利包括读写清晰、原生支持并行/流式/缓存、内置 LangSmith 调试。
+2. 将 Chain 构建在类的 `__init__` 中后它成为实例属性，必须通过 `self.chain` 引用，否则方法内找不到该变量；大模型每次调用都是无状态的，必须把每轮 human/ai 消息显式追加到 history 列表并以 session_id 为键存入 dict，下次对话时才能恢复上下文。
+3. OutputParser 的三种职责为：格式化输出（BaseMessage → str/dict/list）、类型转换（Python 原生类型）、校验与重试（解析失败自动重试而非抛异常）；`CommaSeparatedListOutputParser` 将模型返回的逗号分隔字符串（如 `"苹果,香蕉,橙子"`）直接拆分为 Python 列表 `["苹果", "香蕉", "橙子"]`。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927501
 wiki: wiki/concepts/084-parallel-mechanisms-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. Python 中 asyncio 协程、多线程、多进程各自适合什么类型的任务？请说出你的理解。
+2. 如果你想分析一个正在生产环境运行的 Python 服务的性能瓶颈，你会用什么工具？为什么不能用普通的代码插桩方式？
+3. 火焰图（Flame Graph）中，你认为"越靠上的函数"意味着什么？
+
+---
+
 # 084: Python Parallel Mechanisms Comparison Analysis Part 2
 
 **Source:** [4并行机制对比分析2](https://u.geekbang.org/lesson/818?article=927501)
@@ -179,3 +189,23 @@ executor = ProcessPoolExecutor(max_workers=4)
 ## Connections
 - → [[083-parallel-mechanisms-1]]
 - → [[085-fastapi-deep-integration-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 cProfile 和 py-spy 的核心区别，以及各自适用的场景。
+2. 当一个业务同时包含网络爬虫（IO密集）和斐波那契计算（CPU密集）时，课程推荐的架构组合是什么？各部分分别负责什么？
+3. 大模型应用"体感慢"有哪两种典型原因？课程给出的解决思路是什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. cProfile 是侵入式分析工具，性能损耗约 10%，适合开发期深度定位热点函数；py-spy 无侵入、可附加到正在运行的进程，支持容器环境，适合生产环境实时监控。
+2. 推荐"进程池 + 协程组合"：IO 密集型任务（爬虫）交给 asyncio 协程处理，CPU 密集型任务（斐波那契）提交到 `ProcessPoolExecutor` 进程池，由协程调度器统一路由分发。
+3. 两种原因：一是模型思考过程无反馈，用户看不到进展；二是工具调用期间用户端无任何响应。解决思路是提前给用户中间状态反馈，并告知正在调用哪些工具。
+
+</details>

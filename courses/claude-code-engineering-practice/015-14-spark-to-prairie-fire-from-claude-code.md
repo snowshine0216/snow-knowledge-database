@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, skills, open-standards, ecosystem]
 source: https://time.geekbang.org/column/article/952321
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 一个 AI Agent 平台的"技能/插件"格式，需要具备哪些属性，才有可能被其他平台（如 OpenAI、Google）原生支持，成为事实标准？
+2. 在 AI Agent 生态中，"把知识封装进文件"和"把行为封装进代码"有什么本质区别？哪种更容易跨平台流通？
+3. 你已知 CLAUDE.md 是常驻全局上下文，Skills 是按需加载——在什么场景下应该选 Push 模型，什么场景选 Pull 模型？
+
+---
+
 # 14｜星火燎原：从Claude Code到行业开放标准
 
 ## 章节元数据
@@ -114,3 +124,23 @@ source: https://time.geekbang.org/column/article/952321
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Skills 出圈的三个本质属性（声明式、自包含、知识本位），并说明为什么这三个属性共同决定了它的可移植性。
+2. 文章用"烹饪书 vs 厨师"类比解释 Skills 与 SubAgents 的根本差异——请用这个类比解释：为什么 Skills 能出圈而 SubAgents 不能？这背后揭示了什么架构原理？
+3. Vercel 的实验结论是"AGENTS.md 优于 Skills"，但文章认为这个结论需要深层分析。请解释 Push 模型和 Pull 模型各自适合的场景，以及什么情况下 Pull 是"唯一可行选择"。
+
+<details>
+<summary>答案指南</summary>
+
+1. 声明式：Skills 是纯 Markdown 文件，任何能读 Markdown 的系统都能理解，无需特定运行时或编译步骤；自包含：一个 Skill 就是一个文件夹，不依赖外部注册中心，git clone 即安装；知识本位：价值在"怎么做某件事"的内容本身，与格式和运行时无关，知识在任何平台都有效。
+2. Skills 像烹饪书（知识），换厨房带上书就能做菜；SubAgents 像厨师（行为），技能绑定在特定系统上无法复制——深层原理是：越接近"纯知识"的机制越容易跨平台，越接近"运行时行为"的机制越绑定平台。
+3. Push 模型适合高频操作（如 Build/Lint/Test），每次都需要用到，放进 AGENTS.md 保证 Agent 始终可见；当需要 15 个不同领域 Skills 但每次只用 1-2 个时，全部 Push 会导致 120KB+ token 消耗，Pull 模型按需加载是唯一可行选择。
+
+</details>

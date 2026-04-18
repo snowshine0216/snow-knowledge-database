@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927471
 wiki: wiki/concepts/055-dsl-design-principles.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is the difference between a Domain-Specific Language (DSL) and a General-Purpose Language (GPL) like Python or Java?
+2. SQL is a widely used language for querying databases — would you classify it as a DSL or a GPL, and why?
+3. If you wanted non-technical business users to configure workflow rules (like refund policies) without modifying source code, what tradeoffs would you face in your design approach?
+
+---
+
 # 055: DSL Design Principles and Application Scenarios
 
 **Source:** [1DSL设计原则与应用场景](https://u.geekbang.org/lesson/818?article=927471)
@@ -183,3 +193,23 @@ This decoupling means business rules can be updated, versioned, and deployed ind
 - → [[multi-agent-system-design]]
 - → [[text-to-sql-nl2sql]]
 - → [[human-in-the-loop-agent-patterns]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the difference between an Internal DSL and an External DSL, including the key tradeoff each type imposes on developers and users.
+2. Walk through the five characteristics of a well-designed DSL and explain why "non-technical operability" is validated by handing the DSL to ops/product staff rather than by code review.
+3. Describe why a DSL intermediate layer is recommended in a Text-to-SQL pipeline, and what specific SQL capability should be avoided in production enterprise systems.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. An Internal DSL is built using the host language's own features (e.g., Python method chaining), requiring no separate parser but requiring users to know that language; an External DSL uses a fully independent format (e.g., YAML) that is business-friendly but requires developers to write their own grammar, parser, and validator from scratch.
+2. The five traits are: domain precision (business vocabulary, not programming terms), non-technical operability (ops staff can configure without guidance), dual-mode visual+text (drag-and-drop editor plus YAML export), error feedback (parser surfaces mistakes so non-technical users can self-correct), and system integration (DSL can be invoked via API as part of a broader pipeline); operability is validated empirically because an early LangChain-based delivery failed when too many internal variables were exposed and users broke it constantly.
+3. The DSL layer adds input validation, permission checks, and query constraint enforcement between the user's natural language and the SQL generation step, reducing the risk of data loss or compliance violations; multi-table JOIN queries are not yet production-ready and should be avoided in enterprise systems.
+
+</details>

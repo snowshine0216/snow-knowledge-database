@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927503
 wiki: wiki/concepts/086-fastapi-deep-integration-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 令牌桶（Token Bucket）限流算法是如何工作的？它与漏桶算法有什么区别？
+2. 在异步 Python 项目中，为什么不能将 `psycopg2` 与 `asyncpg` 混用？
+3. SQLAlchemy ORM 的核心价值是什么？用 ORM 写数据库操作相比原生 SQL 有什么好处？
+
+---
+
 # 086: FastAPI Deep Integration Part 2
 
 **Source:** [6FastAPI深度集成2](https://u.geekbang.org/lesson/818?article=927503)
@@ -228,3 +238,23 @@ async def cached_llm_call(prompt: str) -> str:
 ## Connections
 - → [[085-fastapi-deep-integration-1]]
 - → [[087-langchain-async-vectordb-gpu-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释"快速报错（Fail Fast）"原则：在数据库连接阶段和业务执行阶段，为什么要采取不同的异常处理策略？
+2. 请描述 Redis 精确匹配缓存的完整流程，以及用 `hashlib.md5` 生成缓存键的作用是什么？
+3. SQLAlchemy 异步引擎为什么推荐用 `async with` 管理连接，同时还要加 `try/finally`？两者各自保证什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. 连接阶段不捕获异常，连接失败直接暴露让人工介入，避免掩盖根本问题；业务执行阶段加 `try/except/finally`，捕获查询异常并抛出业务异常，`finally` 确保连接被释放。
+2. 先用 `hashlib.md5(prompt.encode()).hexdigest()` 将 prompt 转为固定长度的缓存键，查询 Redis 命中则直接返回；未命中则调用大模型，再用 `setex` 写入缓存并设置 TTL（1小时）。md5 的作用是将任意长度的 prompt 映射为固定的短键，适合做 Redis key。
+3. `async with` 保证正常退出时自动关闭连接；加 `try/finally` 是因为异常路径下 `async with` 不足以保证关闭，`finally` 确保任何情况（包括异常）下连接都能被释放。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927458
 wiki: wiki/concepts/042-tool-calling-engine-hot-reload.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 如果你需要在 Python 程序运行时动态加载一个 `.py` 文件（不通过 `import` 语句），你会用哪个标准库？它的核心 API 大概是什么？
+2. 当多个客户需要使用不同的工具集时，你会如何设计目录结构来隔离各客户的专属工具，同时复用通用工具？
+3. 对于频繁调用大模型 API 时可能出现的网络波动失败，你能想到哪些处理策略？
+
+---
+
 # 042: 工具调用引擎设计与热更新机制
 
 **Source:** [11工具调用引擎设计热更新机制](https://u.geekbang.org/lesson/818?article=927458)
@@ -201,3 +211,23 @@ project/
 - → [[langgraph-state-machine]]
 - → [[042-tool-calling-engine-hot-reload]]
 - → [[008-langchain-core-components]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 `importlib.util.spec_from_file_location` 和 WatchDog 在热更新机制中各自扮演什么角色？两者如何配合实现"文件保存即生效"？
+2. Redis 缓存策略中，为什么用 MD5 hash 作为缓存 key，TTL 为何设为 300 秒而不是永久缓存？这种缓存对"相似但不完全相同"的问题有何局限？
+3. 反思工作流（Reflection Workflow）的循环逻辑是什么？分数阈值（8 分）和条件边（conditional edge）在 LangGraph 中如何共同控制流转方向？
+
+<details>
+<summary>答案指南</summary>
+
+1. `importlib.util.spec_from_file_location` 根据文件路径动态加载模块（无需依赖 Python 包路径），实现运行时发现工具；WatchDog 监听目录文件变化，一旦 `.py` 文件被修改就触发 `importlib.reload()`，两者结合实现"保存即自动加载新版本，无需重启进程"。
+2. MD5 hash 将用户输入转为固定长度 key，完全相同的输入才命中缓存；TTL 设 300 秒是因为订单状态可能更新，不适合永久缓存；缓存为 exact match，自然语言表达略有差异的同义问句不会命中，仍会调用大模型。
+3. 工作流为"生成代码 → 评估打分（满分10分）→ 分数 ≥ 8 则输出（END），分数 < 8 则反思改进后重新生成"的循环；LangGraph 通过条件边（conditional edge）读取评估分数，决定走向 END 节点还是反思节点，每个节点职责单一，通过条件边控制流转。
+
+</details>

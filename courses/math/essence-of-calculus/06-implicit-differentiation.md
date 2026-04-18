@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, derivative, implicit-differentiation, chain-
 source: https://www.3blue1brown.com/lessons/implicit-differentiation
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. The unit circle is defined by $x^2 + y^2 = 1$. If you wanted to find the slope of the tangent line at a point without solving for $y$ explicitly, how would you approach it?
+2. When you differentiate $y^2$ with respect to $x$ (where $y$ depends on $x$), what rule do you need to apply, and what extra factor appears?
+3. What do you think the general formula for $dy/dx$ on a curve $F(x, y) = 0$ might look like — what partial derivatives would be involved?
+
+---
+
 # Chapter 6: Implicit Differentiation
 
 **Source:** [Essence of Calculus – Implicit Differentiation](https://www.3blue1brown.com/lessons/implicit-differentiation)
@@ -102,3 +112,23 @@ This is the general implicit differentiation formula. It requires $\partial F/\p
 
 - **Previous:** Ch 5 (Why e Is Special) used implicit differentiation to derive $\frac{d}{dx}\ln x = 1/x$ from $e^y = x$ — a direct application of the same technique.
 - **Next:** Ch 7 (Limits, L'Hôpital, and Epsilon-Delta) formalizes the limit foundations that justify all the derivative rules used here.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why differentiating a $y$-term with respect to $x$ always produces a factor of $dy/dx$, and walk through what happens when you differentiate $y^3$.
+2. Carry out implicit differentiation on $x^2 + y^2 = 1$ from scratch — show each step — and explain what the resulting slope formula $dy/dx = -x/y$ tells you geometrically.
+3. State and explain the general implicit differentiation formula for $F(x, y) = 0$, including the condition under which it breaks down and what that condition means geometrically.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Because $y$ is a function of $x$, the chain rule requires multiplying by the inner derivative $dy/dx$ whenever you differentiate a $y$-expression; for $y^3$, the power rule gives $3y^2$ and the chain rule appends $dy/dx$, yielding $3y^2 \cdot dy/dx$.
+2. Differentiating both sides gives $2x + 2y\,dy/dx = 0$, which solves to $dy/dx = -x/y$; geometrically this means the tangent at any circle point is perpendicular to the radius, since the radius has slope $y/x$ and the tangent has slope $-x/y$.
+3. The formula is $dy/dx = -(\partial F/\partial x)/(\partial F/\partial y)$; it breaks down when $\partial F/\partial y = 0$, which signals a vertical tangent or a singular point on the curve where $y$ is no longer locally a function of $x$.
+
+</details>

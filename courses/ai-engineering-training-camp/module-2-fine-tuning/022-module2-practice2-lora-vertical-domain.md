@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927824
 wiki: wiki/concepts/vertical-domain-lora-finetuning.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 垂直领域微调（如电商客服）和通用微调相比，最关键的挑战是什么？是模型选型、工具选择，还是别的因素？
+2. LoRA 微调中，`lora_rank` 和 `lora_alpha` 这两个超参数大致控制什么？你猜猜它们的典型值范围。
+3. 如果要把一个微调好的语言模型对外提供问答接口，你会选择哪种技术框架？为什么？
+
+---
+
 # 022: 模块二实践二——基于 LoRA 微调垂直领域客服问答模型
 
 **Source:** [模块二实践二基于 LoRA 微调一个垂直领域客服问答模型](https://u.geekbang.org/lesson/818?article=927824)
@@ -265,3 +275,23 @@ Swagger UI 功能：
 - → [[vertical-domain-lora-finetuning]]
 - → [[lora-fine-tuning]]
 - → [[intent-recognition-lora-fine-tuning]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释本课 SFT 训练命令中 `--target_modules q_proj v_proj`、`--lora_rank 8`、`--lora_alpha 16` 三个参数各自的作用，以及为什么这三个参数要组合使用。
+2. 本课提到了三类模型评估指标：领域覆盖率、格式准确率、Bad case 统计。请解释每种指标衡量的是什么，以及它们分别能暴露微调中哪类问题。
+3. 描述从用户发起一次 `/api/v1/ask` 请求到得到答案的完整链路，包括 prompt 的构造方式、模型推理参数（`temperature`、`max_new_tokens`）的含义，以及 tokenizer 如何从输出中截取答案部分。
+
+<details>
+<summary>答案指南</summary>
+
+1. `target_modules` 指定只对注意力层的 q_proj 和 v_proj 注入低秩矩阵，从而大幅减少可训练参数；`lora_rank=8` 决定低秩矩阵的秩（越大表达能力越强但显存消耗越高）；`lora_alpha=16` 是缩放因子，控制 LoRA 更新的幅度，三者共同决定 LoRA 适配器的容量与训练稳定性。
+2. 领域覆盖率衡量测试集中能正确回答的比例，暴露语料是否覆盖了业务场景；格式准确率检验回答是否符合客服口吻，暴露风格/格式对齐问题；Bad case 统计通过逐一分析错误回答找根因，是定位数据缺陷或过拟合的主要手段。
+3. 请求到达后将用户问题拼接为 `"用户：{question}\n客服："` 格式的 prompt；tokenizer 编码后送入模型，`max_new_tokens=200` 限制生成长度，`temperature=0.7` 引入随机性使回答更自然；生成结束后 tokenizer 解码输出，并通过 `outputs[0][inputs["input_ids"].shape[1]:]` 截去输入部分，只返回模型新生成的答案文本。
+
+</details>

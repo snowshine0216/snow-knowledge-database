@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927484
 wiki: wiki/courses/ai-engineering-training-camp/module-7-memory-advanced/069-gemini-langgraph-source-analysis-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangGraph 中多个节点共享数据时，应该让所有节点都传递同一个全局状态对象，还是让每个节点只获取它需要的最小状态？为什么？
+2. 在反思型 agent 的 Pydantic 结构化输出中，你认为"反思"结果应该包含哪些字段才能驱动"继续搜索还是终止"的决策？
+3. 当需要把 LangGraph 项目的模型提供商从 Google Gemini 替换成 DeepSeek 时，你认为最主要的改动会在哪个文件——配置文件还是主工作流文件？
+
+---
+
 # 069: Gemini Fullstack LangGraph Quickstart 源码剖析（二）
 
 **Source:** [6 Gemini-fullstack-langgraph-quickstart 源码剖析 2](https://u.geekbang.org/lesson/818?article=927484)
@@ -379,3 +389,23 @@ Client → Nginx（负载均衡） → FastAPI + Uvicorn × N 台 → LangGraph 
 - **生产部署 = Nginx + FastAPI/Uvicorn × N + LangGraph runtime**。
 - **RAG 哲学**：别放主路径，当工具箱里的一个工具。
 - **Python 只是接口**：大模型是 C++ CUDA kernel；Spring AI / EINO 是其他语言的替代。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 `utils.py` 和 `tools_and_schemas.py` 的本质区别，并各举一个具体例子说明它们分别适合放什么内容。
+2. `evaluate_research` 条件边有三条分支路径，请逐一说明每条路径的触发条件以及它通向哪个节点，并解释为什么必须有"超过最大循环次数"这一路。
+3. 本课提出"RAG 不应放在主路径，而应作为旁路工具"。用自己的话解释这个观点的含义，并说明"主路径"和"旁路工具"这两种架构在实际使用方式上有何不同。
+
+<details>
+<summary>答案指南</summary>
+
+1. `utils.py` 是纯编程辅助工具（不参与 agent 内部），例如 `resolve_url()` 做短链映射、`extract_research_topic_from_messages()` 提取字符串；`tools_and_schemas.py` 是 agent 能调用的能力（Pydantic schema 约束结构化输出），例如 `SearchQueryList`、`Reflection`，未来的 `ERPQuery` 也放这里。两者的核心区分：是否作为 agent 内部工具被节点直接调用。
+2. 三条分支：① `is_sufficient == True` → 进入 `finalize_answer`（知识已足够）；② `research_loop_count >= max_research_loops` → 强制进入 `finalize_answer`（防止无限循环）；③ 两者都不满足 → 回到 `web_research` 用新的 `follow_up_queries` 继续搜索。必须有第二条是因为 LLM 的反思结果不一定可靠，需要硬性终止条件保证工作流必然结束。
+3. "主路径"指 query → RAG → answer 的固定流程，RAG 始终被调用；"旁路工具"指 RAG 只是 agent 工具箱里的一个选项，由 agent 根据问题决定是否调用，和 web search、知识图谱等并列。本课的核心观点是：RAG 只是目前最好的可白盒检索手段，不应成为强制执行的唯一主路径，agent 应该能自主选择最适合当前问题的检索方式。
+
+</details>

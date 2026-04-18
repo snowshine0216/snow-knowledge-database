@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927461
 wiki: wiki/concepts/multi-agent-system-fundamentals.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 为什么单个 Agent 不能解决所有问题？你认为引入多 Agent 系统（MAS）的核心动机是什么？
+2. 多个 Agent 之间需要互相通信和共享状态——你认为同步通信和异步通信各有什么优缺点？
+3. AutoGen、CrewAI、LangGraph 是三个主流多 Agent 框架，凭你目前的了解，它们在设计理念或适用场景上有何区别？
+
+---
+
 # 045: 多Agent系统基础概念与多Agent框架简介
 
 **Source:** [1多Agent系统基础概念与多Agent框架简介](https://u.geekbang.org/lesson/818?article=927461)
@@ -214,3 +224,23 @@ agent = Agent(
 - → [[crewai-framework]]
 - → [[mcp-protocol]]
 - → [[a2a-protocol]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用"分而治之"的思路，解释多 Agent 系统在技术层面解决了单 Agent 的哪三个核心问题？
+2. 课程将消息通信称为"MAS 最大的坑"——请解释为什么，并列举至少三个需要处理的通信机制问题。
+3. 课程给出了 AutoGen、CrewAI、LangGraph 三个框架的对比——请用自己的话说明各自最适合的场景，以及为什么 CrewAI 被认为"不适合严肃的生产系统"。
+
+<details>
+<summary>答案指南</summary>
+
+1. MAS 解决：①单 Agent 上下文窗口有限导致注意力分散；②早期错误在长推理链中不断放大（错误传递放大）；③通过专门的记忆 Agent 和外部存储（如向量数据库）管理长期记忆，弥补单 Agent 的短期记忆偏差。
+2. 消息通信看似简单实则复杂，因为需要同时处理：消息优先级、确认机制（是否被接收）、重试机制、去重机制、过期机制——目前没有任何一家公司能将这些做到完善。
+3. AutoGen 适合代码生成和复杂编码任务（功能最完整，生产适用性高）；LangGraph 适合复杂工作流（但上手难度大）；CrewAI 适合 RPA 类演示和入门（极简但过于依赖提示词驱动，缺乏严肃生产系统所需的容错和状态管理能力）。
+
+</details>

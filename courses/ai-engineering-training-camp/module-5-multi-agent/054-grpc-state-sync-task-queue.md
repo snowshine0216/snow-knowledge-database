@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=937028
 wiki: wiki/concepts/054-grpc-state-sync-task-queue.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When a single-process application stores task state in memory and the process crashes mid-execution, what happens to the in-progress tasks — and how might you prevent this?
+2. In a distributed producer-consumer system, what mechanism would you use to prevent two workers from picking up and executing the same task simultaneously?
+3. Between gRPC, SSE (Server-Sent Events), and HTTP polling, which approach(es) allow a server to push incremental results to a client during a long-running operation — and what distinguishes them?
+
+---
+
 # 054: Module 5 Practice 2 — gRPC Communication, State Sync, and Task Queue Persistence
 
 **Source:** [模块五实践二支持 gRPC 通信 状态同步 任务队列持久化](https://u.geekbang.org/lesson/818?article=937028)
@@ -189,3 +199,25 @@ The instructor also notes: you can describe the 5-1 → 5-2 refactoring to an AI
 - → [[distributed-locking-redis]]
 - → [[grpc-streaming-patterns]]
 - → [[langgraph-state-management]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain why the 5-1 architecture failed and how the 5-2 producer-consumer architecture with Redis solves each specific weakness.
+2. Walk through the worker loop sequence: what steps happen from the moment a task appears in Redis to the moment it is confirmed complete or retried?
+3. Describe the three-question AI code-reading framework from this lesson and explain what each question is designed to reveal about unfamiliar code.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. In 5-1, tasks were stored in process memory, so a crash wiped all in-progress state (e.g., losing chapter 4 progress and regenerating from scratch). LangGraph's state object is also process-bound and cannot cross process boundaries. The 5-2 architecture moves tasks into Redis (persistent, external), separates the producer (UI/submission) from the consumer (Agent execution), and lets tasks survive crashes because they live in Redis until explicitly confirmed complete.
+
+2. On each worker loop tick: check if a task exists via `LPOP`; acquire a distributed lock (atomic Redis operation) to prevent duplicate execution; call `agent.exe(...)` to run the task; on success, report the result, remove the task, and release the lock; on failure, retry using exponential backoff via the `RetryManager` class up to a configurable maximum attempt count.
+
+3. The three questions are: (1) the **hypothetical removal test** — "if this class were removed, what unexpected problems would occur?" — which reveals the code's necessity and purpose; (2) the **built-in alternative check** — "does a library already do this, and could we simplify?" — which uncovers whether custom behavior (e.g., task-specific backoff curves) justifies the code; (3) the **thread-safety verification** — "is this function thread-safe?" — which is critical before extending multi-threaded or distributed code.
+
+</details>

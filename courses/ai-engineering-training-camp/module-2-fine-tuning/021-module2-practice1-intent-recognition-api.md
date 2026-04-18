@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927823
 wiki: wiki/concepts/intent-recognition-lora-fine-tuning.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LoRA 微调与全量微调（Full Fine-tuning）的核心区别是什么？`lora_rank`（秩）越大意味着什么？
+2. 意图识别模型的训练目标是什么？它是让模型"学会知识"还是"学会格式"？
+3. 如果你要将一个微调后的模型部署为 REST API，大致需要哪几个步骤？
+
+---
+
 # 021: 模块二实践一——训练意图识别模型并部署为 API
 
 **Source:** [模块二实践一训练一个意图识别模型并部署为 API](https://u.geekbang.org/lesson/818?article=927823)
@@ -256,3 +266,23 @@ curl -X POST http://localhost:8000/predict \
 - → [[intent-recognition-lora-fine-tuning]]
 - → [[lora-fine-tuning]]
 - → [[model-compression-and-deployment]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 `lora_alpha`、`lora_rank`、`target_modules` 这三个参数各自控制什么，它们之间有什么推荐的设置关系？
+2. 本课中如何判断意图识别微调是否成功？LoRA 微调方案相比 Few-shot Prompt 方案有哪些优劣权衡？
+3. Swift、PEFT、LLaMA-Factory 三种工具各自适合什么场景？课程给出的核心选型结论是什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. `target_modules` 指定微调哪些注意力矩阵（如 `q_proj`、`v_proj`）；`lora_rank`（r）是分解矩阵的秩，越大模型容量越大但显存消耗越多；`lora_alpha` 是缩放系数，推荐设为 `2 * rank`（如 rank=8 则 alpha=16）。
+2. 判断标准：输入"我要退票"应返回 `{"intent": "退票请求"}` 而非自由回答；LoRA 微调的优势是推理快、输出格式固定，缺点是需要训练数据和训练时间，而 Few-shot Prompt 实现简单但上下文越长推理越慢。
+3. Swift 适合国内训练（命令行，依托魔搭社区）；PEFT 适合海外模型和 Hugging Face 数据集（Python 脚本）；LLaMA-Factory 适合希望可视化操作的场景；核心结论是三者参数体系大同小异，**理解参数含义比选工具更重要**。
+
+</details>

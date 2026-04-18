@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, openclaw, architecture, engineering]
 source: https://time.geekbang.org/column/article/954122
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. OpenClaw 与 Claude Code、Cursor 等编程工具相比，你认为它最核心的差异化优势是什么？
+2. 在将 AI Agent 落地到实际业务时，你预测会遇到哪些典型障碍？请列举 2-3 个。
+3. 如果要把 Claude Code 的工程化能力迁移到自研 Agent 系统，你认为需要复制哪些核心组件？
+
+---
+
 # 热点加餐｜从 OpenClaw 到 OpenCode：拆解爆款 Agent 的设计密码与工程范式
 
 ## 章节元数据
@@ -106,3 +116,25 @@ OpenClaw、Claude Code 爆火给我们带来哪些启发？如何定制帮助自
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 OpenClaw 的"消息网关"是什么，以及它对应了哪种设计模式、解决了什么问题。
+2. Agent 落地的三大卡点分别是什么？针对第一个卡点（AI 行为不可预测），文章给出了怎样的工程解法？
+3. 作者提到的 6 大工程化核心概念是哪些？为什么掌握这套框架后，即使脱离 Claude Code 也能开发自己的 Agent 系统？
+
+<details>
+<summary>答案指南</summary>
+
+1. OpenClaw 的消息网关（Gateway）打通了微信、Telegram、飞书、钉钉等多平台消息入口，实现统一接入与管理；这对应设计模式中的**中介者模式**，将所有入口归一化，大幅降低使用与管理成本，是其与 Claude Code、Cursor 最本质的区别。
+
+2. 三大卡点是：① AI 行为不可预测、② AI 能力无法复用、③ 复杂任务处理易陷入混乱。针对第一个卡点，解法是通过编写清晰完备的 SPEC 规范文档约束 AI 行为边界，并配合 Hooks 做执行检查，走向"规范式开发"模式。
+
+3. 六大核心概念为 **Memory、Sub-agent、Skills、Hooks、MCP、Headless**。因为这套逻辑是所有 Agent 系统的底层通用范式（OpenCode 也完整映射了这 6 个概念），掌握后只需将这 6 个模块在自研系统中逐一复制实现，便可构建出功能等效的专属 Agent 系统。
+
+</details>

@@ -3,6 +3,17 @@ tags: [langgraph, gemini, fullstack, agent, fastapi, react, sse, streaming, sour
 source: https://u.geekbang.org/lesson/818?article=927483
 wiki: wiki/concepts/068-gemini-fullstack-langgraph.md
 ---
+
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 为什么深度搜索工具（Deep Research）需要用 Agent 循环的方式实现，而不是直接单次调用大模型？
+2. `langgraph.json` 这个配置文件在 LangGraph 全栈项目中可能需要声明哪些信息？
+3. React 前端如何与后端 LangGraph 服务建立实时流式通信？SSE 和 WebSocket 各有什么特点？
+
+---
+
 # 068: Gemini Fullstack LangGraph Quickstart 源码剖析 (Part 1)
 
 **Source:** [5Gemini-fullstack-langgraph-quickstart源码剖析1](https://u.geekbang.org/lesson/818?article=927483)
@@ -249,3 +260,25 @@ from agent.state import OverallState, QueryState, SearchQuery, Reflection
 - [[Agent]] - Research Agent 的设计模式
 - [[Google Search]] - 项目使用的 Web Research 工具
 - [[069-gemini-fullstack-langgraph-analysis-2]] - 下一讲：继续深入剖析图节点实现
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 Research Agent 的执行循环逻辑：从用户提问到生成最终答案，经历了哪些步骤？循环的退出条件是什么？
+2. `useStream` Hook 在本项目前端中扮演什么角色？它封装了哪些底层细节，为什么说它让前端代码"极其简洁"？
+3. `langgraph.json` 文件的结构是怎样的？它的三个关键字段分别声明了什么，启动命令与传统 uvicorn 有何不同？
+
+<details>
+<summary>答案指南</summary>
+
+1. 用户提问后，Agent 先执行 Web Research 抓取网页内容，再由大模型反思当前资料是否足以回答问题；若足够则生成最终答案，若不够则继续搜索，循环直到达到"顿悟时刻（Aha Moment）"或最大轮数上限。Agent 形式的核心价值在于：单次调用无法在资料不足时自我补充，而循环结构可以反复搜索直至满足条件。
+
+2. `useStream` 是 `@langchain/langgraph-sdk` 提供的 React Hook，它封装了与后端 LangGraph 服务建立 SSE 实时连接的所有细节（端口区分、HTTP 握手、流式解包），前端代码只需传入 `apiUrl`、`assistantId`、`messagesKey` 三个参数，看不到任何原始 HTTP/SSE 请求，因此代码极其简洁。
+
+3. `langgraph.json` 包含三个关键字段：`dependencies`（声明依赖根目录为当前目录 `.`）、`graphs.agent`（声明图定义位于 `src/agent/graph.py:graph`）、`http.app`（声明 FastAPI 服务入口为 `src/agent/app.py:app`）；启动命令为 `langgraph dev`，与传统 `uvicorn` 不同，LangGraph 自带服务器同时托管图运行时和 HTTP 服务，并支持热加载。
+
+</details>

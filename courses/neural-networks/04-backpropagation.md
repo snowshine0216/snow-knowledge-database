@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, backpropagation, gradi
 source: https://www.youtube.com/watch?v=Ilg3gGewQ5U
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does backpropagation actually compute, and how does it relate to gradient descent?
+2. If you wanted to estimate the gradient of the cost with respect to each weight by perturbing weights one at a time, what would be the computational cost for a network with N parameters?
+3. The chain rule says the gradient of the cost with respect to a weight depends on several local factors. What factors would you guess are involved for a weight connecting two layers?
+
+---
+
 # What is Backpropagation Really Doing?
 
 ## Metadata
@@ -115,3 +125,23 @@ for each mini-batch B:
 Backprop is not a separate training algorithm — it is the **gradient computation subroutine** inside gradient descent. The actual update rule remains $\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} - \eta\, \nabla C$.
 
 The mathematical details of exactly *which* partial derivatives to compute and in what order are spelled out in Chapter 5.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words what the "error signal" δ represents and how it gets propagated backward through hidden layers.
+2. Why is the finite differences approach to computing gradients impractical, and how does backprop's complexity compare?
+3. Walk through the chain rule expansion for ∂C/∂w — what does each factor mean intuitively, and what information does each one depend on?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The error signal δ at a neuron is ∂C/∂z — how much the cost changes with that neuron's pre-activation. For hidden layers, δ⁽ˡ⁾ is a weighted sum of the errors from the next layer ahead (∑ wⱼₖ · δⱼ⁽ˡ⁺¹⁾), scaled by the local activation sensitivity σ′(z) — this weighted pullback is the backpropagation step.
+2. Finite differences requires one full forward pass per parameter, giving O(N) passes and O(N²) total operations for N parameters. Backprop computes all N partial derivatives in one forward pass plus one backward pass — O(N) total.
+3. ∂C/∂w = (∂C/∂a) · σ′(z) · a_prev: the first factor captures how much the downstream cost depends on this neuron's output, σ′(z) captures how sensitive the activation is to a nudge in pre-activation, and a_prev is the incoming activation that scales how much the weight's nudge actually moves z.
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927467
 wiki: wiki/concepts/051-a2a-protocol.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. MCP (Model Context Protocol) and A2A (Agent-to-Agent) are both inter-agent protocols — what do you think is the key difference in what each one connects?
+2. If you were designing a standard for agents to discover each other's capabilities across different networks, where and in what format would you publish that capability information?
+3. When two AI agents built on different frameworks (e.g., LangGraph and CrewAI) need to collaborate across separate servers, what challenges would they face without a shared protocol?
+
+---
+
 # 051: A2A (Agent-to-Agent) Protocol Deep Dive
 
 **Source:** [7MCP 与 A2A 协议详解-A2A](https://u.geekbang.org/lesson/818?article=927467)
@@ -257,3 +267,25 @@ If you have two projects both using e.g. CrewAI that need complex bidirectional 
 - → [[langgraph]]
 - → [[crewai]]
 - → [[google-adk]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words what an Agent Card is, where it lives, and why it is the foundational piece of A2A communication.
+2. Walk through the decision tree for choosing between same-framework primitives, MCP, and A2A — what three conditions must all be true before you reach for A2A?
+3. Explain why A2A is described as "stateful" while MCP is "stateless," and what practical problem that statefulness solves for multi-agent systems.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The Agent Card is a publicly accessible JSON file hosted at `/.well-known/agent.json` on each A2A server; it contains the agent's name, description, skills, endpoint URLs, and authentication methods. It is foundational because without it, other agents have no way to discover what a remote agent can do before initiating communication.
+
+2. All three conditions must hold: agents are built on **heterogeneous frameworks**, deployed on **separate hosts/processes**, and the interaction requires **multi-turn dialogue with session state**. If any condition is false — same framework, stateless single call, or same host — use framework primitives, direct function calls, or wrap the remote agent as an MCP tool instead.
+
+3. MCP is stateless: each tool call is a single request–response with no memory of previous exchanges, and the calling agent must manage context manually. A2A is stateful: the Task object carries a unique ID across turns and the protocol automatically manages session context, enabling multi-turn conversations without the client stitching together history by hand.
+
+</details>

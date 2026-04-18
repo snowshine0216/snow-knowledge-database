@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927469
 wiki: wiki/concepts/050-mcp-protocol-part-2.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When designing a sequential research → write → review multi-agent pipeline, what three core questions must you answer before choosing a framework or writing any code?
+2. How would you implement a "human-in-the-loop" gate in a Python-based multi-agent pipeline — what is the simplest mechanism available?
+3. If you want to use a non-OpenAI LLM (like Qwen/Tongyi) with a framework that defaults to OpenAI, what general approach would you take to make them compatible?
+
+---
+
 # 053: 模块五实践一 — 开发一个基于 MCP 协议的多 Agent 协作系统
 
 **Source:** [模块五实践一开发一个基于 MCP 协议的多 Agent 协作系统](https://u.geekbang.org/lesson/818?article=927469)
@@ -295,3 +305,23 @@ This avoids modifying CrewAI internals — the framework sees a standard `ChatOp
 - → [[langgraph-multi-agent]]
 - → [[llm-tool-calling]]
 - → [[deep-research-pattern]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain why LangGraph and AutoGen were rejected in favor of CrewAI for this project, and describe the roles of all three CrewAI agents (Xiaomei, Xiaoqing, Xiaoyin) in the pipeline.
+2. Describe how the checkpoint/resume system works: what data is saved, when it is saved, and how the system decides whether to resume or start fresh on startup.
+3. Explain the Qwen-as-OpenAI-drop-in technique: what two environment variables are set, what class is used, and why this approach avoids modifying CrewAI internals.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. LangGraph was rejected for requiring complex state management (Redis, gRPC, sub-graphs); AutoGen was rejected as a poor fit for a sequential pipeline. Xiaomei (Agent1) researches the topic and proposes 3 directions with outlines; Xiaoqing (Agent2) writes each chapter sequentially based on the confirmed outline; Xiaoyin (Agent3) reviews and polishes the full draft into a final version.
+2. The checkpoint file `cursor_checkpoint.json` stores topic, requirements, completed chapters, and current position. It is saved after each major stage via `_save_checkpoint()`. On startup, if the file exists and the completed chapter count is less than the expected total, the system asks the user whether to resume (y) or start fresh (n); `_clear_checkpoint()` deletes it on successful completion.
+3. `OPENAI_API_KEY` is set to the Qwen DashScope API key and `OPENAI_API_BASE` is set to `https://dashscope.aliyuncs.com/compatible-mode/v1`; `ChatOpenAI` is then instantiated pointing at that base URL. This works because CrewAI sees a standard `ChatOpenAI` object and never touches the underlying provider — no framework internals need modification.
+
+</details>

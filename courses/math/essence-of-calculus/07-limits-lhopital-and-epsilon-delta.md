@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, limits, lhopital, epsilon-delta]
 source: https://www.3blue1brown.com/lessons/limits
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When we write $\lim_{x \to 0}\frac{\sin x}{x}$, direct substitution gives $0/0$. What do you think the actual value of this limit is, and why can't you just plug in $x = 0$?
+2. L'Hôpital's rule is used for indeterminate forms like $0/0$. In your own words, what does the rule say to do — what do you replace $f(x)/g(x)$ with?
+3. What does it mean for a function $f$ to be "continuous" at a point $a$? Name as many conditions as you can think of.
+
+---
+
 # Chapter 7: Limits, L'Hôpital, and Epsilon-Delta
 
 **Source:** [Essence of Calculus – Limits](https://www.3blue1brown.com/lessons/limits) · [L'Hôpital's Rule](https://www.3blue1brown.com/lessons/l-hopitals-rule) · [Epsilon-Delta](https://www.3blue1brown.com/lessons/epsilon-delta)
@@ -102,3 +112,25 @@ $$\lim_{x \to a} f(x) = L$$
 
 - **Previous:** Ch 6 (Implicit Differentiation) used derivatives freely; this chapter provides the limit foundations that make those derivative rules logically justified.
 - **Next:** Ch 8 (Integration and the Fundamental Theorem) uses limits again — the definite integral is defined as a limit of Riemann sums — and the FTC connects that back to derivatives.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the epsilon-delta definition of a limit as a two-player game. Who are the players, what does each one do, and what does it mean to "win"?
+2. Walk through the geometric reasoning that justifies L'Hôpital's rule — why does replacing $f(x)/g(x)$ with $f'(x)/g'(x)$ work when both functions equal zero at $a$?
+3. State the squeeze theorem and explain what conditions must hold for it to let you conclude $\lim_{x \to a} f(x) = L$.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. An adversary names any output tolerance $\varepsilon > 0$; you must respond with an input tolerance $\delta > 0$ such that every $x$ within $\delta$ of $a$ (excluding $a$ itself) maps to an output within $\varepsilon$ of $L$. If you can always find such a $\delta$ for every $\varepsilon$, the limit is $L$. Note that $f$ need not even be defined at $a$ — the limit concerns behavior *near* $a$, which is why $x = a$ is explicitly excluded.
+
+2. Since $f(a) = g(a) = 0$, near $a$ each function behaves like its linearization: $f(x) \approx f'(a)(x-a)$ and $g(x) \approx g'(a)(x-a)$. Dividing, the $(x-a)$ factors cancel, leaving $f'(a)/g'(a)$. The intuition is that both functions vanish at $a$, so comparing their sizes there gives nothing — instead you compare how quickly each *runs away from zero*, i.e., their derivatives.
+
+3. The squeeze theorem requires $g(x) \leq f(x) \leq h(x)$ near $a$, and that both bounding functions share the same limit $L$ as $x \to a$. Under those conditions you can conclude $\lim_{x \to a} f(x) = L$ even without evaluating $f$ directly — the canonical use is proving $\lim_{x \to 0}\frac{\sin x}{x} = 1$.
+
+</details>

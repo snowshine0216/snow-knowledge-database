@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, skills, slash-commands]
 source: https://time.geekbang.org/column/article/946297
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 Claude Code 中，斜杠命令（/command）和 Skills 是同一个东西还是两个独立组件？它们的关系是什么？
+2. 如果你想让 Claude Code 的某个 Skill 只在用户主动触发时才执行，而不是让 Claude 自行判断何时调用，应该设置什么配置项？
+3. 当你在命令行调用 `/fix-issue 123` 时，数字 `123` 是如何传递给 Skill 内部逻辑的？
+
+---
+
 # 10｜令行禁止：任务型 Skills （斜杠命令 /Command）实战
 
 ## 章节元数据
@@ -116,3 +126,23 @@ source: https://time.geekbang.org/column/article/946297
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释"任务型 Skill"和"参考型 Skill"的本质区别，以及 `disable-model-invocation: true` 这个配置项在其中扮演什么角色。
+2. 任务型 Skill 中的动态上下文注入（`!command` 语法）解决了什么具体问题？举一个实际场景说明为何没有它会出现问题。
+3. 描述任务型 Skill 设计方法论中的四个重要设计原则，并用自己的话解释"权限最小化原则"在实际命令设计中意味着什么。
+
+<details>
+<summary>答案指南</summary>
+
+1. 参考型 Skill 由 Claude 自主判断何时加载（按需调用），任务型 Skill 则通过 `disable-model-invocation: true` 关闭模型自动调用，确保只有用户显式输入斜杠命令才会触发执行，不会被 Claude 自行决定运行。
+2. 模型启动时不知道当前运行环境的上下文（如当前所在分支、待合并的 commit 列表），`!command` 语法可在 Skill 加载时动态执行 shell 命令并将结果注入 Prompt，让模型获得真实的运行时上下文信息。
+3. 四个原则为：单一职责（一个命令只做一件事）、清晰命名（命令名直接表达其功能）、有意义的参数提示（让使用者了解如何传参）、权限最小化（严格控制每个任务的权限边界，即每个命令只拥有完成自身任务所需的最低权限，避免过度授权带来的安全风险）。
+
+</details>

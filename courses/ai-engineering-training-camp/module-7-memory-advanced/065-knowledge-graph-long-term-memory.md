@@ -3,6 +3,17 @@ tags: [knowledge-graph, long-term-memory, redis, neo4j, langchain, agent, rag, v
 source: https://u.geekbang.org/lesson/818?article=941181
 wiki: wiki/concepts/065-knowledge-graph-long-term-memory.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. How does a knowledge graph store information differently from a vector database, and what kind of queries does each handle better?
+2. What is Redis TTL (Time-To-Live), and how might it be useful for caching LLM-generated answers?
+3. In AI system design, what distinguishes an "Agent" from a "RAG" system — specifically around how each uses memory and tools?
+
+---
+
 # 065: Knowledge Graph & Redis for Long-Term Memory Management
 
 **Source:** [2基于知识图谱的长期记忆管理与redis](https://u.geekbang.org/lesson/818?article=941181)
@@ -175,3 +186,25 @@ This is not documented in the official LangChain docs — the instructor flagged
 - [[redis-caching-patterns]] — TTL-based caching strategy for LLM hot answers
 - [[neo4j-cypher]] — graph database and query language for production knowledge graph deployments
 - [[multi-agent-systems]] — Agentic AI / MAS pattern referenced in architecture overview
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why a knowledge graph is better than vector memory for multi-hop reasoning. Use the fruit example from the demo to illustrate.
+2. Describe the two Redis memory patterns covered in this lesson — what problem each solves, and how they differ in scope (per-user vs. shared).
+3. What is the Redis Search module gotcha, and why does it matter when using `RedisChatMessageHistory` in LangChain?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Knowledge graphs store entities and relationships as nodes and edges (e.g., `Apple -[CLASSIFIED_AS]-> HealthyFood`), enabling structural traversal across multiple hops — like finding all fruits classified as healthy. Vector memory relies on semantic similarity (cosine distance), which is weak at following logical relationship chains across multiple steps.
+
+2. The hot-answer cache uses Redis TTL (e.g., 86400 s) to store popular LLM responses shared across all users — when the same question recurs, the cached answer is returned without re-querying the LLM. `RedisChatMessageHistory` is per-session conversational memory tied to a `session_id`, storing individual turn history for a specific user.
+
+3. Standard Redis does not include the Search module by default; without it, `RedisChatMessageHistory` will fail at runtime. The module must be manually downloaded, compiled with `make`, and loaded via `redis-server --loadmodule /path/to/redisearch.so` — a step not documented in the official LangChain docs.
+
+</details>

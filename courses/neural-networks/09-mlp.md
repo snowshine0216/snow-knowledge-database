@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, mlp, interpretability,
 source: https://www.youtube.com/watch?v=9-Jl0dxWQs8
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In a transformer block, what do you think the MLP (feedforward) sublayer does differently from the self-attention sublayer — and where do you guess factual associations like "Michael Jordan → basketball" are stored?
+2. The hidden layer of a transformer MLP is typically wider than the model dimension. What ratio do you guess is standard (e.g., 2×, 4×, 8×), and why might a wider hidden layer be useful?
+3. ReLU and GELU are both activation functions used in neural networks. What do you know about how they differ, and which do you think modern large language models like GPT tend to use?
+
+---
+
 # How Might LLMs Store Facts — MLP Blocks
 
 ## Metadata
@@ -117,3 +127,23 @@ Despite growing evidence for structured feature storage in MLP blocks:
 - Superposition makes it unlikely that there exists a clean "concept per neuron" decomposition
 
 The field is actively developing tools (e.g., sparse autoencoders) to disentangle superimposed features into monosemantic components.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words how an MLP block acts as a "key-value memory store." What role do the rows of W₁ and W₂ play, and how does a neuron's activation determine its contribution to the output?
+2. What is the superposition hypothesis, and why does it make individual neuron activations hard to interpret as single human-readable concepts? Explain the interference term and what it measures.
+3. Why does the MLP sublayer roughly double a transformer's parameter count per layer? Walk through the math comparing attention parameters to MLP parameters for a model with dimension d_model.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Each row of W₁ is a key vector; when the input x has high dot product with a key, that neuron activates and adds its corresponding W₂ row (the value vector) to the output — making the MLP a soft key-value lookup: MLP(x) ≈ Σᵢ f(w₁ᵢ · x + b₁ᵢ) · w₂ᵢ. The activation function gates how strongly each value is added.
+2. Superposition occurs when the model must represent F ≫ d_ff features in a lower-dimensional space, so features share nearly-orthogonal directions rather than having dedicated ones. Interference between features f and g equals (ê_f · ê_g)², meaning overlapping directions cause crosstalk — so a single neuron encodes a mixture of many features, not one clean concept.
+3. Attention contributes 4d²_model parameters per layer; the MLP has two matrices each of size d_model × d_ff = d_model × 4d_model, giving 2 × 4d²_model = 8d²_model parameters — exactly double the attention budget, making MLP weights the larger share of transformer storage.
+
+</details>

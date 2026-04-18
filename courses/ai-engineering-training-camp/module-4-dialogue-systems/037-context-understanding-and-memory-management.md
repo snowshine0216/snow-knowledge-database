@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927453
 wiki: wiki/concepts/langchain-memory-management.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在对话式 AI 应用中，"短期记忆"和"长期记忆"分别指什么？它们的主要区别是什么？
+2. 当多轮对话历史超出 LLM 的 context window 限制时，你会用什么策略来处理？
+3. 如果要让 AI 助手在用户关闭页面后再次打开时仍能"记住"之前的对话，你认为需要哪些技术支持？
+
+---
+
 # 037: 上下文理解与记忆管理
 
 **Source:** [6上下文理解与记忆管理](https://u.geekbang.org/lesson/818?article=927453)
@@ -175,3 +185,23 @@ memory.add(messages=..., user_id=session_id)
 ## Connections
 - → [[langchain-memory-management]]
 - → [[langchain-agent-react-tool-use]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 `ConversationBufferWindowMemory` 的滑动窗口机制，以及它相比 `ConversationBufferMemory` 在使用场景和代价上的取舍是什么？
+2. 如何用 `RedisChatMessageHistory` 实现跨重启的会话持久化？生产环境中 `session_id` 应如何设计，才能同时区分不同用户和同一用户的不同会话时段？
+3. Mem0 的核心优势是什么？在多用户场景下，如何通过复合 key 策略弥补它"没有 session 概念"的局限？
+
+<details>
+<summary>答案指南</summary>
+
+1. `ConversationBufferWindowMemory` 只保留最近 `k` 轮对话，超出后丢弃最早的轮次，从而控制 token 成本；代价是早期对话内容（如用户姓名）会被遗忘，适用于早期历史不重要的场景。`ConversationBufferMemory` 保留全量历史，简单但会随对话增长最终超出 context window 限制。
+2. 将 `RedisChatMessageHistory` 传入 `ConversationBufferMemory` 的 `chat_memory` 参数即可替换内存缓冲，其余链式调用不变；生产中 `session_id` 通常用 `f"{user_id}:{timestamp}"` 组合，前缀保留用户身份，时间戳区分不同会话时段。
+3. Mem0 专为 AI agent 设计，通过 `user_id` 隔离不同用户的记忆空间，支持跨会话长期持久化，适合个性化助手积累用户画像；由于它本身没有 session 概念，工程上用时间戳与 user_id 拼接的复合 key 作为 `user_id` 参数传入，来模拟多会话隔离。
+
+</details>

@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, integral, fundamental-theorem, integration]
 source: https://www.3blue1brown.com/lessons/integration
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does the notation $\int_a^b f(x)\,dx$ represent geometrically, and what do the symbols $\int$ and $dx$ stand for?
+2. The Fundamental Theorem of Calculus connects differentiation and integration. What do you think that connection is — how might finding a derivative help you compute an area?
+3. If you wanted to approximate the area under a curve by dividing it into thin rectangles, how would you set that up, and what happens to the approximation as you use more and more rectangles?
+
+---
+
 # Chapter 8: Integration and the Fundamental Theorem
 
 **Source:** [Essence of Calculus – Integration](https://www.3blue1brown.com/lessons/integration)
@@ -97,3 +107,23 @@ This converts an integral in $x$ to a (hopefully simpler) integral in $u$.
 
 - **Previous:** Ch 7 (Limits, L'Hôpital, and Epsilon-Delta) established the limit machinery that the Riemann sum definition relies on; without it, $\lim_{n\to\infty} \sum$ would be undefined.
 - **Next:** Ch 9 (What Area Has to Do with Slope) deepens the FTC story, exploring why antiderivatives and areas are the same thing geometrically and building intuition for more complex integration scenarios.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why FTC Part 2 allows you to compute a definite integral without ever summing rectangles — what is the logical chain from the area function $A(x)$ to the formula $F(b) - F(a)$?
+2. Why does the indefinite integral $\int f(x)\,dx$ include a $+ C$, and why does that constant vanish when you evaluate a definite integral using $F(b) - F(a)$?
+3. Describe the substitution rule: what problem does it solve, what calculus rule does it reverse, and what do you substitute to make it work?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. FTC Part 1 shows the area function $A(x) = \int_a^x f(t)\,dt$ has derivative $A'(x) = f(x)$ — because a tiny width-$dx$ sliver adds area $f(x)\,dx$. Since any two antiderivatives differ only by a constant, any $F$ with $F'=f$ satisfies $F(x) = A(x) + C$, so $A(b) - A(a) = [F(b)+C] - [F(a)+C] = F(b) - F(a)$ — no sums needed.
+2. Shifting a function vertically does not change its derivative, so every antiderivative of $f$ is valid; the $+C$ captures all of them. When computing $F(b) - F(a)$, the same constant $C$ appears in both terms and cancels exactly, so the choice of $C$ is irrelevant for definite integrals.
+3. Substitution converts $\int f(g(x))\,g'(x)\,dx$ into the simpler $\int f(u)\,du$ by setting $u = g(x)$ and $du = g'(x)\,dx$; it is the chain rule run in reverse, used when an integrand contains a composite function multiplied by the derivative of its inner part.
+
+</details>

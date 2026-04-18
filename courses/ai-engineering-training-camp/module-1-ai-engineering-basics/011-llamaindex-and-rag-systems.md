@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927428
 wiki: wiki/concepts/011-llamaindex-and-rag-systems.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 大模型训练完成后参数是固定的，那如果企业想让模型回答私有文档中的内容，有哪些可能的解决方式？
+2. RAG（检索增强生成）和 Tool Calling（工具调用）都能让模型获取外部信息，你认为两者有什么根本区别？
+3. LlamaIndex 和 LangChain 都是 RAG 框架，你猜测一个完整的 RAG 工作流需要哪几个核心步骤？
+
+---
+
 # 011: LlamaIndex 与知识增强系统
 
 **Source:** [AI 工程化训练营 LlamaIndex 与知识增强系统](https://u.geekbang.org/lesson/818?article=927428)
@@ -208,3 +218,25 @@ RAG 模式不变，只是**加载组件**从 `SimpleDirectoryReader` 换成了 O
 - → [[009-function-calling-and-mcp-basics]]（Tool Calling 与 RAG 的根本区别）
 - → [[010-langchain-core-components-detailed]]（LangChain RAG 模块 vs LlamaIndex）
 - → 模块 3：RAG 深入——向量数据库、切块策略、检索优化
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用"考试类比"解释 RAG 与 Agent/Tool Calling 的根本区别——两者在"模型决策时机"上有何不同？
+2. LlamaIndex 的工作流分为"离线索引"和"在线查询"两个阶段，各阶段分别做什么事？为什么索引阶段不应每次都重新执行？
+3. 为什么合同审核系统不能只用向量检索？混合检索方案中，向量数据库、Elasticsearch、关系数据库各自承担什么职责？
+
+<details>
+<summary>答案指南</summary>
+
+1. RAG 是"考前给复习材料"——推理前知识已注入上下文，模型基于已有材料生成答案；Tool Calling 是"考试中让模型告诉你翻哪页书"——模型在推理过程中主动决策调用工具，获取结果后再输出结论。两者本质区别在于：RAG 是知识增强推理，Tool Calling 是决策驱动行动。
+
+2. 离线阶段：加载文档 → 生成向量嵌入 → 存入向量数据库（只需执行一次，结果持久化）；在线阶段：用户提问 → 检索相关片段 → 片段+问题交给 LLM → 生成答案。索引不应每次重建是因为已持久化存储，判断目录存在则直接加载，避免重复计算。
+
+3. 向量检索擅长语义相似匹配，但对合同编号、金额等精确匹配能力弱；Elasticsearch 负责关键词精确检索；关系数据库负责金额大小写比对等数值计算；三者混合检索后通过 Rerank 综合排序，弥补单一检索的不足。
+
+</details>

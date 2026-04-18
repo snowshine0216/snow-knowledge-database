@@ -4,6 +4,16 @@ source: https://time.geekbang.org/course/detail/101123301-965449
 wiki: wiki/concepts/014-openclaw-office-skills.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. ClawHub 上大约有多少个 Skills？如果你要为日常办公筛选 Skills，你会优先考虑哪些标准？
+2. 如果要用 OpenClaw 自动生成每日 AI 行业资讯晨报，你认为需要哪几个 Skills 组合才能完成？
+3. 对于非技术人员（如内容创作者），GitHub/Git 类 Skill 除了代码管理，还能用在什么场景？
+
+---
+
 # 013 办公 Skills Top 10：从零打造你的龙虾办公室
 
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-965449) · 极客时间
@@ -118,3 +128,23 @@ ClawHub 上虽有 1.3 万个 Skills，但对于办公场景来说，大多数是
 ```
 
 > **建议**：先装前 3 个（Google Search + Summarizer + Git），形成最核心的办公能力闭环，再按需追加。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 本讲筛选"Top 10 办公 Skills"使用了哪三个核心标准？用自己的话解释为什么这三个标准比"下载量最高"更合理。
+2. "AI 行业资讯晨报自动化"案例中，Web Search + Summarizer 组合具体是如何分工协作的？原来手动完成需要多久，现在缩短到多久？
+3. 本讲建议的"最小核心装机顺序"是哪三个 Skill？解释为什么这三个能构成"办公能力闭环"。
+
+<details>
+<summary>答案指南</summary>
+
+1. 三个标准是**高频使用**（几乎每天都用）、**通用场景**（不限行业、大多数人适用）、**安全可信**（官方认证或社区高评分）。相比下载量，这三个标准更关注实际使用价值和安全性，避免在 1.3 万个 Skills 里迷路。
+2. Web Search Skill 负责搜索相关关键词并抓取多源信息，Summarizer Skill 负责提炼要点并输出结构化晨报；原来手动流程需要 30–60 分钟，组合后一句话指令 2 分钟内即可获得专业晨报。
+3. 建议先装 **Google Search + Summarizer + Git** 这三个。Google Search 解决信息获取，Summarizer 解决内容消化，Git 解决版本回溯，三者覆盖"找信息→理解信息→管理成果"的完整办公闭环。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927455
 wiki: wiki/concepts/langgraph-fundamentals.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangGraph 是 LangChain 的替代品还是它的上层框架？你认为两者的主要定位差异是什么？
+2. 在图结构中，DAG（有向无环图）和支持循环的图有什么根本区别？这对 AI 工作流意味着什么？
+3. 多轮对话中"状态管理"指什么？如果不用框架，你会怎么手动实现跨轮次的上下文保持？
+
+---
+
 # 039: 用LangGraph实现多轮对话流程控制（一）
 
 **Source:** [8用LangGraph实现多轮对话流程控制1](https://u.geekbang.org/lesson/818?article=927455)
@@ -281,3 +291,23 @@ for event in graph.stream({"messages": [("user", "你好！")]}):
 - → [[langgraph-fundamentals]]
 - → [[langchain-overview]]
 - → [[rag-architecture]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 LangGraph 的三大核心概念（节点、边、状态）各自的职责，以及它们如何协作完成一次多轮对话流程。
+2. 为什么 LangGraph 支持 DCG（有向环图）而 LangChain 只支持 DAG？这个区别对实现 ReAct 等推理模式具体意味着什么？
+3. 按照课程中的 Hello World 示例，说出构建一个最基本 LangGraph 多轮对话机器人的完整步骤顺序，以及每一步的核心作用。
+
+<details>
+<summary>答案指南</summary>
+
+1. 节点（Node）封装具体业务逻辑（如大模型调用、工具调用），第一个参数必须是 state；边（Edge）决定节点执行顺序与路由，分普通边、条件边、入口边；状态（State）是所有节点共享的字典型数据结构，节点通过读取 state 获取输入、返回 dict 更新 state，三者共同构成可编排的工作流图。
+2. LangChain 的链式调用是单向流动的 DAG，不能回头；LangGraph 支持 DCG（有向环图），节点间可以形成循环，因此天然支持 ReAct 这类需要"推理→工具调用→观察→再推理"反复迭代的模式，这也是它与 Dify、Coze 等可视化工具的核心区别之一。
+3. 完整步骤为：①定义状态（TypedDict/Pydantic）→ ②创建图（`StateGraph(State)`）→ ③定义节点函数 → ④`add_node` 添加节点 → ⑤`add_edge` 添加边（包含 START 入口）→ ⑥`compile()` 编译（不编译无法运行）→ ⑦`graph.stream()` 流式执行；编译是运行的强制前提。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=930873
 wiki: wiki/concepts/092-core-interaction-capabilities-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在构建客服AI系统时，如果用户打开页面不知道该问什么，你会如何设计一个"开场引导"功能？
+2. Redis 存储对话历史时，如何确保不同用户的会话不会相互干扰？你会用什么数据结构和键名策略？
+3. 当用户执行"重置对话"时，真删除和假删除（影子存储）的区别是什么？各自适用什么场景？
+
+---
+
 # 092: Core and Interaction Capabilities Part 1
 
 **Source:** [4-补充核心与交互能力1](https://u.geekbang.org/lesson/818?article=930873)
@@ -280,3 +290,25 @@ reset时：
 ## Connections
 - → [[091-project-requirements-prototype-2]]
 - → [[093-core-interaction-capabilities-2]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 解释为什么 Greeting 接口要与 chat 接口分开设计，以及它返回哪些核心内容？
+2. 快捷指令的处理逻辑中，为什么推荐用 Python 字典映射替代 if-else？请用自己的话描述完整的处理流程。
+3. LangGraph 的 Thread ID 在多用户隔离中起什么作用？CheckPoint 的降级策略是怎么实现的，为什么这样设计？
+
+<details>
+<summary>答案指南</summary>
+
+1. Greeting 接口与 chat 接口分开，是为了防止欢迎语出问题时影响主对话流程；它返回欢迎语文本和快捷指令列表（如 `/help`、`/history`、`/reset`），并支持 `class_id` 参数使不同课程展示不同欢迎语。
+
+2. 当分支数量较多时，字典映射（key=命令名, value=函数对象）比多层 if-else 更清晰；处理流程为：去除首尾空白 → 判断是否以 `/` 开头 → 转小写 → 用字典查找对应 handler → 有则执行，无则返回"未知指令"提示。
+
+3. Thread ID 用 `session_id` 值传入 LangGraph 的 `config.configurable.thread_id`，使不同用户的图状态相互隔离（不是真正多线程，是模拟隔离）；降级策略优先尝试 SQLite CheckPoint，失败时自动回退到内存 MemorySaver，业务无感知但后台记录警告日志，生产环境推荐改用 PostgreSQL 或 MySQL。
+
+</details>

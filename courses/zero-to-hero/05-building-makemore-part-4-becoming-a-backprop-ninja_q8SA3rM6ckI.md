@@ -3,6 +3,16 @@ tags: [neural-networks, backpropagation, deep-learning, pytorch, makemore, zero-
 source: https://www.youtube.com/watch?v=q8SA3rM6ckI
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When you broadcast a tensor in the forward pass (replicating it across a dimension), what operation does the backward pass require over that replicated dimension?
+2. For a matrix multiplication `D = A @ B`, what is the gradient formula for `dA` in terms of `dD` and `B`?
+3. What is Bessel's correction, and why does it matter for variance estimation in batch normalization?
+
+---
+
 # Building makemore Part 4: Becoming a Backprop Ninja
 
 > **Series**: Neural Networks: Zero to Hero · **Part 5**
@@ -495,3 +505,25 @@ with torch.no_grad():
 - [Colab exercise](https://colab.research.google.com/drive/1WV2oi2fh9XXyldh02wupFQX0wh5ZC-z-)
 - [Blog post: Yes you should understand backprop](https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b)
 - [BatchNorm paper](https://arxiv.org/abs/1502.03167)
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why Karpathy calls backpropagation a "leaky abstraction," and give a concrete example of a real-world bug this causes.
+2. Describe the elegant analytical gradient formula for cross-entropy + softmax, and explain intuitively what it means for how the network corrects its predictions.
+3. Explain the duality between broadcast and sum in tensor backpropagation — both directions — and why this single pattern is enough to derive most backward pass formulas correctly.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Backprop is a leaky abstraction because not understanding its internals leads to silent, hard-to-debug failures — for example, a real code snippet found online was trying to clip gradients but was actually clipping the loss values, which silently zeroed gradients on outliers because the author did not understand how gradients flow through the loss computation.
+
+2. The analytical gradient is `dlogits[i] = softmax(logits)[i] - 1_{i == true_class}`, divided by batch size. Intuitively, it pushes down the probability of every class proportional to how much probability mass the model currently assigns to it, while simultaneously pushing up the true class by 1 — the total force sums to zero across all classes, and the magnitude of correction is proportional to how wrong the prediction currently is.
+
+3. A forward broadcast (tensor replicated to match another's shape) requires summing gradients over the replicated dimension in the backward pass; conversely, a forward sum (reducing over a dimension) requires broadcasting/replicating the gradient over that dimension in the backward pass. This duality alone — combined with shape-matching — is sufficient to correctly derive gradient formulas for operations like batch norm, matrix multiply, and embedding lookups without memorizing any formulas.
+
+</details>

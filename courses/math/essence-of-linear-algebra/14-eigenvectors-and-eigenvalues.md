@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, eigenvectors, eigenvalues, diagonaliza
 source: https://www.youtube.com/watch?v=PFDu9oVAE-g
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What do you think makes a vector "special" under a linear transformation — what property distinguishes an eigenvector from any other vector?
+2. If you wanted to find the eigenvalues of a 2×2 matrix, what equation or condition do you think you'd need to solve?
+3. What does it mean to "diagonalize" a matrix, and why might that be useful?
+
+---
+
 # Eigenvectors and Eigenvalues
 
 ## Metadata
@@ -80,3 +90,23 @@ where $P$ is the matrix whose columns are the eigenvectors and $D$ is the diagon
 Diagonalization makes repeated application of the transformation dramatically simpler. Raising both sides to the $k$-th power gives $A^k = PD^kP^{-1}$, and raising a diagonal matrix to a power just raises each diagonal entry independently — far cheaper than multiplying $A$ by itself $k$ times.
 
 A matrix is diagonalizable when it has enough linearly independent eigenvectors to fill the whole space. Having $n$ distinct eigenvalues guarantees this, since eigenvectors from distinct eigenvalues are always linearly independent. Repeated eigenvalues require checking whether each eigenspace has full dimension equal to the eigenvalue's algebraic multiplicity; if any eigenspace falls short, the matrix is not diagonalizable over the reals, though it may still admit a Jordan normal form decomposition.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the condition $\det(A - \lambda I) = 0$ must hold for eigenvalues to exist, and what would go wrong if it didn't.
+2. Walk through the geometric intuition of what happens to eigenvectors during a 3D rotation, a 2D horizontal shear, and a projection onto a line — what are the eigenvalues in each case?
+3. Explain what diagonalization ($A = PDP^{-1}$) means geometrically, and why it makes computing $A^k$ so much cheaper than repeated matrix multiplication.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. For a nonzero eigenvector $\mathbf{v}$ to satisfy $(A - \lambda I)\mathbf{v} = \mathbf{0}$, the matrix $(A - \lambda I)$ must be singular — it must collapse space to a lower dimension — which happens precisely when its determinant is zero. If the determinant were nonzero, the matrix would be invertible and the only solution would be $\mathbf{v} = \mathbf{0}$, violating the requirement that eigenvectors be nonzero.
+2. In a 3D rotation, the rotation axis is unchanged with $\lambda = 1$; in a 2D horizontal shear, only vectors along the $x$-axis are eigenvectors with $\lambda = 1$; for projection onto a line, vectors on the line have $\lambda = 1$ and vectors perpendicular to the line are annihilated with $\lambda = 0$.
+3. Geometrically, $P^{-1}$ changes coordinates into the eigenvector basis, $D$ applies the transformation as pure scaling in that basis, and $P$ converts back — making $A^k = PD^kP^{-1}$, where $D^k$ is computed by simply raising each diagonal entry independently, far cheaper than multiplying $A$ by itself $k$ times.
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=930875
 wiki: wiki/concepts/094-core-interaction-capabilities-3.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在多租户系统中，"真隔离"和"假隔离"分别是什么意思？你认为它们各适合哪种场景？
+2. 在 AI 客服系统的压测中，你认为最常见的性能瓶颈会出现在哪里？如何缓解？
+3. 如果要把一个基于 FastAPI 的 AI 客服系统接入飞书，你猜测需要做哪些关键配置步骤？
+
+---
+
 # 094: Supplementing Core Interaction Capabilities Part 3
 
 **Source:** [6补充核心交互能力3](https://u.geekbang.org/lesson/818?article=930875)
@@ -228,3 +238,23 @@ cp config-template.json config.json
 ## Connections
 - → [[093-core-interaction-capabilities-2]]
 - → [[095-project-delivery-and-review]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释"真隔离"与"假隔离"在数据库和向量库层面的具体区别，以及各自适用的业务场景。
+2. 课程中介绍了哪几类压测瓶颈？针对 CPU 瓶颈，推荐的解决方案是什么？客户理解的 QPS 与实际 QPS 为什么会存在差异？
+3. Chrome MCP Server 是如何辅助前端开发的？它解决了开发者哪个具体痛点？请描述其接入流程。
+
+<details>
+<summary>答案指南</summary>
+
+1. 真隔离：不同租户使用独立的数据库（逻辑或物理隔离）和独立的 Face Index，安全性高但成本高，适合向不同公司提供产品（如 Dify、Coze 企业级方案）；假隔离：同一张表加 `tenant_id` 字段、向量库通过 metadata 中的 `tenant_id` 检索后过滤，成本低，适合内部项目或快速实现场景。
+2. 三类瓶颈：CPU 瓶颈（FastAPI 并发不足，解决方案是前置 Nginx 做负载均衡分发到多个实例）、网络瓶颈（调用在线大模型延迟）、GPU 瓶颈（本地大模型需扩容）。QPS 差异原因在于客户理解的 QPS 是并发客服人数（如20人），而实际 QPS 是真实终端用户咨询量，受促销活动影响波动较大。
+3. Chrome MCP Server 让大模型能直接读取浏览器页面的 HTML、控制台错误和样式信息，解决了开发者需要手动 F12 调试的痛点；接入流程：从 GitHub 下载扩展解压 → Chrome 扩展管理页加载未打包扩展 → 在 Claude/Cursor 的 MCP 配置中添加 `127.0.0.1:12306-mcp` 地址。
+
+</details>

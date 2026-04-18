@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927466
 wiki: wiki/concepts/050-mcp-protocol-part-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 如果你已经有一个 FastAPI 服务，想把它的接口暴露给 AI Agent 使用，你会怎么做？
+2. LLM 在调用工具时，是如何"知道"应该调用哪个工具的？它依赖什么信息来做决策？
+3. 在生产环境中把 MCP 服务器部署到与业务 API 不同的端口，主要是出于什么考虑？
+
+---
+
 # 050: MCP Protocol Deep Dive — Part 2
 
 **Source:** [6MCP 与 A2A 协议详解-MCP2](https://u.geekbang.org/lesson/818?article=927466)
@@ -281,3 +291,23 @@ When deploying MCP servers in production:
 - → [[langgraph-agent-patterns]]
 - → [[fastapi-python-web]]
 - → [[llm-tool-use]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 `fastapi-mcp` 和 `fastmcp` 这两种构建 MCP 服务器的方式各自适合什么场景，以及核心区别是什么。
+2. 在物流 Agent 示例中，`MultiServerMCPClient` 支持哪两种传输模式？分别说明它们的工作方式和适用场景。
+3. 为什么说"工具描述"对 MCP 服务器至关重要？如果不设置 `operation_id` 和 `description`，会发生什么问题？
+
+<details>
+<summary>答案指南</summary>
+
+1. `fastapi-mcp` 适合已有 FastAPI 服务的场景：通过 `FastApiMCP(app).mount()` 在原有 REST API 之上叠加 MCP 层，原接口不受影响。`fastmcp` 适合从零开始的场景，代码量更少，用装饰器 `@mcp.tool()` 直接定义工具，是新项目的惯用选择。
+2. 两种传输模式：**`streamable_http`（SSE）** 通过 URL 连接远程 MCP 服务器；**`stdio`** 将本地 Python 脚本作为子进程启动，通过标准输入/输出通信。前者用于网络部署的服务，后者用于本地工具脚本。
+3. LLM 完全依靠 `operation_id`、`description` 和参数 `description` 来决定调用哪个工具。若不设置 `operation_id`，FastAPI 会自动生成如 `read_user__users__user_id__get` 这样难以理解的名称，导致 LLM 无法正确选择工具甚至完全不调用。
+
+</details>

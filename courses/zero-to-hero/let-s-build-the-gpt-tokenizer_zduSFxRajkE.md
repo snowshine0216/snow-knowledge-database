@@ -3,6 +3,16 @@ tags: [tokenization, bpe, llm, nlp, gpt, deep-learning, andrej-karpathy, neural-
 source: https://www.youtube.com/watch?v=zduSFxRajkE
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. Byte Pair Encoding (BPE) is the tokenization algorithm used in GPT models. Without looking anything up, describe in one or two sentences how you think BPE works — what does it start with, and what does it do iteratively?
+2. GPT models are known to struggle with spelling, counting characters, and arithmetic. What do you think causes these failures — is it a model architecture issue, a training data issue, or something else?
+3. If you wanted a tokenizer vocabulary that covers all possible text, why might you *not* just use all ~150,000 Unicode code points as your vocabulary directly?
+
+---
+
 # Course: Let's build the GPT Tokenizer
 
 > **Instructor:** Andrej Karpathy
@@ -190,3 +200,23 @@ Tokenization is the translation layer between raw text and the integer sequences
 - **Transcript source:** `auto subtitles` (subtitle-vtt, `zduSFxRajkE.en-orig.vtt`)
 - **Cookie-auth retry:** used
 - **Data gaps:** none
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Walk through the BPE training loop from scratch: starting point, what `get_stats()` returns, what `merge()` does, and how the `merges` dict is built across iterations.
+2. Explain why the `encode()` function uses a "greedy lowest-rank merge" strategy — what would go wrong if you picked the *most frequent* pair instead of the *earliest-assigned* pair?
+3. Pick any three of the following LLM quirks and explain their root cause in terms of tokenization: spelling failures, arithmetic errors, non-English degradation, SolidGoldMagikarp glitch tokens, YAML preferred over JSON, GPT-2 Python indentation weakness.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. BPE starts with 256 byte tokens (raw UTF-8 bytes). Each iteration calls `get_stats()` to build a `{pair: count}` dict over the current token list, selects the most frequent pair via `max(stats, key=stats.get)`, calls `merge()` to replace every non-overlapping occurrence of that pair with a new integer ID, and records `(child1, child2) → new_id` in the `merges` dict. This repeats until the target vocabulary size is reached; after 20 merges on a blog post the compression ratio is roughly 1.27×.
+2. `encode()` must reproduce the *exact same merges in the exact same order* as training — so it applies the merge with the lowest assigned ID first (earliest merge = most frequent pair from training time). Using frequency at inference time would be wrong because the current input's pair frequencies differ from the training corpus, producing inconsistent token boundaries and breaking the encode/decode roundtrip.
+3. **Spelling failures**: tokens like `DefaultStyle` are single atoms — the model has no character-level view inside them, so it cannot spell or count characters. **Arithmetic errors**: multi-digit numbers are split arbitrarily across token boundaries, forcing the model to compose digit values it has never seen aligned that way. **Non-English degradation**: non-English text requires more tokens per sentence, consuming context window faster and effectively shrinking the model's useful memory. **SolidGoldMagikarp**: the token appeared in tokenizer vocabulary training data but had near-zero occurrence in LLM training, leaving its embedding essentially undefined and triggering bizarre behavior. **YAML over JSON**: YAML's syntax is more token-efficient in common tokenizers — the same structured data encodes to fewer tokens, making YAML cheaper in context budget.
+
+</details>

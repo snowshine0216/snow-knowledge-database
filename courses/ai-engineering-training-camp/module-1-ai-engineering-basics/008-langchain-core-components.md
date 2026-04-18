@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927425
 wiki: wiki/concepts/008-langchain-core-components.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 手写 Function Calling（即手动拼 JSON Schema 让模型调用工具）会带来哪些工程化问题？你能想到几个？
+2. LangChain 和 LangGraph 听起来都是 AI 框架，你猜它们的定位有什么不同？各自解决什么问题？
+3. 一个 Agent 框架通常需要哪些核心能力？（从"让模型能用工具、能记住对话、能规划步骤"这几个方向猜猜看）
+
+---
+
 # 008: LangChain 核心组件概述
 
 **Source:** [AI 工程化训练营 LangChain 核心组件概述](https://u.geekbang.org/lesson/818?article=927425)
@@ -132,3 +142,25 @@ def get_current_time(timezone: str) -> str:
 - → [[007-llm-invocation-and-function-calling-basics]]（Function Calling 原理）
 - → [[006-what-is-ai-engineering]]（LangChain 在能力层/工具增强层）
 - → 模块 2 周日课：Function Calling 深入 + MCP
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：手写 Function Calling 的两个核心问题是什么？LangChain 是如何通过封装来解决它们的？
+2. LangChain 和 LangGraph 分别比作"工具箱"和"流程引擎"——用这个比喻说明两者的分工，并举例说明什么场景该选哪个。
+3. LangChain 的三大核心组件（Tools、Agents、Memory）各自负责什么？ReAct Agent 和 Plan-and-Execute Agent 的执行方式有何不同？
+
+<details>
+<summary>答案指南</summary>
+
+1. 两个问题：①手动拼 JSON Schema 易出错，格式稍有偏差就调用失败；②工具能否被调用取决于用户 Prompt 质量，工程上不可控。LangChain 将 Function Calling 封装成声明式 Tool 对象，使调用路径可靠、可预期，不再依赖 Prompt 写法。
+
+2. LangChain 是"工具箱"，关注怎么调用模型、怎么执行工具（线性管道）；LangGraph 是"流程引擎"，关注谁先执行、条件分支、并行与重试（复杂控制流）。选型规则：需要编排工作流或 Multi-Agent 协同→选 LangGraph；只需要组合工具底层→用 LangChain 组件。
+
+3. Tools 将 Function Calling 封装为声明式对象；Agents 内置 ReAct（思考→行动循环，边执行边评估）和 Plan-and-Execute（先规划全部步骤再执行）两种模式；Memory 分短期记忆（当前会话上下文，保持多轮连贯）和长期记忆（持久化用户偏好或历史数据）。
+
+</details>

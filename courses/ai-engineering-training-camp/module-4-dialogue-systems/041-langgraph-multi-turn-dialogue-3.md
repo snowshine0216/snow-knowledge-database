@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927457
 wiki: wiki/concepts/langgraph-state-control.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangGraph 的"时间旅行"功能依赖哪种机制？你猜它需要记录哪些信息才能回到历史状态？
+2. 如果一个 LLM 节点的主模型调用失败，在 LangGraph 中你会如何实现自动切换到备用模型？
+3. `get_state_history()` 返回的快照列表，你认为是按时间正序还是倒序排列？最新状态在哪里？
+
+---
+
 # 041: 用LangGraph实现多轮对话流程控制（三）
 
 **Source:** [10用LangGraph实现多轮对话流程控制3](https://u.geekbang.org/lesson/818?article=927457)
@@ -346,3 +356,23 @@ langgraph dev  # 启动本地调试服务，自动打开浏览器
 - → [[langgraph-fundamentals]]
 - → [[langgraph-advanced-patterns]]
 - → [[human-in-the-loop]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：`StateSnapshot` 包含哪些关键字段，各自的作用是什么？如果要实现时间旅行，需要用到其中哪些字段？
+2. 条件边如何实现"输入校验 + 自动重试"逻辑？请描述节点连接方式，以及如何防止无限循环。
+3. LangGraph Studio 当前的能力边界是什么？它能做哪些事、不能做哪些事？生产环境应配合什么工具使用？
+
+<details>
+<summary>答案指南</summary>
+
+1. `StateSnapshot` 包含：`config`（含 `thread_id` 和 `checkpoint_id`，用于定位快照）、`values`（当前状态变量值）、`next`（下一个待执行节点）、`metadata.step`（步骤编号）、`tasks`（含 `task_id` 和 `error`）。时间旅行需要用 `thread_id` + `checkpoint_id` 构造 `replay_config`，再调用 `graph.stream(snapshot_state.values, replay_config)` 从该点重放。
+2. 通过"循环边"实现重试：`validate_input` 节点接条件边，合法订单路由到 `handle_valid`，非法订单路由到 `handle_invalid`，`handle_invalid` 再连回 `validate_input` 形成循环。用 `Annotated[int, lambda x, y: x + y]` 累加 `retry_count`，当重试次数超过阈值（如 `> 2`）时条件边路由到 `END`，避免无限循环。
+3. LangGraph Studio 支持：图形化查看工作流结构、单步调试、查看每个节点的输入/输出；不支持：可视化编辑工作流、添加新节点或边。它是调试和监控工具，不是设计工具；生产环境建议配合 LangSmith 使用。
+
+</details>

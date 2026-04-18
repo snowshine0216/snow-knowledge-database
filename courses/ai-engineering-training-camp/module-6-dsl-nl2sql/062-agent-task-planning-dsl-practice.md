@@ -3,6 +3,17 @@ tags: [dsl, agent, task-planning, langgraph, low-code, workflow, yaml, python]
 source: https://u.geekbang.org/lesson/818?article=941178
 wiki: wiki/concepts/062-agent-task-planning-dsl-practice.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What structural problem arises when trying to connect a low-code drag-and-drop UI to an execution framework like LangGraph, and why might a DSL help?
+2. In a configuration-driven design pattern, what is typically separated from what — and what is the main benefit of that separation?
+3. If you were building a YAML-to-LangGraph pipeline, what would you expect the steps to be between loading the YAML file and running the workflow?
+
+---
+
 # 062: Designing and Implementing a DSL Language for Agent Task Planning
 
 **Source:** [模块六实践一：设计并实现一套面向 Agent 任务规划的 DSL 语言](https://u.geekbang.org/lesson/818?article=941178)
@@ -193,3 +204,23 @@ The DSL layer is what makes this pipeline possible — it serves as the stable, 
 - [[yaml-dsl-workflow]] — DSL format and persistence pattern used by Dify/Coze
 - [[agent-task-planning]] — the planning domain this DSL is designed to serve
 - [[configuration-driven-design]] — the software pattern applied throughout
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words what role the DSL plays in the pipeline from natural language or drag-and-drop UI to a running application — and why it is described as an "intermediate representation."
+2. Walk through the three-file project structure (`main.py`, `dsl_parser.py`, `graph_builder.py`) and explain what each file is responsible for and why those responsibilities are separated that way.
+3. Describe the classic LangGraph build sequence used in `graph_builder.py`, including how YAML `condition`/`then`/`else` blocks map to LangGraph API calls.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The DSL (YAML/JSON/Markdown) sits between user intent (natural language or drag-and-drop) and the execution engine (LangGraph). Low-code UIs cannot directly map to LangGraph, so the DSL provides a stable, structured format that an LLM or UI can produce and the engine can consume — making pipelines like "chat → YAML → running app" possible.
+2. `dsl_parser.py` loads and validates the YAML into a Python dict (failing loudly upfront if required keys like `graph`, `state`, `nodes`, `start` are missing); `graph_builder.py` converts that dict into a LangGraph `StateGraph`; `main.py` is intentionally minimal, just wiring the two together and calling `invoke()`. Separation keeps volatile config logic out of the stable execution engine.
+3. The build sequence is: `add_node()` for each node, then `add_edge()` for simple transitions, then `add_conditional_edges()` for branches, then `compile()`, then `invoke()`. YAML `condition`/`then`/`else` blocks map directly to `add_conditional_edges()` — the condition key is evaluated at runtime and routes to the `then` node if true or the `else` node if false.
+
+</details>

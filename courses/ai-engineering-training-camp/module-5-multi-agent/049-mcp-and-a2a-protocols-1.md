@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927465
 wiki: wiki/concepts/049-mcp-and-a2a-protocols-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. MCP（模型上下文协议）是什么？你认为它主要解决了 AI Agent 开发中的哪类问题？
+2. 在 MCP 架构中，你认为它是两层结构（客户端/服务器）还是三层结构？每一层分别负责什么？
+3. Function Calling 和 MCP 是互斥关系还是互补关系？你会在什么场景下选择其中一种？
+
+---
+
 # 049: MCP 与 A2A 协议详解（MCP 第一讲）
 
 **Source:** [5MCP 与 A2A 协议详解-MCP1](https://u.geekbang.org/lesson/818?article=927465)
@@ -224,3 +234,23 @@ MCP 支持两种主要传输方式：
 - → [[012-prompt-engineering-and-agent-design]]
 - → [[013-multi-agent-finetuning-deployment]]
 - → [[049-mcp-and-a2a-protocols-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 MCP 的 Host、Client、Server 三者的职责分工，并说明为什么"应用的智能水平完全由 Host 决定"？
+2. MCP 的三种原语（工具、资源、提示词）各自的设计定位是什么？为什么在实际工程中 Resource 和 Prompt 几乎不被使用，MCP 几乎等同于"标准化远程工具调用协议"？
+3. 课程给出了一个工具调用的决策框架：内部接口用 Function Calling，外部 API 用 MCP，以及单 Agent 挂载工具不超过 3 个。请用自己的话解释这三条建议背后各自的原因。
+
+<details>
+<summary>答案指南</summary>
+
+1. Host 管理完整对话上下文、拼接 Prompt、解析模型响应并决策是否调用 MCP Server，是唯一的智能决策层；Client 只做协议转换（JSON-RPC）和连接维持，无业务逻辑；Server 实现协议并声明工具能力，不含任何 AI 逻辑，调用结果须可预测。智能水平由 Host 决定，因为只有 Host 与大模型交互并做调用决策。
+2. Resource 定位为只读数据暴露，Tool 定位为执行动作，Prompt 定位为服务端提示词模板。Resource 实际少用，因为直接暴露数据有隐私风险且缺乏过滤；Prompt 少用，因为大模型数量有限、本地维护更方便；Tool 几乎包揽了另两者的用途，故 MCP 实践中约等于标准化远程工具调用。
+3. 内部接口用 Function Calling，因为内部接口极少变动且无需网络往返，调试方便；外部 API 用 MCP，因为第三方维护的 MCP 工具质量高且易替换；工具不超过 3 个，因为工具过多时模型容易在相似工具间选错，且调试和评估难度显著上升。
+
+</details>

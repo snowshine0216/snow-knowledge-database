@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, change-of-basis, coordinate-systems]
 source: https://www.youtube.com/watch?v=P2LTAUO1TdA
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. If two people use different coordinate systems to describe the same vector, how would you convert a vector from one coordinate system to the other using matrices?
+2. What is a "change of basis" matrix, and what role do a new basis's vectors play in constructing it?
+3. What do you think happens to a linear transformation's matrix when you express it in a different coordinate system — does the underlying geometry change?
+
+---
+
 # Change of Basis
 
 ## Metadata
@@ -74,3 +84,23 @@ The most powerful application of change of basis is **diagonalization**. When a 
 $$A^{-1} M A = \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix}$$
 
 In the eigenbasis, the transformation is diagonal — the simplest possible description. This is why eigenvectors matter: they reveal the coordinate system in which a transformation reduces to nothing more than stretching or compressing along independent directions. Computing powers, exponentials, or any repeated application of $M$ becomes straightforward once the matrix is diagonal, because diagonal matrices compose trivially.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why multiplying Jennifer's coordinate vector by the basis matrix $A$ converts it into our coordinate system — what are the columns of $A$, and why does matrix multiplication do the right thing?
+2. Walk through the conjugation formula $A^{-1}MA$ step by step, explaining what each of the three matrix multiplications is doing geometrically.
+3. Explain what diagonalization means in terms of change of basis, and why expressing a transformation in its eigenbasis is so computationally useful.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The columns of $A$ are Jennifer's basis vectors expressed in our coordinate system; multiplying $A$ by Jennifer's coordinates $(a, b)^\top$ forms a linear combination $a\mathbf{b}_1 + b\mathbf{b}_2$, which is exactly the same arrow described in our language.
+2. Reading right to left: $A$ translates Jennifer's input vector into our coordinate language, $M$ applies the transformation in our system, and $A^{-1}$ converts the output back into Jennifer's coordinates — giving the same geometric action written entirely in her language.
+3. Diagonalization uses the eigenvectors of $M$ as the columns of $A$, so $A^{-1}MA$ yields a diagonal matrix of eigenvalues; in this eigenbasis the transformation is pure axis-aligned scaling, making repeated applications (powers, exponentials) trivial since diagonal matrices compose by simply raising each diagonal entry to the desired power.
+
+</details>

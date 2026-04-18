@@ -3,6 +3,16 @@ tags: [deep-learning, neural-network, multilayer-perceptron, nlp, language-model
 source: https://www.youtube.com/watch?v=TCH_1BHY58I
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. A bigram model uses 1 previous character as context. What do you think happens to a count-table approach if you extend context to 3 or 4 characters? Why might that be a problem?
+2. In neural language models, what is a character embedding, and why would you want to represent characters as dense vectors rather than one-hot vectors?
+3. When training a neural network, how would you go about choosing a good learning rate if you had no prior knowledge of the problem?
+
+---
+
 # Course: Building makemore Part 2: MLP
 
 > **Instructor:** Andrej Karpathy
@@ -442,3 +452,23 @@ for _ in range(20):
 - **Cookie-auth retry:** used
 - **Data gaps:** none
 - **Notebook:** `build_makemore_part2_mlp.ipynb`
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain why `emb.view(-1, 6)` is preferred over `torch.cat(torch.unbind(emb, 1), dim=1)` for reshaping the embedding tensor, and describe what "view" actually does at the memory level.
+2. Walk through the three reasons Karpathy gives for using `F.cross_entropy` instead of manually computing softmax followed by negative log likelihood.
+3. Describe the 80/10/10 train/dev/test split strategy used in this lesson: what each split is used for, and how you would diagnose whether your model is underfitting or overfitting from the resulting loss values.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. `view()` is a zero-copy reshape — it only modifies tensor metadata (shape, strides, storage offset) without allocating new memory, whereas `torch.cat` allocates a fresh tensor. Every tensor has a flat 1D storage in memory; `view()` just changes how that block is interpreted as an n-dimensional array.
+2. The three reasons are: (1) fused kernels make the forward pass faster with no intermediate tensors for exp/sum/log; (2) the backward pass is analytically simpler — gradients reduce to clean closed-form expressions; (3) numerical stability via internal max-subtraction before exponentiation, preventing overflow from large logit values.
+3. The training set (~80%) updates model parameters via gradient descent; the dev/validation set (~10%) is used frequently to tune hyperparameters (hidden size, embedding dim, learning rate); the test set (~10%) is evaluated only once at the very end. When train loss ≈ dev loss, the model is underfitting — increase capacity. When dev loss >> train loss, the model is overfitting — regularize or get more data.
+
+</details>

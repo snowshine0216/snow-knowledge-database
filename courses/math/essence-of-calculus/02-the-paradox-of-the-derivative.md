@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, derivative, limits, instantaneous-rate]
 source: https://www.3blue1brown.com/lessons/derivatives
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What happens algebraically when you try to compute "instantaneous velocity" by plugging dt = 0 directly into the average velocity formula (s(t+dt) − s(t)) / dt?
+2. If s(t) = t³, what do you expect the derivative s′(t) to be, and how would you go about computing it?
+3. What does the Leibniz notation ds/dt mean, and how does it differ from Lagrange notation s′(t)?
+
+---
+
 # Chapter 2: The Paradox of the Derivative
 
 **Source:** [The Paradox of the Derivative](https://www.3blue1brown.com/lessons/derivatives)
@@ -112,3 +122,25 @@ The derivative $v(t) = ds/dt$ also has a geometric meaning: it is the **slope of
 
 - **Previous:** Chapter 1 (The Essence of Calculus) introduced $dA/dr = 2\pi r$ informally through the ring argument; this chapter supplies the rigorous limit definition that backs that claim.
 - **Next:** Chapter 3 (Derivative Formulas Through Geometry) uses geometric arguments to derive derivative rules — power rule, sine, cosine — avoiding the need to expand binomials by hand every time.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the "paradox of the derivative" in your own words: why is "instantaneous velocity" self-contradictory, and how does the concept of a limit resolve it without being circular?
+2. Walk through the algebra of computing the derivative of s(t) = t³ from the limit definition — explain what happens to the dt terms and why the limit is not just a trick.
+3. Describe what the three derivative notations (Lagrange, Leibniz, Newton) each emphasize, and explain the geometric interpretation of the derivative.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Velocity requires two distinct moments to measure change, yet "instantaneous" means a single point — plugging dt = 0 yields 0/0, which is undefined. The limit resolves this by asking what value the ratio *approaches* as dt shrinks arbitrarily, never actually setting dt to zero, so the trend is well-defined without evaluating the undefined expression.
+
+2. Expanding (t+dt)³ gives t³ + 3t²·dt + 3t·(dt)² + (dt)³; subtracting t³ and dividing by dt yields 3t² + 3t·dt + (dt)²; as dt → 0 the remaining dt terms vanish, leaving s′(t) = 3t². The dt does real algebraic work canceling the denominator before the limit removes it — it is never set to zero directly.
+
+3. Lagrange (s′(t)) emphasizes the derivative as a function of t; Leibniz (ds/dt) reads as a tiny change in s per tiny change in t and is ideal for the chain rule and integration by substitution; Newton (ṡ) is compact and common in physics. Geometrically, the derivative at a point equals the slope of the tangent line to the graph at that point, and equivalently gives the best local linear approximation f(x+Δx) ≈ f(x) + f′(x)·Δx.
+
+</details>

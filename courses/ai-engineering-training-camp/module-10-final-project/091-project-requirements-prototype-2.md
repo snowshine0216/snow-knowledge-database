@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=930872
 wiki: wiki/concepts/091-project-requirements-prototype-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在多Agent系统中，如果一个父Agent需要调用多层嵌套的子Agent（父→子→孙），用纯框架代码实现会遇到什么工程挑战？
+2. 在客服系统中做意图识别路由，你认为"关键词匹配"和"大模型分类"各有什么优缺点？
+3. 当一个接口需要调用两次大模型才能返回结果，你会想到哪些方法来减少响应时间？
+
+---
+
 # 091: Project Requirements and Prototype Design Part 2
 
 **Source:** [3-项目需求与原型设计2](https://u.geekbang.org/lesson/818?article=930872)
@@ -230,3 +240,25 @@ LANGCHAIN_API_KEY=<your_key>
 ## Connections
 - → [[090-project-requirements-prototype-1]]
 - → [[092-core-interaction-capabilities-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：为什么多层嵌套Agent场景下要从纯LangChain 1.0切换到LangGraph？LangChain 1.0的"一切皆工具"模式在这里具体造成了什么问题？
+2. 本课用较弱的模型（Qwen Turbo）做开发测试，而不是直接用强模型，这背后的逻辑是什么？它如何帮助提升最终系统质量？
+3. 订单查询接口的性能瓶颈是什么？课程提出的优化方案是怎么把4秒压缩到约2秒的？
+
+<details>
+<summary>答案指南</summary>
+
+1. LangChain 1.0要求将子Agent封装成函数再封装成工具才能被父Agent调用，多层嵌套时需要层层封装，代码不优雅且维护成本极高。LangGraph是LangChain 1.0的底层实现，用节点+条件边表达路由逻辑，比层层工具封装更清晰，因此路由层（Root节点）改用LangGraph实现。
+
+2. 弱模型参数量小、响应快，且"不够聪明"——提示词稍有模糊就会报错或输出错误分类，相当于在恶劣环境中强制检验提示词质量。开发阶段用弱模型把提示词打磨清晰后，交付时换成强模型（70B、DeepSeek等），强模型能对边界情况额外兜底，系统整体更健壮。
+
+3. 瓶颈在于订单查询需要两次大模型调用：第一次意图识别，第二次将工具返回结果翻译成自然语言，合计约4秒。优化方案是：在工具调用的提示词中直接让模型一次性完成结果翻译，合并两次调用为一次，响应时间减半至约2秒。
+
+</details>

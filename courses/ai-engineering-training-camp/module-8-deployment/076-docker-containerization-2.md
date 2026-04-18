@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927492
 wiki: wiki/concepts/076-docker-containerization-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在多容器 Docker 应用中，为什么通常只对外暴露 Nginx 的端口（80/443），而不直接暴露后端服务的端口？
+2. 如果你要阅读一个大型开源项目（如 Dify）的源码，你会从最新版本开始还是早期版本？为什么？
+3. `docker-compose.yaml` 中的 `depends_on` 字段有什么作用？
+
+---
+
 # 076: Docker Containerization and Image Build Workflow (Part 2)
 
 **Source:** [2Docker 容器化打包与镜像构建流程2](https://u.geekbang.org/lesson/818?article=927492)
@@ -216,3 +226,23 @@ networks:
 ## Connections
 - → [[075-docker-containerization-1]]
 - → [[077-fastapi-model-service]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 Dify 的对外端口暴露策略：Nginx 是如何根据请求路径将流量分发给不同内部服务的？
+2. 为什么不推荐直接阅读 Dify v1.9.2，而推荐先从 v0.2.1 入手？请用两个具体的代码层面差异来说明。
+3. 在 Dify 最新版中，如果你想定位 RAG 检索逻辑的具体实现，需要经过哪几个代码层级？请按顺序描述调用链路。
+
+<details>
+<summary>答案指南</summary>
+
+1. Nginx 监听 80/443 端口作为唯一对外入口：请求路径 `/` 转发到 Web 前端（5001），路径 `/-api` 或 `/-v1` 转发到 FastAPI 后端，插件请求转发到插件服务（5002）；所有内部服务（Redis、PostgreSQL、Celery 等）不对外暴露，仅通过 Docker 内部网络通信。
+2. v0.2.1 代码量小、结构扁平，RAG 核心逻辑直接在 `call/combination.py` 中可见，2–3 次跳转即可找到；v1.9.2 采用 Factory + Blueprint 模式，RAG 深层嵌套在 `api/core/rag/` 中，需要跳转 5–6 次，抽象层级复杂。
+3. 调用链路为：`api/app.py` → `app_factory.py (CreateApp)` → `register_blueprints` → `api/controllers/`（Blueprint Controller）→ `api/services/`（Service 层）→ `api/core/rag/`（RAG 核心），可在其中找到 `retrieval/`（检索逻辑）和 `splitter/`（文本分割）等具体实现。
+
+</details>

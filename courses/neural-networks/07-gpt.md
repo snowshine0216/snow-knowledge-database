@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, gpt, transformers, emb
 source: https://www.youtube.com/watch?v=wjZofJX0v4M
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. Transformers process all tokens in parallel rather than sequentially. What problem does this create, and how do you think it might be solved?
+2. If word embeddings place words in a high-dimensional space, what would you expect the vector arithmetic `embedding("king") - embedding("man") + embedding("woman")` to approximately equal?
+3. GPT stands for Generative Pre-Trained Transformer. How do you think it generates text one word at a time — does it plan the whole sentence upfront, or something else?
+
+---
+
 # Transformers — The Tech Behind LLMs
 
 ## Metadata
@@ -138,3 +148,23 @@ To generate text:
 4. Append $t_{n+1}$ to the context and repeat from step 2
 
 Each forward pass costs $O(n \cdot d_{\text{model}}^2)$ — it grows with context length because attention attends to all previous tokens. This is why long-context generation is expensive.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why positional encodings are necessary in a transformer, and describe the difference between sinusoidal and learned positional encodings.
+2. Walk through the full GPT forward pass pipeline — from raw text to a probability distribution — naming every major step and data structure involved.
+3. Explain what "weight tying" means in GPT, why the unembedding matrix equals the transpose of the embedding matrix, and what practical benefit this provides.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Transformers process all tokens in parallel and have no inherent notion of order, so positional encodings $\mathbf{p}_i$ are added to each token embedding to inject sequence position. Sinusoidal encodings use fixed sine/cosine functions of position and dimension; learned positional embeddings (used in GPT) store a trainable parameter vector per position — both perform comparably.
+2. Raw text → tokenizer (BPE) → integer token sequence → embedding lookup + positional encoding → embedding matrix $X \in \mathbb{R}^{n \times d_\text{model}}$ → $N$ transformer blocks (attention + MLP + residual + LayerNorm) → unembedding matrix → logits $\in \mathbb{R}^{|V|}$ → softmax → probability distribution over next tokens.
+3. Weight tying means $\mathbf{U} = \mathbf{E}^\top$: the unembedding matrix is literally the transpose of the learned embedding matrix rather than a separate set of parameters. This halves the number of embedding parameters, which is significant given GPT-3's vocabulary size of 50,257 tokens.
+
+</details>

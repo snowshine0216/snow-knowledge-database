@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927493
 wiki: wiki/concepts/077-fastapi-model-service.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 为什么要在 Ollama 或 vLLM 之外再套一层 FastAPI？直接调用推理服务有什么问题？
+2. 流式响应（Streaming）和非流式响应在实现方式上有什么本质区别？
+3. 用 Transformer 库直接加载一个 FP16 精度、权重文件大小为 10GB 的模型，大约需要多少显存？
+
+---
+
 # 077: Building a Basic Model Service with FastAPI
 
 **Source:** [3基于 FastAPI 构建模型基础服务](https://u.geekbang.org/lesson/818?article=927493)
@@ -304,3 +314,23 @@ class LLMClient:
 ## Connections
 - → [[076-docker-containerization-2]]
 - → [[078-kubernetes-orchestration-basics]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 LangChain / Ray / K8s 三层架构各自负责什么，为什么不能把它们的职责合并到一层？
+2. 课程中封装 Ollama 的 FastAPI 服务是如何同时支持流式和非流式两种响应模式的？请描述关键代码结构和判断逻辑。
+3. 健康检查端点 `/health` 在生产部署中有什么具体作用？仅返回 `{"status": "healthy"}` 够用吗？
+
+<details>
+<summary>答案指南</summary>
+
+1. K8s 负责容器编排和资源调配，Ray 负责原生并发与任务编排（如设置并行度自动生成并行任务），LangGraph 负责业务流程逻辑；三层各有专注，合并会导致关注点混乱、横向扩展困难。
+2. 接口根据 `request.stream` 字段分支：非流式用 `httpx.AsyncClient.post()` 等待完整响应后返回 JSON；流式用异步生成器 + `client.stream()` 逐块 yield，最终包装为 `StreamingResponse(media_type="text/event-stream")` 返回。
+3. K8s 和 Docker 依赖健康检查探针自动重启不健康容器；仅返回固定字符串不够，生产级健康检查应内嵌业务状态（如模型是否加载成功），才能真实反映服务可用性。
+
+</details>

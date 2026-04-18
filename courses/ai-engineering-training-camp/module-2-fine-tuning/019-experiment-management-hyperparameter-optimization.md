@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927435
 wiki: wiki/concepts/019-experiment-management-hyperparameter-optimization.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在大模型 LoRA 微调中，你认为学习率（Learning Rate）设置过高会导致什么问题？
+2. "过拟合"和"欠拟合"分别意味着什么？在训练曲线上会有什么不同的表现？
+3. LoRA 微调完成后，你认为应该将 LoRA 权重合并进基础模型，还是保持分离部署？各有什么理由？
+
+---
+
 # 019: 实验管理与超参数优化
 
 **Source:** [4实验管理与超参数优化](https://u.geekbang.org/lesson/818?article=927435)
@@ -332,3 +342,23 @@ swift infer \
 ## Connections
 - → [[017-finetuning-concepts-and-tokenizers]]
 - → [[018-efficient-finetuning-practice]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 本节课通过五次实验展示了从失败到收敛的过程，请用自己的话描述每次实验出现的问题、根本原因以及对应的解决思路。
+2. 在诊断训练问题时，"训练 Loss 持续上升"、"验证 Loss 先降后升"、"验证 Loss 远高于训练 Loss"这三种现象分别对应什么根本原因？应该调整哪个超参数？
+3. LoRA 的 Adapter 模式与合并模式（Merge & Deploy）在推理性能、部署灵活性和适用场景上有何根本区别？什么情况下应该选择合并模式？
+
+<details>
+<summary>答案指南</summary>
+
+1. 实验一（学习率 0.1）：Loss 持续上升，原因是学习率过高导致参数震荡，解决方案是大幅降低学习率；实验二（epoch=1）：验证 Loss 先降后升，原因是训练轮数太少导致欠拟合，解决方案是增加 Epoch；实验三（epoch=50，数据仅 100 条）：验证 Loss 快速上升，原因是数据量不足导致过拟合，解决方案是增加训练数据；实验四（数据 1000+，rank=8）：轻微欠拟合但接近收敛，再增加 Epoch；实验五（epoch=15，数据 1000+）：训练与验证 Loss 曲线几乎吻合并趋近于 0，训练成功。
+2. 训练 Loss 持续上升说明学习率过高（如 0.1），应大幅降低学习率；验证 Loss 先降后升（训练 Loss 正常下降）说明欠拟合，应增加 Epoch；验证 Loss 远高于训练 Loss 说明过拟合，应增加数据量或降低 Epoch 数。
+3. Adapter 模式将 LoRA checkpoint（约 200–300 MB）与基础模型分离，推理时有约 5–10% 的额外延迟，但可灵活切换多个 LoRA 任务，适合开发调试和多租户 SaaS 场景；合并模式将 LoRA 参数并入基础模型，推理无额外开销，兼容 vLLM 等框架，但无法快速切换任务，适合私有化单任务生产部署和边缘设备。
+
+</details>

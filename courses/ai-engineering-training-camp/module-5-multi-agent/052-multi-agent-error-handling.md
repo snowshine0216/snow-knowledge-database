@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927468
 wiki: wiki/concepts/052-multi-agent-error-handling.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In a distributed multi-agent system, what is the most common type of error you would expect to encounter, and how would you generally handle it?
+2. What is a "circuit breaker" pattern, and why would you use it instead of just retrying indefinitely?
+3. When a multi-agent LLM workflow requires three tools to complete a task, should you give the model all three tools at once or deliver them one at a time after each step? Why?
+
+---
+
 # 052: Multi-Agent System Error Handling and Recovery Mechanisms
 
 **Source:** [8多Agent系统的异常处理与恢复机制](https://u.geekbang.org/lesson/818?article=927468)
@@ -187,3 +197,25 @@ Neither paradigm has won definitively yet. Practitioners should develop fluency 
 - → [[a2a-protocol]]
 - → [[react-agent-pattern]]
 - → [[circuit-breaker-pattern]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the five key design considerations for a retry mechanism, and describe how LangGraph's `RetryPolicy` maps to them in code.
+2. Walk through the full fault-tolerance stack recommended in this lesson — what role does each layer (retry, circuit breaker, fallback, callback, logging) play, and in what order do they activate?
+3. Explain the difference between A2A and MCP protocols using the session cookie analogy, and describe what A2A's state management does *not* handle automatically.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The five considerations are: max retry count, retry delay factor, exponential backoff (to avoid thundering-herd), max delay cap, and specific trigger conditions (which exception types retry). In LangGraph, `RetryPolicy` fields `max_attempts`, `backoff_factor`, `initial_delay`, `max_delay`, and `retry_on` map directly to these; the policy is attached to a node via `graph.add_node("name", fn, retry=retry_policy)`.
+
+2. Retry handles transient recoverable errors first; once the retry budget is exhausted, the circuit breaker opens to stop further futile attempts and prevent cascading failures. The fallback/degradation layer then serves a reduced-functionality response instead of a hard failure; a callback triggers notifications or compensating actions; and timestamped error logging records events for post-mortem analysis.
+
+3. MCP is agent-to-tool communication requiring a discrete round trip to the MCP server each time — like re-logging in on every request. A2A is agent-to-agent communication that maintains protocol-level session state across turns, like a browser holding a session cookie. However, application-level business state (e.g., a user's refund status mid-workflow) must still be explicitly encoded by the developer; A2A does not manage that automatically.
+
+</details>

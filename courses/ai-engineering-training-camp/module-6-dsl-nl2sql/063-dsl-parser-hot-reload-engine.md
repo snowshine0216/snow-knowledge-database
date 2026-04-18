@@ -3,6 +3,17 @@ tags: [dsl, parser, execution-engine, hot-reload, fastapi, langgraph, workflow, 
 source: https://u.geekbang.org/lesson/818?article=941179
 wiki: wiki/concepts/063-dsl-parser-hot-reload-engine.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. If a web server loads a workflow definition file at startup, how would you update that workflow without restarting the server?
+2. What is a common technique for detecting whether a file has changed since the last time you read it, without using a filesystem watcher?
+3. When caching a compiled artifact in a long-running service, what concurrency problem can arise when the cache needs to be invalidated and rebuilt?
+
+---
+
 # 063: DSL Parser and Execution Engine with Dynamic Hot-Reload
 
 **Source:** [模块六实践二开发对应的解析器与执行引擎支持动态加载与运行](https://u.geekbang.org/lesson/818?article=941179)
@@ -132,3 +143,23 @@ The right strategy depends on **data volume and business requirements**, not a s
 - [[fastapi]] — web framework providing the service layer
 - [[hot-reload-patterns]] — general pattern: hash-based change detection as a lightweight hot-reload strategy
 - [[ai-middleware-platform]] — the AI中台 architecture this project prototypes
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Describe the four-layer architecture from this project — name each layer and explain what it owns.
+2. Walk through exactly what happens on an incoming `POST /run` request when the DSL file has changed on disk since the last request.
+3. Explain the file storage strategy a LangGraph agent should use when its required files are large but change frequently, and why.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Access Layer (FastAPI REST endpoints) validates and dispatches requests; Management Layer (`WorkflowManager`) handles DSL loading, caching, and hot-reload logic; Execution Layer (`GraphBuilder`) compiles the DSL into a runnable LangGraph graph; Data Layer (SQLite/file storage) persists DSL files and execution traces.
+2. On each request the server computes an MD5 hash of the DSL file and compares it to the stored hash; a mismatch triggers explicit cache invalidation, a lock acquisition to prevent concurrent rebuilds, and a full recompile of the LangGraph graph before serving the request.
+3. Pre-fetch the files at LangGraph startup and cache them locally — even though they change frequently, on-demand fetching for large files incurs 30–60 second latency that would destroy the user experience, so data volume overrides the "fetch on change" heuristic.
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927502
 wiki: wiki/concepts/085-fastapi-deep-integration-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. RESTful API 设计中，HTTP 的 POST、GET、PUT、DELETE 方法分别对应哪种 CRUD 操作？
+2. Python 中 Pydantic 和普通 `typing` 类型注解相比，最核心的优势是什么？
+3. 在实时多轮对话场景中，WebSocket 相比 HTTP 轮询有什么优势？
+
+---
+
 # 085: FastAPI Deep Integration with Async AI Services Part 1
 
 **Source:** [5FastAPI深度集成1](https://u.geekbang.org/lesson/818?article=927502)
@@ -203,3 +213,23 @@ async def set_cached_response(key: str, value: str, ttl: int = 3600):
 ## Connections
 - → [[084-parallel-mechanisms-2]]
 - → [[086-fastapi-deep-integration-2]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 当大模型输出的 JSON 带有 ` ```json ``` ` 包裹时，课程提出了哪三层兜底清洗策略？请按顺序解释每层做了什么。
+2. Redis 精确缓存和语义缓存的区别是什么？各自的局限性是什么？
+3. 用 Pydantic 验证大模型输出时，`model_config = {"extra": "forbid"}` 和将 JSON Schema 传给大模型这两步分别解决了什么问题？
+
+<details>
+<summary>答案指南</summary>
+
+1. 第一层用正则去除 ` ```json ``` ` 前后缀；第二层用 `ProductItem.model_validate_json()` 做 JSON 格式校验；第三层若非合法 JSON，尝试以 Python 字典解析后转换为 Pydantic 对象。三层递进，逐步降级处理。
+2. 精确缓存以完整请求字符串为 key，相同问题秒级响应，但语义相近的问题（如措辞略有不同）无法命中；语义缓存用向量相似度匹配（如 Faiss/Milvus），可命中语义相近问题，但实现更复杂，是未来方向。
+3. 将 JSON Schema 传给大模型是在"输入侧"约束输出格式，引导模型按结构生成；`extra: "forbid"` 是在"验证侧"拒绝大模型擅自添加的多余字段，防止"画蛇添足"导致下游解析失败。
+
+</details>

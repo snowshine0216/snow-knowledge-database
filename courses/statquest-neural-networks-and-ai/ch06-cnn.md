@@ -3,6 +3,16 @@ tags: [statquest, cnn, convolutional-neural-networks, image-classification, deep
 source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai/
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is the main problem with feeding all pixels of a large image directly into a standard (fully connected) neural network?
+2. In a convolutional neural network, what is a "filter" (kernel), and roughly what does it do to an image?
+3. What is max pooling, and why might it help a network handle slightly shifted versions of the same image pattern?
+
+---
+
 Looking at the chapter content and the CLAUDE.md requirements (frontmatter with `tags` and `source`), here's the study note:
 
 ```markdown
@@ -117,3 +127,22 @@ self.pool = nn.MaxPool2d(
 - **Max pooling provides shift invariance**: by keeping only the strongest activation in each region, the CNN stays robust to small translations in the image.
 - **CNNs scale**: the same building blocks (conv → ReLU → pool → FC) compose into deeper architectures for harder problems—the principles remain identical regardless of network size.
 ```
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words the three specific problems CNNs are designed to solve that standard MLPs cannot handle well for images — and which CNN component addresses each problem.
+2. Trace a 6×6 grayscale image through one full CNN pipeline: filter → feature map → ReLU → max pooling. What are the output dimensions at each step, and what mathematical operation happens at each stage?
+3. Why are CNN filters described as "learned, not hand-crafted"? What mechanism trains them, and what two sets of parameters does that mechanism update?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. CNNs solve: (1) parameter explosion — filters share weights across the image instead of one weight per pixel per node; (2) shift sensitivity — max pooling keeps the strongest local activation regardless of exact position; (3) ignoring spatial correlations — the filter's dot product operation explicitly combines neighboring pixels.
+2. A 3×3 filter slides over the 6×6 image (stride=1), computing element-wise dot product + bias at each position to produce a 4×4 feature map; ReLU is applied element-wise (negatives → 0); a 2×2 max pool with stride=2 selects the maximum in each non-overlapping region, reducing to a 2×2 output (4 values from 36 original pixels).
+3. Filter pixel values and biases start as random values and are optimized end-to-end via backpropagation during training — the same gradient-based process that updates weights in standard neural network layers, requiring no manual design of the filter values.
+
+</details>

@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, derivative, exponential, euler-number]
 source: https://www.3blue1brown.com/lessons/eulers-number
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is Euler's number $e$ approximately equal to, and why do you think it might appear in compound interest calculations?
+2. If you differentiate $2^x$, do you expect to get $2^x$ back exactly, or something different? What might that "something different" be?
+3. What does the natural logarithm $\ln x$ mean, and what would you guess its derivative to be?
+
+---
+
 # Chapter 5: Why Euler's Number e Is Special
 
 **Source:** [Essence of Calculus – Euler's Number](https://www.3blue1brown.com/lessons/eulers-number)
@@ -96,3 +106,23 @@ $$\frac{d}{dx}a^{g(x)} = (\ln a)\,a^{g(x)}\cdot g'(x)$$
 
 - **Previous:** Ch 4 (Chain Rule and Product Rule) introduced the chain rule machinery needed to differentiate compositions — applied here to $e^{g(x)}$ and $a^x = e^{x\ln a}$.
 - **Next:** Ch 6 (Implicit Differentiation) extends the idea of treating one variable as a function of another, using the same chain-rule reasoning that produced $\frac{d}{dx}\ln x$.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why $\frac{d}{dx}a^x = (\ln a)\,a^x$ — walk through the limit definition argument that separates the $a^x$ factor from the constant $C(a)$.
+2. Describe the compound interest path to $e$: what expression do you compute, what happens as compounding frequency increases, and what limit does it converge to?
+3. How does implicit differentiation of $e^y = x$ yield $\frac{d}{dx}\ln x = \frac{1}{x}$? Trace each step of the reasoning.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Writing the limit definition gives $\frac{d}{dx}a^x = a^x \cdot \lim_{h\to 0}\frac{a^h-1}{h}$; the $a^x$ factor pulls out cleanly, leaving a constant $C(a)$ that depends only on the base — and that constant turns out to equal $\ln a$.
+2. Starting with $\$1$ at 100% interest compounded $n$ times per year yields $\left(1+\frac{1}{n}\right)^n$; as $n\to\infty$ this converges to $e \approx 2.71828$, the balance after one year of continuous compounding.
+3. Differentiating both sides of $e^y = x$ gives $e^y \cdot \frac{dy}{dx} = 1$, so $\frac{dy}{dx} = \frac{1}{e^y} = \frac{1}{x}$, which is the derivative of $\ln x$.
+
+</details>

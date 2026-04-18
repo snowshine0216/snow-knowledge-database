@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, diffusion, image-gener
 source: https://www.youtube.com/watch?v=iv-5mZ_9CPY
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In a diffusion model, what do you think happens during the "forward process" — what is being done to the original image, and why?
+2. Models like Stable Diffusion take a text prompt and generate an image. What mechanism do you think connects the text description to the image generation process?
+3. If a neural network must learn to reverse a noisy corruption process, what do you think it actually predicts as its output — the clean image directly, or something else?
+
+---
+
 # How AI Images and Videos Actually Work — Diffusion Models
 
 ## Metadata
@@ -124,3 +134,23 @@ The conditioned denoising network becomes $\boldsymbol{\varepsilon}_\theta(\math
 $$\hat{\boldsymbol{\varepsilon}} = \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t, t, \emptyset) + s\cdot\left(\boldsymbol{\varepsilon}_\theta(\mathbf{x}_t, t, \mathbf{c}) - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t, t, \emptyset)\right)$$
 
 where $s > 1$ is the guidance scale — higher $s$ produces outputs more tightly aligned with the text prompt but less diverse.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the closed-form sampling trick in the forward diffusion process — what problem does it solve, and what are the key variables involved?
+2. Walk through what Classifier-Free Guidance (CFG) does mathematically and intuitively — what does the guidance scale $s$ control, and what is the trade-off when you raise it?
+3. Explain the DDPM training objective in your own words: what does the network see as input, what does it predict, and what loss function is used?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Rather than iterating through all $T$ steps to get a noisy image at step $t$, the closed-form trick lets you directly sample $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\varepsilon}$ in one shot, where $\bar{\alpha}_t = \prod_{s=1}^{t}(1-\beta_s)$ encodes how much signal vs. noise remains at step $t$.
+2. CFG computes a weighted combination of the conditioned and unconditioned noise predictions: $\hat{\boldsymbol{\varepsilon}} = \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\emptyset) + s\cdot(\boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\mathbf{c}) - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\emptyset))$; higher $s$ pushes outputs closer to the text prompt but reduces diversity.
+3. The network $\boldsymbol{\varepsilon}_\theta$ receives a noisy image $\mathbf{x}_t$ and timestep $t$, predicts the noise $\boldsymbol{\varepsilon}$ that was added, and is trained with MSE loss $\|\boldsymbol{\varepsilon} - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t, t)\|^2$ averaged over random timesteps and noise samples (DDPM, Ho et al. 2020).
+
+</details>

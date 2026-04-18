@@ -185,3 +185,32 @@ This course builds a miniature automatic-differentiation engine called **microgr
 - **Language:** English
 - **Cookie-auth retry:** used (YouTube anti-bot)
 - **Data gaps:** none — full transcript and all metadata available
+
+---
+
+===PRE-TEST===
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does a derivative of a function tell you, and how would you estimate one numerically for a single-variable function?
+2. In a neural network, what is the purpose of backpropagation, and which mathematical rule does it rely on?
+3. What is a Multi-Layer Perceptron (MLP), and how do its layers relate to each other?
+===POST-TEST===
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain how the `Value` class in micrograd enables automatic differentiation — what fields does it track, and what role does a `_backward` closure play?
+2. What is the gradient accumulation bug in micrograd, when does it occur, and how is it fixed?
+3. Walk through the four steps of micrograd's gradient descent training loop and explain why zeroing gradients before each backward pass is a critical step.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. `Value` wraps a scalar `data` and tracks `grad` (initially 0), the producing operation (`_op`), and child nodes (`_children`). Each arithmetic operation attaches a `_backward` closure that receives the incoming gradient and distributes it to each child via the chain rule, enabling automatic reverse-mode differentiation.
+2. The bug occurs when the same `Value` node appears multiple times in an expression graph — each path computes a gradient contribution, and overwriting `.grad` (using `=`) discards earlier contributions. The fix is to accumulate with `+=` so all contributions sum correctly.
+3. The loop: (1) **Forward pass** — compute predictions and loss; (2) **Zero gradients** — reset all `.grad` to 0, because micrograd accumulates gradients with `+=` and stale values from the previous step would corrupt the current update; (3) **Backward pass** — `loss.backward()` fills every parameter's `.grad` via topological-sort traversal; (4) **Parameter update** — `p.data -= lr * p.grad` for every parameter.
+
+</details>
+===END===

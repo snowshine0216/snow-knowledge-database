@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=937026
 wiki: wiki/concepts/044-pluggable-intent-hot-reload.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 静态 LangGraph 图在 `compile()` 后若要新增一个意图处理节点，你认为需要经历哪些步骤？会有什么代价？
+2. "热更新"（hot reload）在软件系统中通常是什么含义？你猜它在图结构管理中最难解决的问题是什么？
+3. 当系统正在处理某个用户请求时，如果此刻对图结构进行编译替换，你认为正在进行中的请求会发生什么？
+
+---
+
 # 044: 模块四实践二——可插拔意图识别与对话管理模块（支持热更新）
 
 **Source:** [模块四实践二设计可插拔的意图识别与对话管理模块支持热更新](https://u.geekbang.org/lesson/818?article=937026)
@@ -193,3 +203,23 @@ def describe_main_path(self):
 - → [[042-tool-calling-engine-hot-reload]]
 - → [[043-multi-turn-order-service]]
 - → [[008-langchain-core-components]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述：在 `DynamicGraphManager` 中，运行时动态插入一个新节点（例如 `promotion`）需要经历哪四个关键步骤？跳过任何一步会发生什么？
+2. 请解释 `_hot_compile()` 的工作原理：它做了什么，为什么调用它之后新请求会走新图、而进行中的请求不会中断？
+3. `describe_main_path()` 方法的作用是什么？在动态图调试中，你应该在哪两个时机调用它，能验证什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. 四步骤依次为：① `register_node()` 注册节点函数；② `remove_edges_from()` 删除原有出边；③ `add_edge()` 添加新边连接；④ `_hot_compile()` 触发热编译使变更生效。最常见错误是完成前三步后忘记调用 `_hot_compile()`，导致新节点注册在数据结构中但实际图不变。
+2. `_hot_compile()` 重新实例化 `StateGraph`，将当前 `self.nodes` 和 `self.edges` 全部重新注册并调用 `.compile()` 生成新的可执行图赋值给 `self.app`。LangGraph 基于线程隔离模型，每个请求进入时绑定当时的图快照，替换 `self.app` 引用不影响已绑定旧图的进行中请求，因此不会中断。
+3. `describe_main_path()` 打印当前图的节点列表、边列表和入口节点，用于直观验证图结构。应在节点插入前后各调用一次，对比输出可确认新节点和新边是否已正确注册、旧边是否已被删除。
+
+</details>

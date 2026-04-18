@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, euler, complex-numbers, group-theory]
 source: https://www.3blue1brown.com/lessons/eulers-formula-via-group-theory
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What do you think Euler's formula $e^{i\theta} = \cos\theta + i\sin\theta$ means geometrically — what does multiplying by $e^{i\theta}$ do to a complex number?
+2. A group homomorphism is a "structure-preserving map" between two groups. What two groups do you think are being connected in Euler's formula?
+3. If you substitute $x = i\theta$ into the Taylor series $e^x = \sum x^n/n!$, what happens to the powers of $i$ — do they cycle, grow, or cancel?
+
+---
+
 # Chapter 12: Euler's Formula (via Group-Theory View)
 
 **Source:** [Essence of Calculus – Euler's formula via group theory](https://www.3blue1brown.com/lessons/eulers-formula-via-group-theory)
@@ -119,3 +129,23 @@ Magnitudes multiply; angles add. This is why complex exponentials are the natura
 - **Previous:** Ch 11 (Taylor Series) provided the Maclaurin expansions for $e^x$, $\sin x$, and $\cos x$ that make the Taylor-series proof of Euler's formula possible; the formula is the payoff of that machinery.
 - **Earlier:** Ch 5 (What is $e$?) established why $e$ is the natural base for exponentials — its defining property that $\frac{d}{dx}e^x = e^x$ is what ensures the Taylor series of $e^x$ has the clean form used here. Euler's formula is the culmination of that thread.
 - This is the final chapter of the series. The arc from Chapter 1 (the essence of calculus as limits and infinitesimals) through derivatives, integrals, the Fundamental Theorem, and Taylor series all converge here in a single equation that unifies the exponential and trigonometric worlds.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why Euler's formula is described as "inevitable rather than accidental" — what structural argument makes it necessary?
+2. Walk through the Taylor series derivation of $e^{i\theta} = \cos\theta + i\sin\theta$, explaining why the even and odd powers separate the way they do.
+3. What does it mean geometrically to multiply a complex number $z$ by $e^{i\theta}$, and how does the polar multiplication rule $z \cdot w = r\rho\, e^{i(\phi+\psi)}$ express this?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The real numbers under addition and the unit circle under multiplication are both groups with the same abstract symmetry; $e^{i\theta}$ is the unique continuous homomorphism mapping $(\mathbb{R}, +) \to (S^1, \times)$, so any reasonable continuous map that translates addition into multiplication on the unit circle must take this form.
+2. Substituting $x = i\theta$ into $e^x = \sum (i\theta)^n/n!$ produces powers of $i$ that cycle with period 4 ($1, i, -1, -i, \ldots$); even powers (with alternating signs) collect into the series for $\cos\theta$, and odd powers (with alternating signs, factored by $i$) collect into $i\sin\theta$.
+3. Multiplying $z$ by $e^{i\theta}$ rotates $z$ by angle $\theta$ without changing its magnitude (since $|e^{i\theta}| = 1$); in polar form, $z \cdot w = r\rho\, e^{i(\phi+\psi)}$ shows that magnitudes multiply and angles add.
+
+</details>

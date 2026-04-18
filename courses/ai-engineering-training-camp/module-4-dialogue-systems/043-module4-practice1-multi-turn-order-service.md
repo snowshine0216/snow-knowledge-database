@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=937025
 wiki: wiki/concepts/043-multi-turn-order-service.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在多轮对话系统中，如何让 AI 记住同一用户在不同轮次中说过的内容？你认为需要什么机制来区分"这轮对话"和"上一轮对话"？
+2. "slot filling（槽位填充）"在订单查询客服场景中是什么意思？如果用户没有提供订单号，系统应该怎么做？
+3. 如果要在 LangGraph 智能体中集成 RAG 向量检索，你认为检索器需要以什么形式接入才能被 agent 按需调用？
+
+---
+
 # 043: 模块四实践一——设计支持多轮对话的订单查询客服流程
 
 **Source:** [模块四实践一设计一个支持多轮对话的订单查询客服流程](https://u.geekbang.org/lesson/818?article=937025)
@@ -238,3 +248,23 @@ LangChain 0.x → 1.0 / LangGraph 0.3 → 1.0 迁移要点：
 - → [[008-langchain-core-components]]
 - → [[011-llamaindex-and-rag-systems]]
 - → [[042-tool-calling-engine-hot-reload]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 请解释 LangGraph 中 `thread_id` 的作用，以及 `MemorySaver` 和 `SqliteSaver` 分别适用于什么环境，两者的核心区别是什么？
+2. 本项目为什么推荐用 HTTP POST 方式封装 ASR/OCR 调用，而不是直接使用 `dashscope` SDK？请用自己的话说出至少两个理由。
+3. 什么是"Mock 驱动的渐进式开发策略"？在多模块集成时为什么要先用 mock 占位，而不是直接接入真实 API？
+
+<details>
+<summary>答案指南</summary>
+
+1. `thread_id` 标识一次对话会话，相同 `thread_id` 的请求共享对话历史；`MemorySaver` 将状态存在进程内存中，仅适合开发/测试；`SqliteSaver` 将对话历史持久化到 SQLite 数据库，重启后不丢失，适合生产环境。
+2. 使用 HTTP 方式可以避免引入额外的 `dashscope` SDK 依赖、可将其封装为 MCP 工具供其他 agent 复用，同时避免不同 SDK 版本之间的兼容性问题。
+3. Mock 驱动策略是先用固定返回值的占位函数代替真实 API 调用，确认整体工作流逻辑正确后再逐步替换为真实实现；这样做的目的是隔离变量——多模块集成失败时，原因可能来自工作流逻辑、RAG 召回质量、ASR 识别或 API key 等多处，先 mock 可以快速定位问题来源。
+
+</details>

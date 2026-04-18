@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, integration, differentiation, area]
 source: https://www.3blue1brown.com/lessons/essence-of-calculus
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is the formula for the area of a circle with radius $r$, and how do you think it might be derived from first principles rather than memorized?
+2. What do you think a definite integral represents geometrically, and how is it related to the idea of summing many small pieces?
+3. How do you think differentiation and integration are related to each other — are they independent operations, or is there a deeper connection?
+
+---
+
 # Chapter 1: The Essence of Calculus
 
 **Source:** [The Essence of Calculus](https://www.3blue1brown.com/lessons/essence-of-calculus)
@@ -106,3 +116,23 @@ This concrete example foreshadows the Fundamental Theorem: integration and diffe
 ## Connections
 
 - **Next:** Chapter 2 (The Paradox of the Derivative) formalizes what $dA/dr$ actually means by defining the limit $\lim_{h\to 0}[f(x+h)-f(x)]/h$, resolving the apparent paradox of measuring change at a single instant.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the Decomposition Principle in your own words: what are the three steps, and why does the approximation become exact as the slices get thinner?
+2. Walk through the circle-area derivation using concentric rings — what is the area of a single ring at radius $r$ with thickness $dr$, and how does lining up all rings from $0$ to $R$ produce the formula $A = \pi R^2$?
+3. Explain how the circle-area problem simultaneously introduces both differentiation and the Fundamental Theorem of Calculus, without ever using a formal algebraic rule.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Break the hard quantity into $n$ thin slices of width $dr$; approximate each slice as simple (constant conditions); sum all slices. As $dr \to 0$, the curvature/error terms (of order $dr^2$) vanish, turning the Riemann sum $\sum f(x_i)\Delta x$ into the exact definite integral $\int_a^b f(x)\,dx$.
+2. A ring at radius $r$ has circumference $2\pi r$, so its area is $2\pi r \cdot dr$. Lining all rings from $r=0$ to $r=R$ traces a triangle with base $R$ and height $2\pi R$; its area $\tfrac{1}{2} \times R \times 2\pi R = \pi R^2$ confirms the formula, also verified by $\int_0^R 2\pi r\,dr = \pi R^2$.
+3. Adding one thin ring shows $dA/dr = 2\pi r$ — the derivative of $\pi r^2$ — purely from geometry. Recovering $A(r) = \pi r^2$ by integrating that derivative previews the Fundamental Theorem: integration and differentiation are perfect inverses, a conclusion reached before either operation was formally defined.
+
+</details>

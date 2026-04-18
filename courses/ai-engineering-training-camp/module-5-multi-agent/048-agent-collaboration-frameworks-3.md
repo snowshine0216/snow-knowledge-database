@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927464
 wiki: wiki/concepts/048-agent-collaboration-frameworks-3.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangGraph 支持哪些多 Agent 架构模式？Supervisor 模式和 Network 模式有什么区别？
+2. 在多 Agent 系统中，每个 Agent 携带的工具数量应该控制在多少个以内？为什么？
+3. MCP 和 A2A 协议分别解决的是什么问题？它们之间有什么关系？
+
+---
+
 # 048: 主流 Agent 协作框架对比与案例（三）
 
 **Source:** [4主流 Agent 协作框架对比与案例3](https://u.geekbang.org/lesson/818?article=927464)
@@ -159,3 +169,23 @@ def handoff_tool(...) -> Command:
 - → [[012-prompt-engineering-and-agent-design]]
 - → [[013-multi-agent-finetuning-deployment]]
 - → [[009-function-calling-and-mcp-basics]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 LangGraph 图的三层核心要素（State、Node、Edge），并说明如何通过图嵌套子图实现 Supervisor 层级结构。
+2. 在航班+酒店预订的 MAS 实战中，`create_handoff_tool` 工厂函数的作用是什么？它返回什么类型，内部逻辑等同于什么操作？
+3. 结合框架对比表，解释为什么 LangGraph 比 CrewAI 代码量更多、上手更难，却仍在企业中广泛使用？学习这两个框架的核心目标是什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. State 是节点间传递的状态对象（消息驱动），Node 是执行逻辑单元且本身可以是子图，Edge 是节点间的连接路径。通过将顶层图的某个节点替换为一张完整的子图，即可实现 Supervisor 的多层嵌套（Hierarchical）结构。
+2. `create_handoff_tool` 是 LangGraph 预置的工厂函数，用于生成 Agent 间移交工具；它返回 `Command` 类型，其内部逻辑等同于 `goto` 跳转，将控制流转移到目标节点并携带消息更新。
+3. LangGraph 要求手动定义 State、Node、Edge，灵活性极高但上手难度大；企业使用它是因为公司制定了统一标准，而非因为它简洁。学习两个框架的核心目标是理解**设计模式**（如 Supervisor、Handoff），而非死记框架 API。
+
+</details>

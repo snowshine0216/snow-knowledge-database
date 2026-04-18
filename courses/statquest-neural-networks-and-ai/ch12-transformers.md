@@ -3,6 +3,16 @@ tags: [statquest, transformers, self-attention, multi-head-attention, nlp, deep-
 source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai/
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. LSTMs process tokens sequentially, which makes training on large datasets slow. What architectural change do Transformers make to enable parallel processing during training?
+2. Word embeddings discard word order. What technique does the original Transformer use to restore positional information, and why can't you just use integer indices?
+3. In Self-Attention, what do the terms Query, Key, and Value each represent conceptually, and why is the dot product divided by $\sqrt{d_k}$?
+
+---
+
 Plan mode is active and the write was blocked. Since you asked me to write the study note directly, here it is as output:
 
 ---
@@ -234,3 +244,22 @@ class Transformer(L.LightningModule): ...
 ---
 
 If you'd like me to save this to `courses/statquest-neural-networks-and-ai/ch12-transformers.md`, just approve the file write or exit plan mode first.
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words how Teacher Forcing and Masked Self-Attention together allow the entire Decoder to be trained in parallel, even though a language model must normally generate tokens one at a time.
+2. Walk through the full Self-Attention computation for a single token — from the input vector $\mathbf{x}$ to the final output — including every formula and what each step accomplishes.
+3. Describe the role of Residual Connections in the Encoder. Why are they added after Self-Attention rather than replacing it, and what problem do they solve?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Teacher Forcing feeds the full ground-truth target sequence as Decoder inputs simultaneously (shifted right, starting with `<EOS>`), eliminating sequential dependency. Masked Self-Attention ensures each position can only attend to itself and prior tokens, preserving causal order while still processing all positions in parallel within a single forward pass.
+2. Compute $\mathbf{q} = W^Q\mathbf{x}$, $\mathbf{k} = W^K\mathbf{x}$, $\mathbf{v} = W^V\mathbf{x}$; calculate scaled similarity $\mathbf{q} \cdot \mathbf{k}_j / \sqrt{d_k}$ against every token; apply SoftMax to get weights $\alpha_j$ summing to 1; output is $\sum_j \alpha_j \mathbf{v}_j$ — a weighted blend of all value vectors proportional to relevance.
+3. Residual Connections add the pre-Attention input back to the Attention output ($\mathbf{h} = \text{SelfAttn}(\mathbf{x}) + \mathbf{x}$), letting the Attention layer focus purely on learning *relationships* between tokens without also needing to reconstruct and carry forward the original positional/embedding information.
+
+</details>

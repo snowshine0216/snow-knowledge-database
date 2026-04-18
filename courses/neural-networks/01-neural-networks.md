@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, activation-functions, 
 source: https://www.youtube.com/watch?v=aircAruvnKk
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. Why can't you just stack multiple linear layers in a neural network without any activation function — what goes wrong mathematically?
+2. If a neural network takes a 28×28 grayscale image as input, how many input neurons does it need, and why?
+3. What role does the "bias" term play in a neuron's computation — what would change if you removed it?
+
+---
+
 # But what is a Neural Network?
 
 ## Metadata
@@ -113,3 +123,23 @@ $$784 \times 16 + 16 + 16 \times 16 + 16 + 16 \times 10 + 10 = \textbf{13,002 pa
 The **central question**: how do we automatically find values for all these weights and biases such that the network correctly classifies unseen digits?
 
 The answer — minimizing a cost function via gradient descent — is the subject of Chapter 2.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words what the bias term `b` does in the neuron formula `z = w·a + b`, and why it's necessary independent of the weights.
+2. Walk through the matrix form of the forward pass `a^(l) = σ(W^(l) a^(l-1) + b^(l))` — what does each symbol represent, and why is this vectorized form preferred?
+3. Compare sigmoid and ReLU as activation functions: what does each output, and what specific problem does ReLU address that sigmoid cannot?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The bias `b` shifts the activation threshold independently of the input weights — it lets a neuron fire even when all inputs are zero, or stay inactive even when inputs are large, giving each neuron its own independently adjustable trigger point.
+2. `W^(l)` is the weight matrix (rows = neurons in layer l, columns = neurons in layer l−1), `b^(l)` is the bias vector, `a^(l-1)` is the previous layer's activations, and `σ` is applied element-wise; vectorization replaces a slow neuron-by-neuron loop with a single matrix multiply.
+3. Sigmoid squashes any real input to (0,1) but saturates near 0 and 1, causing vanishing gradients in deep networks; ReLU outputs `max(0,x)`, which is non-saturating for positive values and produces sparse (on/off) activations, making it more practical in modern deep networks.
+
+</details>

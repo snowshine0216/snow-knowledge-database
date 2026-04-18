@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, taylor-series, polynomial-approximation, ser
 source: https://www.3blue1brown.com/lessons/taylor-series
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. A Taylor series approximates a function using a polynomial. What property of the function at a single point do you think determines all the coefficients of that polynomial?
+2. The Maclaurin series for $\sin x$ only contains odd-powered terms ($x, x^3, x^5, \ldots$). Why do you think even-powered terms like $x^2$ or $x^4$ are absent?
+3. If you stop a Taylor series after $n$ terms instead of using the full infinite sum, how would you estimate the size of the error you're making?
+
+---
+
 # Chapter 11: Taylor Series
 
 **Source:** [Essence of Calculus – Taylor series](https://www.3blue1brown.com/lessons/taylor-series)
@@ -105,3 +115,23 @@ For $e^x$ on $[0,1]$, for instance, $|f^{(n+1)}(c)| \leq e^1 < 3$ for all $c \in
 
 - **Previous:** Ch 10 (Higher-Order Derivatives) developed the machinery of $f^{(n)}(a)$ that Taylor coefficients depend on directly; concavity from $f''$ is already a first-order use of that machinery.
 - **Next:** Ch 12 (Euler's Formula via Group Theory) uses the Maclaurin series for $e^x$, $\sin x$, and $\cos x$ as the key ingredient in the Taylor-series proof that $e^{i\theta} = \cos\theta + i\sin\theta$.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the $n$-th Taylor coefficient must equal $f^{(n)}(a) / n!$ — where does the $n!$ come from and why must you divide by it?
+2. The geometric series $1/(1-x)$ has radius of convergence $R = 1$, while $e^x$ converges for all $x$. Explain what determines a series' radius of convergence and why these two functions differ.
+3. State the Lagrange remainder formula and explain what each part tells you about the approximation error when you truncate a Taylor series at degree $n$.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Differentiating $(x-a)^n$ exactly $n$ times at $x = a$ produces $n!$ — so if you want $P^{(n)}(a) = f^{(n)}(a)$, you must set $c_n = f^{(n)}(a)/n!$ to cancel that factorial. Every coefficient is uniquely forced by this matching condition.
+2. The radius of convergence is limited by singularities: $1/(1-x)$ has a pole at $x = 1$, so the series cannot converge past distance 1 from the center. $e^x$ has no singularities anywhere in the complex plane, so its series converges everywhere ($R = \infty$).
+3. The Lagrange remainder is $R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$ for some $c$ between $a$ and $x$. It says the error is essentially the size of the next term evaluated at an intermediate point — bounding $|f^{(n+1)}(c)|$ by its maximum on the interval gives a rigorous worst-case error estimate.
+
+</details>

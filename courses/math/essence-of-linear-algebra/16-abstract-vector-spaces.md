@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, abstract-vector-spaces, axioms, functi
 source: https://www.youtube.com/watch?v=TgKwz5Ikpc8
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. How many axioms does a formal vector space require, and can you name at least three of them?
+2. Could a set of functions (e.g., all functions from ℝ to ℝ) ever qualify as a vector space? Why or why not?
+3. The derivative operator d/dx takes a function and returns another function — does that make it a linear transformation? What properties would it need to satisfy?
+
+---
+
 # Abstract Vector Spaces
 
 ## Metadata
@@ -78,3 +88,23 @@ Two consequences follow immediately. The null space of d/dx is the set of functi
 $$\frac{d}{dx} f = \lambda f \implies f(x) = e^{\lambda x}$$
 
 The point is not that arrows and functions are secretly the same thing. The point is that by identifying a common abstract structure, you do the intellectual work once and apply it everywhere. That is what abstraction is for.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why functions from ℝ to ℝ qualify as a valid vector space. What are the two operations, and what serves as the zero vector?
+2. Write out the derivative matrix for polynomials of degree ≤ 3 and explain how each column is constructed from the monomial basis {1, x, x², x³}.
+3. What does it mean that the null space of d/dx is the constant functions, and which general linear algebra theorem predicts the existence and dimension of that null space?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Functions form a vector space under pointwise addition — (f+g)(x) = f(x)+g(x) — and pointwise scalar multiplication — (c·f)(x) = c·f(x); the zero vector is the function identically equal to zero everywhere. All eight axioms are satisfied under these definitions.
+2. Each column is the coordinate representation of d/dx applied to the corresponding basis element: d/dx(1)=0, d/dx(x)=1, d/dx(x²)=2x, d/dx(x³)=3x², giving the matrix with entries 1, 2, 3 on the superdiagonal and zeros elsewhere.
+3. The null space of d/dx is the set of functions with zero derivative, which are exactly the constant functions — a one-dimensional subspace. This is predicted by the rank-nullity theorem, which applies to d/dx because it is a linear transformation and all theorems about linear maps hold in any vector space satisfying the eight axioms.
+
+</details>

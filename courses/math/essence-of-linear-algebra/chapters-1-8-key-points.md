@@ -1,4 +1,14 @@
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does the determinant of a 2×2 matrix `[[a, b], [c, d]]` equal, and what does it geometrically represent?
+2. If you multiply two transformation matrices A and B, which one is applied to a vector first — A or B?
+3. What is the "span" of two vectors, and what condition must they satisfy to span the full 2D plane?
+
+---
+
 ---
 tags: [linear-algebra, math, 3blue1brown, vectors, matrices, linear-transformations, determinants]
 source: https://www.3blue1brown.com/topics/linear-algebra
@@ -106,3 +116,22 @@ Video: https://www.youtube.com/watch?v=v8VSDg_WQlA
 ![[file-20260321210258682.png|448]]
 ![[file-20260321210359969.png]]
 ![[file-20260321210431935.png]]
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why a matrix's columns are enough to fully describe a 2D linear transformation — why don't you need more information?
+2. What does it mean geometrically when `det(A) = 0`, and why does this make the transformation non-invertible?
+3. A 3×2 matrix transforms vectors from one space to another. Describe the input dimension, output dimension, and what the transformation typically looks like geometrically.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. A 2D linear transformation is fully determined by where it sends the two basis vectors i-hat and j-hat; because linearity forces every other vector to follow from those two destinations, storing those landing spots as columns is sufficient to reconstruct the effect on any input vector.
+2. When `det(A) = 0` the transformation collapses space into a lower dimension (a line or point in 2D), meaning multiple inputs map to the same output — so there is no way to uniquely reverse ("unsquish") the transformation, making the inverse impossible.
+3. A 3×2 matrix takes 2D inputs (two coordinates) and maps them to 3D outputs (three coordinates), typically landing all results on a plane passing through the origin in 3D space — the column count sets input dimension, the row count sets output dimension.
+
+</details>

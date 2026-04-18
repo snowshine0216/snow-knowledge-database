@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, cross-product, determinant, duality]
 source: https://www.youtube.com/watch?v=eu6i7WJeinw
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does the 2D "cross product" of two vectors $\mathbf{v}$ and $\mathbf{w}$ produce — a scalar or a vector — and what geometric quantity does it represent?
+2. The 3D cross product $\mathbf{v} \times \mathbf{w}$ is perpendicular to both inputs. What determines which of the two possible perpendicular directions it points?
+3. If you swap the order of the inputs in a cross product — computing $\mathbf{w} \times \mathbf{v}$ instead of $\mathbf{v} \times \mathbf{w}$ — what happens to the result?
+
+---
+
 # Cross Products
 
 ## Metadata
@@ -97,3 +107,23 @@ This is a linear function from $\mathbb{R}^3$ to $\mathbb{R}$, so by duality it 
 $$(\mathbf{v} \times \mathbf{w}) \cdot \mathbf{x} = \det\begin{pmatrix} x_1 & v_1 & w_1 \\ x_2 & v_2 & w_2 \\ x_3 & v_3 & w_3 \end{pmatrix}$$
 
 This is not a coincidence or a mnemonic — it is a consequence of the structure of linear algebra. The cross product is the dual vector of the volume-measuring linear map defined by $\mathbf{v}$ and $\mathbf{w}$. The entire computation, including the component formula, follows inevitably from this one fact.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the 3×3 determinant mnemonic — placing $\hat{\imath}, \hat{\jmath}, \hat{k}$ in the top row — necessarily produces a vector perpendicular to both $\mathbf{v}$ and $\mathbf{w}$.
+2. Walk through the duality argument: what linear function is involved, why does duality guarantee a unique vector represents it, and why does that vector turn out to be the cross product?
+3. What is the geometric meaning of $\|\mathbf{v} \times \mathbf{w}\|$, and what happens to it when the two vectors are parallel vs. perpendicular?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Treating the top row as a variable vector $\mathbf{x}$, the determinant becomes a linear function $f(\mathbf{x})$ measuring signed volume of the parallelepiped formed by $\mathbf{x}$, $\mathbf{v}$, and $\mathbf{w}$; sliding $\mathbf{x}$ along $\mathbf{v}$ or $\mathbf{w}$ collapses the volume to zero, so the dual vector $\mathbf{p}$ that represents $f$ via dot product must be perpendicular to both $\mathbf{v}$ and $\mathbf{w}$ — and that $\mathbf{p}$ is exactly $\mathbf{v} \times \mathbf{w}$.
+2. The determinant $T(\mathbf{x}) = \det[\mathbf{x}\; \mathbf{v}\; \mathbf{w}]$ is a linear map from $\mathbb{R}^3$ to $\mathbb{R}$; by the duality principle, every such map corresponds to a unique vector so that $T(\mathbf{x}) = \mathbf{p} \cdot \mathbf{x}$; the cross product $\mathbf{v} \times \mathbf{w}$ is precisely that dual vector, so the component formula is not a mnemonic but an inevitable consequence of linear algebra's structure.
+3. $\|\mathbf{v} \times \mathbf{w}\| = \|\mathbf{v}\|\cdot\|\mathbf{w}\|\cdot\sin\theta$ equals the area of the parallelogram spanned by the two vectors; when they are parallel $\sin\theta = 0$ so the cross product is the zero vector, and when they are perpendicular $\sin\theta = 1$ so the magnitude equals the simple product of their lengths.
+
+</details>

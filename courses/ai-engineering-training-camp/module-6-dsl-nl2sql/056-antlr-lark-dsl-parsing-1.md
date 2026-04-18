@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927472
 wiki: wiki/concepts/056-antlr-lark-dsl-parsing.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is the difference between a lexer and a parser in the context of language recognition tools like ANTLR?
+2. In an agent system that lets an LLM modify device configuration at runtime, what is the biggest risk if there is no grammar validation step?
+3. What does ANTLR stand for, and what file extension does it use for grammar definitions?
+
+---
+
 # 056: Parsing DSL Grammar with ANTLR and Lark (Part 1)
 
 **Source:** [2使用 ANTLR与Lark 解析 DSL 语法1](https://u.geekbang.org/lesson/818?article=927472)
@@ -207,3 +217,23 @@ Demo result: the graph successfully changed `heating_time: 30s` to `heating_time
 - → [[dsl-design-patterns]]
 - → [[llm-structured-output]]
 - → [[dify-workflow-dsl]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the DSL layer in the coffee machine system is described as "the only mutable layer" — what does that mean for core capabilities like heating or PID control?
+2. Walk through the full parsing pipeline from raw DSL text to a Python dict, naming each stage and the component responsible for it.
+3. A teammate suggests replacing Lark with ANTLR4 for a new Python-only prototype. What factors from this lesson would you use to push back or agree, and what is the recommended strategy for choosing between them?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Core capabilities (heating algorithm, PID control, brewing sequence) are fixed in compiled or Python code and cannot change at runtime; only the DSL configuration layer — temperatures, volumes, timings, conditional logic — is swappable live, ensuring that an LLM or human editor cannot accidentally rewrite critical control logic.
+2. DSL text is fed into the Lark parser together with the `.lark` grammar file → Lark produces an AST (parse tree) → a `CoffeeTransformer` (a Lark `Transformer` subclass) walks the tree and converts nodes into Python dicts → those dicts can be serialized to JSON for use by application code.
+3. Lark is Python-only, lightweight, easy to prototype with, and produces precise line/column error messages — ideal for a Python-only prototype; ANTLR4 is Java-based with compiled/generated code, supports multiple target languages, and suits production or multi-language pipelines. The recommended strategy from the lesson is to use Lark for rapid validation and grammar iteration, then switch to ANTLR4 when the system needs production Java or multi-language support.
+
+</details>

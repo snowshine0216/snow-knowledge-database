@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, dot-product, duality]
 source: https://www.youtube.com/watch?v=LyGKycYT2v0
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does the dot product of two perpendicular vectors equal, and why?
+2. If you have a linear map from 2D space to the number line, what kind of matrix encodes it — and how many entries does it have?
+3. What is "duality" in the context of linear algebra, and how do you think vectors and linear maps might be related?
+
+---
+
 # Dot Products and Duality
 
 ## Metadata
@@ -79,3 +89,23 @@ This is **duality**: every vector in $\mathbb{R}^n$ corresponds naturally to a u
 $$L(\mathbf{v}) = \mathbf{u} \cdot \mathbf{v} \quad \text{for all } \mathbf{v} \in \mathbb{R}^n$$
 
 Vectors and linear maps to the scalar field are two different faces of the same mathematical object. The dot product is the bridge between them, and whenever you see a $1 \times n$ row matrix acting on a column vector you can always think of it as a vector tipped on its side.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the symmetry $\mathbf{v} \cdot \mathbf{w} = \mathbf{w} \cdot \mathbf{v}$ is a geometric fact rather than just an algebraic accident.
+2. Walk through how a projection-onto-$\hat{\mathbf{u}}$ transformation reveals that its $1 \times 2$ matrix has exactly the coordinates of $\hat{\mathbf{u}}$ as its entries.
+3. State the duality principle precisely: what is the correspondence it establishes, and what role does the dot product play as the bridge?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Projecting $\mathbf{w}$ onto $\mathbf{v}$ and scaling by $\|\mathbf{v}\|$ yields the same number as projecting $\mathbf{v}$ onto $\mathbf{w}$ and scaling by $\|\mathbf{w}\|$; when vectors have equal length the picture is visually symmetric, and for unequal lengths a scaling argument shows both sides scale by the same factor, so equality is preserved as a structural geometric fact.
+2. By the symmetry of projection, the basis vectors $\hat{\imath}$ and $\hat{\jmath}$ project onto $\hat{\mathbf{u}}$'s line and land at $\hat{u}_x$ and $\hat{u}_y$ respectively; those two landing values become the entries of the $1 \times 2$ row matrix, which is exactly $\begin{bmatrix} \hat{u}_x & \hat{u}_y \end{bmatrix}$ — the coordinates of $\hat{\mathbf{u}}$ written as a row.
+3. Duality states that every vector in $\mathbb{R}^n$ corresponds naturally to a unique linear map from $\mathbb{R}^n$ to $\mathbb{R}$, and vice versa; the dot product is the bridge — for any such linear map $L$ there exists a unique vector $\mathbf{u}$ such that $L(\mathbf{v}) = \mathbf{u} \cdot \mathbf{v}$ for all $\mathbf{v}$, meaning a row matrix acting on a column vector is always equivalent to a dot product.
+
+</details>

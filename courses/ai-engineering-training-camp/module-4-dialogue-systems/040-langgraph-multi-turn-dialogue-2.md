@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927456
 wiki: wiki/concepts/langgraph-advanced-patterns.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangGraph 的"超步（Super Step）"执行模型是什么概念？你认为图中的节点是如何被激活和停止的？
+2. 在状态管理中，"Reducer 函数"的作用是什么？如果没有 Reducer，多次更新同一字段会发生什么？
+3. 条件边（Conditional Edge）与普通边有什么区别？在多轮对话或 RAG 工作流中，它通常用来解决什么问题？
+
+---
+
 # 040: 用LangGraph实现多轮对话流程控制（二）
 
 **Source:** [9用LangGraph实现多轮对话流程控制2](https://u.geekbang.org/lesson/818?article=927456)
@@ -415,3 +425,23 @@ app = workflow.compile()
 - → [[langgraph-advanced-patterns]]
 - → [[rag-architecture]]
 - → [[react-agent-pattern]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 LangGraph 超步模型的七个阶段，并解释"举手投票（Vote to Halt）"机制的作用。
+2. `add_messages` reducer 和默认覆盖模式有什么本质区别？`add_messages` 的去重行为是如何工作的？请结合代码示例解释。
+3. 课程推荐用"漏斗模型"来选择 Dify/Coze、LangGraph 还是 LangChain——请用自己的话描述这个漏斗的决策逻辑，并说明什么情况下才需要用 LangGraph 从头构建。
+
+<details>
+<summary>答案指南</summary>
+
+1. 七个阶段依次为：图编译（节点 Inactive）→ 调用入口（从 START 开始）→ START 激活并向邻居发消息 → chatbot 激活完成工作继续传递 → 到达 END（无待处理消息）→ 所有节点举手投票表示完成 → 图计算结束释放内存。"举手投票"是终止条件：只有所有节点都无消息可处理时，图才真正停止。
+2. 默认覆盖模式下，节点每次返回新值会直接替换旧值；`add_messages` reducer 则将新消息追加到列表末尾，实现多轮对话历史积累。去重机制：若新消息的 `id` 与已有消息相同，则原地更新（覆盖）该条消息，而非重复追加。
+3. 漏斗模型优先使用 Dify/Coze（能满足 80% 需求时直接用），其次对 Dify/Coze 做二次开发（替换文档解析、分块等弱项能力），最后才使用 LangGraph 从头构建——仅当整体工作流逻辑都需要深度定制时选择，代价是复杂度最高但灵活性最强。
+
+</details>

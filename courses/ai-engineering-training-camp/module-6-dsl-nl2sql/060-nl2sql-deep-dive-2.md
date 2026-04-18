@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927476
 wiki: wiki/concepts/060-nl2sql-deep-dive-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. NL2SQL 的微调方案（Fine-tuning）和 RAG 方案相比，各需要哪些主要资源？你认为两者最核心的区别是什么？
+2. Spider 是 Text2SQL 领域的知名数据集，你认为它主要测试哪类 SQL 查询能力？规模大约是多少？
+3. 使用 LoRA 对不同架构的大语言模型进行微调时，为什么需要指定不同的"目标层"（Target）？
+
+---
+
 # 060: NL2SQL Deep Dive Part 2
 
 **Source:** [6NL2SQL详解2](https://u.geekbang.org/lesson/818?article=927476)
@@ -244,3 +254,23 @@ llamafactory-cli export --config my_config.yaml
 ## Connections
 - → [[059-nl2sql-deep-dive-1]]
 - → [[061-text2sql-security]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 本讲指出微调后 NL2SQL 准确率约为 78.9%，请用自己的话解释为什么这个准确率在生产数据库场景中"不可接受"，以及哪类场景才真正适合使用微调方案？
+2. 什么是"AI 取数"的数据飞轮机制？请解释用户确认一条 SQL 之后，系统如何实现相似问题准确率的持续提升？
+3. DB-GPT-Hub 和 LlamaFactory 各有什么核心定位和优势？在更换模型时，两个工具分别需要注意什么最容易出错的配置项？
+
+<details>
+<summary>答案指南</summary>
+
+1. 78.9% 意味着约每 5 条 SQL 就有 1 条出错，涉及写操作时会造成数据错误，生产环境不可接受。微调最适合"AI 取数"场景——简单查询、常见聚合、用户频繁重复的问题，而非多表联合查询或陌生查询。
+2. 用户确认某条 SQL 正确后，该 SQL 回流向量数据库；下次相同或相似问题被提出时，系统直接从向量库检索成功案例，大模型参考生成，命中率随使用量持续上升，形成数据飞轮。
+3. DB-GPT-Hub 专为 Text2SQL 设计、配置简单，仅支持 ALPACA 格式；更换模型时必须修改 LoRA Target（如 Qwen 需改为 `c_attn`）。LlamaFactory 支持最新模型和 WebUI 图形化操作，额外支持 ShareGPT 格式；更换数据集时必须检查 JSON 格式是否匹配，这是最常见出错点。
+
+</details>

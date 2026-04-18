@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927431
 wiki: wiki/concepts/014-langchain-multitask-qa-practice.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 Python 项目中，`venv` 虚拟环境的主要作用是什么？为什么建议每个项目独立一个虚拟环境？
+2. 在基于 LangChain 构建 Agent 时，大模型如何"知道"应该调用哪个工具？它依据什么信息做出选择？
+3. Redis 缓存在 API 调用场景中的核心价值是什么？天气查询这类场景为什么特别适合缓存？
+
+---
+
 # 014: 基于 LangChain 构建多任务问答助手（Project 1 实战）
 
 **Source:** [AI 工程化训练营 模块一实践 基于 LangChain 构建一个多任务问答助手](https://u.geekbang.org/lesson/818?article=927431)
@@ -376,3 +386,23 @@ t2 = threading.Thread(target=handle_user, args=("user-002",))
 - → [[010-langchain-core-components-detailed]]（LCEL 链式语法、`@tool` 装饰器、Memory 模块）
 - → [[012-prompt-engineering-and-agent-design]]（三层记忆系统、Session ID 隔离原则）
 - → [[015-multi-agent-customer-service-practice]]（Project 2：同样模式扩展到多 Agent 协同）
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 请用自己的话解释 `return_intermediate_steps=True` 和 `used_tools` 在调试中的具体作用，以及为什么打印它能帮助定位工具选择问题？
+2. 为什么不同用户必须使用不同的 `session_id`？如果两个用户共用同一个 `session_id` 会发生什么？
+3. 本项目中 Redis 缓存是怎么工作的？请描述天气数据从"第一次请求"到"缓存命中"的完整流程，包括缓存键的设计和 TTL 的意义。
+
+<details>
+<summary>答案指南</summary>
+
+1. `return_intermediate_steps=True` 让 AgentExecutor 返回每一步的工具调用记录，从 `result["intermediate_steps"]` 中提取 `step[0].tool` 即可得到 `used_tools` 列表；通过打印它，可以直接看到模型选了哪个工具（或没选工具），从而判断是 system prompt 描述不清还是 `@tool` docstring 不准确导致的错误选择。
+2. `RedisChatMessageHistory` 以 `session_id` 为 key 存储对话历史；若两个用户共用同一 session_id，他们的历史消息会合并在一起，导致模型把 A 用户的上下文带入对 B 用户的回答，即"画像污染"，是经典的多用户 Debug 案例。
+3. 每次查询天气前，先用 `f"weather:{city_name}"` 构造缓存键去 Redis 查找；若命中（`cached` 非空）则直接 `json.loads` 返回，跳过 API 调用；若未命中则调用高德 API 获取结果，再用 `redis_client.setex(key, 86400, json.dumps(result))` 写入缓存并设置 24 小时 TTL，使相同城市当天的后续请求全部从缓存响应，可通过 `elapsed_ms` 对比验证速度提升。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927451
 wiki: wiki/concepts/langchain-error-handling-patterns.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在生产环境中，当主模型调用失败时，你会如何设计备用方案？请描述你能想到的降级策略层次。
+2. Python 中没有原生的 `switch/case` 语句（3.10 之前），你知道有哪些常见的替代写法？
+3. 什么是"装饰器"（decorator）？它在 Python 中主要解决什么问题？
+
+---
+
 # 035: 4LangChain链的解析2
 
 **Source:** [4LangChain链的解析2](https://u.geekbang.org/lesson/818?article=927451)
@@ -255,3 +265,23 @@ class CustomerService:
 ## Connections
 - → [[langchain-lcel-runnable]]
 - → [[langchain-error-handling-patterns]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 本课介绍的三层降级（Fallback）方案分别是哪三层？每层的职责是什么，何时触发？
+2. 用自己的话解释：为什么用 `try/except` 替代大量 `if/else` 来处理模型调用失败更合适？它带来了哪些代码质量上的优势？
+3. `exponential_backoff` 装饰器中的指数退避等待时间是如何计算的？请写出前三次重试的等待时间，并解释这种设计的意图。
+
+<details>
+<summary>答案指南</summary>
+
+1. 三层降级：第一层调用主模型（如 qwen-max），失败后第二层切换备用模型（如 qwen-plus 或其他供应商），两层均失败则第三层返回兜底响应（不调用任何模型，直接返回提示用户人工协助的 JSON）。
+2. `try/except` 让代码更线性，无需预先枚举所有失败场景；异常会自动携带错误信息便于日志记录，而大量 `if/else` 需要手动判断每种失败条件，逻辑繁琐且容易遗漏。
+3. 等待时间公式为 `base_delay * (2 ** attempt)`，即第 1 次失败等 1s、第 2 次等 2s、第 3 次等 4s；指数增长的设计意图是给上游服务足够的恢复时间，同时避免立即重试加重服务压力。
+
+</details>

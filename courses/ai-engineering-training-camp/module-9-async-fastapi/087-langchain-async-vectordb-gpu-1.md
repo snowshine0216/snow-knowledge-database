@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927504
 wiki: wiki/concepts/087-langchain-async-vectordb-gpu-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 LangChain 中，如果想把一个同步的 `chain.invoke()` 调用改成异步，你认为需要修改哪些地方？
+2. `asyncio.gather()` 在并发执行多个 LLM 请求时有什么优势？与串行执行相比，性能差异大概是多少？
+3. 你觉得 LangSmith 这类链路追踪工具，底层是通过什么机制来监听每个链组件的执行状态的？
+
+---
+
 # 087: LangChain Async Development Advanced — Vector DB and GPU Part 1
 
 **Source:** [7LangChain异步开发进阶向量数据库与GPU1](https://u.geekbang.org/lesson/818?article=927504)
@@ -183,3 +193,23 @@ LangChain 1.0 的最大变化：将回调机制标准化为**中间件**：
 ## Connections
 - → [[086-fastapi-deep-integration-2]]
 - → [[088-langchain-async-vectordb-gpu-2]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 请用自己的话解释：为什么 LCEL 链（如 `prompt | llm | output_parser`）在改造为异步时，不需要修改链的构建代码，只需修改调用处？
+2. 描述 LangChain 回调机制的4个核心回调点及各自触发时机，并说明如何将自定义回调挂载到链的执行中。
+3. LangChain 1.0 与 0.x 在版本选择策略上有何不同？什么场景该用 LangGraph，什么时候应该回退到 Classic 0.x？
+
+<details>
+<summary>答案指南</summary>
+
+1. 凡是实现了 `Runnable` 接口的组件，内部已自动支持异步；链的构建本身不涉及执行，只有调用处需要加 `async`/`await`，将 `invoke` 改为 `ainvoke`。
+2. 四个核心回调点：`on_chain_start`（链开始执行）、`on_chain_end`（链执行完成）、`on_llm_start`（大模型开始推理）、`on_llm_end`（大模型返回结果）；挂载方式为 `await chain.ainvoke(input, config={"callbacks": [callback]})`。
+3. 维护中的旧项目（0.1.x）不要升级；新项目直接用 LangChain 1.0；需要条件跳转/循环的复杂工作流用 LangGraph；LangGraph 解决不了的超复杂场景才回退到 Classic LangChain 0.x。
+
+</details>

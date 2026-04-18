@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927491
 wiki: wiki/concepts/075-docker-containerization-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 为什么 AI 模型的 Python 环境打包交付会遇到困难？你认为 Docker 能解决哪些问题？
+2. FastAPI 和 Flask 都是 Python Web 框架，你认为两者最本质的区别是什么？
+3. 如果 FastAPI 本身是异步框架，为什么还需要 Uvicorn？它在整个服务中扮演什么角色？
+
+---
+
 # 075: Docker Containerization and Image Build Workflow (Part 1)
 
 **Source:** [1Docker 容器化打包与镜像构建流程1](https://u.geekbang.org/lesson/818?article=927491)
@@ -254,3 +264,23 @@ settings = Settings()
 ## Connections
 - → [[agent-reinforcement-learning-2]]
 - → [[076-docker-containerization-2]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 课程提到 Python 加密方案（PYC/PYT）和 PyInstaller 都有缺陷，Docker 如何解决 LangGraph 工作流的交付问题？请用自己的话说明 Docker 的优势。
+2. 课程用 Spring/Tomcat 类比 FastAPI/Uvicorn。请解释这个类比的含义——FastAPI 单独运行时为何是「阻塞的」，Uvicorn 具体做了什么？
+3. 将 LangGraph 封装成 FastAPI 服务时，课程推荐的模块拆分结构是怎样的？`if __name__ == "__main__"` 在这个架构中有什么具体作用？
+
+<details>
+<summary>答案指南</summary>
+
+1. Python 打包方案存在兼容性问题（PYC/PYT）或体积膨胀（PyInstaller 几百KB→几十MB）；Docker 能保证开发与测试环境一致、交付时处于加密状态、支持 FastAPI 与 LangGraph 分离部署，并天然融入 CI/CD 流程。
+2. FastAPI 本身是异步原生框架，但单独运行时只能同步处理请求（阻塞）；Uvicorn 是 ASGI 服务器，相当于 Tomcat 容器，负责接收并发连接并将请求分发给 FastAPI 的 async 函数，真正实现并发处理。
+3. 推荐拆分为 `main.py`（核心流程入口）、`workflow.py`（LangGraph 图定义）、`agent/`（Agent 封装）、`tools/`、`config.py`；`if __name__ == "__main__"` 确保直接运行 `python main.py` 时才启动服务，被其他模块 import 时不会意外触发 uvicorn 启动。
+
+</details>

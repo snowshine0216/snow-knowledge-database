@@ -148,6 +148,63 @@ Rules for `book-chapter`:
 
 ---
 
+## Course Output Rule
+
+When `save_path` starts with `courses/`, the output file **must** include pre-test and post-test sections generated **alongside** the main content (not as a post-processing step).
+
+This applies to every `content_type` written to `courses/`: `lecture-video`, `lecture-text`, `geektime-article`, `book-chapter`, and any other type whose `save_path` is under `courses/`.
+
+### Pre-test — insert immediately after the YAML frontmatter block, before all other content
+
+```markdown
+## Pre-test
+
+> *[instruction line — see language rule below]*
+
+1. [question]
+2. [question]
+3. [question]
+```
+
+- **English files**: `*Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*`
+- **Chinese files**: `*阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*`
+
+### Post-test — append at the very end of the file, after all content
+
+```markdown
+---
+
+## Post-test
+
+> *[instruction line — see language rule below]*
+
+1. [retrieval question]
+2. [retrieval question]
+3. [retrieval question]
+
+<details>
+<summary>[Answer Guide / 答案指南]</summary>
+
+1. [brief answer]
+2. [brief answer]
+3. [brief answer]
+
+</details>
+```
+
+- **English files**: `*Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*`
+- **Chinese files**: `*关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*`
+
+### Question generation rules
+
+- **Language**: match the dominant language of the file body (Chinese content → Chinese questions and headings; English content → English)
+- **Pre-test questions**: 3 questions the reader can attempt cold from general knowledge + the title/tags. Wrong answers are expected and welcome — their purpose is encoding priming, not testing prior knowledge.
+- **Post-test questions**: 3 retrieval questions requiring the reader to explain in their own words (Feynman technique). Avoid yes/no or lookup-style questions. Target the lesson's most important concepts.
+- **Answer Guide**: 1–2 sentences per answer, drawn strictly from the file's content. Do not invent.
+- **Specificity**: questions must name the actual concepts, algorithms, tools, or formulas from this specific lesson — not generic study questions.
+
+---
+
 ## Rules
 
 - All output files **must** have frontmatter with `tags` and `source` fields.

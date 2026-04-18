@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927444
 wiki: wiki/concepts/rag-improvement-methods.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 RAG 系统中，"混合检索"通常指的是哪两种检索方式的组合？你认为为什么单一检索方式不够？
+2. 什么是"重排序"（Reranking）？你认为它在 RAG 流程中处于哪个环节，起什么作用？
+3. 你知道哪些常见的文本分块（Chunking）策略？它们在检索质量上有何差异？
+
+---
+
 # 028: 提升 RAG 效果的一些方法（一）
 
 **Source:** [6提升 RAG 效果的一些方法1](https://u.geekbang.org/lesson/818?article=927444)
@@ -39,3 +49,23 @@ wiki: wiki/concepts/rag-improvement-methods.md
 ## Connections
 - → [[rag-improvement-methods]]
 - → [[rag-architecture]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 本节介绍了哪五种提升 RAG 效果的方法？请用自己的话逐一说明每种方法的核心思路。
+2. 混合检索（BM25 + 向量）为什么比单独使用向量检索效果更好？请解释两者各自的优势以及组合的意义。
+3. Cross-Encoder 重排序与初始向量检索相比，解决了什么问题？为什么不直接用 Cross-Encoder 做首轮检索？
+
+<details>
+<summary>答案指南</summary>
+
+1. 五种方法为：高级分块策略（语义分块、层级分块）、混合检索（BM25 + 向量）、重排序（Cross-Encoder）、查询改写、Self-RAG 模式；每种方法是独立改进点，组合使用对整体效果有显著提升。
+2. BM25 擅长精确关键词匹配，向量检索擅长语义相似度；混合检索结合两者可覆盖关键词命中和语义理解两类查询，弥补单一方式的盲区。
+3. Cross-Encoder 对查询与文档进行联合编码，相关性判断更精准；但计算开销大，不适合对全量文档做首轮检索，因此只用于对初始召回结果进行精排。
+
+</details>

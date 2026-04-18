@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, eigenvalues, mental-math, trace, deter
 source: https://www.youtube.com/watch?v=e50Bj7jn9IQ
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What are the trace and determinant of a 2×2 matrix, and how do they relate to its eigenvalues?
+2. If you know that two numbers have a mean of 3 and a product of 8, how would you find the two numbers?
+3. What does it mean geometrically when a matrix's eigenvalues are complex (non-real)?
+
+---
+
 # A Quick Trick for Computing Eigenvalues
 
 ## Metadata
@@ -67,3 +77,23 @@ In practice: glance at the matrix, read off the trace and determinant, halve the
 The formula $\lambda = m \pm \sqrt{m^2 - p}$ is simply the quadratic formula rewritten in terms of the mean and product of the roots rather than the usual $b$ and $c$ coefficients. The substitution $\lambda = m \pm d$ centers the quadratic at $m$ and converts it into $d^2 = m^2 - p$, which is a single arithmetic step.
 
 More broadly, Vieta's formulas hold for any polynomial: for a degree-$n$ monic polynomial, the sum of roots equals the negative of the $x^{n-1}$ coefficient, the sum of all pairwise products equals the $x^{n-2}$ coefficient, and so on. For a 2×2 matrix, the characteristic polynomial has degree 2, so there are exactly two Vieta relations — sum and product — and those two relations happen to be the trace and determinant, the most natural scalar invariants of the matrix. The trick works precisely because the characteristic polynomial's coefficients are not arbitrary numbers but these geometrically meaningful quantities.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the shortcut formula λ = m ± √(m²− p) in your own words — where do m and p come from, and why does the formula work without expanding the characteristic polynomial?
+2. Walk through the eigenvalue calculation for a matrix with trace 4 and determinant 0. What does the result tell you about the matrix's geometric properties?
+3. How does Vieta's formulas connect to the characteristic polynomial of a 2×2 matrix, and why does this make the trace and determinant the "natural" inputs for finding eigenvalues?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. m is half the trace (the mean of the two eigenvalues) and p is the determinant (their product); writing the eigenvalues as m±d and using (m+d)(m−d) = m²−d² = p gives d = √(m²−p), skipping polynomial expansion entirely.
+2. m = 2, p = 0, d = √(4−0) = 2, so eigenvalues are {4, 0}; a zero eigenvalue means the matrix is singular (rank-deficient) and det(A) = 0 confirms this.
+3. Vieta's formulas state that for a monic quadratic, the sum of roots equals the x-coefficient and the product equals the constant term; the characteristic polynomial λ²− tr(A)λ + det(A) = 0 maps these directly to trace and determinant, which are the most natural scalar invariants of the matrix.
+
+</details>

@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, interpretability, mode
 source: https://www.3blue1brown.com/lessons/neural-network-analysis
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. A small two-hidden-layer neural network trained on MNIST handwritten digits — what accuracy range would you expect it to achieve on the 10,000-image test set?
+2. When you inspect the hidden neurons of a well-trained image classifier, what kinds of patterns do you expect them to have learned — and does reality match that expectation?
+3. Why is computing gradients by finite differences (slightly nudging each weight and measuring the cost change) impractical for a network with ~13,000 parameters?
+
+---
+
 # Analyzing our Neural Network
 
 ## Metadata
@@ -99,3 +109,23 @@ Understanding *why* the network makes errors motivates the need to compute **pre
 $$\frac{\partial C}{\partial w_{ij}} \approx \frac{C(\ldots, w_{ij} + \epsilon, \ldots) - C(\ldots, w_{ij} - \epsilon, \ldots)}{2\epsilon}$$
 
 This requires two full forward passes per parameter → $2 \times 13{,}002$ forward passes per gradient step. Backpropagation computes all gradients in just **two** passes (one forward, one backward).
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words what "generalization" means in the context of evaluating a trained network, and why test data must be held out during training.
+2. Describe what the softmax output layer produces and how you would interpret a case where the network is "confident and wrong."
+3. Explain why backpropagation is dramatically more efficient than finite-difference gradient estimation, using the specific numbers from this lesson.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Generalization means the network has learned underlying structure in the data rather than memorizing training examples; test data — examples never seen during training — is used to measure this, because performance on training data alone cannot distinguish memorization from true learning.
+2. Softmax converts the output layer into a probability distribution where all ten digit-class probabilities sum to 1; "confident and wrong" means a high probability is assigned to an incorrect class, which the lesson flags as a particularly interesting failure mode worth investigating.
+3. Finite differences require two full forward passes per parameter to approximate one gradient, totaling 2 × 13,002 forward passes per gradient step; backpropagation computes all 13,002 gradients in just two passes (one forward, one backward), making it orders of magnitude faster.
+
+</details>

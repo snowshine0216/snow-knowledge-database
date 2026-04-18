@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927462
 wiki: wiki/concepts/autogen-collaboration-patterns.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. AutoGen 是哪家公司开发的多Agent框架？你认为它支持哪几种Agent协作模式？
+2. 多Agent系统（MAS）和"单Agent + 复杂提示词"方案相比，各自的核心缺点是什么？
+3. MCP 协议和 A2A 协议分别解决的是什么问题？
+
+---
+
 # 046: 主流Agent协作框架对比与案例（一）
 
 **Source:** [2主流 Agent 协作框架对比与案例1](https://u.geekbang.org/lesson/818?article=927462)
@@ -312,3 +322,23 @@ AutoGen底层（复杂）
 - → [[mcp-protocol]]
 - → [[a2a-protocol]]
 - → [[langgraph-multi-agent]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 AutoGen 四种协作模式（顺序工作流、群聊、辩论、反思）各自的消息流向，并说明为何顺序工作流实用价值最高。
+2. AgentChat 相对于 AutoGen 底层做了哪些关键改进？它的消息分层设计与 MCP / A2A 协议有什么关系？
+3. 课程建议"能用单Agent解决的优先单Agent"——在什么具体条件下才应该考虑拆分为MAS？
+
+<details>
+<summary>答案指南</summary>
+
+1. 顺序工作流是线性链式传递，每个Agent依次处理后覆盖或追加消息；群聊将消息广播给所有Agent；辩论是多Agent轮流发言后由聚合Agent汇总；反思是生成→审核原路返回的审批链。顺序工作流实用价值最高，因为它直接将多步骤任务拆分为专家Agent串联处理，结构清晰且最贴近真实工程需求。
+2. AgentChat 提供了 `AssistantAgent` 简化定义（只需名称、模型、工具、系统提示），并将消息分为 Agent-to-Agent 外部通信和 Agent 内部事件两类；前者后来由 A2A 协议标准化，后者由 MCP 协议标准化，AgentChat 的消息分层是这两个协议的雏形。
+3. 当单Agent的上下文长度和提示词复杂度超出可控范围时，才考虑拆分为 MAS；MAS 的代价是通信机制复杂、设计难度高，因此不应过早引入。
+
+</details>

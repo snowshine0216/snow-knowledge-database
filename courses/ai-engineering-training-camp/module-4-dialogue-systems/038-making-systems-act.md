@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927454
 wiki: wiki/concepts/langchain-agent-react-tool-use.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. ReAct 这个名字由两个单词组成，你认为它代表什么含义？Agent 在每一轮会经历哪几个步骤？
+2. 在 LangChain 中，如果你想把一个普通 Python 函数注册为 Agent 可以调用的工具，你会用什么方式实现？
+3. 什么情况下你会选择用"固定流程状态机"而不是 ReAct Agent 来完成一个任务？举一个具体例子。
+
+---
+
 # 038: 让系统会行动
 
 **Source:** [7让系统会行动](https://u.geekbang.org/lesson/818?article=927454)
@@ -276,3 +286,23 @@ def process_invoice(order_id: str) -> None:
 ## Connections
 - → [[langchain-agent-react-tool-use]]
 - → [[langchain-memory-management]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 ReAct 的核心循环，并解释为什么大模型能够通过"提示词驱动"完成这个循环，而不需要硬编码逻辑。
+2. `@tool` 装饰器中的 docstring 起什么作用？如果 docstring 写得模糊或缺失，会对 Agent 行为产生什么影响？
+3. 在生产环境中，`AgentExecutor` 有哪两个参数是必须设置的安全兜底配置？分别解决了什么问题？
+
+<details>
+<summary>答案指南</summary>
+
+1. ReAct 是 Reasoning + Acting 的缩写，核心循环为：思考（Thought）→ 行动（Action）→ 观察（Observation），不断重复直到得出 Final Answer。它完全依赖提示词控制大模型的决策路径，无需在代码中硬编码工具调用顺序。
+2. `@tool` 装饰器会自动将函数的 docstring 提取为该工具的 `description`，大模型正是通过 description 判断何时、为何调用该工具；描述不准确会导致大模型选错工具或完全忽略该工具。
+3. 必须设置 `handle_parsing_errors=True`（工具出错时将错误信息反馈给大模型，避免其编造答案）和 `max_iterations=10`（防止 Agent 陷入无限循环，控制最大推理轮数）。
+
+</details>

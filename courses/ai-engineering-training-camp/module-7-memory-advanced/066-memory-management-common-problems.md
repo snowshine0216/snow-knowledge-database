@@ -3,6 +3,17 @@ tags: [memory-management, agent, langgraph, long-term-memory, short-term-memory,
 source: https://u.geekbang.org/lesson/818?article=941182
 wiki: wiki/concepts/066-memory-management-common-problems.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What do you think happens to a LangGraph agent's conversation history when the server process restarts, if memory is stored using the default in-memory checkpointer?
+2. If you were designing session IDs for a chat application where users might open multiple browser tabs, what information would you combine to avoid session collisions?
+3. What strategies do relational databases use to survive node failures in production — and do you think those same strategies apply to vector databases like FAISS?
+
+---
+
 # 066: Memory Management Common Problems
 
 **Source:** [3记忆管理中的常见问题](https://u.geekbang.org/lesson/818?article=941182)
@@ -154,3 +165,23 @@ This ensures:
 - [[mem0-memory-plugin]] — mem0 memory management service
 - [[redis-caching]] — Redis for agent caching
 - [[retry-policy-patterns]] — retry and error handling patterns in Agents
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain why LangGraph's default checkpointer is a production pitfall, what the correct replacement is, and why async mode is preferred over sync for memory writes.
+2. Describe the two session ID anti-patterns covered in this lesson and explain how a composite session ID design solves both failure modes.
+3. Walk through the three mechanisms this lesson recommends for making a FAISS vector store production-resilient, and explain the tradeoff that comes with aggressive sharding.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. `InMemorySaver` stores all conversation history in RAM — it appears to work during development because the process stays alive, but restarts wipe all history. The fix is replacing it with `AsyncPostgresSaver` backed by a PostgreSQL connection pool; async is required because synchronous memory writes block the entire agent process and can cause hangs.
+2. Using a raw user ID collapses multiple tabs into one session, corrupting conversation histories; using a pure random UUID breaks reconnection continuity because no link back to the user exists. A composite key (`user_id + session_id`, where session_id is a UUID generated at session start) ensures sessions are both traceable to a user and isolated from each other.
+3. The three mechanisms are: distributed sharding via `IVF_FLAT` index type across multiple hosts communicating over socket ports; replica sets using the `index_replicas` parameter on different physical hosts; and periodic calls to FAISS's `save` function to flush the in-memory index to disk. The tradeoff is that too many shards trigger broadcast storms during inter-node communication, so shard count must be balanced against network load.
+
+</details>

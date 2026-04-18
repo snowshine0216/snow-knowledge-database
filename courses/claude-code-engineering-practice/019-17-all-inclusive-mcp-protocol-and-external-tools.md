@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, mcp, tools, integration]
 source: https://time.geekbang.org/column/article/955015
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 MCP 出现之前，如果市场上有 M 个 AI 助手和 N 个外部服务，理论上需要多少个专用适配器？MCP 出现后这个数字变成了什么？
+2. MCP 支持哪几种传输方式？你认为本地开发时最常用的是哪种？
+3. Context7 这个 MCP 服务器的主要用途是什么？它需要 API Key 吗？
+
+---
+
 # 17｜海纳百川：MCP 协议与外部工具连接
 
 ## 章节元数据
@@ -119,3 +129,23 @@ MCP 如何让 Claude Code 从一个“只能操作本地文件”的工具，进
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 MCP 的客户端-服务器架构：Claude Code 在其中扮演什么角色？MCP Server 能向 Client 提供哪三种能力类型？它们各自解决什么问题？
+2. MCP 的三种传输方式（Stdio、HTTP、SSE）分别适用于哪些场景？作者给出的选择原则是什么？
+3. 在 MCP 配置中，敏感凭证（如 API Token）应该放在哪个配置文件？如何用环境变量引用而不是硬编码？请说明两种 `${}` 语法的区别。
+
+<details>
+<summary>答案指南</summary>
+
+1. Claude Code 充当 MCP Client，负责发现和调用工具；MCP Server 暴露工具和资源作为外部服务代理，两者通过 JSON-RPC 2.0 通信。三种能力类型：Tools 让 Claude 能"做事情"，Resources 提供只读数据让 Claude 能"看到东西"，Prompts 是服务器预定义的场景交互模板。
+2. Stdio 适合本地工具和开发测试（零网络开销）；HTTP 适合远程服务器（支持 TLS 加密和 Bearer Token 认证）；SSE 适合实时监控和流式数据场景。选择原则：本地用 stdio，远程用 HTTP，实时用 SSE，两者覆盖 95% 场景。
+3. 敏感凭证应放在 `.claude/settings.local.json`（不提交 git，本地保存）。`${VAR_NAME}` 直接引用环境变量，变量不存在时报错；`${VAR_NAME:-default}` 在变量不存在时使用默认值。
+
+</details>

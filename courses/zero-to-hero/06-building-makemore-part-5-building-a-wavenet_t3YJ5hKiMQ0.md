@@ -4,6 +4,16 @@ source: https://www.youtube.com/watch?v=t3YJ5hKiMQ0
 wiki: wiki/courses/zero-to-hero/karpathy-zero-to-hero-06-makemore-wavenet.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. WaveNet (DeepMind, 2016) processes audio by fusing information hierarchically across time. How do you think this differs from a flat MLP that concatenates all input context at once?
+2. BatchNorm normalizes activations using batch statistics. What do you think happens if you only reduce over the batch dimension when your input tensor is 3-dimensional (batch × sequence × channel)?
+3. In PyTorch, `torch.matmul` on a `(4, 4, 20)` tensor with a `(20, 200)` weight matrix — what shape do you expect the output to be, and why?
+
+---
+
 # Building makemore Part 5: Building a WaveNet
 
 > **Series**: Neural Networks: Zero to Hero · **Part 6**
@@ -199,3 +209,23 @@ This lecture takes the 2-layer MLP character language model from Part 3 and deep
 - **Transcript source**: `subtitle-vtt` (original English subtitles)
 - **Cookie-auth retry**: used
 - **Data gaps**: none — full transcript available
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain what `FlattenConsecutive(n)` does, why `x.view(B, T//n, n*C)` is the right implementation, and what edge case requires a squeeze.
+2. Describe the BatchNorm1D bug that appeared with 3D tensor inputs, why it produces wrong statistics, and exactly how the fix (`dim=(0,1)`) corrects it.
+3. Explain why dilated causal convolutions are described as a more *efficient* implementation of the same WaveNet forward pass — what redundant computation do they eliminate?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. `FlattenConsecutive(n)` collapses `n` consecutive elements along the sequence dimension into the channel dimension, turning `(B, T, C)` into `(B, T//n, n*C)` so a standard linear layer can process all groups in parallel via batched matmul. When `T//n == 1`, the group dimension is squeezed out to return a 2D tensor, avoiding a degenerate leading dimension.
+2. The bug: reducing only over `dim=0` when input is `(B, T, C)` computed separate mean/variance per sequence position, using only 32 numbers each — effectively treating each position as independent. The fix reduces over `dim=(0,1)`, pooling all `B×T` examples per channel so running statistics have shape `(1,1,C)` and represent the true channel-wise distribution.
+3. The current model runs a full forward pass independently for each context window. For a sequence of length L there are L overlapping windows that share intermediate tree nodes — recomputing them wastefully. Dilated causal convolutions slide the same filter weights across the sequence in one operation, reusing shared intermediate activations, reducing redundant computation proportional to sequence length.
+
+</details>

@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, makemore, batch-normalization, kaiming-in
 source: https://www.youtube.com/watch?v=P6sfmUTpUmc
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. For a neural network classifying 27 character classes, what should the cross-entropy loss be at initialization if the model is well-calibrated?
+2. What is Kaiming (He) initialization, and why would you need a different formula for tanh versus ReLU?
+3. What problem does Batch Normalization solve, and at a high level, how does it solve it?
+
+---
+
 # Course: Building makemore Part 3 — Activations, Gradients & BatchNorm
 
 > **Instructor:** Andrej Karpathy
@@ -229,3 +239,23 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 - **Transcript source:** `asr-openai` (OpenRouter audio transcription)
 - **Cookie-auth retry:** used
 - **Data gaps:** None — full transcript available
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why tanh saturation causes vanishing gradients, and what the Kaiming gain formula does to prevent it.
+2. Describe how BatchNorm behaves differently during training versus inference, and why that difference exists.
+3. What is the update:data ratio diagnostic, what is the target value, and what does a ratio far above or below that target tell you?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. When pre-activations are large in magnitude (e.g. ±15), tanh outputs near ±1 where its local gradient `1 − t²` approaches 0, killing the gradient signal during backprop. Kaiming init uses `std = gain / √fan_in` with gain = 5/3 for tanh to compensate for tanh's contractive effect, keeping activation standard deviation stable across layers.
+2. During training, BatchNorm normalizes using the current minibatch's mean and std; during inference, it uses a running exponential moving average of mean and variance accumulated during training — because at test time you may have a single example with no meaningful batch statistics to compute.
+3. The update:data ratio is `log10(lr × std(grad) / std(data))` tracked per parameter over training; the target is approximately 1e-3 (−3 on a log10 scale). A ratio much above −3 means updates are too large (learning rate too high), and much below −3 means updates are too small (learning rate too low or weights improperly scaled).
+
+</details>

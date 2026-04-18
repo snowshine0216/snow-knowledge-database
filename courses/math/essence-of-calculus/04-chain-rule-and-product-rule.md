@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, derivative, chain-rule, product-rule]
 source: https://www.3blue1brown.com/lessons/chain-rule-and-product-rule
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. If you have a product of two functions $f(x) \cdot g(x)$, what do you think the derivative looks like — does it equal $f'(x) \cdot g'(x)$, or something else?
+2. For a composed function like $\sin(x^2)$, how would you guess the derivative relates to the derivatives of the outer function $\sin$ and the inner function $x^2$?
+3. When you nudge the input $x$ of a rectangle with sides $f$ and $g$, how many distinct pieces does the change in area split into, and which ones do you think survive in the derivative?
+
+---
+
 # Chapter 4: Chain Rule and Product Rule
 
 **Source:** [Chain Rule and Product Rule](https://www.3blue1brown.com/lessons/chain-rule-and-product-rule)
@@ -143,3 +153,23 @@ $$
 
 - **Previous:** Chapter 3 (Derivative Formulas Through Geometry) derived the basic building blocks — power rule and trig derivatives — that appear as the $f'$ and $g'$ factors in these rules.
 - **Next:** Chapter 5 (Why e is Special) introduces the exponential function $e^x$ and shows why it is its own derivative, a property that makes the chain rule especially clean when exponentials appear in compositions.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the product rule using the rectangle geometry argument — where does each term in $f'g + fg'$ come from, and why is the corner piece $df\,dg$ dropped?
+2. Walk through the chain rule derivation using cascading nudges: starting from a nudge $dx$, explain how $dy$ and then $dz$ arise, and why the final sensitivity $dz/dx$ is a product of two local sensitivities.
+3. Differentiate $e^x \cos(x^2)$ step by step, naming which rule you apply at each stage and why.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. A rectangle with sides $f$ and $g$ grows by three pieces when $x$ is nudged: a top strip $f\,dg$, a right strip $g\,df$, and a corner square $df\,dg$. The corner is second-order (product of two tiny quantities) and vanishes in the limit, leaving $d(fg) = f\,dg + g\,df$, which divided by $dx$ gives $f'g + fg'$.
+2. A nudge $dx$ propagates to $y = g(x)$ as $dy = g'(x)\,dx$, then that nudge to $y$ propagates to $z = f(y)$ as $dz = f'(y)\,dy$; substituting gives $dz = f'(g(x))\cdot g'(x)\,dx$, so $dz/dx = f'(g(x))\cdot g'(x)$ — each link in the chain contributes one multiplicative factor.
+3. Apply the product rule to $e^x$ and $\cos(x^2)$: the derivative is $e^x\cos(x^2) + e^x \cdot \frac{d}{dx}\cos(x^2)$; the chain rule on the second term gives $-\sin(x^2)\cdot 2x$, yielding $e^x(\cos(x^2) - 2x\sin(x^2))$.
+
+</details>

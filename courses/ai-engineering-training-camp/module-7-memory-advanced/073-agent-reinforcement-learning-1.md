@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927488
 wiki: wiki/concepts/073-agent-reinforcement-learning-1.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In reinforcement learning, what are the five core components that define how an agent learns — and what role does each play?
+2. CartPole is called the "Hello World" of reinforcement learning. What do you think the agent needs to observe and control to keep a pole balanced on a moving cart?
+3. RLHF (Reinforcement Learning from Human Feedback) is used to fine-tune large language models like DeepSeek. How do you think reinforcement learning principles connect to training an LLM?
+
+---
+
 # 073 - Agent Autonomous Learning: Reinforcement Learning (Part 1)
 
 ## Overview
@@ -115,3 +125,25 @@ The instructor poses the key question: *Can this self-learning capability be app
 - [[Q-Learning]]
 - [[ReAct]]
 - [[AutoGen]]
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the core RL loop in your own words — what does the agent observe, decide, and receive, and how does this cycle produce learning without human-labeled data?
+2. Walk through the four CartPole versions (V1–V4) and explain what distinguishes Q-Learning from the earlier heuristic approaches.
+3. Explain the exploration vs. exploitation tradeoff in Q-Learning: what is epsilon-greedy, how does it change over training, and why does this schedule matter?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The agent observes the environment's current state, applies its policy to select an action, and receives a reward plus a new state from the environment — reinforcing actions that yield rewards. No human intervention is needed once the reward function is defined; the agent learns autonomously through repeated episodes.
+
+2. V1–V3 use hardcoded or AI-generated heuristics (e.g., "pole leans left → push left"), while V4 (Q-Learning) builds a Q-table mapping discretized (state, action) pairs to expected cumulative rewards through ~1900 training episodes, converging to a true optimal policy rather than hand-tuned rules.
+
+3. Epsilon-greedy starts with high random exploration so the agent discovers diverse (state, action) outcomes, then gradually decays the exploration rate so the agent increasingly exploits its improving Q-table. This schedule is essential because pure exploitation early on would trap the agent in suboptimal policies before the Q-table is sufficiently populated.
+
+</details>

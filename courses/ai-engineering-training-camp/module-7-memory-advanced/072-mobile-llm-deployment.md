@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927487
 wiki: wiki/concepts/072-mobile-llm-deployment.md
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When deploying an LLM on a mobile device, what do you think is the biggest trade-off compared to running the same model in the cloud?
+2. What does quantization do to a model's weights, and why would that help on an edge device?
+3. If you had to choose between GGUF, ONNX, and TFLite for an Android app, which would you guess is the best fit and why?
+
+---
+
 # 072 — Mobile LLM Deployment
 
 ## Overview
@@ -158,3 +168,23 @@ System-level: caching, batching, parallelism
 - Quantization (INT8/INT4) is the most commonly used compression for edge: ~75% size reduction, ~2× speed gain
 - Pruning is simpler to apply; distillation requires vendor-level effort
 - Context caching and batching are free wins at the API/system level
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain knowledge distillation in your own words: what is the teacher model doing differently from a standard training process, and why does the student learn better from it than from hard labels alone?
+2. Walk through the full decision framework for mobile LLM deployment — from picking a target device all the way to system-level optimizations — as if explaining it to a teammate who has never deployed an edge model.
+3. Explain why the lesson advises against converting and quantizing models yourself, and what concrete alternative it recommends instead.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The teacher model outputs soft labels — full probability distributions over all possible outputs — rather than just the single correct answer. The student trains on these distributions first, learning the teacher's reasoning patterns (why certain outputs are more likely), which transfers richer signal than hard labels alone.
+2. Pick the target device → select the native model format (CoreML for iOS, TFLite/ONNX for Android, ONNX for Jetson) → find a pre-built model in that format on ModelScope or HuggingFace → benchmark on device → if still too slow, apply pruning, quantization (INT4/INT8), or use a vendor-distilled model → add system-level wins: context caching, batching, parallelism.
+3. Format conversion plus quantization must be repeated every time the upstream model updates, making it costly to maintain. The lesson recommends always searching for a pre-built quantized or distilled model in the target format on ModelScope or HuggingFace instead.
+
+</details>

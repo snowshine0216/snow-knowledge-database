@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927442
 wiki: wiki/concepts/qanything-rag.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 RAG 系统中，"top-k 问题"是什么？为什么 k 值既不能太大也不能太小？
+2. BM25 关键词检索与向量检索各有什么优势？为什么企业级 RAG 要将两者结合使用？
+3. HyDE（Hypothetical Document Embeddings）的核心思路是什么？它解决了什么检索场景下的问题？
+
+---
+
 # 026: 完整的 RAG 分析-QAnything（二）
 
 **Source:** [4完整的 RAG 分析-QAnything2](https://u.geekbang.org/lesson/818?article=927442)
@@ -195,3 +205,23 @@ rewritten_query = llm.rewrite_if_needed(history, current_query)
 - → [[qanything-rag]]
 - → [[rag-architecture]]
 - → [[llamaindex-rag]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 QAnything 的两段式 Rerank 算法——第一层和第二层分别过滤什么，各用什么阈值判断，最终如何做到不需要预设 k 值？
+2. QAnything 的混合检索如何将 Elasticsearch 和 Milvus 的结果合并？合并时必须处理哪个工程问题？
+3. QAnything 的查询改写逻辑是如何判断"是否需要改写"的？请用具体对话示例说明"需要改写"和"不改写"两种情况的区别。
+
+<details>
+<summary>答案指南</summary>
+
+1. 第一层用绝对阈值（0.28）丢弃相似度过低的节点；第二层计算相邻节点分值差除以最高分，若差值超过 50% 则停止添加后续节点，从而根据质量分布自动决定保留数量，无需人工指定 k。
+2. `get_source` 方法同时向 Milvus 发起向量查询、向 Elasticsearch 发起 BM25 查询，将两路结果合并后必须**去重**——同一节点可能被两路同时召回，去重后再进入 Rerank 阶段。
+3. LLM 判断当前问题与历史对话是否语义连贯：若连贯（如"那后天呢"紧接天气查询），则改写为独立完整的问题；若语义独立（如天气对话后突然问"北京哪里放风筝"），则不改写，直接使用原始问题检索。
+
+</details>

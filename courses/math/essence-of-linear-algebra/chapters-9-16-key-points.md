@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, eigenvectors, dot-product, cross-produ
 source: https://www.3blue1brown.com/topics/linear-algebra
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is the geometric meaning of the dot product between two vectors — beyond just multiplying coordinates and summing?
+2. In 3D, the cross product of two vectors produces what kind of result, and what determines its direction?
+3. If you change the coordinate basis you use to describe a transformation matrix, what mathematical operation captures the same transformation in the new basis?
+
+---
+
 # Essence of Linear Algebra (Chapters 9-16)
 
 Transcript-backed summary notes from 3Blue1Brown's *Essence of Linear Algebra* chapters 9 through 16.
@@ -110,3 +120,23 @@ Video: https://www.youtube.com/watch?v=TgKwz5Ikpc8
 - Function spaces (for example, polynomials) can be treated with basis coordinates, and even operators like derivatives can be represented as matrices.
 - This unifies familiar geometric linear algebra with broader settings like function analysis.
 - Axioms for vector spaces are an interface: if a new object system satisfies them, linear algebra results apply there too.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the "duality" insight connecting dot products to linear transformations — why does any linear map from vectors to numbers correspond to a dot product?
+2. How does duality also explain the 3D cross product formula? Walk through the logic from "signed volume map" to the resulting perpendicular vector `p`.
+3. Explain Cramer's Rule geometrically: how do determinants and column-replacement together yield the coordinates of the solution to `Ax = b`?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. A 1×2 matrix defines a linear map from 2D to numbers with the same computational form as a dot product; by duality, every such linear map has a unique "dual vector" so that applying the map equals taking the dot product with that vector — dot products are not a standalone formula but a manifestation of linear transformation structure.
+2. Fix vectors `v` and `w`; the map sending any `u` to the signed volume of the parallelepiped spanned by `u`, `v`, `w` is linear, so by duality there exists a unique vector `p` with `p · u` equal to that volume for all `u` — algebraically this yields the determinant-with-basis-symbols formula, and geometrically `p` must be perpendicular to `v` and `w` with magnitude equal to the parallelogram area.
+3. Under transformation `A`, all signed areas/volumes scale uniformly by `det(A)`; replacing one column of `A` with output vector `b` builds a determinant capturing the transformed area corresponding to one unknown coordinate, and dividing by `det(A)` recovers that coordinate — repeating for each column gives the full solution vector.
+
+</details>

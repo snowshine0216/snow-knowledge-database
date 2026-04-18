@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927430
 wiki: wiki/concepts/013-multi-agent-finetuning-deployment.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 把一个大型 Agent 拆分成多个专职 Agent 的核心动因是什么？除了"职责单一"，还有哪个工程层面的原因？
+2. LoRA（低秩适配）的基本思路是什么？为什么它比全量微调更适合工业场景？
+3. 在多 Agent 系统中，AutoGen 和 LangChain 各自承担什么角色？两者如何配合使用？
+
+---
+
 # 013: 多 Agent 协作、轻量微调与工程化部署
 
 **Source:** [AI 工程化训练营 多 Agent 协作与轻量微调工程化部署](https://u.geekbang.org/lesson/818?article=927430)
@@ -284,3 +294,23 @@ AutoGen（多 Agent 协调）
 - → [[008-langchain-core-components]]（LangChain 工具箱在 AutoGen 中的角色）
 - → [[011-llamaindex-and-rag-systems]]（RAG 在复杂部署架构中的组合方式）
 - → 模块 5：微调深入 — LoRA 超参数调优、数据准备、评估方法
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Group Chat 和 Debate 两种多 Agent 协作模式的核心区别，以及各自适合的场景类型。
+2. LoRA 如何在不更新原始权重矩阵的前提下实现微调？用公式结构（不要求记住字母）说明其推理时的计算方式。
+3. 生产级 Prompt 注入防御的三层机制分别解决什么问题？结合"直播 AI 主播说喵"攻击案例，指出哪层防护失效。
+
+<details>
+<summary>答案指南</summary>
+
+1. Group Chat 让多个 Agent 围绕同一目标轮流发言后汇总，适合开放性协作问题（如快递纠纷三方陈述）；Debate 引入正反方 Agent 通过逻辑交锋暴露盲点，适合需要高质量判断的场景（如商标侵权检测）。关键区别在于 Group Chat 是多角度聚合，Debate 是对抗性验证。
+2. LoRA 冻结原始权重矩阵 W，只训练两个低秩小矩阵 A(R×D) 和 B(D×R)，生成增量 ΔW=A×B；推理时输出 = W·x + ΔW·x（原始输出 + 适配层输出）。因 R 远小于 D，参数量大幅减少，且满意后可将适配层合并进 W，推理零额外开销。
+3. 三层分别是：层 1 输入层过滤（正则+语义分析拦截绕过意图）、层 2 上下文隔离（防止多轮对话后 System Prompt 被覆盖）、层 3 输出层验证（关键字过滤+规则引擎+小模型安全分类）。"说喵"案例属于层 2 失效——攻击者通过用户输入覆盖了核心系统指令段。
+
+</details>

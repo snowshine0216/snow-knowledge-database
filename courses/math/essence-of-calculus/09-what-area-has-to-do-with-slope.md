@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, integral, derivative, fundamental-theorem]
 source: https://www.3blue1brown.com/lessons/area-and-slope
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In your own words, what do you think the "Fundamental Theorem of Calculus" connects — and why would that connection be surprising?
+2. If you nudge the upper limit of an integral $\int_a^x f(t)\,dt$ by a tiny amount $dx$, what shape does the extra area added look like, and what determines its size?
+3. What does it mean for two mathematical operations to be "inverses" of each other? Give an example from arithmetic or algebra before reading.
+
+---
+
 # Chapter 9: What Area Has to Do with Slope
 
 **Source:** [Essence of Calculus – What area has to do with slope](https://www.3blue1brown.com/lessons/area-and-slope)
@@ -105,3 +115,23 @@ Geometrically this says there is always a rectangle with the same base $[a,b]$ a
 
 - **Previous:** Ch 8 (Integrals) introduced Riemann sums and the definite integral as accumulated area; this chapter reveals why differentiation undoes integration.
 - **Next:** Ch 10 (Higher-Order Derivatives) pushes differentiation further — applying the derivative operator repeatedly — building on the idea that $A'(x) = f(x)$ is just one instance of the derivative as a tool for measuring change.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the thin-sliver argument in your own words: why does $A'(x) = f(x)$, and what geometric picture justifies it?
+2. State both parts of the Fundamental Theorem of Calculus and explain what each part actually *lets you do* — don't just quote the formula.
+3. What does the Mean Value Theorem for Integrals guarantee, and what is its geometric interpretation in terms of rectangles?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Nudging the upper limit from $x$ to $x+dx$ adds a sliver of area approximately equal to $f(x)\cdot dx$; dividing by $dx$ and taking the limit gives $A'(x) = f(x)$ — the slope of the accumulation function equals the height of the original curve at that point.
+2. Part 1 ($\frac{d}{dx}\int_a^x f(t)\,dt = f(x)$) says differentiation undoes integration, recovering the original function; Part 2 ($\int_a^b f(x)\,dx = F(b)-F(a)$) says you can evaluate any definite integral by finding an antiderivative and subtracting its endpoint values.
+3. For a continuous $f$ on $[a,b]$, there exists at least one point $c \in [a,b]$ where $f(c) \cdot (b-a) = \int_a^b f(x)\,dx$ — geometrically, there is always a rectangle with base $[a,b]$ and height $f(c)$ whose area exactly equals the area under the curve.
+
+</details>

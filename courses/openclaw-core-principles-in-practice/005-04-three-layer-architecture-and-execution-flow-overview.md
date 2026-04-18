@@ -3,6 +3,16 @@ tags: [geektime, ai-agents, openclaw, architecture, execution-flow, three-layer]
 source: https://time.geekbang.org/column/article/957315
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 什么是 ReAct 范式？它的"Reasoning"和"Acting"分别指什么？
+2. 在生产环境中，用一个简单的 while 循环实现 Agent Loop 会遇到哪些问题？
+3. 当多个用户同时向 AI Agent 发送消息时，系统可能面临哪些并发挑战？
+
+---
+
 # 04｜三层架构与执行流程总览：Agent 如何完成感知-思考-行动循环？
 
 ## 章节元数据
@@ -104,3 +114,23 @@ OpenClaw 的三层架构设计，正是 Agent Loop 能力的工程化体现。
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 OpenClaw 三层架构中每一层的核心职责，以及为什么要将这三层分开而不是写在一个函数里。
+2. 双重队列机制中，Session 队列和 Global 队列各自解决什么问题？请用课文中的类比重新表述它们的关系。
+3. 外层重试循环 `runEmbeddedPiAgent()`（run.ts）具体"不关心"哪些事情，又只专注于解决哪一个核心问题？它实现了哪些容错手段？
+
+<details>
+<summary>答案指南</summary>
+
+1. 外层（run.ts）只关注失败恢复策略（重试与容错），中层（attempt.ts）负责单次 LLM 调用的准备工作，内层负责实时事件流解析与响应。分层的目的是关注点分离：修改重试策略不影响事件处理，每层可独立测试，新增 Provider 只需改中层。
+2. Session 队列保证同一会话内的消息串行执行，避免并发写入导致历史记录混乱；Global 队列控制系统整体并发上限，防止资源耗尽。课文以医院挂号系统类比：Session 队列像"按顺序叫号看诊"，Global 队列像"限制同时就诊人数不超过诊室容量"。
+3. `runEmbeddedPiAgent()` 不关心 LLM 如何调用、Prompt 如何构建，只关注一件事：当下层汇报出错时采取什么恢复策略。它实现了 OpenClaw 的"七重容错策略"，包括 Auth 刷新、上下文压缩、Profile 轮换、模型降级等。
+
+</details>

@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, derivative, higher-order-derivatives, concav
 source: https://www.3blue1brown.com/lessons/higher-order-derivatives
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In physics, what is the name for the third derivative of position with respect to time, and what does it intuitively represent?
+2. What does it mean geometrically when the second derivative of a function is positive at a point?
+3. If $f''(c) = 0$, can you conclude that $c$ is an inflection point? Why or why not?
+
+---
+
 # Chapter 10: Higher-Order Derivatives
 
 **Source:** [Essence of Calculus – Higher-order derivatives](https://www.3blue1brown.com/lessons/higher-order-derivatives)
@@ -132,3 +142,23 @@ When the curve is nearly flat ($f' \approx 0$), curvature reduces to $|f''|$, so
 
 - **Previous:** Ch 9 (What Area Has to Do with Slope) established differentiation and integration as inverses; the accumulation function $A$ satisfies $A' = f$, which is itself a first-derivative relationship — higher-order derivatives extend this language.
 - **Next:** Ch 11 (Taylor Series) makes essential use of all higher-order derivatives at a single point to build polynomial approximations; the coefficients $f^{(n)}(a)/n!$ encode the full local shape of the function.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why engineers care about the third derivative (jerk) when designing elevators or rockets — what physical quantity is jerk actually measuring, and how does Newton's second law connect to it?
+2. Walk through the full physics derivative chain from position to pop, naming each level and explaining what each one measures relative to the one before it.
+3. Explain why $f''(c) = 0$ is necessary but not sufficient for an inflection point, and give the additional condition that must be verified.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Jerk measures how fast acceleration is changing, and since $F = ma$, a changing acceleration means a changing force — $dF/dt = mj$. An elevator that ramps acceleration gradually (small jerk) feels smooth; one that switches instantly (large jerk) produces a sharp lurch passengers feel as discomfort.
+2. Position $s$ → velocity $s'$ (rate of change of position) → acceleration $s''$ (rate of change of velocity) → jerk $s'''$ (rate of change of acceleration) → snap $s^{(4)}$ → crackle $s^{(5)}$ → pop $s^{(6)}$; each level is the derivative of the previous one.
+3. $f''$ could equal zero and then bounce back to the same sign without ever changing sign — as with $f(x) = x^4$ at $x = 0$. To confirm an inflection point you must verify that $f''$ actually changes sign across $c$, not merely touches zero.
+
+</details>

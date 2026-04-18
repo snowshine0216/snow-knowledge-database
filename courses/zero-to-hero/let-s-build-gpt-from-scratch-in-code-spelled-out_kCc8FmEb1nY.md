@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, gpt, transformers, self-attention, pytorc
 source: https://www.youtube.com/watch?v=kCc8FmEb1nY
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In self-attention, what do Q, K, and V stand for, and what role does each play in computing the output?
+2. What is the key architectural difference between an encoder-only transformer (like BERT) and a decoder-only transformer (like GPT)?
+3. Why do deep neural networks use residual (skip) connections — what problem do they solve?
+
+---
+
 # Course: Let's Build GPT — From Scratch, in Code, Spelled Out
 
 > **Instructor:** Andrej Karpathy
@@ -203,3 +213,23 @@ This lecture builds a **Generatively Pretrained Transformer (GPT)** from scratch
 - **Transcript source:** `asr-openai` (OpenRouter/GPT audio transcription of the full 1h56m video)
 - **Cookie-auth retry:** used (YouTube anti-bot)
 - **Data gaps:** none — full transcript and chapter metadata available
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Walk through the four versions of self-attention Karpathy builds in this lecture — what changes at each step, and what problem does each change solve?
+2. Describe the full transformer `Block` as implemented here: which sub-layers does it contain, in what order, and how are LayerNorm and residual connections applied?
+3. Outline the four-stage ChatGPT training pipeline and explain what each stage contributes to the model's final behavior.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. v1 uses a for loop to average all prior token embeddings (correct semantics, slow); v2 replaces it with a masked matrix multiply using `torch.tril` for the same result in one matmul; v3 adds softmax so weights are learned and non-uniform rather than flat averages; v4 introduces Q/K/V linear projections so each token queries specific information via scaled dot-product attention (`softmax(Q @ Kᵀ / √head_size) @ V`).
+2. The Block applies two sub-layers in sequence, each using pre-LN residual: `x = x + MultiHeadAttention(LayerNorm(x))` then `x = x + FeedForward(LayerNorm(x))`. LayerNorm normalizes across the feature dimension per token (not across the batch), and residual connections let gradients bypass each sublayer so deep stacks can train without vanishing.
+3. (1) **Pretraining**: GPT-3 trained on ~300B tokens via next-token prediction; (2) **SFT**: fine-tune on human-written prompt–completion pairs; (3) **Reward model**: trained on human preference data (which completion is better?); (4) **RLHF (PPO)**: use the reward model to further fine-tune GPT toward preferred outputs — scale + data + these last three stages are what separates ChatGPT from the base architecture.
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=939542
 wiki: wiki/concepts/003-second-qa-session.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 用 LoRA 微调意图识别模型时，你认为每个意图类别需要多少条训练数据才够用？如果各类别数量严重不均衡，你会怎么处理？
+2. 当工作流包含"意图识别 + 大模型调用"两个串联步骤时，你估计端到端延迟会是多少？延迟主要来自哪些环节？
+3. LangChain 从 0.x 升级到 1.0，你认为旧版代码的导入路径会直接报错吗？有没有平滑迁移的方法？
+
+---
+
 # 003: 第二次直播答疑
 
 **Source:** [AI 工程化训练营 第二次直播答疑](https://u.geekbang.org/lesson/818?article=939542)
@@ -93,3 +103,23 @@ from langchain.classic.retrievers import ...
 ## 编程语言选择：Java / TypeScript vs Python
 
 LangChain 框架的核心抽象（Agent、Module、Message、Tool、Short-term Memory Stream）在 Python、TypeScript 和 Java 版本中是完全一致的，因此学习 Python 版本的概念可以直接迁移。Java 开发者可使用 **LangChain4j** 或 **Spring AI**，它们的组件（memory、model params、tool、agent）与 Python 版本一一对应。现有 Java 积累无需抛弃，核心是理解框架的拆解方式和业务对接模式，而非纠结编程语言本身。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 请用自己的话解释 LoRA 微调数据集的三个关键质量要素，并举一个"意图覆盖多样性"的具体例子说明为什么缺少多样性会导致泛化能力不足。
+2. 在意图识别场景下，有哪五种降低工作流延迟的调优方向？其中哪一种效果最显著，原因是什么？
+3. 请描述 LangChain / LangGraph 的架构演进路径，并说明分别在什么场景下应该选择 LangChain 1.0、LangGraph 1.0 和 LangGraph Agents。
+
+<details>
+<summary>答案指南</summary>
+
+1. 三个关键要素：①意图覆盖多样性——同一意图应包含同义词、口语、错别字、缩写等写法（如"查订单"对应"1234567 到了没"等表达），缺少多样性会导致模型泛化能力不足；②贴近真实场景——训练数据应接近用户真实口语输入而非书面整理版，否则真实场景分类准确率下降；③用户信息脱敏——上线前必须对训练数据中的身份信息和真实对话内容做脱敏处理，防止隐私泄露。
+2. 五种调优方向：①关闭不必要的深度思考（Qwen 用 `force: "disabled"`，Claude 用 `enable_thinking: false`）；②缩短工作流提示词；③将串行节点改为并行执行；④合并大模型调用次数；⑤使用更小的意图识别模型（3B～4B 规模即可）。效果最显著的是"合并大模型调用次数"——将意图识别与回答合并为一次调用，或用正则/NLP 规则替代意图识别，从根本上减少调用次数。
+3. 演进路径：LangChain 0.x + LangGraph 0.x → LangChain 1.0（基于 LangGraph 0.x 重构）→ LangGraph 1.0 → LangGraph Agents（更高层抽象）。选型：开发一次性 Agent 选 LangChain 1.0；开发复杂工作流选 LangGraph 1.0；需要更高层抽象、仅靠提示词驱动选 LangGraph Agents / deep agents。
+
+</details>

@@ -3,6 +3,16 @@ tags: [calculus, math, 3blue1brown, derivative, power-rule, trigonometry]
 source: https://www.3blue1brown.com/lessons/derivatives-power-rule
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What do you think the derivative of $x^3$ is, and what geometric shape would you use to visualize why?
+2. If a point moves along a unit circle as the angle $\theta$ increases, in what direction does the point move relative to the radius — and how might that tell you the derivative of $\sin\theta$?
+3. What happens to the $(dx)^2$ corner term when you expand $(x + dx)^2$ and take the derivative — why does it disappear?
+
+---
+
 # Chapter 3: Derivative Formulas Through Geometry
 
 **Source:** [Derivative Formulas Through Geometry](https://www.3blue1brown.com/lessons/derivatives-power-rule)
@@ -122,3 +132,23 @@ In all cases, the *form* $nx^{n-1}$ is preserved — only the exponent changes. 
 
 - **Previous:** Chapter 2 (The Paradox of the Derivative) established the limit definition $f'(x) = \lim_{h\to 0}[f(x+h)-f(x)]/h$, which this chapter applies geometrically to avoid algebra-heavy expansions.
 - **Next:** Chapter 4 (Chain Rule and Product Rule) shows how to differentiate *combinations* of functions — products $f \cdot g$ and compositions $f(g(x))$ — using the same small-nudge bookkeeping.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the power rule $\frac{d}{dx}x^n = nx^{n-1}$ works, using the square and cube as your examples. What geometric pieces survive as $dx \to 0$, and why do the others vanish?
+2. Describe the unit-circle argument for why $\frac{d}{d\theta}\sin\theta = \cos\theta$ and $\frac{d}{d\theta}\cos\theta = -\sin\theta$. What key geometric fact about tangents to a circle drives both results simultaneously?
+3. What does the limit $\lim_{h\to 0}\frac{\cos h - 1}{h} = 0$ mean geometrically, and how does it relate to the shape of the cosine curve near $h = 0$?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. For $x^2$, growing a square's side by $dx$ adds two thin rectangular strips (each area $x \cdot dx$), giving $2x\,dx$; the leftover corner $(dx)^2$ is negligible as $dx \to 0$. For $x^3$, growing a cube's side adds three face slabs each of volume $x^2\,dx$, giving $3x^2$; edge and corner pieces are higher-order and vanish. The general pattern: an $n$-dimensional hypercube $x^n$ contributes exactly $n$ face slabs of size $x^{n-1}\,dx$, yielding $nx^{n-1}$.
+2. A point $P = (\cos\theta, \sin\theta)$ on the unit circle moves perpendicular to the radius when $\theta$ increases, because the tangent to a circle is always perpendicular to its radius. The perpendicular to the radius direction $(\cos\theta, \sin\theta)$ is $(-\sin\theta, \cos\theta)$, so the displacement $dP = d\theta \cdot (-\sin\theta, \cos\theta)$; reading off components gives both trig derivatives at once with no algebra.
+3. The limit $(\cos h - 1)/h \to 0$ means cosine barely changes near $h = 0$ — its change is second-order (proportional to $dx^2$), not first-order. Geometrically, the cosine curve is flat at its peak at $\theta = 0$, so a tiny nudge in angle produces essentially zero first-order change in the $x$-coordinate of the unit-circle point.
+
+</details>

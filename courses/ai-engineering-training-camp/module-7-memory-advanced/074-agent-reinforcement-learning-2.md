@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927489
 wiki: wiki/concepts/073-agent-reinforcement-learning-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 强化学习（RL）在大模型后训练阶段通常解决什么问题？PPO 和 DPO 各自代表什么？
+2. 传统 RLHF（人类反馈强化学习）的核心依赖是什么？这种方式在 Agent 优化场景中有哪些局限？
+3. 马尔科夫决策过程（MDP）由哪几个核心组件构成？在 Agent 运行场景中，"奖励"可能对应什么？
+
+---
+
 # 074: Agent Autonomous Learning — Reinforcement Learning (Part 2)
 
 **Source:** [11Agent自主学习-强化学习2](https://u.geekbang.org/lesson/818?article=927489)
@@ -174,3 +184,23 @@ Agent Lightning 完整训练循环的三个核心步骤：
 ## Connections
 - → [[agent-reinforcement-learning-1]]
 - → [[075-docker-containerization-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Agent Lightning 是如何做到「零代码入侵」集成到现有 Agent 框架（如 LangChain）的？它在架构上同时扮演哪两个角色？
+2. Agent Lightning 中的 MDP 四个组件（State、Action、Reward、Policy）分别对应 Agent 运行过程中的什么具体内容？与人工 RLHF 的"yes/no 反馈"相比，它的奖励机制有何本质区别？
+3. APO 算法的完整优化循环包含哪几个步骤？SearchR1 样例对硬件有何要求，这揭示了当前强化学习优化 Agent 的哪个核心瓶颈？
+
+<details>
+<summary>答案指南</summary>
+
+1. Agent Lightning 仅需将代码中的 `from openai import AsyncOpenAI` 替换为 `from agent_lightning import AsyncOpenAI`，其余代码完全不变。它在架构上同时扮演 Server 端（负责强化学习训练）和 Client 端（作为 OpenAI 兼容接口代理），在对话前后插入 RL 处理逻辑。
+2. State 对应当前用户请求 + 对话历史，Action 对应大模型生成的回复或工具调用，Reward 对应评分器函数返回的 0~1 连续数值，Policy 对应当前提示词模板。与人工 RLHF 的离散 yes/no 反馈不同，Agent Lightning 给出连续评分并由算法自动迭代，无需人工标注。
+3. APO 循环分三步：① 算法生成新提示词模板交给 Agent 执行（rollout）；② Trainer 捕获所有 span 并计算奖励，将 `(span, reward)` 发回算法；③ 算法基于此生成下一轮优化的提示词，循环往复。SearchR1 训练至少需要 40GB 显存（8 GPU），揭示了当前强化学习优化 Agent 的核心瓶颈：算力消耗巨大，本地环境通常无法运行完整训练。
+
+</details>

@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, attention, transformer
 source: https://www.youtube.com/watch?v=eMlx5fFNoYc
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. When a transformer processes the word "bank" in a sentence, what problem does the initial token embedding have, and what mechanism is designed to fix it?
+2. In attention, what do the terms Query, Key, and Value intuitively represent — what role does each play in deciding which tokens influence which?
+3. Why might running multiple attention heads in parallel be more powerful than running a single, larger attention operation?
+
+---
+
 # Attention in Transformers — Step by Step
 
 ## Metadata
@@ -143,3 +153,23 @@ For one attention head with $d_k = d_v = d_{\text{model}} / h$:
 For $h$ heads plus output projection $\mathbf{W}_O$, total attention parameters per layer:
 
 $$4 \cdot d_{\text{model}}^2 \quad \text{(when } d_k = d_v = d_{\text{model}} / h\text{)}$$
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Walk through the full scaled dot-product attention formula — explain what each component ($\mathbf{Q}$, $\mathbf{K}$, $\mathbf{V}$, the $\sqrt{d_k}$ term, and the softmax) does and why it is necessary.
+2. Explain how causal masking works mechanically: what is added to the score matrix, what effect does it have after softmax, and why is it needed for autoregressive generation?
+3. Explain why the total parameter count for a multi-head attention layer simplifies to $4 \cdot d_{\text{model}}^2$, accounting for all projection matrices.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Queries ($\mathbf{Q}$) ask "what am I looking for?", keys ($\mathbf{K}$) signal "what do I contain?", and values ($\mathbf{V}$) carry "what I contribute." Their dot products form a score matrix scaled by $\sqrt{d_k}$ (to prevent softmax saturation at large $d_k$), then softmax normalizes each row into a probability distribution, which weights a sum over value vectors to produce the context-aware output.
+2. A causal mask adds $-\infty$ to all positions $j > i$ in the score matrix before softmax; since $e^{-\infty} = 0$, those positions receive zero attention weight, ensuring token $i$ can only attend to earlier tokens and itself — which is required so the model cannot "see" future tokens it hasn't generated yet.
+3. Each of the $h$ heads contributes three matrices ($\mathbf{W}_Q$, $\mathbf{W}_K$, $\mathbf{W}_V$) of shape $d_{\text{model}} \times (d_{\text{model}}/h)$, totaling $3 \cdot d_{\text{model}}^2$ across all heads; the output projection $\mathbf{W}_O$ of shape $h(d_{\text{model}}/h) \times d_{\text{model}} = d_{\text{model}} \times d_{\text{model}}$ adds another $d_{\text{model}}^2$, giving $4 \cdot d_{\text{model}}^2$ total.
+
+</details>

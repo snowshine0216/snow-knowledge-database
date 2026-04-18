@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, gradient-descent, opti
 source: https://www.youtube.com/watch?v=IHZwWFHWa-w
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What does the gradient of a function tell you, and in which direction does gradient descent move relative to it?
+2. If a neural network has roughly 13,000 parameters, what mathematical object represents all of them during training, and what are we trying to do to the cost function over that object?
+3. What is the difference between stochastic gradient descent and mini-batch gradient descent, and why might using less than the full dataset per step actually help training?
+
+---
+
 # Gradient Descent — How Neural Networks Learn
 
 ## Metadata
@@ -111,3 +121,23 @@ $$\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} - \eta \cdot \frac{1}{m} \s
 - One full pass through all training data = one **epoch**
 
 The key bottleneck is computing all those partial derivatives $\partial C / \partial w_{ij}$ efficiently — that is the job of **backpropagation**.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the Mean Squared Error cost function in your own words — what does it measure, what inputs does it take, and when is it large versus small?
+2. Walk through the gradient descent update rule step by step: what is being updated, by how much, and in which direction — and what role does the learning rate η play if it is set too high or too low?
+3. Explain why mini-batch gradient descent is preferred over both full-batch and pure stochastic gradient descent, and what the term "epoch" means in this context.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. MSE averages the squared Euclidean distance between the network's actual output and the desired label across all training examples; it is small when outputs closely match labels on every example and large when the network is frequently wrong.
+2. Each parameter is nudged by subtracting η times its partial derivative of C — moving downhill in the cost landscape; too large an η overshoots and may diverge, while too small an η converges safely but wastefully slowly.
+3. Mini-batch SGD averages gradients over a small random subset (typically 32–256 examples), balancing the computational cost of full-batch against the instability of single-example SGD — and the resulting gradient noise is actually beneficial because it helps escape shallow local minima; one full pass through all training data is called an epoch.
+
+</details>

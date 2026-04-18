@@ -3,6 +3,16 @@ tags: [neural-networks, deep-learning, math, 3blue1brown, large-language-models,
 source: https://www.youtube.com/watch?v=LPZh9BOjkQs
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. How does a large language model represent its output — does it produce a single next word, a score, or something else?
+2. What do you think "temperature" controls in text generation, and what happens when you set it very low?
+3. What is cross-entropy loss, and why might it be a natural training objective for a model that predicts the next word?
+
+---
+
 # Large Language Models Explained Briefly
 
 ## Metadata
@@ -105,3 +115,23 @@ $$p_i = \frac{e^{z_i / T}}{\sum_{j} e^{z_j / T}}$$
 | $T < 1$ | Sharper distribution: more conservative, more repetitive |
 
 Randomness in sampling is not a bug — it produces more natural and varied text than always picking the argmax.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words what makes text generation "autoregressive" — trace the loop from a starting context to a third generated token.
+2. What does the cross-entropy training loss actually measure, and what does it mean for perplexity to be "lower"?
+3. Walk through what temperature does mathematically to the softmax distribution, and describe the practical effect of setting T → 0 versus T > 1.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Autoregressive generation means the model produces a probability distribution over the vocabulary, samples one token from it, appends that token to the context, then repeats — each new token becomes part of the input for the next step, so the model always conditions on its own previous outputs.
+2. Cross-entropy loss measures how surprised the model is by the actual next token: low loss means the model assigned high probability to the correct token, high loss means it was caught off-guard. Perplexity is $e^{\mathcal{L}}$, so lower perplexity directly means better next-token prediction on average.
+3. Temperature divides each logit by $T$ before the softmax: as $T \to 0$ the highest logit dominates completely (greedy, repetitive output), while $T > 1$ flattens the distribution so lower-probability tokens get more chance, producing more varied and creative — but potentially less coherent — text.
+
+</details>

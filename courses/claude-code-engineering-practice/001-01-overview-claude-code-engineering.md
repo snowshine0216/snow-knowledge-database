@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, architecture, overview]
 source: https://time.geekbang.org/column/article/942438
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 你认为 Claude Code 的底层技术架构可以分为哪几个层次？请尝试列举。
+2. Claude Code 的"长期记忆系统"依赖哪个核心文件来存储项目上下文？
+3. 在 Claude Code 的扩展层中，Skills（技能）和 Tools（工具）有什么本质区别？
+
+---
+
 # 01｜登台远望：Claude Code 底层技术全景导览
 
 ## 章节元数据
@@ -105,3 +115,23 @@ Claude Code 的真正身份是：一个可编程、可扩展、可组合的 AI A
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Claude Code 底层技术全景图的四个层次各自负责什么，并说明为什么要从"下往上"来理解这个架构。
+2. 请区分"被动使用"和"主动驾驭" Claude Code 的区别，并举例说明"主动驾驭"模式下你作为设计者的角色。
+3. 扩展层的四大核心组件（Commands、Skills、SubAgents、Hooks）中，Commands 和 Skills 的触发方式有何不同？为什么 Skill 不等价于一个高级 Tool？
+
+<details>
+<summary>答案指南</summary>
+
+1. 四层从下至上依次为：基础层（Memory/CLAUDE.md，长期记忆）、扩展层（Commands/Skills/SubAgents/Hooks，能力中心）、集成层（Headless无头模式 + MCP，连接外部世界）、编程接口层（Agent SDK，代码驱动自定义 Agent）。从底层往上理解有助于看清每层如何为上层提供支撑。
+2. 被动使用是"你问，它答"，如同使用计算器；主动驾驭是"你设计，它执行"，用户编写程序逻辑，Claude Code 自动运行。主动驾驭模式下，用户是架构师和流程设计者，而非单纯的提问者。
+3. Commands 由用户手动输入 `/command` 触发，适合标准化操作；Skills 由 Claude 通过语义推理自动判断是否激活。Skills 不等价于 Tool，因为 Tool 是外部能力接口（函数调用），而 Skill 是把 if-else、prompt、策略和调用顺序全部封装进一个文档的整体行为模式定义。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927450
 wiki: wiki/concepts/langchain-lcel-runnable.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. Python 中 `a | b` 这个表达式底层实际调用的是哪个魔术方法？如果左侧对象没有定义该方法，Python 会怎么做？
+2. 在调用远程大模型 API 时，使用异步调用（`ainvoke`）和同步调用（`invoke`）的主要区别是什么？为什么异步在多用户并发场景下性能更好？
+3. LangChain 中如果主模型调用失败，你会如何设计一个备用方案？请描述你认为合理的降级策略。
+
+---
+
 # 034: 3LangChain链的解析1
 
 **Source:** [3LangChain链的解析1](https://u.geekbang.org/lesson/818?article=927450)
@@ -274,3 +284,23 @@ chain_with_meta = chain.with_config(
 ## Connections
 - → [[langchain-lcel-runnable]]
 - → [[langchain-agent-architecture]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：LCEL 中 `|` 操作符为什么能把普通 Python 函数（如 `pre_process`）直接接在链头，而不需要给该函数手动实现 `__or__` 方法？底层机制是什么？
+2. `RunnableParallel` 和直接把多个步骤串联在一条链里有什么本质区别？举例说明什么场景适合用 `RunnableParallel`。
+3. LangChain 中 `with_config(tags=...)` 和 `with_config(metadata=...)` 有什么区别？课程用了哪两个类比来帮助区分二者，你能复述并解释这两个类比吗？
+
+<details>
+<summary>答案指南</summary>
+
+1. 当左侧对象（普通函数）未定义 `__or__` 时，Python 会自动尝试右侧对象的 `__ror__`（reverse or）；LangChain 的 `Runnable` 实现了 `__ror__`，因此普通函数无需任何改造就能作为链头连接，数据流依然从左向右执行。
+2. `RunnableSequence`（普通链）是顺序执行，前一步输出才是下一步输入；`RunnableParallel` 是同时触发多条独立链，各链结果以字典形式汇总返回——适合对同一输入同时做摘要、关键词提取、情感分析等互不依赖的任务。
+3. 标签（`tags`）仅对开发者可见，不混入业务数据，类似给书加书签；元数据（`metadata`）会混入业务数据的 metadata 层，业务系统可见，类似在目录页备注——课程建议优先使用标签，避免污染原始数据。
+
+</details>

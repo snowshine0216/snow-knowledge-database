@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927449
 wiki: wiki/courses/ai-engineering-training-camp/module-4-dialogue-systems/032-langchain-first-chain-fastapi.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangChain 内置的 `PromptTemplate.from_template()` 有哪些局限性？当企业需要根据不同场景动态拼接提示词时，你认为应该怎么做？
+2. 如果你要对接一个私有化部署的 vLLM 服务（而不是 OpenAI 云端 API），LangChain 需要做什么额外工作？你猜测需要实现哪些参数？
+3. 当大模型返回的内容"看起来像 JSON 但不是合法 JSON"时（比如多了说明文字），你会用什么方法提取其中的 JSON 数据？
+
+---
+
 # 033: 深入输入与输出
 
 **Source:** [2 深入输入输出](https://u.geekbang.org/lesson/818?article=927449)
@@ -294,3 +304,23 @@ class ProjectPasser(BaseOutputParser):
 - **类 JSON → 合法 JSON** 的正则抽取是所有生产项目都会遇到的问题；终极方案是微调。
 - 版本兼容坑仍然是 LangChain 生态的主要负担；**项目间严格隔离虚拟环境**是唯一的防御。
 - 下一讲（034）会进入 LangChain 链的源码解析，帮助理解以上"封装"为什么能正确工作。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 课程提到"不要使用 `{% if %}` 模板条件逻辑"——用自己的话解释为什么，以及正确的替代做法是什么？
+2. `PersonInfo` 数据类中的 `@validator("age")` 装饰器和 `@property` 分别解决了什么问题？结合 `analysis_type` 的动态模板组合，说明这套设计如何做到"业务端只需传参、不改代码"？
+3. 自定义输出解析器 `ProjectPasser.parse()` 的核心逻辑是什么？课程说"微调模型才是根治方案"——这句话背后的逻辑是什么？
+
+<details>
+<summary>答案指南</summary>
+
+1. `{% if %}` 语法简陋、关键字匹配容易失误，且逻辑嵌入模板字符串后难以测试和维护。正确做法是把条件判断提取到 Python 代码中（如 `PersonPromptTemplate.format()` 方法），让模板本身只做"纯字符串组装"。
+2. `@validator("age")` 在构造时自动校验字段范围（如 age 必须在 0–150），不合法时抛出 `ValidationError`；`@property` 把方法伪装成属性、隐藏复杂逻辑。`analysis_type` 有默认值且通过 Python 代码控制段落拼接，业务端只需传 `{"analysis_type": "career", ...}`，模板组合逻辑完全封装在后端。
+3. `parse()` 用正则 `re.search(r"\{.*\}", text, re.DOTALL)` 从模型输出中提取第一个 JSON 块，再用 `json.loads()` 解析，失败时抛出 `OutputParserException`。微调是根治方案，因为正则只是事后补救——若模型经过微调能直接输出合法 JSON，则解析器的兜底逻辑完全不需要存在。
+
+</details>

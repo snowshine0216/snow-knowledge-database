@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, nonsquare-matrices, dimensions, linear
 source: https://www.youtube.com/watch?v=v8VSDg_WQlA
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. For a matrix with 3 rows and 2 columns, what are the dimensions of its input space and output space?
+2. What do you think happens to information when a transformation maps a higher-dimensional space into a lower-dimensional one?
+3. How do you think a 1×2 matrix — one row, two columns — relates to an operation you already know from vector arithmetic?
+
+---
+
 # Nonsquare Matrices as Transformations Between Dimensions
 
 ## Metadata
@@ -73,3 +83,23 @@ $$M \in \mathbb{R}^{1 \times 2} : \mathbb{R}^2 \to \mathbb{R}^1$$
 Each of the two columns has exactly one entry, recording the scalar value where each basis vector lands. The linearity criterion — parallel, evenly-spaced grid lines mapping to evenly-spaced outputs — becomes: a line of evenly-spaced dots in the 2D plane maps to evenly-spaced dots on the number line. That is precisely what a linear function of two variables does when it projects the plane onto a single axis.
 
 This structure has a deep connection to the dot product. A 1×2 matrix acting on a 2D vector computes exactly the dot product of the matrix's single row with that vector, which is the starting point for the duality between linear functionals and vectors explored in the next chapter.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words how the shape of an $m \times n$ matrix tells you both the input dimension and the output dimension — and why each part of the shape encodes what it does.
+2. Describe what happens geometrically when a 2×3 matrix transforms 3D space into 2D. Where does the "lost" dimension go, and what does that imply about the null space?
+3. Explain why a 1×2 matrix acting on a 2D vector is equivalent to computing a dot product, and what geometric condition the linearity requirement imposes on this mapping.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The number of **columns** equals the dimension of the input space (how many basis vectors the input has); the number of **rows** equals the dimension of the output space (how many coordinates are needed to describe where each basis vector lands). So an $m \times n$ matrix maps $\mathbb{R}^n \to \mathbb{R}^m$.
+2. A 2×3 matrix squashes all of 3D space onto a 2D plane, necessarily collapsing at least one dimension of information — vectors that differ only in the lost direction map to the same output point. This means the null space is at least one-dimensional.
+3. A 1×2 matrix has one row with two entries, and multiplying it by a 2D vector computes exactly the dot product of that row with the vector. The linearity condition requires that evenly-spaced points in the 2D plane map to evenly-spaced points on the number line — which is precisely what projecting the plane onto a single axis does.
+
+</details>

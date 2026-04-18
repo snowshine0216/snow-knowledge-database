@@ -3,6 +3,17 @@ tags: [agent, multimodal, rpa, pyautogui, automation, llm, workflow, tool-use]
 source: https://u.geekbang.org/lesson/818?article=927486
 wiki: wiki/concepts/071-agent-multimodal-reasoning.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What is RPA (Robotic Process Automation) and what problem does it solve when combined with a large language model?
+2. If you needed to automate mouse clicks and keyboard input on a desktop GUI using Python, what library would you reach for, and what is its main limitation?
+3. What are the three broad multimodal reasoning scenarios an AI agent might handle — and which direction does each task flow (text→image, image→text, or something else)?
+
+---
+
 # 071: Agent in Multimodal Reasoning — Typical Scenarios
 
 **Source:** [8Agent在多模态推理任务中的典型场景](https://u.geekbang.org/lesson/818?article=927486)
@@ -166,3 +177,25 @@ The instructor positions RPA as **the outer extension layer of LLM capability** 
 - [[mcp-tool-protocol]] — alternative/complementary tool invocation standard
 - [[pyautogui]] — Python GUI automation library covered in this lecture
 - [[langchain-agents]] — related agent framework context from earlier lectures
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Describe the vision-feedback loop that PyAutoGUI creates when paired with a multimodal LLM — walk through each step in the cycle and explain why this pairing is necessary.
+2. Explain how 引刀 (Yindao) improves on raw PyAutoGUI for web automation, and describe the two distinct modes of integrating 引刀 with an external LLM workflow like Dify.
+3. The lecture frames RPA as one stage in the evolution of LLM application patterns. Reconstruct that evolution path from RAG to deep tool integration, and explain where RPA sits in it and why the instructor calls it "the outer extension layer."
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The loop is: perform action via PyAutoGUI → take screenshot → send screenshot to multimodal LLM → LLM interprets the screen state and decides next action → drive PyAutoGUI for next step. PyAutoGUI handles dexterous local interaction that LLMs lack natively, while the LLM provides intelligence to interpret visual feedback.
+
+2. 引刀 works with web element selectors (like Selenium) rather than raw pixel coordinates, making workflows more robust against layout changes. The two modes are: Mode A — 引刀 calls Dify as a sub-workflow via HTTP POST and receives a result; Mode B — Dify calls 引刀 as a polling service where the RPA periodically fetches tasks, processes them (e.g., looks up product info), and returns results.
+
+3. The path is: RAG → Agent → ReAct-style reasoning with tool calls → Memory within Agents → Multi-agent systems → Deep business integration via tool invocation (RPA). RPA occupies the final layer because it handles local GUI and web automation that LLMs cannot perform natively, and is more accessible than building MCP servers from scratch, especially for pre-built connectors to Chinese SaaS platforms.
+
+</details>

@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, vectors]
 source: https://www.youtube.com/watch?v=fNk_zzaMoSs
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. A physicist, a computer scientist, and a mathematician each describe what a "vector" is. What definition would you expect each to give?
+2. If you add two vectors $\vec{v} = [3, 1]$ and $\vec{w} = [-1, 2]$, what is the result, and how would you show this geometrically?
+3. What do you predict happens to a vector when you multiply it by $-2$?
+
+---
+
 # Vectors, What Even Are They?
 
 ## Metadata
@@ -90,3 +100,23 @@ $$
 Every vector in this framework is implicitly rooted at the origin, so the coordinate numbers serve double duty: they identify both a point in space and the arrow pointing to that point from $(0, 0)$. This dual interpretation — vector as arrow versus vector as point — is useful throughout linear algebra, and context determines which view is more helpful in a given situation.
 
 If the root were shifted away from the origin, the clean correspondence between coordinates and directions would break down: the same pair of numbers would describe a different arrow depending on where it started. Anchoring all vectors to the origin is therefore not an arbitrary convention but a foundational design choice that makes the coordinate representation unambiguous and consistent. All of linear algebra builds on this single, fixed reference point.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the three perspectives on vectors in your own words, and describe how they relate to each other.
+2. Explain what it means to read a 2D coordinate pair as "instructions from the origin," and why anchoring vectors to the origin is a foundational design choice rather than an arbitrary convention.
+3. Describe what scalar multiplication does to a vector geometrically — covering all three cases for the value of the scalar — and explain where the word "scalar" comes from.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. In physics a vector is an arrow with magnitude and direction (movable in space); in CS it is an ordered list of numbers whose length indicates dimensionality; in math it is any abstract object supporting addition and scaling under fixed axioms — the first two are special cases of the third. For linear algebra, treating vectors simultaneously as arrows and coordinate lists lets you move between geometric intuition and numerical calculation.
+2. Reading $(x, y)$ as instructions means: start at the origin, move $x$ units horizontally, then $y$ units vertically — the arrow's tip lands there. Anchoring all vectors to the origin is essential because shifting the root would make the same coordinate pair describe a different arrow depending on where it started, breaking the unambiguous one-to-one link between numbers and directions.
+3. Multiplying by a scalar $c$ scales every component by $c$: if $|c| > 1$ the vector stretches; if $0 < |c| < 1$ it shrinks; if $c < 0$ the direction reverses and the length scales by $|c|$. The word "scalar" derives directly from this scaling action; the special case $c = 0$ yields the zero vector $\vec{0}$, which has no length or direction.
+
+</details>

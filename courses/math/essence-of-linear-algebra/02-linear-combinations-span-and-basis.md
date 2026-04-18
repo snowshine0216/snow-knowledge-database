@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, span, basis-vectors, linear-combinatio
 source: https://www.youtube.com/watch?v=k7RM-ot2NWY
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In the standard 2D coordinate system, what are the two standard basis vectors $\hat{i}$ and $\hat{j}$, and what do the coordinates of a vector like $(3, -2)$ actually represent?
+2. If you take two vectors $\vec{v}$ and $\vec{w}$ and form every possible combination $a\vec{v} + b\vec{w}$ for all real $a$ and $b$, what do you get — and does your answer change if the two vectors happen to point in the same direction?
+3. What does it mean for a set of vectors to be "linearly independent," and why would adding a redundant vector to a set matter?
+
+---
+
 # Linear Combinations, Span, and Basis Vectors
 
 ## Metadata
@@ -98,3 +108,23 @@ In 2D, two vectors are linearly dependent exactly when they are collinear: one i
 The **basis** of a vector space is a set of linearly independent vectors whose span equals the full space. These two requirements — independence and spanning — are both necessary. Independence ensures no vector is redundant; spanning ensures no direction in the space is missed.
 
 The standard basis in 2D is $\{\hat{i},\, \hat{j}\}$, the two unit vectors along the x- and y-axes, but any two linearly independent vectors can serve as a basis for 2D space. Choosing a different basis changes the coordinate numbers used to describe a vector even though the underlying geometric object does not change. The basis is the implicit scaffolding behind every coordinate system: the numbers we call "coordinates" are always scalar multipliers relative to some chosen basis.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the coordinates of any 2D vector are really "scaling instructions" — what exactly are they scaling, and how does that connect to the formula $\vec{v} = x\hat{i} + y\hat{j}$?
+2. Describe what happens to the span of two vectors when they are collinear, and explain the geometric reason why the second vector contributes nothing new to the reachable set.
+3. A basis requires two properties simultaneously. Name both, explain what each one prevents if it were missing, and give an example of a valid basis for 2D space other than $\{\hat{i}, \hat{j}\}$.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The coordinates $x$ and $y$ are scalar multipliers applied to $\hat{i}$ and $\hat{j}$ respectively; the vector $(3, -2)$ means scale $\hat{i}$ by 3 and $\hat{j}$ by $-2$ then add the results, so every pair of coordinates is secretly a description of a linear combination of the two basis vectors.
+2. When two vectors are collinear ($\vec{w} = c\vec{v}$), scaling one is equivalent to scaling the other, so no new direction is reachable; the span collapses from the full plane down to a single line through the origin.
+3. A basis must be **linearly independent** (no vector is a redundant combination of the others, so no direction is wasted) and **spanning** (every direction in the space is reachable); without independence you have redundancy, without spanning you miss directions — any two non-collinear 2D vectors, such as $\{(1,1),(1,-1)\}$, form a valid basis.
+
+</details>

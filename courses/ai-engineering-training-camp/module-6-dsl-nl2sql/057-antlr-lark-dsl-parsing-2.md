@@ -3,6 +3,17 @@ tags: [dsl, antlr, lark, ast, agent, langgraph, llm, workflow, mcp, prompt-engin
 source: https://u.geekbang.org/lesson/818?article=927473
 wiki: wiki/concepts/057-antlr-lark-dsl-parsing-2.md
 ---
+
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在将大模型（LLM）与DSL结合生成结构化内容时，为什么通常建议使用"模板填充变量"的方式，而不是让大模型直接生成完整的DSL字符串？
+2. 如果一个生产级系统需要在不重启服务的情况下更新工作流规则，你认为大概需要哪些机制来实现"热更新"？
+3. 在多Agent协作场景中，各Agent之间如何共享和传递任务状态或指令？DSL在其中可能扮演什么角色？
+
+---
+
 # 057: ANTLR与Lark 解析 DSL 语法 (Part 2)
 
 **Source:** [3使用 ANTLR与Lark 解析 DSL 语法2](https://u.geekbang.org/lesson/818?article=927473)
@@ -125,3 +136,23 @@ AIPPT是典型的"DSL + 大模型 + 模板"商业模式：
 - [[prompt-engineering]] — 提示词工程：槽位设计、范围限定、JSON输出格式
 - [[react-agent]] — ReAct推理模式，讲师推荐的核心Agent架构
 - [[dify]] — Dify工作流平台，讲师预告的二次开发方向
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 本讲提出了DSL生产化的"三层防护"机制，请用自己的话解释这三层分别是什么、每层解决了什么问题。
+2. 解释"热更新（Hot Reload）"的完整设计模式：从用户在Web界面上传新规则，到工作流实际更新，中间经历了哪些步骤？`load_workflow()` 函数的作用是什么？
+3. 讲师对"企业是否应该自研基础大模型"持什么立场？他用什么案例支撑这个观点，并建议工程师将精力聚焦在哪些具体方向上？
+
+<details>
+<summary>答案指南</summary>
+
+1. 三层防护依次为：①提示词级验证（槽位范围限定，防止用户随意输入）→ ②模板填充（将提取的JSON参数注入模板，得到合法DSL结构）→ ③语法验证（用ANTLR/Lark解析验证DSL合法性，通过后才执行）。每层各自拦截不同类型的错误，缺一不可，类比工业设备的安全联锁。
+2. 热更新流程：Web界面上传规则 → 验证 → 入库（数据库记录版本）→ 调用reload接口 → `load_workflow()` 重新读取DB → 解析为AST → 重新初始化LangGraph app → 用新工作流变量覆盖旧变量，全程无需重启服务。`load_workflow()` 是核心函数，负责将DSL从存储层转化为可运行的LangGraph工作流对象。
+3. 讲师明确不建议企业自研基础模型，以某银行为例：投入数亿元自研微调模型，效果仍不如开源的Qwen 2.5，最终放弃。他建议工程师聚焦Agent组件的深度开发，具体包括：记忆组件、工具组件、ReAct思考组件、MCP通信协议和LangGraph工作流设计。
+
+</details>

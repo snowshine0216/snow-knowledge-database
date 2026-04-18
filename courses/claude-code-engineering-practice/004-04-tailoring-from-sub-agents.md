@@ -3,6 +3,16 @@ tags: [claude-code, geektime, ai-agents, sub-agents, multi-agent, architecture]
 source: https://time.geekbang.org/column/article/943942
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. LangChain 建议在什么情况下才应该从单 Agent 升级到多 Agent 架构？你认为哪些信号意味着"触及架构边界"？
+2. 在多 Agent 系统中，"Sub-Agent"和"Router"这两种模式有什么区别？它们分别适合解决什么类型的问题？
+3. 如果一个 AI 助手需要同时支持十几种不同的操作模式，你会优先选择哪种多 Agent 设计模式？为什么？
+
+---
+
 # 04｜量体裁衣：从 Sub-Agents 到 Multi-Agent 的工程指南
 
 ## 章节元数据
@@ -112,3 +122,23 @@ source: https://time.geekbang.org/column/article/943942
 ## 复习备注
 - 构建知识图谱前，先复核关键论断与原文的一致性。
 - 在此补充你的行动项、实践映射和复盘结论。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释"dumb zone（迟钝区）"是什么，以及它是触发多 Agent 升级的哪个信号的核心依据？
+2. Skills 模式和 Sub-Agent 模式在上下文隔离、并行能力、用户交互路径三个维度上有何本质区别？请逐一对比。
+3. Handoffs 模式中，Agent 之间切换控制权的机制是什么？它与 Router 模式在执行方式上有什么根本不同？
+
+<details>
+<summary>答案指南</summary>
+
+1. dumb zone 是指 Agent 的上下文窗口接近满载时，模型在任务完成上的表现显著下降的状态；这是触发多 Agent 升级的"信号一：上下文管理挑战"的核心依据——当专业知识无法舒适塞进单一 prompt 时，需要策略性分发上下文。
+2. Skills 模式由单一 Agent 负责全部推理，技能共享同一上下文窗口（隔离弱），顺序执行（无并行），用户始终与同一 Agent 交互（路径最短）；Sub-Agent 模式每个 Sub-Agent 拥有独立上下文窗口（隔离强），支持并行执行（吞吐高），用户通过 Supervisor 间接沟通（多一层）。
+3. Handoffs 模式通过 Agent 调用 `handoff()` 工具将控制权和上下文显式传递给下一个 Agent，采用严格顺序执行；Router 模式则由 Router 先对请求进行语义分类和分解，再将子查询**并行**分发给多个专业 Agent，最后合成结果返回——两者的根本区别在于顺序交接 vs 并行分发。
+
+</details>

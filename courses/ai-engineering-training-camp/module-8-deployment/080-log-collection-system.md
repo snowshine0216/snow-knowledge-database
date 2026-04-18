@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927496
 wiki: wiki/concepts/080-log-collection-system.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. ELK 分别代表哪三个组件？请写出全称并简述各自的作用。
+2. 为什么企业选择自建日志收集系统（如 ELK），而不是直接使用商业日志服务？
+3. 在 Docker Compose 中，Logstash 和 Kibana 都依赖 Elasticsearch——你认为这是为什么？启动顺序错误会发生什么？
+
+---
+
 # 080: Building a Log Collection System
 
 **Source:** [6搭建日志收集系统](https://u.geekbang.org/lesson/818?article=927496)
@@ -207,3 +217,23 @@ Fluentd 是另一种日志采集方案，与 ELK 有不同的定位：
 ## Connections
 - → [[079-monitoring-system]]
 - → [[081-async-core-concepts-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话描述 ELK 的完整数据流——一条 Python 应用日志从产生到出现在 Kibana 图表上，经过了哪些组件、哪些端口？
+2. Python 应用向 Logstash 推送日志时，为什么要加"重试三次"和"序号"两个机制？去掉其中一个会有什么后果？
+3. 什么情况下应该选 Fluentd 而不是 Logstash？请用一个具体场景说明两者的核心区别。
+
+<details>
+<summary>答案指南</summary>
+
+1. 日志从 Python 应用通过 TCP Socket 以 JSON 格式推送到 Logstash（端口 5044），Logstash 将其转发到 Elasticsearch（端口 9200）建立索引（如 `elk-YYYY.MM.dd`），Kibana（端口 5601）再从 Elasticsearch 读取数据并渲染为可视化图表。
+2. 重试三次是为了应对网络抖动导致的连接失败，防止日志丢失；序号是为了验证日志是否乱序或缺失，方便问题排查。缺少重试会丢日志，缺少序号则难以发现日志顺序错乱的问题。
+3. 当应用代码不可修改、只能通过已有日志文件进行采集时，选 Fluentd——它通过插件监听文件变化进行二次采集；而 Logstash 适合可在代码中嵌入 handler、能主动将日志推送到 TCP 端口的场景（如 FastAPI/AI 服务）。
+
+</details>

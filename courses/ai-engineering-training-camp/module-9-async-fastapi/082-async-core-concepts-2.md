@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927499
 wiki: wiki/concepts/082-async-core-concepts-2.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 Python 中，`await` 关键字后面能跟哪些类型的对象？你认为一个自定义类如果想支持 `await`，需要实现什么？
+2. `asyncio.run()` 在底层是如何推进协程执行的？你认为事件循环是通过什么机制让协程"走走停停"的？
+3. 在 IO 密集型任务中，异步协程（asyncio）和多线程（threading）的性能你认为哪个更优？差距大吗？
+
+---
+
 # 082: Async Programming Core Concepts and Principles Part 2
 
 **Source:** [2核心概念与底层原理2](https://u.geekbang.org/lesson/818?article=927499)
@@ -239,3 +249,23 @@ CONCURRENT = 4      # 并行度 4
 ## Connections
 - → [[081-async-core-concepts-1]]
 - → [[083-parallel-mechanisms-1]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Awaitable 协议：一个自定义类要支持 `await`，需要实现什么方法？该方法内部的 `yield` 起到什么作用？
+2. 手动驱动协程执行时，你会如何用 `next()` 模拟事件循环的行为？这揭示了 `asyncio.run()` 的本质是什么？
+3. 根据本课的基准测试结论，IO 密集、CPU 密集、混合场景分别应选择哪种并发方案？请说明理由。
+
+<details>
+<summary>答案指南</summary>
+
+1. 自定义类须实现 `__await__` 魔术方法并返回一个迭代器；方法内的 `yield` 是交出控制权的关键点，等价于 IO 等待时将执行权让回给事件循环，事件循环再通过 `next()` 恢复执行。
+2. 手动执行时，先调用协程的 `__await__()` 得到迭代器，再反复调用 `next()` 推进执行，直到抛出 `StopIteration` 表示协程完成；这正是 `asyncio.run()` 的本质——不断调用 `next()` 驱动协程前进。
+3. IO 密集＋高并发选 `asyncio`（协程上下文切换开销约为线程的 1/4）；IO 密集＋低并发选 `threading`（代码更简单）；CPU 密集选 `multiprocessing`（绕过 GIL）；混合场景则用进程池内跑协程（`ProcessPool` + `asyncio`）。
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927436
 wiki: wiki/concepts/model-compression-and-deployment.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 你认为模型上线的决策依据应该是模型内部指标（如 Loss、准确率）还是业务指标？为什么？
+2. 量化（Quantization）是什么意思？把 FP16 模型量化成 INT4 大概会节省多少显存？
+3. vLLM、Ollama、SGLang 这三种推理部署工具，你认为哪个更适合生产环境？为什么？
+
+---
+
 # 020: 模型评估与上线决策·压缩部署项目实践
 
 **Source:** [5模型评估与上线决策压缩部署项目实践](https://u.geekbang.org/lesson/818?article=927436)
@@ -268,3 +278,23 @@ POST /quantize  → 执行 BNB/AWQ 量化
 - → [[model-compression-and-deployment]]
 - → [[lora-fine-tuning]]
 - → [[vllm-inference-serving]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释为什么"LoRA 微调 + 量化"是生产环境的首选方案，而不是剪枝或知识蒸馏？
+2. vLLM 的 KV Cache（键值缓存）和 Chunked Prefill（分块预填充）分别解决了什么问题？请各用一个类比说明。
+3. vLLM 原生不支持热更新，实际生产中如何通过 Nginx 实现蓝绿部署？请描述完整流程。
+
+<details>
+<summary>答案指南</summary>
+
+1. 剪枝容易破坏模型逻辑结构、导致 Bad case 增多；知识蒸馏训练周期长且输出是全新小模型，不适合 LoRA 场景。量化保留原始大模型能力，仅压缩参数精度，与 LoRA 合并后直接可用，是最实用的组合。
+2. KV Cache 将 System Prompt 和历史消息的 Token KV 值缓存，多轮对话中无需重复计算（类似 MySQL 前加 Redis）；Chunked Prefill 将超长 Prompt 自动分块处理，避免阻塞解码请求（类似 HTTP 分块传输）。
+3. 先启动新模型实例，等新实例通过 `/health` 健康检查后，由 Nginx 将流量切换到新实例，旧实例处理完当前请求后再下线——实现零停机切换。
+
+</details>

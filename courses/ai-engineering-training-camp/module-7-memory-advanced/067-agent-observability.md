@@ -3,6 +3,17 @@ tags: [agent, observability, langsmith, langgraph, langchain, tracing, logging, 
 source: https://u.geekbang.org/lesson/818?article=941183
 wiki: wiki/concepts/067-agent-observability.md
 ---
+
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What environment variables or configuration would you guess are needed to connect a LangGraph program to an external observability platform like LangSmith?
+2. What does "time-travel" debugging likely mean in the context of an Agent graph system — what problem does it solve?
+3. What are the tradeoffs of sending runtime trace data (prompts, outputs, token usage) to a cloud-hosted observability service?
+
+---
+
 # 067: Agent Observability
 
 **Source:** [4Agent可观测性构建](https://u.geekbang.org/lesson/818?article=941183)
@@ -237,3 +248,23 @@ backend/
 - [[Coze]] — reference platform with more mature per-node debugging UX
 - [[Research Agent Pattern]] — web-search + reflection loop; implemented in the Gemini Fullstack project
 - [[RAG]] — retrieval-augmented generation; the Gemini Fullstack project uses web search as the retrieval layer
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain the three levels of LangSmith tracing granularity, including the specific Python import or mechanism used at each level and when you'd choose each one.
+2. Describe LangSmith's two major limitations for production use, and explain what makes Coze's debugging UX superior by contrast.
+3. Explain how LangGraph's time-travel feature works: what API call enables it, what it returns, and how you resume execution from a specific checkpoint.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Level 1 is a global `LANGCHAIN_TRACING_V2=true` env var that captures all LangChain/LangGraph code on the machine; Level 2 wraps only the LLM client using `wrap_openai()` from `langsmith.wrappers`, capturing only LLM calls; Level 3 uses the `@traceable` decorator from `langsmith` on specific functions, sending only that function's execution to LangSmith.
+2. LangSmith requires all trace data to be uploaded to `smith.langchain.com`, making it unusable where data-privacy policies prohibit third-party data transfer; it also cannot pause a graph mid-run, edit a prompt, and resume from that node. Coze supports local/private deployment and true in-place node re-run — editing a node's input and re-executing without re-running earlier nodes.
+3. `graph.get_state_history(config)` returns a list of historical state snapshots for a graph run; you can replay or branch from any checkpoint by passing its snapshot ID back into `graph.invoke()`, requiring no additional setup beyond a checkpointer.
+
+</details>

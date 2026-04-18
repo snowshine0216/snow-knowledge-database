@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, cramers-rule, determinant, linear-syst
 source: https://www.youtube.com/watch?v=jBsC34PxzoM
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. Cramer's Rule solves a linear system $A\mathbf{x} = \mathbf{v}$ by expressing each unknown $x_i$ as a ratio involving determinants. What do you think goes in the numerator and denominator of that ratio?
+2. When a matrix $A$ is applied to all of space, how do you think areas (or volumes) of shapes change — and what matrix property controls that scaling?
+3. Why would Cramer's Rule be considered a "theoretical" tool rather than a practical computational method for large systems?
+
+---
+
 # Cramer's Rule, Explained Geometrically
 
 ## Metadata
@@ -86,3 +96,23 @@ where $A_{x_i}$ is formed by replacing column $i$ with $\mathbf{v}$. The signed 
 Cramer's rule is almost never used for actual numerical computation. For large systems, Gaussian elimination runs in $O(n^3)$ time, while evaluating $n$ determinants of $n \times n$ matrices is far more expensive. Cramer's rule is a theoretical tool, not a computational one.
 
 Its value lies in providing a **closed-form expression** for each variable directly in terms of determinants. This makes it useful when reasoning about solutions symbolically — for instance, in proving that solutions vary continuously with the entries of $A$ and $\mathbf{v}$, or in deriving formulas for the inverse matrix. It also reinforces the central theme running through the entire series: determinants measure signed volume scaling, and that single idea threads through how transformations, systems of equations, and solutions are all connected.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words the geometric insight that connects a vector's coordinate to a signed area — and why that insight makes Cramer's Rule feel "inevitable" rather than arbitrary.
+2. Walk through the derivation of the formula $x = \dfrac{\det(A_x)}{\det(A)}$, explaining what $A_x$ is and why the area-scaling property of determinants produces this result.
+3. What is the practical limitation of Cramer's Rule for numerical computation, and what is its genuine theoretical value?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The $x$-coordinate of $\mathbf{x}$ can be read as the signed area of the parallelogram spanned by $\hat{e}_1$ and $\mathbf{x}$; when $A$ is applied, that parallelogram maps to one spanned by the first column of $A$ and $\mathbf{v}$, whose signed area is $\det(A_x)$ — so the column-replacement is a direct consequence of the geometry, not an ad-hoc trick.
+2. Because areas scale by $\det(A)$ under a linear map, the original signed area encoding $x$ satisfies $x \cdot \det(A) = \det(A_x)$, where $A_x$ is $A$ with its first column replaced by $\mathbf{v}$; dividing both sides by $\det(A)$ yields $x = \det(A_x)/\det(A)$.
+3. Cramer's Rule requires evaluating $n$ determinants of $n \times n$ matrices, which is far more expensive than Gaussian elimination's $O(n^3)$ cost; its real value is as a closed-form symbolic expression useful for proofs — such as showing solutions vary continuously with $A$ and $\mathbf{v}$, or deriving the inverse matrix formula.
+
+</details>

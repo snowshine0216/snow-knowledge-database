@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, 3d-transformations, matrices]
 source: https://www.youtube.com/watch?v=v8VSDg_omAM
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. In 2D, a linear transformation is fully determined by where the two basis vectors $\hat{i}$ and $\hat{j}$ land. How many basis vectors are needed to fully determine a 3D linear transformation, and what are they?
+2. A 3×3 matrix has nine entries. What geometric information do those nine entries encode about a linear transformation?
+3. If you apply transformation $M_1$ first, then $M_2$, how do you write the composed transformation as a matrix product — and does the order matter?
+
+---
+
 # Three-Dimensional Linear Transformations
 
 ## Metadata
@@ -73,3 +83,23 @@ Rotation about the x-axis by angle $\theta$ leaves $\hat{i}$ fixed while rotatin
 $$R_x(\theta) = \begin{bmatrix} 1 & 0 & 0 \\ 0 & \cos\theta & -\sin\theta \\ 0 & \sin\theta & \cos\theta \end{bmatrix}$$
 
 In both cases, the column encoding logic is the same: read off where each basis vector lands and write those coordinates as columns. Shear, scaling, and reflection in 3D all follow the same pattern — there is nothing fundamentally new. The same linear combination logic that works in 2D scales to three dimensions and, as will become clear later, to any number of dimensions.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why knowing where $\hat{i}$, $\hat{j}$, and $\hat{k}$ land is sufficient to know where *every* vector in 3D space lands under a linear transformation.
+2. Describe the column-scaling mechanic: given a 3×3 matrix $M$ and a vector $(x, y, z)$, explain step by step how you compute $M\mathbf{v}$ using the columns of $M$.
+3. Using the rotation matrix $R_z(\theta)$ as a concrete example, explain how the "columns record where basis vectors land" principle produces that specific matrix — which column comes from which basis vector, and why?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Any 3D vector $(x, y, z)$ is a linear combination $x\hat{i} + y\hat{j} + z\hat{k}$; linearity guarantees that the transformed vector equals $x\,T(\hat{i}) + y\,T(\hat{j}) + z\,T(\hat{k})$, so the three landing spots fully determine the output for every possible input.
+2. Scale each column of $M$ by its corresponding coordinate — the first column by $x$, the second by $y$, the third by $z$ — then sum the three resulting vectors; this is the same column-scaling mechanic as in 2D with one additional column and coordinate.
+3. $R_z(\theta)$ rotates $\hat{i}$ to $(\cos\theta, \sin\theta, 0)$ and $\hat{j}$ to $(-\sin\theta, \cos\theta, 0)$ in the xy-plane, while $\hat{k}$ stays fixed at $(0, 0, 1)$; writing these three landing spots as columns in order produces exactly the matrix shown.
+
+</details>

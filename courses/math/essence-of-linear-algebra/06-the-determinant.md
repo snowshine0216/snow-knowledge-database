@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, determinant]
 source: https://www.youtube.com/watch?v=Ip3X9LOh-nE
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. For a 2×2 matrix with columns [a, c] and [b, d], what do you think the determinant formula looks like?
+2. What do you think it means geometrically when the determinant of a transformation matrix equals zero?
+3. If you apply two transformations in sequence — one that doubles area and one that triples area — what would you guess the combined area scaling factor is?
+
+---
+
 # The Determinant
 
 ## Metadata
@@ -74,3 +84,23 @@ Applying transformation $A$ followed by transformation $B$ scales space first by
 $$\det(AB) = \det(A)\,\det(B)$$
 
 This is immediately intuitive: if $A$ doubles area and $B$ triples area, the composition sextuples area. The property holds for any number of composed transformations, and it means determinants convert matrix multiplication into ordinary scalar multiplication of scale factors.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why the 2×2 determinant formula is `ad - bc` — what do each of those two terms represent geometrically?
+2. A friend says "the determinant of this matrix is −3." What two distinct pieces of information can you extract from that single number, and what does each mean?
+3. Without looking up the formula, explain why `det(AB) = det(A) · det(B)` makes intuitive sense in terms of area scaling.
+
+<details>
+<summary>Answer Guide</summary>
+
+1. The `ad` term represents the rectangle area when $\hat{i}$ and $\hat{j}$ are stretched along their own axes with no shear; the `bc` term corrects for the overlap introduced by diagonal shearing, so subtracting it recovers the exact signed area of the resulting parallelogram.
+2. The absolute value (3) tells you the transformation scales areas by a factor of 3; the negative sign tells you the transformation flipped the orientation of space (in 2D, $\hat{j}$ ended up to the right of $\hat{i}$ rather than to the left).
+3. Transformation $A$ scales all areas by $\det(A)$ and then $B$ scales them again by $\det(B)$, so the net scaling is simply their product — determinants convert matrix composition into ordinary scalar multiplication of scale factors.
+
+</details>

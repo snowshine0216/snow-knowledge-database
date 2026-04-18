@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927498
 wiki: wiki/concepts/081-async-core-concepts-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 进程、线程、协程三种并发方式中，切换开销从大到小的顺序是什么？各自的切换由谁来控制？
+2. Python 中 `async def` 和 `await` 关键字是从哪个版本开始正式引入的？在此之前 Python 用什么方式实现异步？
+3. 当你有一个 IO 密集型且高并发的任务（比如同时请求 1000 个 API），你会选择 `asyncio`、`threading` 还是 `multiprocessing`？为什么？
+
+---
+
 # 081: Async Programming Core Concepts and Principles Part 1
 
 **Source:** [1核心概念与底层原理1](https://u.geekbang.org/lesson/818?article=927498)
@@ -210,3 +220,23 @@ asyncio.run(main())
 ## Connections
 - → [[080-log-collection-system]]
 - → [[082-async-core-concepts-2]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：协程遇到 `await` 时发生了什么？事件循环在这个过程中扮演什么角色？为什么不能直接调用协程函数而必须通过 `asyncio.run()`？
+2. 同步版本三个任务各耗时 2 秒，总耗时 6 秒；异步版本用 `asyncio.gather` 并发执行同样三个任务，总耗时约 2 秒。请解释为什么异步能缩短总耗时，以及 `asyncio.sleep` 和 `time.sleep` 在行为上的本质区别。
+3. 在 Jupyter Notebook 中直接使用 `asyncio.run()` 会报错，需要用 `nest_asyncio` 解决。请解释报错的根本原因，以及 `nest_asyncio.apply()` 解决了什么问题。
+
+<details>
+<summary>答案指南</summary>
+
+1. 遇到 `await` 时，协程主动让出控制权给事件循环；事件循环作为调度器，持续监听哪些协程已就绪并决定谁继续执行，IO 完成后再将控制权归还给原协程。直接调用协程函数只返回协程对象而不执行任何代码，必须传入事件循环（通过 `asyncio.run()`）才能驱动它运行。
+2. 异步并发时各任务在 `await` 点交出控制权，让其他协程同时推进，总耗时约等于最长单任务时间而非各任务之和。`asyncio.sleep` 只挂起当前协程并让出控制权，不阻塞线程；`time.sleep` 阻塞整个线程，导致事件循环无法调度其他协程。
+3. Jupyter 自身维护着一个事件循环，`asyncio.run()` 会尝试创建新的事件循环，产生"嵌套事件循环"冲突而报错。`nest_asyncio.apply()` 补丁允许事件循环嵌套运行，从而可以在 Jupyter 的事件循环内部再次使用 `await` 或 `asyncio.run()`。
+
+</details>

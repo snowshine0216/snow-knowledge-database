@@ -4,6 +4,16 @@ source: https://time.geekbang.org/course/detail/101123301-963180
 wiki: wiki/concepts/006-openclaw-curl-install.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在 Mac 上用 `curl` 命令行安装软件，与使用图形化安装包相比，有什么典型优势？
+2. 如果你是国内用户，想为 OpenClaw 配置一个无需翻墙即可使用的 AI 大模型 API Key，你会首先考虑哪些服务商？
+3. 安装完一个 CLI 工具后，通常如何快速确认它已正确安装并正常运行？
+
+---
+
 # 005 Mac 极速安装：使用 curl 一键脚本开启养虾之旅
 
 **Source:** [玩虾 60 讲：捕获 Agent 时代的商业红利](https://time.geekbang.org/course/detail/101123301-963180) · 极客时间
@@ -124,3 +134,23 @@ openclaw upgrade
 **安装完成后接下来**
 - 下一步：将 OpenClaw 接入微信 / 飞书 / 钉钉
 - 接入后即可在熟悉的聊天软件中使用 AI 助手
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 课程推荐用 curl 方式而非 Qcolo 图形化方式安装 OpenClaw，原因是什么？两种方式各适合哪类用户？
+2. 安装完成后，如何用 OpenClaw CLI 验证安装是否成功？`openclaw health` 命令具体会检测哪些组件？
+3. 获取 Kimi API Key 时有哪个关键的安全操作必须立即完成？以及为什么 API Key 需要妥善保管？
+
+<details>
+<summary>答案指南</summary>
+
+1. curl 方式安装的是原生完整版，版本最新、功能最完整，推荐长期使用；而 Qcolo 图形化方式简单点击适合新手快速体验，但功能相对精简。
+2. 安装后依次运行 `openclaw --version`（确认版本）和 `openclaw health`（健康检查），后者会验证 Node（执行节点）、Gateway（网关）是否正常运行以及 Channel 连接状态，全部绿色表示安装成功。
+3. 创建完 Kimi API Key 后必须**立即复制保存**，因为 Key 只显示一次，关闭页面后无法再查看；同时需妥善保管，避免泄露，否则他人可消耗你的 API 额度。
+
+</details>

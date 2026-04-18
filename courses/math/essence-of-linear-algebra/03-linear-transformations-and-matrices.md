@@ -3,6 +3,16 @@ tags: [linear-algebra, math, 3blue1brown, linear-transformations, matrices]
 source: https://www.youtube.com/watch?v=kYB8IZa7TZ0
 ---
 
+## Pre-test
+
+> *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
+
+1. What two geometric properties must hold for a transformation to be considered "linear"?
+2. If you know where the basis vectors $\hat{i}$ and $\hat{j}$ land under a transformation, what can you determine about the transformation?
+3. What do the columns of a 2×2 matrix represent geometrically?
+
+---
+
 # Linear Transformations and Matrices
 
 ## Metadata
@@ -86,3 +96,23 @@ A degenerate but instructive case arises when the two transformed basis vectors 
 ## Generalization to Higher Dimensions
 
 Everything above extends cleanly to $n$ dimensions. In 3D, three basis vectors $\hat{i}$, $\hat{j}$, and $\hat{k}$ determine the transformation, and their images become the three columns of a $3 \times 3$ matrix. Matrix-vector multiplication is still a weighted sum of columns, weighted by the vector's three coordinates. The formula, the geometric interpretation, and the column-reading habit all carry over without modification. This scalability is why matrices are the universal language of linear transformations across computer graphics, physics simulations, data science, and virtually every area of applied mathematics.
+
+
+---
+
+## Post-test
+
+> *Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*
+
+1. Explain in your own words why knowing only the images of $\hat{i}$ and $\hat{j}$ is enough to determine where *every* vector in 2D space lands under a linear transformation.
+2. Describe what matrix-vector multiplication is doing geometrically, using the column-combination view rather than the row-times-column algorithm.
+3. Walk through the 90° counter-clockwise rotation matrix — where do $\hat{i}$ and $\hat{j}$ land, and what matrix does that produce? What happens geometrically when both basis vectors land on the same line?
+
+<details>
+<summary>Answer Guide</summary>
+
+1. Any vector $\vec{v} = x\hat{i} + y\hat{j}$ can be written as a linear combination of the basis vectors. Because linearity preserves addition and scalar multiplication, $T(\vec{v}) = x\,T(\hat{i}) + y\,T(\hat{j})$ — so the two output basis vectors fully encode the entire transformation.
+2. Multiplying a matrix by $(x, y)$ scales the first column by $x$ and the second column by $y$, then adds the results; the row-times-column algorithm gives the same numbers but hides this geometric meaning.
+3. A 90° CCW rotation sends $\hat{i} \to (0,1)$ and $\hat{j} \to (-1,0)$, yielding $R_{90} = \begin{bmatrix}0 & -1 \\ 1 & 0\end{bmatrix}$; when both transformed basis vectors land on the same line (linearly dependent), the matrix collapses all of 2D space onto a single line and is not invertible.
+
+</details>

@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=930871
 wiki: wiki/concepts/090-project-requirements-prototype-1.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在客服AI系统中，哪类问题适合交给AI处理，哪类问题应该转给人工？你凭直觉如何区分？
+2. RAG（检索增强生成）和 Tool Calling（工具调用）各自适合解决什么类型的用户需求？
+3. 你认为一个生产级客服AI系统，首次响应时间应控制在多少毫秒以内才算达标？
+
+---
+
 # 090: Project Requirements and Prototype Design Part 1
 
 **Source:** [2-项目需求与原型设计1](https://u.geekbang.org/lesson/818?article=930871)
@@ -170,3 +180,23 @@ wiki: wiki/concepts/090-project-requirements-prototype-1.md
 ## Connections
 - → [[089-project-background]]
 - → [[091-project-requirements-prototype-2]]
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释：为什么该客服AI的核心技术方案选择"RAG + Tool Calling"组合，而不是只用其中一种？每种技术分别解决了什么场景？
+2. 该系统的非功能性指标中，P95响应时间目标是多少？为什么准确率指标在实践中往往是"拍脑袋"定的，而验收标准又比内部目标宽松？
+3. 推荐开发流程中，为什么要先用 Dify/Coze 搭原型再做 LangChain 技术开发？这背后体现了什么产品验证思路？
+
+<details>
+<summary>答案指南</summary>
+
+1. RAG 用于课程咨询——根据知识库回答大纲解读、政策等非结构化问题；Tool Calling 用于订单查询——调用数据库API获取订单状态、退款等结构化数据。两类需求的信息来源和检索方式完全不同，必须组合使用。
+2. P95首次响应时间目标为 < 500ms（整体完成约需2000–4000ms）；准确率（≥92%）无法精确测量因为无法预知所有用户问题，只能估算；验收标准（≥90%）比内部目标宽松，因为验收通常是一次性的，需留有余地。
+3. 先用 Dify/Coze 快速搭原型是为了与甲方对齐效果和预期，避免用 LangChain 精细开发后需求方向错误；体现的是"先验证、后平台化"的开发思路——在核心路线（RAG课程咨询）跑通并客户确认后，再逐步扩展技术能力和版本迭代。
+
+</details>

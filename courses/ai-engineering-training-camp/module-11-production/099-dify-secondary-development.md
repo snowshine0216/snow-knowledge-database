@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=930881
 wiki: wiki/courses/ai-engineering-training-camp/module-11-production/099-dify-secondary-development.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 在对 Dify 进行二次开发之前，你认为有哪些方式可以扩展 Dify 的能力，而不需要修改源代码？
+2. 如果你想在 Dify 中接入一个自建的向量检索服务（而非使用 Dify 内置知识库），你认为需要提供哪些接口协议信息？
+3. 插件开发通常需要哪几个核心组成部分？请根据你对 LangChain Tool 或 Function Calling 的了解来猜测。
+
+---
+
 # 099: Dify 二次开发实践
 
 **Source:** [5Dify二次开发实践](https://u.geekbang.org/lesson/818?article=930881)
@@ -261,3 +271,23 @@ Dify 官方文档的 **使用 → 监控** 章节已提供 LangFuse / LangSmith 
 7. **前 6 种都不覆盖？** — 此时才真正修改 Dify 源码，且优先提 PR 给官方或等待 Roadmap。
 
 所谓"二次开发"的核心哲学是**增加而非修改**：保持 Dify 核心代码不动，用反向代理、旁路服务、插件、API 这四种手段加需求。这种约束既降低了升级成本，也让二开项目免于陷入 Dify 官方的版本演进泥潭。
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释 Dify-Plus 的"增加而非修改"原则在架构上是如何落地的——NGX、Admin Server、PostgreSQL 各自扮演什么角色？
+2. Dify 外部知识库协议对请求体和响应格式有哪些具体要求？为什么说外部 API 服务器"只需承担两件事"？
+3. 判断一个 Dify 需求是否真正需要二次开发，应该按照怎样的决策顺序逐步排查？请完整复述这棵决策树的逻辑。
+
+<details>
+<summary>答案指南</summary>
+
+1. Dify-Plus 通过 NGX 反向代理新增 `/gang/admin` location，将请求转发到旁路的 Admin Server（Go 服务，监听 8081 端口），Admin Server 直读 PostgreSQL（通过 GVADB/GORM 抽象层）做用户聚合与限额统计；原生 Dify API 代码一行不改，所有增强能力均以旁路服务形式挂载。
+2. 外部知识库 API 必须接受 HTTP POST、携带 `Authorization: Bearer <api-key>` 头，请求体含 `knowledge_id`、`query`、`retrieval_setting`（top_k、score threshold）和 `metadata_condition`；返回数组每条含 `metadata`、`score`、`title`、`content`。外部服务器只需做**格式转换**和 **API Key 认证**，底层检索算法由自己实现，Dify 不感知。
+3. 决策顺序：① 能用 MCP 管道式处理吗？→ ② 能通过 Dify API 从外部串行调用吗？→ ③ 能用外部知识库 API 吗？→ ④ 是新工具/新模型的插件场景吗？→ ⑤ 是用户额度/管理类需求（参考 Dify-Plus）吗？→ ⑥ 是监控/费用报表（接 LangFuse/Opik）吗？→ 前六种都不覆盖时才真正修改 Dify 源码，且优先提 PR 或等待 Roadmap。
+
+</details>

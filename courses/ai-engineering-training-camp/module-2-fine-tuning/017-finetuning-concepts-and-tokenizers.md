@@ -4,6 +4,16 @@ source: https://u.geekbang.org/lesson/818?article=927433
 wiki: wiki/concepts/017-finetuning-concepts-and-tokenizers.md
 ---
 
+## Pre-test
+
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. BPE（字节对编码）和 WordPiece 是两种主流 Tokenizer 算法——你知道它们分别被哪些大模型系列使用吗？
+2. LoRA 是一种参数高效微调方法——你能猜出它为什么能大幅减少微调所需显存吗？它的核心思路是什么？
+3. 如果把模型训练时的最大序列长度（max_len）从 512 增加到 1024（翻倍），你估计显存需求会增加多少倍——2 倍、4 倍，还是更多？
+
+---
+
 # 017: 微调基础概念与 Tokenizer 深解
 
 **Source:** [AI 工程化训练营 模块二 2 微调相关的基础概念与 tokenizers 解析](https://u.geekbang.org/lesson/818?article=927434)
@@ -251,3 +261,23 @@ print(f"建议 max_lens: {recommended_max_lens}")
 - → [[016-engineering-prep-and-data-engineering]]（工程准备三件事，包括 Tokenizer 一致性验证）
 - → [[013-multi-agent-finetuning-deployment]]（LoRA 原理：冻结 W，训练 A×B 低秩矩阵）
 - → 下一讲：LoRA 超参数调优与实际微调演示（百链平台）
+
+
+---
+
+## Post-test
+
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+
+1. 用自己的话解释"序列长度翻倍，显存需求翻 4 倍"背后的数学原因——为什么是平方关系而非线性关系？
+2. 微调训练和推理时为什么必须使用同一种 Tokenizer？如果训练用 BPE、推理换成 WordPiece，会发生什么，为什么？
+3. 微调前做 Tokenizer 评估时，为什么要看 P95 长度而不是平均长度，`max_lens` 又应该怎么根据 P95 来设置？
+
+<details>
+<summary>答案指南</summary>
+
+1. 注意力矩阵的大小是 L×L（序列长度的平方），序列从 512 → 1024 时，矩阵从 512² 增长到 1024²，增长了 4 倍；显存增长公式为 `max_lens² × batch_size`，是平方而非线性关系。
+2. BPE 和 WordPiece 对同一文本切出的 Token 数量差异很大；训练与推理使用不同 Tokenizer 会导致 Token 数骤变，注意力矩阵维度不匹配，模型表现断崖式下滑。
+3. 平均长度会被短样本拉低，导致 `max_lens` 设置偏小而截断大量长样本；P95 代表 95% 的样本都能完整容纳，建议将 `max_lens` 设为 P95 的 1.2 倍并不超过显存上限（16G 显存经验值为 512）。
+
+</details>
