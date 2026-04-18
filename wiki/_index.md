@@ -155,6 +155,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [GBrain: YC CEO 开源的 AI Agent 第二大脑系统](tools/yc-ceo-opensource-gbrain-second-brain.md) | gbrain, second-brain, ai-agent, knowledge-base, mcp, memory, rag, garry-tan, yc | 读-写循环 + 两段页面结构 + RRF 混合检索 + 30 个 MCP 工具，让 AI agent 拥有持续积累的知识底座 |
 | [Master Claude From Scratch — AI for Everyone, Session 1](tools/master-claude-session-1.md) | claude, anthropic, claude-projects, claude-skills, claude-memory, no-code, beginner, live-stream | 2h non-developer intro: Claude ecosystem (Chat/Code/Cowork), Haiku/Sonnet/Opus picking rule, Projects + Skills + Memory, skill × connector composition (Gmail, web search) |
 | [New Claude Features for Developers — Advisor, Monitor, Managed Agents](tools/claude-advisor-monitor-managed-agents.md) | claude, anthropic, advisor-strategy, monitor-tool, managed-agents, claude-code, claude-api, cost-optimization, agent-infrastructure | Advisor Strategy (small executor escalates to Opus, ~2% higher SWE-bench at ~11% lower cost), Monitor Tool (interrupt-driven background processes in Claude Code), Managed Agents (Anthropic-hosted harness at $0.08/session) |
+| [Claude Design by Anthropic Labs](tools/claude-design-anthropic-labs.md) | claude, design, anthropic, prototyping, visual-creation, product-announcement, anthropic-labs | Visual creation tool (Opus 4.7, research preview) generating prototypes, decks, and wireframes with brand-system extraction and Claude Code handoff bundles |
 
 ## Courses
 
