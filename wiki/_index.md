@@ -332,3 +332,17 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [12: ClawHub Marketplace](courses/mastering-openclaw/013-openclaw-clawhub.md) | openclaw, clawhub, skills, marketplace, search-strategy, quality-filter | 1.3 万 Skills 中 20% 优质，需用开发者术语搜索，Stars+Downloads 双高为可靠筛选信号 |
 | [13: Office Skills Top 10](courses/mastering-openclaw/014-openclaw-office-skills.md) | openclaw, skills, office-productivity, workflow-automation, clawhub | 10 类高频通用办公 Skill 精选，优先装 Google Search+Summarizer+Git，Skill 组合解锁自动化工作流 |
 | [14: Config File — AID × KTV](courses/mastering-openclaw/015-openclaw-config-file.md) | openclaw, system-prompt, configuration, persona, ai-agent, prompt-engineering | AID（身份/能力/指令）+ KTV（知识/任务/价值）框架，从工具使用者升级为工具构建者 |
+
+### Finetuning Large Language Models — DeepLearning.AI (9 lessons)
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [001: Introduction](wiki/courses/fine-tuning-large-language-models/001-introduction.md) | fine-tuning, llm, instruction-tuning, lamini | Fine-tuning vs prompting vs RAG; instruction fine-tuning as the GPT-3→ChatGPT mechanism |
+| [002: Why Finetune](wiki/courses/fine-tuning-large-language-models/002-why-finetune.md) | fine-tuning, llm, prompt-engineering, privacy | PCP/cardiologist analogy; performance, privacy, and cost benefits of fine-tuning |
+| [003: Where Finetuning Fits In](wiki/courses/fine-tuning-large-language-models/003-where-finetuning-fits-in.md) | fine-tuning, pre-training, the-pile, eleutherai | Pre-training pipeline, The Pile dataset, extract vs expand task taxonomy |
+| [004: Instruction Finetuning](wiki/courses/fine-tuning-large-language-models/004-instruction-finetuning.md) | instruction-tuning, alpaca, chatgpt | Instruction-response pairs, Stanford Alpaca self-distillation, generalization insight |
+| [005: Data Preparation](wiki/courses/fine-tuning-large-language-models/005-data-preparation.md) | data-preparation, tokenization, huggingface | Quality > diversity > real > quantity; tokenization, padding, truncation |
+| [006: Training Process](wiki/courses/fine-tuning-large-language-models/006-training-process.md) | training, pytorch, huggingface, hyperparameters | Training loop, key hyperparameters, PyTorch/HuggingFace/Lamini abstraction levels |
+| [007: Evaluation and Iteration](wiki/courses/fine-tuning-large-language-models/007-evaluation-and-iteration.md) | evaluation, benchmarks, error-analysis | Elo comparison, Open LLM Leaderboard (ARC/HellaSwag/MMLU/TruthfulQA), error analysis |
+| [008: Getting Started Now](wiki/courses/fine-tuning-large-language-models/008-consideration-on-getting-started-now.md) | lora, peft, gpu, hardware | 6-step workflow, GPU memory table, LoRA 10,000× parameter reduction |
+| [009: Conclusion](wiki/courses/fine-tuning-large-language-models/009-conclusion.md) | fine-tuning, llm | Course wrap-up and key takeaways |

@@ -4,77 +4,509 @@
   "courseName": "retrieval-augmented-generation",
   "enumeratedAt": "2026-04-18T13:28:00Z",
   "lectures": {
-    "001": {"title": "A conversation with Andrew Ng", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngb/a-conversation-with-andrew-ng", "duration": 0, "status": "pending", "retries": 0},
-    "002": {"title": "Module 1 introduction", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz/module-1-introduction#", "duration": 0, "status": "pending", "retries": 0},
-    "003": {"title": "Introduction to RAG", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48h/introduction-to-rag", "duration": 0, "status": "pending", "retries": 0},
-    "004": {"title": "Applications of RAG", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/44o5d/applications-of-rag", "duration": 0, "status": "pending", "retries": 0},
-    "005": {"title": "RAG architecture overview", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4h/rag-architecture-overview", "duration": 0, "status": "pending", "retries": 0},
-    "006": {"title": "Introduction to LLMs", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw96/introduction-to-llms", "duration": 0, "status": "pending", "retries": 0},
-    "007": {"title": "A brief Python refresher", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs2fpz/--a-brief-python-refresher", "duration": 0, "status": "pending", "retries": 0},
-    "008": {"title": "LLM Calls and Crafting Simple Augmented Prompts", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4f/llm-calls-and-crafting-simple-augmented-prompts", "duration": 0, "status": "pending", "retries": 0},
-    "009": {"title": "Introduction to information retrieval", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/11yp6/introduction-to-information-retrieval", "duration": 0, "status": "pending", "retries": 0},
-    "010": {"title": "IMPORTANT Have questions issues or ideas Join our Forum", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/mmayf/%5Bimportant%5D-have-questions%2C-issues-or-ideas%3F-join-our-forum!", "duration": 0, "status": "pending", "retries": 0},
-    "011": {"title": "Introduction to RAG systems", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/8850q/introduction-to-rag-systems", "duration": 0, "status": "pending", "retries": 0},
-    "012": {"title": "Module 1 conclusion", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/iigov/module-1-conclusion", "duration": 0, "status": "pending", "retries": 0},
-    "013": {"title": "Lecture Notes M1", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs27/lecture-notes-m1", "duration": 0, "status": "pending", "retries": 0},
-    "014": {"title": "Module 2 introduction", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dri/module-2-introduction", "duration": 0, "status": "pending", "retries": 0},
-    "015": {"title": "Retriever architecture overview", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/jjf72/retriever-architecture-overview", "duration": 0, "status": "pending", "retries": 0},
-    "016": {"title": "Metadata filtering", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/bb3k6/metadata-filtering", "duration": 0, "status": "pending", "retries": 0},
-    "017": {"title": "Keyword search - TF-IDF", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngg/keyword-search---tf-idf", "duration": 0, "status": "pending", "retries": 0},
-    "018": {"title": "Keyword search - BM25", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p34/keyword-search---bm25", "duration": 0, "status": "pending", "retries": 0},
-    "019": {"title": "Semantic search - introduction", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1t/semantic-search---introduction", "duration": 0, "status": "pending", "retries": 0},
-    "020": {"title": "Semantic search - embedding model deepdive", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00us3/semantic-search---embedding-model-deepdive", "duration": 0, "status": "pending", "retries": 0},
-    "021": {"title": "Vector embeddings in RAG", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/33bze/vector-embeddings-in-rag", "duration": 0, "status": "pending", "retries": 0},
-    "022": {"title": "Hybrid search", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dro/hybrid-search", "duration": 0, "status": "pending", "retries": 0},
-    "023": {"title": "Evaluating retrieval", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/558u1/evaluating-retrieval", "duration": 0, "status": "pending", "retries": 0},
-    "024": {"title": "Retrieval metrics", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/uu0vk/retrieval-metrics", "duration": 0, "status": "pending", "retries": 0},
-    "025": {"title": "Lecture Notes M2", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/kkzha/lecture-notes-m2", "duration": 0, "status": "pending", "retries": 0},
-    "026": {"title": "Implementing retriever functions in a RAG system", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/wwceib6/implementing-retriever-functions-in-a-rag-system", "duration": 0, "status": "pending", "retries": 0},
-    "027": {"title": "Module 2 conclusion", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/nnrir/module-2-conclusion", "duration": 0, "status": "pending", "retries": 0},
-    "028": {"title": "Module 3 introduction", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/tthfc/module-3-introduction", "duration": 0, "status": "pending", "retries": 0},
-    "029": {"title": "Approximate nearest neighbors algorithms ANN", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nl/approximate-nearest-neighbors-algorithms-ann", "duration": 0, "status": "pending", "retries": 0},
-    "030": {"title": "Vector databases", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzkt7/vector-databases", "duration": 0, "status": "pending", "retries": 0},
-    "031": {"title": "Introduction to the Weaviate API", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ssvq4/introduction-to-the-weaviate-api", "duration": 0, "status": "pending", "retries": 0},
-    "032": {"title": "Chunking", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emtv/chunking", "duration": 0, "status": "pending", "retries": 0},
-    "033": {"title": "Chunking (2)", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngmm/chunking", "duration": 0, "status": "pending", "retries": 0},
-    "034": {"title": "Advanced chunking techniques", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz0/advanced-chunking-techniques", "duration": 0, "status": "pending", "retries": 0},
-    "035": {"title": "Query parsing", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48qx/query-parsing", "duration": 0, "status": "pending", "retries": 0},
-    "036": {"title": "Cross-encoders and ColBERT", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/44o52k/cross-encoders-and-colbert", "duration": 0, "status": "pending", "retries": 0},
-    "037": {"title": "Reranking", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4nx/reranking", "duration": 0, "status": "pending", "retries": 0},
-    "038": {"title": "Lecture Notes M3", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw9gc/lecture-notes-m3", "duration": 0, "status": "pending", "retries": 0},
-    "039": {"title": "Building RAG Systems with a Vector Database", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emt4kl/building-rag-systems-with-a-vector-database", "duration": 0, "status": "pending", "retries": 0},
-    "040": {"title": "Module 3 conclusion", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4n6/module-3-conclusion", "duration": 0, "status": "pending", "retries": 0},
-    "041": {"title": "Module 4 introduction", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ffjd0g/module-4-introduction", "duration": 0, "status": "pending", "retries": 0},
-    "042": {"title": "Transformer architecture", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/yy164k/transformer-architecture", "duration": 0, "status": "pending", "retries": 0},
-    "043": {"title": "LLM sampling strategies", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/8850gm/llm-sampling-strategies", "duration": 0, "status": "pending", "retries": 0},
-    "044": {"title": "Exploring LLM capabilities", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/iigog5/exploring-llm-capabilities", "duration": 0, "status": "pending", "retries": 0},
-    "045": {"title": "Choosing your LLM", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs2mn/choosing-your-llm", "duration": 0, "status": "pending", "retries": 0},
-    "046": {"title": "Prompt engineering building your augmented prompt", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dr2c/prompt-engineering-building-your-augmented-prompt", "duration": 0, "status": "pending", "retries": 0},
-    "047": {"title": "Prompt engineering advanced techniques", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/jjf7di/prompt-engineering-advanced-techniques", "duration": 0, "status": "pending", "retries": 0},
-    "048": {"title": "Prompt engineering", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/bb3khd/prompt-engineering", "duration": 0, "status": "pending", "retries": 0},
-    "049": {"title": "Handling hallucinations", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngmz/handling-hallucinations", "duration": 0, "status": "pending", "retries": 0},
-    "050": {"title": "Evaluating your LLMs performance", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p3pm/evaluating-your-llms-performance", "duration": 0, "status": "pending", "retries": 0},
-    "051": {"title": "Agentic RAG", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1f5/agentic-rag", "duration": 0, "status": "pending", "retries": 0},
-    "052": {"title": "RAG vs Fine-Tuning", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00uskr/rag-vs-fine-tuning", "duration": 0, "status": "pending", "retries": 0},
-    "053": {"title": "Lecture Notes M4", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/33bzwi/lecture-notes-m4", "duration": 0, "status": "pending", "retries": 0},
-    "054": {"title": "Developing a RAG-based Chatbot", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dr21/developing-a-rag-based-chatbot", "duration": 0, "status": "pending", "retries": 0},
-    "055": {"title": "Module 4 conclusion", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/558ul7/module-4-conclusion", "duration": 0, "status": "pending", "retries": 0},
-    "056": {"title": "Module 5 introduction", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/hhtjq1/module-5-introduction", "duration": 0, "status": "pending", "retries": 0},
-    "057": {"title": "What makes production challenging", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/nnri1a/what-makes-production-challenging", "duration": 0, "status": "pending", "retries": 0},
-    "058": {"title": "Implementing RAG evaluation strategies", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/llxcw6/implementing-rag-evaluation-strategies", "duration": 0, "status": "pending", "retries": 0},
-    "059": {"title": "Logging monitoring and observability", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/pp6bgx/logging-monitoring-and-observability", "duration": 0, "status": "pending", "retries": 0},
-    "060": {"title": "Tracing a RAG system", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/tthfip/tracing-a-rag-system", "duration": 0, "status": "pending", "retries": 0},
-    "061": {"title": "Customized evaluation", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nex/customized-evaluation", "duration": 0, "status": "pending", "retries": 0},
-    "062": {"title": "Quantization", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzktiz/quantization", "duration": 0, "status": "pending", "retries": 0},
-    "063": {"title": "Cost vs Response Quality", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ssvq8m/cost-vs-response-quality", "duration": 0, "status": "pending", "retries": 0},
-    "064": {"title": "Latency vs Response Quality", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emrt/latency-vs-response-quality", "duration": 0, "status": "pending", "retries": 0},
-    "065": {"title": "Security", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngaa/security", "duration": 0, "status": "pending", "retries": 0},
-    "066": {"title": "Multimodal RAG", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2x06/multimodal-rag", "duration": 0, "status": "pending", "retries": 0},
-    "067": {"title": "Lecture Notes M5", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw9220z/lecture-notes-m5", "duration": 0, "status": "pending", "retries": 0},
-    "068": {"title": "IMPORTANT Reminder about End of Access to Lab Notebooks", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1v6bl/important-reminder-about-end-of-access-to-lab-notebooks", "duration": 0, "status": "pending", "retries": 0},
-    "069": {"title": "Improving the ChatBot", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48h1/improving-the-chatbot-", "duration": 0, "status": "pending", "retries": 0},
-    "070": {"title": "Module 5 conclusion", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4j5/module-5-conclusion", "duration": 0, "status": "pending", "retries": 0},
-    "071": {"title": "Opportunity to mentor other learners", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/11ypo2/opportunity-to-mentor-other-learners", "duration": 0, "status": "pending", "retries": 0},
-    "072": {"title": "Acknowledgments", "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ffjdpmj7/acknowledgments", "duration": 0, "status": "pending", "retries": 0}
+    "001": {
+      "title": "A conversation with Andrew Ng",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngb/a-conversation-with-andrew-ng",
+      "duration": 0,
+      "status": "done",
+      "retries": 0
+    },
+    "002": {
+      "title": "Module 1 introduction",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz/module-1-introduction#",
+      "duration": 0,
+      "status": "done",
+      "retries": 0
+    },
+    "003": {
+      "title": "Introduction to RAG",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48h/introduction-to-rag",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "004": {
+      "title": "Applications of RAG",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/44o5d/applications-of-rag",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "005": {
+      "title": "RAG architecture overview",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4h/rag-architecture-overview",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "006": {
+      "title": "Introduction to LLMs",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw96/introduction-to-llms",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "007": {
+      "title": "A brief Python refresher",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs2fpz/--a-brief-python-refresher",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "008": {
+      "title": "LLM Calls and Crafting Simple Augmented Prompts",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4f/llm-calls-and-crafting-simple-augmented-prompts",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "009": {
+      "title": "Introduction to information retrieval",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/11yp6/introduction-to-information-retrieval",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "010": {
+      "title": "IMPORTANT Have questions issues or ideas Join our Forum",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/mmayf/%5Bimportant%5D-have-questions%2C-issues-or-ideas%3F-join-our-forum!",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "011": {
+      "title": "Introduction to RAG systems",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/8850q/introduction-to-rag-systems",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "012": {
+      "title": "Module 1 conclusion",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/iigov/module-1-conclusion",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "013": {
+      "title": "Lecture Notes M1",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs27/lecture-notes-m1",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "014": {
+      "title": "Module 2 introduction",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dri/module-2-introduction",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "015": {
+      "title": "Retriever architecture overview",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/jjf72/retriever-architecture-overview",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "016": {
+      "title": "Metadata filtering",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/bb3k6/metadata-filtering",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "017": {
+      "title": "Keyword search - TF-IDF",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngg/keyword-search---tf-idf",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "018": {
+      "title": "Keyword search - BM25",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p34/keyword-search---bm25",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "019": {
+      "title": "Semantic search - introduction",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1t/semantic-search---introduction",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "020": {
+      "title": "Semantic search - embedding model deepdive",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00us3/semantic-search---embedding-model-deepdive",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "021": {
+      "title": "Vector embeddings in RAG",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/33bze/vector-embeddings-in-rag",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "022": {
+      "title": "Hybrid search",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dro/hybrid-search",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "023": {
+      "title": "Evaluating retrieval",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/558u1/evaluating-retrieval",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "024": {
+      "title": "Retrieval metrics",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/uu0vk/retrieval-metrics",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "025": {
+      "title": "Lecture Notes M2",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/kkzha/lecture-notes-m2",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "026": {
+      "title": "Implementing retriever functions in a RAG system",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/wwceib6/implementing-retriever-functions-in-a-rag-system",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "027": {
+      "title": "Module 2 conclusion",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/nnrir/module-2-conclusion",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "028": {
+      "title": "Module 3 introduction",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/tthfc/module-3-introduction",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "029": {
+      "title": "Approximate nearest neighbors algorithms ANN",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nl/approximate-nearest-neighbors-algorithms-ann",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "030": {
+      "title": "Vector databases",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzkt7/vector-databases",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "031": {
+      "title": "Introduction to the Weaviate API",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ssvq4/introduction-to-the-weaviate-api",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "032": {
+      "title": "Chunking",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emtv/chunking",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "033": {
+      "title": "Chunking (2)",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngmm/chunking",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "034": {
+      "title": "Advanced chunking techniques",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz0/advanced-chunking-techniques",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "035": {
+      "title": "Query parsing",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48qx/query-parsing",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "036": {
+      "title": "Cross-encoders and ColBERT",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/44o52k/cross-encoders-and-colbert",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "037": {
+      "title": "Reranking",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4nx/reranking",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "038": {
+      "title": "Lecture Notes M3",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw9gc/lecture-notes-m3",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "039": {
+      "title": "Building RAG Systems with a Vector Database",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emt4kl/building-rag-systems-with-a-vector-database",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "040": {
+      "title": "Module 3 conclusion",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4n6/module-3-conclusion",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "041": {
+      "title": "Module 4 introduction",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ffjd0g/module-4-introduction",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "042": {
+      "title": "Transformer architecture",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/yy164k/transformer-architecture",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "043": {
+      "title": "LLM sampling strategies",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/8850gm/llm-sampling-strategies",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "044": {
+      "title": "Exploring LLM capabilities",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/iigog5/exploring-llm-capabilities",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "045": {
+      "title": "Choosing your LLM",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs2mn/choosing-your-llm",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "046": {
+      "title": "Prompt engineering building your augmented prompt",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dr2c/prompt-engineering-building-your-augmented-prompt",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "047": {
+      "title": "Prompt engineering advanced techniques",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/jjf7di/prompt-engineering-advanced-techniques",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "048": {
+      "title": "Prompt engineering",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/bb3khd/prompt-engineering",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "049": {
+      "title": "Handling hallucinations",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngmz/handling-hallucinations",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "050": {
+      "title": "Evaluating your LLMs performance",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p3pm/evaluating-your-llms-performance",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "051": {
+      "title": "Agentic RAG",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1f5/agentic-rag",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "052": {
+      "title": "RAG vs Fine-Tuning",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00uskr/rag-vs-fine-tuning",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "053": {
+      "title": "Lecture Notes M4",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/33bzwi/lecture-notes-m4",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "054": {
+      "title": "Developing a RAG-based Chatbot",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dr21/developing-a-rag-based-chatbot",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "055": {
+      "title": "Module 4 conclusion",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/558ul7/module-4-conclusion",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "056": {
+      "title": "Module 5 introduction",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/hhtjq1/module-5-introduction",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "057": {
+      "title": "What makes production challenging",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/nnri1a/what-makes-production-challenging",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "058": {
+      "title": "Implementing RAG evaluation strategies",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/llxcw6/implementing-rag-evaluation-strategies",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "059": {
+      "title": "Logging monitoring and observability",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/pp6bgx/logging-monitoring-and-observability",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "060": {
+      "title": "Tracing a RAG system",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/tthfip/tracing-a-rag-system",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "061": {
+      "title": "Customized evaluation",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nex/customized-evaluation",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "062": {
+      "title": "Quantization",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzktiz/quantization",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "063": {
+      "title": "Cost vs Response Quality",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ssvq8m/cost-vs-response-quality",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "064": {
+      "title": "Latency vs Response Quality",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emrt/latency-vs-response-quality",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "065": {
+      "title": "Security",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngaa/security",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "066": {
+      "title": "Multimodal RAG",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2x06/multimodal-rag",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "067": {
+      "title": "Lecture Notes M5",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw9220z/lecture-notes-m5",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "068": {
+      "title": "IMPORTANT Reminder about End of Access to Lab Notebooks",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1v6bl/important-reminder-about-end-of-access-to-lab-notebooks",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "069": {
+      "title": "Improving the ChatBot",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48h1/improving-the-chatbot-",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "070": {
+      "title": "Module 5 conclusion",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4j5/module-5-conclusion",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "071": {
+      "title": "Opportunity to mentor other learners",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/11ypo2/opportunity-to-mentor-other-learners",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    },
+    "072": {
+      "title": "Acknowledgments",
+      "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ffjdpmj7/acknowledgments",
+      "duration": 0,
+      "status": "pending",
+      "retries": 0
+    }
   }
 }
