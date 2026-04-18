@@ -22,6 +22,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Claude Design by Anthropic Labs](claude/claude-design-anthropic-labs.md) | claude, design, anthropic, prototyping, visual-creation, product-announcement, anthropic-labs | Visual creation tool (Opus 4.7, research preview) generating prototypes, decks, and wireframes with brand-system extraction and Claude Code handoff bundles |
 | [Anthropic Dispatch](claude/anthropic-dispatch.md) | claude, anthropic, dispatch, remote-agent | Phone-to-desktop remote control layer for persistent Claude agent sessions |
 | [Master Claude From Scratch — AI for Everyone, Session 1](claude/master-claude-session-1.md) | claude, anthropic, claude-projects, claude-skills, claude-memory, no-code, beginner, live-stream | 2h non-developer intro: Claude ecosystem (Chat/Code/Cowork), Haiku/Sonnet/Opus picking rule, Projects + Skills + Memory, skill × connector composition (Gmail, web search) |
+| [Claude Design Just Became Unstoppable](claude/claude-design-just-became-unstoppable.md) | claude-design, anthropic, claude, opus-4-7, design-system, prototyping, slide-deck, landing-page, claude-code, brand-guidelines | Nate Herk demos Claude Design: one design system setup powers brand-consistent prototypes, decks, and landing pages with one-click Claude Code handoff |
 
 ## Agent Frameworks
 
