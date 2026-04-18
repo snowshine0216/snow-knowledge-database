@@ -18,6 +18,16 @@ Passive reading builds shallow familiarity. Three interventions make notes that 
 
 ## Required Structure (EXACT ORDER)
 
+Complete file order at a glance:
+1. YAML frontmatter (tags + source)
+2. ## Pre-test
+3. # Lecture NNN: Title
+4. **Source:** line
+5. ## Outline
+6. ## Section 1 / 2 / 3 ... (content)
+7. ## Post-test
+8. Answer Guide <details>
+
 ### 1. Frontmatter
 
 Every file must open with YAML frontmatter containing `tags` and `source`.
@@ -212,7 +222,7 @@ The next lecture, [[005-training-process]], walks through the full
 data prep → training → evaluation loop in code.
 ```
 
-The slug format is `NNN-kebab-case-title` matching the filename of the target note (without `.md`). This enables Obsidian's graph view to draw edges between lectures automatically.
+The slug format is `NNN-kebab-case-title` matching the filename of the target note (without `.md`). This enables Obsidian's graph view to draw edges between lectures automatically. Only wikilink to lectures that already exist in the course folder — omit `[[slug]]` references if the target file does not yet exist.
 
 ---
 
