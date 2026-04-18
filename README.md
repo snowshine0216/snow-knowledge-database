@@ -5,7 +5,7 @@ A personal knowledge repository for curated notes, references, and study materia
 ## What This Repo Contains
 
 - `raw/` — raw source intake (articles, posts, transcripts clipped with frontmatter)
-- `wiki/` — LLM-compiled knowledge layer (`_index.md` master index + `concepts/`, `courses/`, `tools/`, `workflows/`)
+- `wiki/` — LLM-compiled knowledge layer (`_index.md` master index + topic folders: `claude/`, `agent-frameworks/`, `ai-engineering/`, `rag-and-knowledge/`, `dev-tools/`, `learning-and-business/`, `courses/`)
 - `scripts/` — CLI tools: `search.sh` (keyword search), `compile.sh` (raw→wiki trigger), `wiki-collision-check.sh` (CREATE/ENRICH/SKIP detector), `backfill-wiki.sh` (find uncompiled summaries)
 - `_templates/` — Templater templates for consistent frontmatter on new notes
 - Topic folders for notes (for example, `essence-of-linear-algebra/`)
@@ -31,7 +31,7 @@ It's a Next.js 16 App Router site in `site/` — SSG-generated, auto-deploys on 
 
 # Compile a raw source into the wiki (manual, for raw/ clippings)
 ./scripts/compile.sh raw/article.md          # → follow printed Claude Code instruction
-./scripts/compile.sh raw/article.md tools    # → compile to wiki/tools/
+./scripts/compile.sh raw/article.md dev-tools    # → compile to wiki/dev-tools/
 
 # Auto-compilation (YouTube, Medium, PDF)
 # Summarizing via yt-video-summarizer / medium-member-summarizer / pdf-summarizer

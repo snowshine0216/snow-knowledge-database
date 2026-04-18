@@ -13,7 +13,7 @@ FAIL=0
 
 make_wiki() {
   local root="$1"
-  mkdir -p "$root/wiki/concepts" "$root/wiki/tools" "$root/wiki/workflows" "$root/raw"
+  mkdir -p "$root/wiki/ai-engineering" "$root/wiki/dev-tools" "$root/wiki/claude" "$root/raw"
 }
 
 make_frontmatter() {
@@ -119,8 +119,8 @@ T=$(mktemp -d); trap "rm -rf $T" EXIT
 setup_clean() {
   local root="$1"
   make_wiki "$root"
-  make_article "$root/wiki/concepts/foo.md"
-  make_article "$root/wiki/tools/bar.md"
+  make_article "$root/wiki/ai-engineering/foo.md"
+  make_article "$root/wiki/dev-tools/bar.md"
   make_clean_index "$root" "concepts/foo.md" "tools/bar.md"
   echo "0" > "$root/wiki/.link-baseline"
 }
@@ -135,7 +135,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/real.md"
+make_article "$T/wiki/ai-engineering/real.md"
 {
   printf -- '---\ntags: [index]\nsource: internal\n---\n# Wiki Index\n\n'
   echo "| File | Tags | One-line summary |"
@@ -152,8 +152,8 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
-make_article "$T/wiki/tools/unindexed.md"
+make_article "$T/wiki/ai-engineering/foo.md"
+make_article "$T/wiki/dev-tools/unindexed.md"
 make_clean_index "$T" "concepts/foo.md"   # unindexed.md not in index
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 3: missing index row exits 1" "$T"
@@ -164,8 +164,8 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
-make_article "$T/wiki/tools/new-tool.md"
+make_article "$T/wiki/ai-engineering/foo.md"
+make_article "$T/wiki/dev-tools/new-tool.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "0" > "$T/wiki/.link-baseline"
 (cd "$T" && bash "$HEALTH" --fix 2>&1) || true
@@ -192,7 +192,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
+make_article "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "0" > "$T/wiki/.link-baseline"
 printf -- '---\ntags: [test]\nsource: https://example.com\n---\n\nRaw pending.\n' > "$T/raw/pending.md"
@@ -205,7 +205,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ make_frontmatter; echo; echo "# Foo"; echo; echo "See [[nonexistent-article]] here."; } > "$T/wiki/concepts/foo.md"
+{ make_frontmatter; echo; echo "# Foo"; echo; echo "See [[nonexistent-article]] here."; } > "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 6: broken wikilink exits 1" "$T"
@@ -216,8 +216,8 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ make_frontmatter; echo; echo "# Target"; echo; echo "Body."; } > "$T/wiki/concepts/diffusion-models.md"
-{ make_frontmatter; echo; echo "# Linker"; echo; echo "See [[diffusion models]] for details."; } > "$T/wiki/concepts/linker.md"
+{ make_frontmatter; echo; echo "# Target"; echo; echo "Body."; } > "$T/wiki/ai-engineering/diffusion-models.md"
+{ make_frontmatter; echo; echo "# Linker"; echo; echo "See [[diffusion models]] for details."; } > "$T/wiki/ai-engineering/linker.md"
 make_clean_index "$T" "concepts/diffusion-models.md" "concepts/linker.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_pass "Scenario 7: space wikilink resolves to hyphenated file (exit 0)" "$T"
@@ -228,9 +228,9 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
-make_article "$T/wiki/concepts/bar.md"
-{ make_frontmatter; echo; echo "# Linker"; echo; echo "See [[foo]] and [[bar]] for details."; } > "$T/wiki/concepts/linker.md"
+make_article "$T/wiki/ai-engineering/foo.md"
+make_article "$T/wiki/ai-engineering/bar.md"
+{ make_frontmatter; echo; echo "# Linker"; echo; echo "See [[foo]] and [[bar]] for details."; } > "$T/wiki/ai-engineering/linker.md"
 make_clean_index "$T" "concepts/foo.md" "concepts/bar.md" "concepts/linker.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_pass "Scenario 8: multi-wikilink line no false positive (exit 0)" "$T"
@@ -241,7 +241,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ printf -- '---\nsource: https://example.com\n---\n\n# No Tags\n\nBody.\n'; } > "$T/wiki/concepts/notags.md"
+{ printf -- '---\nsource: https://example.com\n---\n\n# No Tags\n\nBody.\n'; } > "$T/wiki/ai-engineering/notags.md"
 make_clean_index "$T" "concepts/notags.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 9: missing tags exits 1" "$T"
@@ -252,7 +252,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ printf -- '---\ntags: foo\nsource: https://example.com\n---\n\n# String Tags\n\nBody.\n'; } > "$T/wiki/concepts/stringtags.md"
+{ printf -- '---\ntags: foo\nsource: https://example.com\n---\n\n# String Tags\n\nBody.\n'; } > "$T/wiki/ai-engineering/stringtags.md"
 make_clean_index "$T" "concepts/stringtags.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 10: tags not array exits 1" "$T"
@@ -262,7 +262,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ printf -- '---\ntags: [test]\n---\n\n# No Source\n\nBody.\n'; } > "$T/wiki/concepts/nosource.md"
+{ printf -- '---\ntags: [test]\n---\n\n# No Source\n\nBody.\n'; } > "$T/wiki/ai-engineering/nosource.md"
 make_clean_index "$T" "concepts/nosource.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 11: missing source exits 1" "$T"
@@ -273,7 +273,7 @@ rm -rf "$T"
 T=$(mktemp -d)
 make_wiki "$T"
 # wiki has 0 links, baseline is 200
-make_article "$T/wiki/concepts/foo.md"
+make_article "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "200" > "$T/wiki/.link-baseline"
 assert_pass "Scenario 12: link drift is WARN (exit 0)" "$T"
@@ -285,8 +285,8 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ make_frontmatter; echo; echo "# Foo"; echo; echo "See [[bar]]."; } > "$T/wiki/concepts/foo.md"
-make_article "$T/wiki/concepts/bar.md"
+{ make_frontmatter; echo; echo "# Foo"; echo; echo "See [[bar]]."; } > "$T/wiki/ai-engineering/foo.md"
+make_article "$T/wiki/ai-engineering/bar.md"
 make_clean_index "$T" "concepts/foo.md" "concepts/bar.md"
 echo "0" > "$T/wiki/.link-baseline"   # current=1, baseline=0, count > baseline
 (cd "$T" && bash "$HEALTH" --fix 2>&1) || true
@@ -304,7 +304,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
+make_article "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "200" > "$T/wiki/.link-baseline"  # current=0, baseline=200 — don't update
 (cd "$T" && bash "$HEALTH" --fix 2>&1) || true
@@ -322,8 +322,8 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/tool.md"
-make_article "$T/wiki/tools/tool.md"
+make_article "$T/wiki/ai-engineering/tool.md"
+make_article "$T/wiki/dev-tools/tool.md"
 make_clean_index "$T" "concepts/tool.md" "tools/tool.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 15: duplicate slug exits 1" "$T"
@@ -334,7 +334,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-printf -- '---\ntags: [test]\nsource: https://example.com\n---\n' > "$T/wiki/concepts/empty.md"
+printf -- '---\ntags: [test]\nsource: https://example.com\n---\n' > "$T/wiki/ai-engineering/empty.md"
 make_clean_index "$T" "concepts/empty.md"
 echo "0" > "$T/wiki/.link-baseline"
 assert_fail "Scenario 16: empty file (frontmatter only) exits 1" "$T"
@@ -379,7 +379,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-{ make_frontmatter; echo; echo "# Foo"; echo; echo "See [[nowhere]]."; } > "$T/wiki/concepts/foo.md"
+{ make_frontmatter; echo; echo "# Foo"; echo; echo "See [[nowhere]]."; } > "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "0" > "$T/wiki/.link-baseline"
 printf -- '---\ntags: [test]\nsource: https://example.com\n---\n\nRaw file.\n' > "$T/raw/orphan.md"
@@ -400,7 +400,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
+make_article "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 echo "0" > "$T/wiki/.link-baseline"
 printf -- '---\ntags: [test]\nsource: https://example.com\n---\n\nRaw only.\n' > "$T/raw/orphan.md"
@@ -412,7 +412,7 @@ rm -rf "$T"
 # ── edge: empty wiki directory ────────────────────────────────────────────────
 
 T=$(mktemp -d)
-mkdir -p "$T/wiki/concepts" "$T/wiki/tools" "$T/wiki/workflows"
+mkdir -p "$T/wiki/ai-engineering" "$T/wiki/dev-tools" "$T/wiki/claude"
 {
   printf -- '---\ntags: [index]\nsource: internal\n---\n# Wiki Index\n\n'
   echo "| File | Tags | One-line summary |"
@@ -438,7 +438,7 @@ rm -rf "$T"
 
 T=$(mktemp -d)
 make_wiki "$T"
-make_article "$T/wiki/concepts/foo.md"
+make_article "$T/wiki/ai-engineering/foo.md"
 make_clean_index "$T" "concepts/foo.md"
 # no .link-baseline file
 assert_pass "Edge: missing .link-baseline skips check (exit 0)" "$T"

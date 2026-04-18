@@ -104,13 +104,13 @@ fi
 MISSING_ISSUES=""
 MISSING_COUNT=0
 
-for dir in concepts tools workflows; do
+for dir in claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business; do
   [ -d "wiki/$dir" ] || continue
   for f in wiki/$dir/*.md; do
     [ -e "$f" ] || continue
     [ -d "$f" ] && continue
     [ "$(basename "$f")" = "_index.md" ] && continue
-    rel="${f#wiki/}"   # e.g. concepts/foo.md
+    rel="${f#wiki/}"   # e.g. ai-engineering/foo.md
     if ! grep -qF "($rel)" "wiki/_index.md" 2>/dev/null; then
       MISSING_ISSUES="${MISSING_ISSUES}$f\n"
       MISSING_COUNT=$((MISSING_COUNT + 1))
@@ -153,7 +153,7 @@ if [ -d "raw/" ]; then
     [ -e "$f" ] || continue
     base=$(basename "$f" .md)
     found=0
-    for dir in concepts tools workflows; do
+    for dir in claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business; do
       [ -f "wiki/$dir/$base.md" ] && found=1 && break
     done
     if [ "$found" = "0" ]; then
@@ -180,7 +180,7 @@ DUP_COUNT=0
 SEEN_SLUGS=""
 SKIP_WIKILINKS=0
 
-for dir in concepts tools workflows; do
+for dir in claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business; do
   [ -d "wiki/$dir" ] || continue
   for f in wiki/$dir/*.md; do
     [ -e "$f" ] || continue
@@ -227,7 +227,7 @@ else
     normalized=$(echo "$link" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
     # Check if target exists anywhere in wiki/ (case-insensitive on macOS HFS+)
     found=0
-    for dir in concepts tools workflows; do
+    for dir in claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business; do
       [ -f "wiki/$dir/${normalized}.md" ] && found=1 && break
       # Also try exact name (already lowercase)
       [ -f "wiki/$dir/${link}.md" ] && found=1 && break
@@ -281,7 +281,7 @@ check_frontmatter() {
   fi
 }
 
-for dir in concepts tools workflows; do
+for dir in claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business; do
   [ -d "wiki/$dir" ] || continue
   for f in wiki/$dir/*.md; do
     [ -e "$f" ] || continue
@@ -337,7 +337,7 @@ fi
 EMPTY_ISSUES=""
 EMPTY_COUNT=0
 
-for dir in concepts tools workflows; do
+for dir in claude agent-frameworks ai-engineering rag-and-knowledge dev-tools learning-and-business; do
   [ -d "wiki/$dir" ] || continue
   for f in wiki/$dir/*.md; do
     [ -e "$f" ] || continue
