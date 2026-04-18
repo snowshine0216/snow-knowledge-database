@@ -85,6 +85,22 @@ npx claude-mem install
 
 This registers the `claude-mem` MCP server and adds the skill pack to your Claude Code config.
 
+Start the background worker (indexes memory files and serves the web UI):
+
+```bash
+npx claude-mem start
+```
+
+### View Memories (Web UI)
+
+Open in browser after starting the worker:
+
+```
+http://localhost:37777
+```
+
+Browse, search, and inspect all indexed memory entries via the web interface.
+
 ### Usage in Claude Code
 
 **Search memory** (skill):
