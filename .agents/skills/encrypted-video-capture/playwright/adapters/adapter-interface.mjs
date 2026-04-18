@@ -23,11 +23,13 @@
 
 import { createGeektimeAdapter } from "./geektime-adapter.mjs";
 import { createGeekbangUAdapter } from "./geekbang-u-adapter.mjs";
+import { createDeeplearningAiAdapter } from "./deeplearning-ai-adapter.mjs";
 
 /** @type {Array<{pattern: RegExp, factory: () => Adapter}>} */
 const ADAPTERS = [
   { pattern: /time\.geekbang\.org/, factory: createGeektimeAdapter },
   { pattern: /u\.geekbang\.org\/lesson/, factory: createGeekbangUAdapter },
+  { pattern: /learn\.deeplearning\.ai/, factory: createDeeplearningAiAdapter },
 ];
 
 /**
@@ -84,5 +86,6 @@ export function supportedUrlPatterns() {
     "https://time.geekbang.org/video/{id}",
     "https://time.geekbang.org/course/{id}",
     "https://u.geekbang.org/lesson/{id}",
+    "https://learn.deeplearning.ai/courses/{course-slug}[/lesson/{lesson-id}/{slug}]",
   ];
 }

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 2,
+  "courseUrl": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/ep67b/introduction",
+  "courseName": "fine-tuning-large-language-models",
+  "enumeratedAt": "2026-04-18T12:40:00Z",
+  "lectures": {
+    "001": {
+      "title": "Introduction",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/ep67b/introduction",
+      "duration": 120,
+      "status": "pending",
+      "retries": 0
+    },
+    "002": {
+      "title": "Why finetune",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/ig7ql/why-finetune",
+      "duration": 840,
+      "status": "pending",
+      "retries": 0
+    },
+    "003": {
+      "title": "Where finetuning fits in",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/z5zj8/where-finetuning-fits-in",
+      "duration": 900,
+      "status": "pending",
+      "retries": 0
+    },
+    "004": {
+      "title": "Instruction finetuning",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/qy4wl/instruction-finetuning",
+      "duration": 540,
+      "status": "pending",
+      "retries": 0
+    },
+    "005": {
+      "title": "Data preparation",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/d1ha8/data-preparation",
+      "duration": 600,
+      "status": "pending",
+      "retries": 0
+    },
+    "006": {
+      "title": "Training process",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/vl60i/training-process",
+      "duration": 960,
+      "status": "pending",
+      "retries": 0
+    },
+    "007": {
+      "title": "Evaluation and iteration",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/toknd/evaluation-and-iteration",
+      "duration": 660,
+      "status": "pending",
+      "retries": 0
+    },
+    "008": {
+      "title": "Consideration on getting started now",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/alu9a/consideration-on-getting-started-now",
+      "duration": 240,
+      "status": "pending",
+      "retries": 0
+    },
+    "009": {
+      "title": "Conclusion",
+      "url": "https://learn.deeplearning.ai/courses/finetuning-large-language-models/lesson/bud9k/conclusion",
+      "duration": 60,
+      "status": "pending",
+      "retries": 0
+    }
+  }
+}
