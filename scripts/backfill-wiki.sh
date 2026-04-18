@@ -31,12 +31,12 @@ SCAN_DIRS="${SCAN_DIRS:-courses interview-summarizes tech-notes repo-analysis so
 dir_to_category() {
   local dir="$1"
   case "$dir" in
-    courses)            echo "concepts" ;;
-    interview-summarizes) echo "concepts" ;;
-    tech-notes)         echo "concepts" ;;
-    repo-analysis)      echo "tools" ;;
-    sources)            echo "concepts" ;;
-    *)                  echo "concepts" ;;
+    courses)              echo "ai-engineering" ;;
+    interview-summarizes) echo "learning-and-business" ;;
+    tech-notes)           echo "ai-engineering" ;;
+    repo-analysis)        echo "dev-tools" ;;
+    sources)              echo "ai-engineering" ;;
+    *)                    echo "ai-engineering" ;;
   esac
 }
 

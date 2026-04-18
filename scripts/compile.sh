@@ -10,18 +10,18 @@
 # choosing the right wiki category, writing a synthesized article (not a copy),
 # and atomically updating _index.md. That's a Claude Code task, not a bash task.
 #
-# Env: DEFAULT_CATEGORY=concepts  (overrides built-in default category)
+# Env: DEFAULT_CATEGORY=ai-engineering  (overrides built-in default category)
 set -euo pipefail
 
 FILE="${1:-}"
 # Strip trailing slash; env DEFAULT_CATEGORY overrides built-in default
 CATEGORY="${2%/}"
-CATEGORY="${CATEGORY:-${DEFAULT_CATEGORY:-concepts}}"
+CATEGORY="${CATEGORY:-${DEFAULT_CATEGORY:-ai-engineering}}"
 
 if [ -z "$FILE" ]; then
   echo "Usage: $0 <raw-article.md> [wiki-category]" >&2
-  echo "  e.g.: $0 raw/llm-knowledge-bases-post.md concepts" >&2
-  echo "  Categories: concepts (default), tools, workflows" >&2
+  echo "  e.g.: $0 raw/llm-knowledge-bases-post.md ai-engineering" >&2
+  echo "  Categories: claude, agent-frameworks, ai-engineering (default), rag-and-knowledge, dev-tools, learning-and-business" >&2
   exit 1
 fi
 

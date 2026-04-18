@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 import type { Article, Heading, WikiIndex } from './types'
 
 const WIKI_DIR = path.join(process.cwd(), '..', 'wiki')
-const CATEGORIES = ['concepts', 'tools', 'workflows', 'courses']
+const CATEGORIES = ['claude', 'agent-frameworks', 'ai-engineering', 'rag-and-knowledge', 'dev-tools', 'learning-and-business', 'courses']
 
 export function normalize(slug: string): string {
   return slug.toLowerCase().replace(/\s+/g, '-')

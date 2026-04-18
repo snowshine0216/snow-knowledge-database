@@ -95,7 +95,7 @@ describe('buildWikiIndex() [integration]', () => {
     const index = getAllArticles()
     const articles = [...index.values()]
     // Top-level articles have subfolder === null
-    const topLevel = articles.find(a => a.category === 'concepts' && a.slug === 'karpathy-loopy-era-ai')
+    const topLevel = articles.find(a => a.category === 'ai-engineering' && a.slug === 'karpathy-loopy-era-ai')
     expect(topLevel?.subfolder).toBeNull()
     // Nested articles carry their parent directory name
     const nested = articles.find(a => a.slug.startsWith('001-'))

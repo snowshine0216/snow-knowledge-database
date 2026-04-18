@@ -13,7 +13,7 @@ function makeIndex(slugs: string[]): WikiIndex {
     const article: Article = {
       slug,
       title: slug,
-      category: 'concepts',
+      category: 'ai-engineering',
       tags: [],
       source: '',
       content: '',
@@ -87,9 +87,9 @@ describe('remarkWikilinks', () => {
 describe('remarkWikilinks — image syntax', () => {
   it('renders ![[photo.png]] as <img> with full path when slug and category provided', async () => {
     const index = makeIndex([])
-    const html = await toHtml('![[photo.png]]', index, 'my-article', 'tools')
+    const html = await toHtml('![[photo.png]]', index, 'my-article', 'dev-tools')
     expect(html).toContain('<img')
-    expect(html).toContain('src="/wiki-assets/tools/my-article/photo.png"')
+    expect(html).toContain('src="/wiki-assets/dev-tools/my-article/photo.png"')
     expect(html).toContain('alt="photo.png"')
   })
 
@@ -102,14 +102,14 @@ describe('remarkWikilinks — image syntax', () => {
 
   it('uses pipe display text as alt attribute', async () => {
     const index = makeIndex([])
-    const html = await toHtml('![[photo.png|A cool diagram]]', index, 'art', 'concepts')
+    const html = await toHtml('![[photo.png|A cool diagram]]', index, 'art', 'ai-engineering')
     expect(html).toContain('alt="A cool diagram"')
-    expect(html).toContain('src="/wiki-assets/concepts/art/photo.png"')
+    expect(html).toContain('src="/wiki-assets/ai-engineering/art/photo.png"')
   })
 
   it('does not treat ![[wikilink]] as image when target has no image extension', async () => {
     const index = makeIndex(['some-article'])
-    const html = await toHtml('![[some-article]]', index, 'art', 'concepts')
+    const html = await toHtml('![[some-article]]', index, 'art', 'ai-engineering')
     expect(html).toContain('<a')
     expect(html).not.toContain('<img')
   })
