@@ -239,28 +239,28 @@
       "title": "Advanced chunking techniques",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz0/advanced-chunking-techniques",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "035": {
       "title": "Query parsing",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48qx/query-parsing",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "036": {
       "title": "Cross-encoders and ColBERT",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/44o52k/cross-encoders-and-colbert",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "037": {
       "title": "Reranking",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4nx/reranking",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "038": {
@@ -281,7 +281,7 @@
       "title": "Module 3 conclusion",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ggi4n6/module-3-conclusion",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "041": {
@@ -295,14 +295,14 @@
       "title": "Transformer architecture",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/yy164k/transformer-architecture",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "043": {
       "title": "LLM sampling strategies",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/8850gm/llm-sampling-strategies",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "044": {
@@ -316,21 +316,21 @@
       "title": "Choosing your LLM",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/vvs2mn/choosing-your-llm",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "046": {
       "title": "Prompt engineering building your augmented prompt",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dr2c/prompt-engineering-building-your-augmented-prompt",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "047": {
       "title": "Prompt engineering advanced techniques",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/jjf7di/prompt-engineering-advanced-techniques",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "048": {
@@ -344,28 +344,28 @@
       "title": "Handling hallucinations",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngmz/handling-hallucinations",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "050": {
       "title": "Evaluating your LLMs performance",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p3pm/evaluating-your-llms-performance",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "051": {
       "title": "Agentic RAG",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1f5/agentic-rag",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "052": {
       "title": "RAG vs Fine-Tuning",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00uskr/rag-vs-fine-tuning",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "053": {
@@ -393,28 +393,28 @@
       "title": "Module 5 introduction",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/hhtjq1/module-5-introduction",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "057": {
       "title": "What makes production challenging",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/nnri1a/what-makes-production-challenging",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "058": {
       "title": "Implementing RAG evaluation strategies",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/llxcw6/implementing-rag-evaluation-strategies",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "059": {
       "title": "Logging monitoring and observability",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/pp6bgx/logging-monitoring-and-observability",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "060": {
@@ -428,21 +428,21 @@
       "title": "Customized evaluation",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nex/customized-evaluation",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "062": {
       "title": "Quantization",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzktiz/quantization",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "063": {
       "title": "Cost vs Response Quality",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ssvq8m/cost-vs-response-quality",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "064": {

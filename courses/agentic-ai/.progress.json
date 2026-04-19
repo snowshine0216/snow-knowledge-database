@@ -106,14 +106,14 @@
       "title": "Evaluating the impact of reflection",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/vtzr25/evaluating-the-impact-of-reflection",
       "duration": null,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "016": {
       "title": "Using external feedback",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/txqmf0/using-external-feedback",
       "duration": null,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "017": {
@@ -134,7 +134,7 @@
       "title": "What are tools",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/3s0czq/what-are-tools%3F",
       "duration": null,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "020": {
@@ -148,7 +148,7 @@
       "title": "Tool syntax",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/154qpw/tool-syntax",
       "duration": null,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "022": {
@@ -169,14 +169,14 @@
       "title": "Code execution",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/a4gs14/code-execution",
       "duration": null,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "025": {
       "title": "MCP",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/x7jowg/mcp",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "026": {
@@ -204,14 +204,14 @@
       "title": "More error analysis examples",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/0kbds1/more-error-analysis-examples",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "030": {
       "title": "Component-level evaluations",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/fwxyds/component-level-evaluations",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "031": {
@@ -225,42 +225,42 @@
       "title": "How to address problems you identify",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/ldf4ci/how-to-address-problems-you-identify",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "033": {
       "title": "Latency cost optimization",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/154qpa/latency-cost-optimization",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "034": {
       "title": "Development process summary",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/hl2aj7/development-process-summary",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "035": {
       "title": "Planning workflows",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/jcl177/planning-workflows",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "036": {
       "title": "Creating and executing LLM plans",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/wr78er/creating-and-executing-llm-plans",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "037": {
       "title": "Planning with code execution",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/egr0a8/planning-with-code-execution",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "038": {
@@ -274,7 +274,7 @@
       "title": "Multi-agentic workflows",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/608l3n/multi-agentic-workflows",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "040": {
@@ -288,7 +288,7 @@
       "title": "Communication patterns for multi-agent systems",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/gymk4l/communication-patterns-for-multi-agent-systems",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "042": {
@@ -302,7 +302,7 @@
       "title": "Conclusion",
       "url": "https://learn.deeplearning.ai/courses/agentic-ai/lesson/qjhixk/conclusion",
       "duration": null,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "044": {

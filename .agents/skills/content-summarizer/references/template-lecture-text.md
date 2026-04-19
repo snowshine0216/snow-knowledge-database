@@ -12,7 +12,7 @@ Passive reading builds shallow familiarity. Three interventions make notes that 
 
 2. **Prose over bullets** — Bullet lists let readers skim without processing. Textbook prose forces the writer to explain *why* something is true, and forces the reader to follow an argument. The Feynman standard: could someone who has never seen this material understand the explanation without prior context?
 
-3. **Post-test + Answer Guide** — Writing answers from memory (not re-reading) is the highest-leverage retrieval practice. The `<details>` block keeps the guide accessible without tempting passive peeking.
+3. **Post-test + Answer Guide** — Writing answers from memory (not re-reading) is the highest-leverage retrieval practice. The collapsible callout keeps the guide accessible without tempting passive peeking.
 
 ---
 
@@ -26,7 +26,7 @@ Complete file order at a glance:
 5. ## Outline
 6. ## Section 1 / 2 / 3 ... (content)
 7. ## Post-test
-8. Answer Guide <details>
+8. Answer Guide `> [!example]-` callout
 
 ### 1. Frontmatter
 
@@ -165,30 +165,40 @@ Post-test questions should:
 
 ### 8. Answer Guide
 
-A `<details>` collapsible block immediately after the post-test. The summary label must read exactly `Answer Guide`.
+An Obsidian collapsible callout immediately after the post-test. Use `> [!example]-` so it renders natively in Obsidian (the `-` suffix starts it collapsed). Each answer gets its own `####` heading so the reader can navigate by question.
+
+**Do NOT use `<details>/<summary>` HTML** — markdown inside HTML blocks does not render in Obsidian; everything collapses into a wall of unformatted text.
 
 ```markdown
-<details>
-<summary>Answer Guide</summary>
-
-1. GPT-3 was trained to predict the next token in raw text. ChatGPT was further trained (instruction fine-tuned) on (instruction, response) pairs, teaching it to answer user directives rather than just continue text. This behavior change — not new knowledge — is what made it feel qualitatively different.
-2. Stanford's Alpaca technique used ChatGPT itself as a labeler: given a prompt template, ChatGPT generated thousands of (instruction, response) pairs automatically, bypassing the need for expensive human annotation.
-3. The model already learned code during pre-training on internet text. Instruction fine-tuning teaches *how to answer questions* as a general behavior — this generalizes across all the model's pre-existing knowledge, including code, even without code examples in the fine-tuning set.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — [short title for the question]
+>
+> GPT-3 was trained to predict the next token in raw text. ChatGPT was further trained (instruction fine-tuned) on (instruction, response) pairs, teaching it to answer user directives rather than just continue text. This behavior change — not new knowledge — is what made it feel qualitatively different.
+>
+> #### Q2 — [short title for the question]
+>
+> Stanford's Alpaca technique used ChatGPT itself as a labeler: given a prompt template, ChatGPT generated thousands of (instruction, response) pairs automatically, bypassing the need for expensive human annotation.
+>
+> #### Q3 — [short title for the question]
+>
+> The model already learned code during pre-training on internet text. Instruction fine-tuning teaches *how to answer questions* as a general behavior — this generalizes across all the model's pre-existing knowledge, including code, even without code examples in the fine-tuning set.
 ```
 
 Each answer should:
+- Open with `#### Qn — [short descriptive title]` matching the post-test question topic
 - Be 2–4 complete sentences — enough to demonstrate understanding, not exhaustive
 - Match the explanation depth in the content section it draws from
 - Use the Feynman standard: explain *why*, not just *what*
+- Use tables or sub-structure (prefixed with `> `) when a question has multiple distinct reasons
 
 ---
 
 ## Forbidden Patterns
 
 - **Pre-test at the bottom** — defeats priming entirely; pre-test must appear before the `# Lecture` heading and all content
-- **No answer guide** — retrieval practice without feedback is incomplete; always include the `<details>` block
+- **No answer guide** — retrieval practice without feedback is incomplete; always include the `> [!example]-` callout
+- **`<details>/<summary>` HTML for the answer guide** — markdown (bullets, tables, bold, code) does not render inside HTML blocks in Obsidian; use the Obsidian callout syntax instead
 - **Bullet-only sections** — content sections must be prose paragraphs; bullets are only acceptable for short enumerations embedded within a prose paragraph, never as the primary structure of a section
 - **Markdown links for intra-course references** — use `[[IDX-slug]]` wikilinks, not `[text](relative-path.md)`, so Obsidian graph view connects lectures correctly
 - **Verbatim transcript copy** — paraphrase and synthesize; direct transcript paste is not a note
@@ -245,6 +255,6 @@ Read that file before producing output. When in doubt about prose density, secti
 - `---` horizontal rules between all `##` sections.
 - No "Key Takeaways" or "Essence" sections — insight belongs in the section where it appears.
 - Pre-test appears before the `# Lecture` heading; post-test appears after the last content section.
-- The `<details>` Answer Guide must follow the post-test with no intervening content.
+- The `> [!example]-` Answer Guide callout must follow the post-test with no intervening content. **Never use `<details>/<summary>` HTML — markdown does not render inside HTML blocks in Obsidian.**
 - Wikilinks (`[[slug]]`) for intra-course cross-references; never relative Markdown links.
 - Filename format: `NNN-kebab-case-title.md` (ASCII only, no Chinese characters).

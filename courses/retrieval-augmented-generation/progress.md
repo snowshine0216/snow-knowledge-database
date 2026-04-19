@@ -56,30 +56,30 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 | 031 | 031-introduction-to-the-weaviate-api | ⬜ pending |
 | 032 | [[module-3-vector-databases-chunking/032-chunking]] | ✅ done |
 | 033 | 033-chunking-2 | ⬜ pending |
-| 034 | 034-advanced-chunking-techniques | ⬜ transcribing |
-| 035 | 035-query-parsing | ⬜ transcribing |
-| 036 | 036-cross-encoders-and-colbert | ⬜ pending |
-| 037 | 037-reranking | ⬜ pending |
+| 034 | [[module-3-vector-databases-chunking/034-advanced-chunking-techniques]] | ✅ done |
+| 035 | [[module-3-vector-databases-chunking/035-query-parsing]] | ✅ done |
+| 036 | [[module-3-vector-databases-chunking/036-cross-encoders-and-colbert]] | ✅ done |
+| 037 | [[module-3-vector-databases-chunking/037-reranking]] | ✅ done |
 | 038 | 038-lecture-notes-m3 | ⬜ skipped (non-video) |
 | 039 | 039-building-rag-systems-with-a-vector-database | ⬜ pending |
-| 040 | 040-module-3-conclusion | ⬜ pending |
+| 040 | [[module-3-vector-databases-chunking/040-module-3-conclusion]] | ✅ done |
 
 ## Module 4 — LLMs & Prompt Engineering
 
 | # | Lesson | Status |
 |---|--------|--------|
 | 041 | [[module-4-llms-prompt-engineering/041-module-4-introduction]] | ✅ done |
-| 042 | 042-transformer-architecture | ⬜ pending |
-| 043 | 043-llm-sampling-strategies | ⬜ pending |
+| 042 | [[module-4-llms-prompt-engineering/042-transformer-architecture]] | ✅ done |
+| 043 | [[module-4-llms-prompt-engineering/043-llm-sampling-strategies]] | ✅ done |
 | 044 | 044-exploring-llm-capabilities | ⬜ pending |
-| 045 | 045-choosing-your-llm | ⬜ pending |
-| 046 | 046-prompt-engineering-building-your-augmented-prompt | ⬜ pending |
-| 047 | 047-prompt-engineering-advanced-techniques | ⬜ pending |
+| 045 | [[module-4-llms-prompt-engineering/045-choosing-your-llm]] | ✅ done |
+| 046 | [[module-4-llms-prompt-engineering/046-prompt-engineering-building-your-augmented-prompt]] | ✅ done |
+| 047 | [[module-4-llms-prompt-engineering/047-prompt-engineering-advanced-techniques]] | ✅ done |
 | 048 | 048-prompt-engineering | ⬜ pending |
-| 049 | 049-handling-hallucinations | ⬜ pending |
-| 050 | 050-evaluating-your-llms-performance | ⬜ pending |
-| 051 | 051-agentic-rag | ⬜ pending |
-| 052 | 052-rag-vs-fine-tuning | ⬜ pending |
+| 049 | [[module-4-llms-prompt-engineering/049-handling-hallucinations]] | ✅ done |
+| 050 | [[module-4-llms-prompt-engineering/050-evaluating-your-llms-performance]] | ✅ done |
+| 051 | [[module-4-llms-prompt-engineering/051-agentic-rag]] | ✅ done |
+| 052 | [[module-4-llms-prompt-engineering/052-rag-vs-fine-tuning]] | ✅ done |
 | 053 | 053-lecture-notes-m4 | ⬜ skipped (non-video) |
 | 054 | 054-developing-a-rag-based-chatbot | ⬜ pending |
 | 055 | [[module-4-llms-prompt-engineering/055-module-4-conclusion]] | ✅ done |
@@ -88,8 +88,8 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 056 | 056-module-5-introduction | ⬜ pending |
-| 057 | 057-what-makes-production-challenging | ⬜ pending |
+| 056 | [[module-5-production-rag/056-module-5-introduction]] | ✅ done |
+| 057 | [[module-5-production-rag/057-what-makes-production-challenging]] | ✅ done |
 | 058 | 058-implementing-rag-evaluation-strategies | ⬜ pending |
 | 059 | 059-logging-monitoring-and-observability | ⬜ pending |
 | 060 | 060-tracing-a-rag-system | ⬜ pending |
@@ -108,9 +108,9 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 
 ## Summary
 
-- **Done:** 25 / 72
-- **Pending:** 39 / 72
-- **Transcribing:** 2 / 72 (034, 035)
+- **Done:** 41 / 72
+- **Pending:** 18 / 72
+- **Transcribing:** 2 / 72 (058, 059)
 - **Skipped (non-video):** 8 / 72
 
 To resume recording: `/encrypted-video-capture https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz/module-1-introduction --resume`

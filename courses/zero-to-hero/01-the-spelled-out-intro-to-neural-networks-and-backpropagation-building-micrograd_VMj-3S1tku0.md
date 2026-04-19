@@ -25,6 +25,7 @@ This course builds a miniature automatic-differentiation engine called **microgr
 1. What does a derivative of a function tell you, and how would you estimate one numerically for a single-variable function?
 2. In a neural network, what is the purpose of backpropagation, and which mathematical rule does it rely on?
 3. What is a Multi-Layer Perceptron (MLP), and how do its layers relate to each other?
+4. In micrograd's neuron formula `output = tanh(sum(w_i * x_i) + b)`, why is `tanh` applied after the weighted sum? What would happen if you removed it and left only the linear part?
 --- 
 ## Module 1 — Calculus Refresher: What Is a Derivative?
 
@@ -202,13 +203,42 @@ This course builds a miniature automatic-differentiation engine called **microgr
 1. Explain how the `Value` class in micrograd enables automatic differentiation — what fields does it track, and what role does a `_backward` closure play?
 2. What is the gradient accumulation bug in micrograd, when does it occur, and how is it fixed?
 3. Walk through the four steps of micrograd's gradient descent training loop and explain why zeroing gradients before each backward pass is a critical step.
+4. In micrograd's neuron formula `output = tanh(sum(w_i * x_i) + b)`, explain why `tanh` is applied after the weighted sum. Cover non-linearity, output range, zero-centering, and gradient flow through Value objects.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. `Value` wraps a scalar `data` and tracks `grad` (initially 0), the producing operation (`_op`), and child nodes (`_children`). Each arithmetic operation attaches a `_backward` closure that receives the incoming gradient and distributes it to each child via the chain rule, enabling automatic reverse-mode differentiation.
-2. The bug occurs when the same `Value` node appears multiple times in an expression graph — each path computes a gradient contribution, and overwriting `.grad` (using `=`) discards earlier contributions. The fix is to accumulate with `+=` so all contributions sum correctly.
-3. The loop: (1) **Forward pass** — compute predictions and loss; (2) **Zero gradients** — reset all `.grad` to 0, because micrograd accumulates gradients with `+=` and stale values from the previous step would corrupt the current update; (3) **Backward pass** — `loss.backward()` fills every parameter's `.grad` via topological-sort traversal; (4) **Parameter update** — `p.data -= lr * p.grad` for every parameter.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — The `Value` class and automatic differentiation
+>
+> `Value` wraps a scalar `data` and tracks `grad` (initially 0), the producing operation (`_op`), and child nodes (`_children`). Each arithmetic operation returns a new `Value` and attaches a `_backward` closure that receives the incoming gradient and distributes it to each child via the chain rule, enabling automatic reverse-mode differentiation.
+>
+> #### Q2 — The gradient accumulation bug
+>
+> The bug occurs when the same `Value` node appears multiple times in an expression graph — each path through the graph computes a separate gradient contribution, and overwriting `.grad` with `=` discards all but the last. The fix is `+=`: every contribution accumulates so the final `.grad` is the correct total.
+>
+> #### Q3 — The gradient descent training loop
+>
+> | Step | Action | Why it matters |
+> | :--- | :--- | :--- |
+> | 1 | **Forward pass** | Compute predictions and loss |
+> | 2 | **Zero gradients** | Reset all `.grad` to 0 — micrograd uses `+=` accumulation, so stale values from the prior step corrupt the current update |
+> | 3 | **Backward pass** | `loss.backward()` fills every parameter's `.grad` via topological-sort traversal |
+> | 4 | **Parameter update** | `p.data -= lr * p.grad` nudges each weight in the direction that reduces loss |
+>
+> #### Q4 — Why `tanh`?
+>
+> The formula `output = tanh(sum(w_i * x_i) + b)` is the neuron's fundamental building block. Without $\tanh$, every layer is a pure linear transformation — stacking any number of them still collapses to a single linear function, no matter the depth. $\tanh$ bends the decision boundary, giving the network the capacity to learn non-linear patterns.
+>
+> | Reason | What it means |
+> | :--- | :--- |
+> | **Non-linearity** | Enables curves, XOR, complex boundaries — linear layers always collapse to one |
+> | **Bounded output** | Squashes any value to $[-1, 1]$, preventing activations from exploding across layers |
+> | **Zero-centered** | Unlike Sigmoid $(0,1)$, outputs span $(-1,1)$ — gradients point both ways, avoiding zig-zag weight updates |
+> | **Cheap gradient** | $\frac{d}{dx}\tanh(x) = 1 - \tanh^2(x) = 1 - y^2$ — one subtraction once the output $y$ is known |
+>
+> | Feature | Without $\tanh$ | With $\tanh$ |
+> | :--- | :--- | :--- |
+> | Complexity | Straight lines only | Non-linear patterns |
+> | Output range | $(-\infty, +\infty)$ unbounded | $[-1, 1]$ bounded |
+> | Stacking layers | All layers collapse to one | Each layer adds expressiveness |
+> | Gradient flow | Constant | Scales with output: $1 - y^2$ |
 
