@@ -29,7 +29,7 @@
       "title": "Applications of RAG",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/44o5d/applications-of-rag",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "005": {
@@ -85,7 +85,7 @@
       "title": "Module 1 conclusion",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/iigov/module-1-conclusion",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "013": {
@@ -99,21 +99,21 @@
       "title": "Module 2 introduction",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dri/module-2-introduction",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "015": {
       "title": "Retriever architecture overview",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/jjf72/retriever-architecture-overview",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "016": {
       "title": "Metadata filtering",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/bb3k6/metadata-filtering",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "017": {

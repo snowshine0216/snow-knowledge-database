@@ -161,9 +161,9 @@ if [ -z "$STREAMING_TRANSCRIPT" ]; then
   python3 "$SCRIPT_DIR/../../yt-video-summarizer/scripts/extract_video_context.py" \
     --audio-file "$AUDIO_FILE" \
     --out-dir "$ASR_OUT_DIR" \
-    --asr-provider "${ASR_PROVIDER:-openai}"
+    --asr-provider "${ASR_PROVIDER:-faster-whisper}"
   if [ $? -ne 0 ]; then
-    echo "ERROR: ASR transcription failed for lecture $IDX. CAUSE: faster-whisper venv missing or OPENROUTER_API_KEY not set. FIX: Set OPENROUTER_API_KEY in .env (mirrors yt-video-summarizer OpenRouter setup)."
+    echo "ERROR: ASR transcription failed for lecture $IDX. CAUSE: faster-whisper not installed or model unavailable. FIX: Run 'pip install faster-whisper' or set ASR_PROVIDER=openai and OPENROUTER_API_KEY in .env."
     mark_status "$IDX" "failed" "$PROGRESS_FILE"
     increment_retry "$IDX" "$PROGRESS_FILE"
     exit 2

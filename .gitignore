@@ -17,3 +17,5 @@ courses/**/evc-loop.py
 
 # Raw transcript files (not committed to repo)
 *.transcript
+
+/courses/retrieval-augmented-generation/module-1-rag-fundamentals/012-module-1-conclusion.md
