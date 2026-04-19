@@ -81,8 +81,8 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
   ```
 
   | Nonlinearity | Gain |
-  |---|---|
-  | Linear / Identity | 1.0 |
+  |--- |:---:|
+  | Linear | Identity | 1.0 |
   | tanh | 5/3 ≈ 1.667 |
   | ReLU | √2 ≈ 1.414 |
 
