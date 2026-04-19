@@ -54,7 +54,7 @@ source: https://learn.deeplearning.ai/courses/agentic-ai/lesson/nae3i1/what-is-a
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 027 | [[module-4-evaluations-and-development/027-evaluations-evals]] | ⬜ pending |
+| 027 | [[module-4-evaluations-and-development/027-evaluations-evals]] | ✅ done |
 | 028 | [[module-4-evaluations-and-development/028-error-analysis-and-prioritizing-next-steps]] | ⬜ pending |
 | 029 | [[module-4-evaluations-and-development/029-more-error-analysis-examples]] | ✅ done |
 | 030 | [[module-4-evaluations-and-development/030-component-level-evaluations]] | ✅ done |
