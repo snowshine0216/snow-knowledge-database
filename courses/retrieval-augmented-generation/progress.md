@@ -13,15 +13,15 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 001 | [[001-a-conversation-with-andrew-ng]] | ⬜ pending |
-| 002 | [[002-module-1-introduction]] | ⬜ pending |
-| 003 | [[003-introduction-to-rag]] | ⬜ pending |
+| 001 | [[module-1-rag-fundamentals/001-a-conversation-with-andrew-ng]] | ✅ done |
+| 002 | [[module-1-rag-fundamentals/002-module-1-introduction]] | ✅ done |
+| 003 | [[module-1-rag-fundamentals/003-introduction-to-rag]] | ✅ done |
 | 004 | [[004-applications-of-rag]] | ⬜ pending |
-| 005 | [[005-rag-architecture-overview]] | ⬜ pending |
+| 005 | [[module-1-rag-fundamentals/005-rag-architecture-overview]] | ✅ done |
 | 006 | [[006-introduction-to-llms]] | ⬜ pending |
 | 007 | [[007-a-brief-python-refresher]] | ⬜ pending |
 | 008 | [[008-llm-calls-and-crafting-simple-augmented-prompts]] | ⬜ pending |
-| 009 | [[009-introduction-to-information-retrieval]] | ⬜ pending |
+| 009 | [[module-1-rag-fundamentals/009-introduction-to-information-retrieval]] | ✅ done |
 | 010 | [[010-important-have-questions-issues-or-ideas-join-our-forum]] | ⬜ pending |
 | 011 | [[011-introduction-to-rag-systems]] | ⬜ pending |
 | 012 | [[012-module-1-conclusion]] | ⬜ pending |
@@ -68,7 +68,7 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 041 | [[041-module-4-introduction]] | ⬜ pending |
+| 041 | [[module-4-llms-prompt-engineering/041-module-4-introduction]] | ✅ done |
 | 042 | [[042-transformer-architecture]] | ⬜ pending |
 | 043 | [[043-llm-sampling-strategies]] | ⬜ pending |
 | 044 | [[044-exploring-llm-capabilities]] | ⬜ pending |
@@ -82,7 +82,7 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 | 052 | [[052-rag-vs-fine-tuning]] | ⬜ pending |
 | 053 | [[053-lecture-notes-m4]] | ⬜ pending |
 | 054 | [[054-developing-a-rag-based-chatbot]] | ⬜ pending |
-| 055 | [[055-module-4-conclusion]] | ⬜ pending |
+| 055 | [[module-4-llms-prompt-engineering/055-module-4-conclusion]] | ✅ done |
 
 ## Module 5 — Production RAG
 
@@ -102,14 +102,14 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 | 067 | [[067-lecture-notes-m5]] | ⬜ pending |
 | 068 | [[068-important-reminder-about-end-of-access-to-lab-notebooks]] | ⬜ pending |
 | 069 | [[069-improving-the-chatbot]] | ⬜ pending |
-| 070 | [[070-module-5-conclusion]] | ⬜ pending |
+| 070 | [[module-5-production-rag/070-module-5-conclusion]] | ✅ done |
 | 071 | [[071-opportunity-to-mentor-other-learners]] | ⬜ pending |
 | 072 | [[072-acknowledgments]] | ⬜ pending |
 
 ## Summary
 
-- **Done:** 0 / 72
-- **Pending:** 72 / 72
+- **Done:** 8 / 72
+- **Pending:** 64 / 72
 - **Failed:** 0 / 72
 
 To resume recording: `/encrypted-video-capture https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz/module-1-introduction --resume`
