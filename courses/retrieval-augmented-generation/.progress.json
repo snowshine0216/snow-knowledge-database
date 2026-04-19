@@ -43,7 +43,7 @@
       "title": "Introduction to LLMs",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw96/introduction-to-llms",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "007": {
@@ -120,28 +120,28 @@
       "title": "Keyword search - TF-IDF",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngg/keyword-search---tf-idf",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "018": {
       "title": "Keyword search - BM25",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p34/keyword-search---bm25",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "019": {
       "title": "Semantic search - introduction",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1t/semantic-search---introduction",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "020": {
       "title": "Semantic search - embedding model deepdive",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00us3/semantic-search---embedding-model-deepdive",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "021": {

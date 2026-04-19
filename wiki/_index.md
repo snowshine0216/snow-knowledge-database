@@ -333,6 +333,11 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [13: Office Skills Top 10](courses/mastering-openclaw/014-openclaw-office-skills.md) | openclaw, skills, office-productivity, workflow-automation, clawhub | 10 类高频通用办公 Skill 精选，优先装 Google Search+Summarizer+Git，Skill 组合解锁自动化工作流 |
 | [14: Config File — AID × KTV](courses/mastering-openclaw/015-openclaw-config-file.md) | openclaw, system-prompt, configuration, persona, ai-agent, prompt-engineering | AID（身份/能力/指令）+ KTV（知识/任务/价值）框架，从工具使用者升级为工具构建者 |
 
+### Agentic AI — DeepLearning.AI (29 video lessons, 5 modules)
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+
 ### Finetuning Large Language Models — DeepLearning.AI (9 lessons)
 
 | File | Tags | One-line summary |
