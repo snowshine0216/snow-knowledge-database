@@ -107,13 +107,16 @@ The final ranking produced by hybrid search is what the retriever returns to the
 2. Explain Reciprocal Rank Fusion: what does it compute, why does it use ranks instead of raw scores, and what effect does increasing the hyperparameter k have on the merged ranking?
 3. If you are building a RAG system for a technical support knowledge base where users frequently query by exact error codes and product model numbers, which direction should you tune beta and why?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. When a query arrives, the retriever runs both keyword search (BM25) and semantic search (dense vector similarity) in parallel, each producing a ranked list of candidate documents. Both lists are then passed through the metadata filter, which removes documents that fail the hard criteria. The two filtered ranked lists are merged into a single ranking using Reciprocal Rank Fusion. Finally, the top K documents from this unified ranking are returned as the retriever's output.
-
-2. RRF assigns each document a score equal to the sum of $\frac{1}{k + \text{rank}}$ across every list the document appears in. Higher ranks (smaller position numbers) yield larger contributions, so documents that rank well across multiple lists accumulate the most points. RRF uses ranks rather than raw scores because BM25 scores and cosine similarity scores live on incompatible scales — adding them directly would be meaningless. By converting both to ordinal positions first, RRF avoids the score normalization problem entirely. Increasing k compresses the scoring range: the difference in points between first place and tenth place shrinks, so consistent placement across lists matters more and topping any single list matters less.
-
-3. You should tune beta toward keyword search (lower beta, higher keyword weight) because the queries contain exact identifiers — error codes and model numbers — where exact term matching is the decisive signal. Semantic search may actually hurt in this scenario by surfacing documents that are conceptually similar but refer to different product lines or error types. Moving beta to something like 0.3 (30% semantic, 70% keyword) preserves some conceptual recall while ensuring that the exact-term signal dominates.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Hybrid Retriever Full Step Sequence
+>
+> When a query arrives, the retriever runs both keyword search (BM25) and semantic search (dense vector similarity) in parallel, each producing a ranked list of candidate documents. Both lists are then passed through the metadata filter, which removes documents that fail the hard criteria. The two filtered ranked lists are merged into a single ranking using Reciprocal Rank Fusion. Finally, the top K documents from this unified ranking are returned as the retriever's output.
+>
+> #### Q2 — Reciprocal Rank Fusion Explained
+>
+> RRF assigns each document a score equal to the sum of $\frac{1}{k + \text{rank}}$ across every list the document appears in. Higher ranks (smaller position numbers) yield larger contributions, so documents that rank well across multiple lists accumulate the most points. RRF uses ranks rather than raw scores because BM25 scores and cosine similarity scores live on incompatible scales — adding them directly would be meaningless. By converting both to ordinal positions first, RRF avoids the score normalization problem entirely. Increasing k compresses the scoring range: the difference in points between first place and tenth place shrinks, so consistent placement across lists matters more and topping any single list matters less.
+>
+> #### Q3 — Tuning Beta for Exact Identifiers
+>
+> You should tune beta toward keyword search (lower beta, higher keyword weight) because the queries contain exact identifiers — error codes and model numbers — where exact term matching is the decisive signal. Semantic search may actually hurt in this scenario by surfacing documents that are conceptually similar but refer to different product lines or error types. Moving beta to something like 0.3 (30% semantic, 70% keyword) preserves some conceptual recall while ensuring that the exact-term signal dominates.

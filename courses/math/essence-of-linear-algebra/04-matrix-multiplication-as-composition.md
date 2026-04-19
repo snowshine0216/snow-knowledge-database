@@ -100,11 +100,12 @@ Geometrically this is trivial: you are always applying $M_1$, then $M_2$, then $
 2. Walk through why matrix multiplication is read right-to-left, connecting it to function-composition notation and what it means for a vector being transformed.
 3. Explain why matrix multiplication is associative using geometry rather than algebra — why do parentheses not matter when composing three transformations?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Each entry traces back to tracking where a basis vector lands: $M_1$ moves $\hat{i}$ and $\hat{j}$ to new positions, then $M_2$ is applied to those landing spots — the resulting columns form the product matrix, so every term encodes a step in that geometric chain.
-2. Writing $M_2 M_1 \mathbf{v}$ mirrors $f(g(x))$: the matrix closest to the vector ($M_1$) acts first, then $M_2$ acts on the result — the right-to-left order is a direct consequence of function-composition notation, not an independent convention.
-3. The sequence of spatial transformations ($M_1$, then $M_2$, then $M_3$) is fixed regardless of which adjacent pair you multiply first on paper; parentheses only change the bookkeeping order, not the actual order transformations are applied to every vector.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Matrix Product Geometric Meaning
+> Each entry traces back to tracking where a basis vector lands: $M_1$ moves $\hat{i}$ and $\hat{j}$ to new positions, then $M_2$ is applied to those landing spots — the resulting columns form the product matrix, so every term encodes a step in that geometric chain.
+> 
+> #### Q2 — Right-to-Left Multiplication Order
+> Writing $M_2 M_1 \mathbf{v}$ mirrors $f(g(x))$: the matrix closest to the vector ($M_1$) acts first, then $M_2$ acts on the result — the right-to-left order is a direct consequence of function-composition notation, not an independent convention.
+> 
+> #### Q3 — Associativity via Geometry
+> The sequence of spatial transformations ($M_1$, then $M_2$, then $M_3$) is fixed regardless of which adjacent pair you multiply first on paper; parentheses only change the bookkeeping order, not the actual order transformations are applied to every vector.

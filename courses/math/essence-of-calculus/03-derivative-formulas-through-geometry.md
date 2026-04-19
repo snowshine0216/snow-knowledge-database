@@ -144,11 +144,16 @@ In all cases, the *form* $nx^{n-1}$ is preserved — only the exponent changes. 
 2. Describe the unit-circle argument for why $\frac{d}{d\theta}\sin\theta = \cos\theta$ and $\frac{d}{d\theta}\cos\theta = -\sin\theta$. What key geometric fact about tangents to a circle drives both results simultaneously?
 3. What does the limit $\lim_{h\to 0}\frac{\cos h - 1}{h} = 0$ mean geometrically, and how does it relate to the shape of the cosine curve near $h = 0$?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. For $x^2$, growing a square's side by $dx$ adds two thin rectangular strips (each area $x \cdot dx$), giving $2x\,dx$; the leftover corner $(dx)^2$ is negligible as $dx \to 0$. For $x^3$, growing a cube's side adds three face slabs each of volume $x^2\,dx$, giving $3x^2$; edge and corner pieces are higher-order and vanish. The general pattern: an $n$-dimensional hypercube $x^n$ contributes exactly $n$ face slabs of size $x^{n-1}\,dx$, yielding $nx^{n-1}$.
-2. A point $P = (\cos\theta, \sin\theta)$ on the unit circle moves perpendicular to the radius when $\theta$ increases, because the tangent to a circle is always perpendicular to its radius. The perpendicular to the radius direction $(\cos\theta, \sin\theta)$ is $(-\sin\theta, \cos\theta)$, so the displacement $dP = d\theta \cdot (-\sin\theta, \cos\theta)$; reading off components gives both trig derivatives at once with no algebra.
-3. The limit $(\cos h - 1)/h \to 0$ means cosine barely changes near $h = 0$ — its change is second-order (proportional to $dx^2$), not first-order. Geometrically, the cosine curve is flat at its peak at $\theta = 0$, so a tiny nudge in angle produces essentially zero first-order change in the $x$-coordinate of the unit-circle point.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Power Rule Geometric Derivation
+> 
+> For $x^2$, growing a square's side by $dx$ adds two thin rectangular strips (each area $x \cdot dx$), giving $2x\,dx$; the leftover corner $(dx)^2$ is negligible as $dx \to 0$. For $x^3$, growing a cube's side adds three face slabs each of volume $x^2\,dx$, giving $3x^2$; edge and corner pieces are higher-order and vanish. The general pattern: an $n$-dimensional hypercube $x^n$ contributes exactly $n$ face slabs of size $x^{n-1}\,dx$, yielding $nx^{n-1}$.
+> 
+> #### Q2 — Unit Circle Trig Derivatives
+> 
+> A point $P = (\cos\theta, \sin\theta)$ on the unit circle moves perpendicular to the radius when $\theta$ increases, because the tangent to a circle is always perpendicular to its radius. The perpendicular to the radius direction $(\cos\theta, \sin\theta)$ is $(-\sin\theta, \cos\theta)$, so the displacement $dP = d\theta \cdot (-\sin\theta, \cos\theta)$; reading off components gives both trig derivatives at once with no algebra.
+> 
+> #### Q3 — Cosine Flatness at Peak
+> 
+> The limit $(\cos h - 1)/h \to 0$ means cosine barely changes near $h = 0$ — its change is second-order (proportional to $dx^2$), not first-order. Geometrically, the cosine curve is flat at its peak at $\theta = 0$, so a tiny nudge in angle produces essentially zero first-order change in the $x$-coordinate of the unit-circle point.

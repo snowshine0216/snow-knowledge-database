@@ -125,11 +125,16 @@ The fine-tuned model scored *lower* — but this is expected and not a sign of f
 2. Name the four benchmarks in the Open LLM Leaderboard and what each measures.
 3. A fine-tuned model scores 0.31 on ARC, lower than the base model's 0.36. How do you interpret this result?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Misspelling → fix the training example directly. Verbosity → add concise examples to the dataset. Repetition → use stop tokens explicitly and ensure training examples are diverse and non-repetitive.
-2. ARC (grade-school science), HellaSwag (common-sense reasoning), MMLU (broad elementary subject knowledge), TruthfulQA (avoiding online falsehoods).
-3. This does not mean fine-tuning made the model worse overall. The model was optimized for a company-specific Q&A task (Lamini documentation), not grade-school science. Task-specific fine-tuning sacrifices general benchmark performance in exchange for task performance. ARC is only meaningful for comparing general-purpose models.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LLM Output Error Categories
+> 
+> Misspelling → fix the training example directly. Verbosity → add concise examples to the dataset. Repetition → use stop tokens explicitly and ensure training examples are diverse and non-repetitive.
+> 
+> #### Q2 — Open LLM Leaderboard Benchmarks
+> 
+> ARC (grade-school science), HellaSwag (common-sense reasoning), MMLU (broad elementary subject knowledge), TruthfulQA (avoiding online falsehoods).
+> 
+> #### Q3 — Fine-Tuned ARC Score Drop
+> 
+> This does not mean fine-tuning made the model worse overall. The model was optimized for a company-specific Q&A task (Lamini documentation), not grade-school science. Task-specific fine-tuning sacrifices general benchmark performance in exchange for task performance. ARC is only meaningful for comparing general-purpose models.

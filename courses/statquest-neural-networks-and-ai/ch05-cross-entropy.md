@@ -38,13 +38,12 @@ Here's what the note contains:
 2. Walk through the chain rule derivation for the gradient of Cross Entropy loss with respect to the bias of the correct (same) class. What simplified expression do you arrive at, and why does it make intuitive sense?
 3. How does the gradient of Cross Entropy differ between the same-class case and the cross-class (non-matching) case, and what does each gradient tell the optimizer to do?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. SSR penalizes SoftMax outputs poorly because probabilities are bounded between 0 and 1, making squared differences very small even when predictions are badly wrong. Cross Entropy uses −log(p), which grows steeply as the predicted probability for the correct class approaches 0, providing a much stronger gradient signal.
-
-2. For the same-class bias, the chain rule collapses to the simplified gradient $\hat{p}_S - 1$, where $\hat{p}_S$ is the predicted probability for the correct class. This makes intuitive sense: if the network is confident and correct ($\hat{p}_S ≈ 1$), the gradient is near zero (little update needed); if the prediction is wrong ($\hat{p}_S ≈ 0$), the gradient is near −1 (large corrective update).
-
-3. For the same-class case the gradient is $\hat{p}_S - 1$ (always ≤ 0, pushing the score up); for non-matching classes the gradient is $\hat{p}_S$ (always ≥ 0, pushing those scores down). Together they steer the network to assign higher probability to the correct class and lower probability to all others.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — SSR vs Cross Entropy for SoftMax
+> SSR penalizes SoftMax outputs poorly because probabilities are bounded between 0 and 1, making squared differences very small even when predictions are badly wrong. Cross Entropy uses −log(p), which grows steeply as the predicted probability for the correct class approaches 0, providing a much stronger gradient signal.
+> 
+> #### Q2 — Chain Rule for Same-Class Bias
+> For the same-class bias, the chain rule collapses to the simplified gradient $\hat{p}_S - 1$, where $\hat{p}_S$ is the predicted probability for the correct class. This makes intuitive sense: if the network is confident and correct ($\hat{p}_S ≈ 1$), the gradient is near zero (little update needed); if the prediction is wrong ($\hat{p}_S ≈ 0$), the gradient is near −1 (large corrective update).
+> 
+> #### Q3 — Same-Class vs Cross-Class Gradients
+> For the same-class case the gradient is $\hat{p}_S - 1$ (always ≤ 0, pushing the score up); for non-matching classes the gradient is $\hat{p}_S$ (always ≥ 0, pushing those scores down). Together they steer the network to assign higher probability to the correct class and lower probability to all others.

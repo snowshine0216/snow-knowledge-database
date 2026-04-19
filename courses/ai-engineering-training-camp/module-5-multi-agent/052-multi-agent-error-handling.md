@@ -209,13 +209,10 @@ Neither paradigm has won definitively yet. Practitioners should develop fluency 
 2. Walk through the full fault-tolerance stack recommended in this lesson — what role does each layer (retry, circuit breaker, fallback, callback, logging) play, and in what order do they activate?
 3. Explain the difference between A2A and MCP protocols using the session cookie analogy, and describe what A2A's state management does *not* handle automatically.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The five considerations are: max retry count, retry delay factor, exponential backoff (to avoid thundering-herd), max delay cap, and specific trigger conditions (which exception types retry). In LangGraph, `RetryPolicy` fields `max_attempts`, `backoff_factor`, `initial_delay`, `max_delay`, and `retry_on` map directly to these; the policy is attached to a node via `graph.add_node("name", fn, retry=retry_policy)`.
-
-2. Retry handles transient recoverable errors first; once the retry budget is exhausted, the circuit breaker opens to stop further futile attempts and prevent cascading failures. The fallback/degradation layer then serves a reduced-functionality response instead of a hard failure; a callback triggers notifications or compensating actions; and timestamped error logging records events for post-mortem analysis.
-
-3. MCP is agent-to-tool communication requiring a discrete round trip to the MCP server each time — like re-logging in on every request. A2A is agent-to-agent communication that maintains protocol-level session state across turns, like a browser holding a session cookie. However, application-level business state (e.g., a user's refund status mid-workflow) must still be explicitly encoded by the developer; A2A does not manage that automatically.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — LangGraph RetryPolicy Design Considerations
+> The five considerations are: max retry count, retry delay factor, exponential backoff (to avoid thundering-herd), max delay cap, and specific trigger conditions (which exception types retry). In LangGraph, `RetryPolicy` fields `max_attempts`, `backoff_factor`, `initial_delay`, `max_delay`, and `retry_on` map directly to these; the policy is attached to a node via `graph.add_node("name", fn, retry=retry_policy)`.
+> #### Q2 — Fault-Tolerance Stack Layer Order
+> Retry handles transient recoverable errors first; once the retry budget is exhausted, the circuit breaker opens to stop further futile attempts and prevent cascading failures. The fallback/degradation layer then serves a reduced-functionality response instead of a hard failure; a callback triggers notifications or compensating actions; and timestamped error logging records events for post-mortem analysis.
+> #### Q3 — A2A vs MCP Session Analogy
+> MCP is agent-to-tool communication requiring a discrete round trip to the MCP server each time — like re-logging in on every request. A2A is agent-to-agent communication that maintains protocol-level session state across turns, like a browser holding a session cookie. However, application-level business state (e.g., a user's refund status mid-workflow) must still be explicitly encoded by the developer; A2A does not manage that automatically.

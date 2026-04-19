@@ -216,11 +216,12 @@ The DSL layer is what makes this pipeline possible — it serves as the stable, 
 2. Walk through the three-file project structure (`main.py`, `dsl_parser.py`, `graph_builder.py`) and explain what each file is responsible for and why those responsibilities are separated that way.
 3. Describe the classic LangGraph build sequence used in `graph_builder.py`, including how YAML `condition`/`then`/`else` blocks map to LangGraph API calls.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The DSL (YAML/JSON/Markdown) sits between user intent (natural language or drag-and-drop) and the execution engine (LangGraph). Low-code UIs cannot directly map to LangGraph, so the DSL provides a stable, structured format that an LLM or UI can produce and the engine can consume — making pipelines like "chat → YAML → running app" possible.
-2. `dsl_parser.py` loads and validates the YAML into a Python dict (failing loudly upfront if required keys like `graph`, `state`, `nodes`, `start` are missing); `graph_builder.py` converts that dict into a LangGraph `StateGraph`; `main.py` is intentionally minimal, just wiring the two together and calling `invoke()`. Separation keeps volatile config logic out of the stable execution engine.
-3. The build sequence is: `add_node()` for each node, then `add_edge()` for simple transitions, then `add_conditional_edges()` for branches, then `compile()`, then `invoke()`. YAML `condition`/`then`/`else` blocks map directly to `add_conditional_edges()` — the condition key is evaluated at runtime and routes to the `then` node if true or the `else` node if false.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — DSL as Intermediate Representation
+> The DSL (YAML/JSON/Markdown) sits between user intent (natural language or drag-and-drop) and the execution engine (LangGraph). Low-code UIs cannot directly map to LangGraph, so the DSL provides a stable, structured format that an LLM or UI can produce and the engine can consume — making pipelines like "chat → YAML → running app" possible.
+> 
+> #### Q2 — Three-File Project Structure
+> `dsl_parser.py` loads and validates the YAML into a Python dict (failing loudly upfront if required keys like `graph`, `state`, `nodes`, `start` are missing); `graph_builder.py` converts that dict into a LangGraph `StateGraph`; `main.py` is intentionally minimal, just wiring the two together and calling `invoke()`. Separation keeps volatile config logic out of the stable execution engine.
+> 
+> #### Q3 — LangGraph Build Sequence
+> The build sequence is: `add_node()` for each node, then `add_edge()` for simple transitions, then `add_conditional_edges()` for branches, then `compile()`, then `invoke()`. YAML `condition`/`then`/`else` blocks map directly to `add_conditional_edges()` — the condition key is evaluated at runtime and routes to the `then` node if true or the `else` node if false.

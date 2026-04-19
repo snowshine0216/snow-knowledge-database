@@ -108,11 +108,15 @@ Its value lies in providing a **closed-form expression** for each variable direc
 2. Walk through the derivation of the formula $x = \dfrac{\det(A_x)}{\det(A)}$, explaining what $A_x$ is and why the area-scaling property of determinants produces this result.
 3. What is the practical limitation of Cramer's Rule for numerical computation, and what is its genuine theoretical value?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The $x$-coordinate of $\mathbf{x}$ can be read as the signed area of the parallelogram spanned by $\hat{e}_1$ and $\mathbf{x}$; when $A$ is applied, that parallelogram maps to one spanned by the first column of $A$ and $\mathbf{v}$, whose signed area is $\det(A_x)$ — so the column-replacement is a direct consequence of the geometry, not an ad-hoc trick.
-2. Because areas scale by $\det(A)$ under a linear map, the original signed area encoding $x$ satisfies $x \cdot \det(A) = \det(A_x)$, where $A_x$ is $A$ with its first column replaced by $\mathbf{v}$; dividing both sides by $\det(A)$ yields $x = \det(A_x)/\det(A)$.
-3. Cramer's Rule requires evaluating $n$ determinants of $n \times n$ matrices, which is far more expensive than Gaussian elimination's $O(n^3)$ cost; its real value is as a closed-form symbolic expression useful for proofs — such as showing solutions vary continuously with $A$ and $\mathbf{v}$, or deriving the inverse matrix formula.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Coordinate as Signed Area
+> 
+> The $x$-coordinate of $\mathbf{x}$ can be read as the signed area of the parallelogram spanned by $\hat{e}_1$ and $\mathbf{x}$; when $A$ is applied, that parallelogram maps to one spanned by the first column of $A$ and $\mathbf{v}$, whose signed area is $\det(A_x)$ — so the column-replacement is a direct consequence of the geometry, not an ad-hoc trick.
+> 
+> #### Q2 — Deriving Cramer's Formula
+> 
+> Because areas scale by $\det(A)$ under a linear map, the original signed area encoding $x$ satisfies $x \cdot \det(A) = \det(A_x)$, where $A_x$ is $A$ with its first column replaced by $\mathbf{v}$; dividing both sides by $\det(A)$ yields $x = \det(A_x)/\det(A)$.
+> 
+> #### Q3 — Limitation and Theoretical Value
+> 
+> Cramer's Rule requires evaluating $n$ determinants of $n \times n$ matrices, which is far more expensive than Gaussian elimination's $O(n^3)$ cost; its real value is as a closed-form symbolic expression useful for proofs — such as showing solutions vary continuously with $A$ and $\mathbf{v}$, or deriving the inverse matrix formula.

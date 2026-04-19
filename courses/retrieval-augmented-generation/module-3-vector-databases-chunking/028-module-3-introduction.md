@@ -51,11 +51,16 @@ The module develops understanding of why vector databases are architecturally su
 2. What distinguishes a vector database from a relational database in the context of RAG?
 3. Name three production RAG techniques introduced in this module and briefly describe what each one does.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. At small scale, vector operations can run on a general-purpose database or even in memory. At millions or billions of documents, the same operations slow down dramatically. Vector databases are optimized specifically for high-dimensional similarity search and maintain acceptable latency at that scale.
-2. A relational database organizes data in rows and columns and is optimized for structured queries (SQL). A vector database stores high-dimensional vector embeddings and is optimized for approximate nearest-neighbor search — the core operation behind semantic retrieval — which a relational database handles poorly at scale.
-3. (1) Document chunking: splitting long documents into smaller units so the retriever can surface the specific passage relevant to a query, rather than an entire document that may dilute the signal. (2) Query parsing: transforming a raw user question into a structured form that the retriever can act on more precisely. (3) Re-ranking: taking an initial set of retrieved candidates and applying a more expensive scoring model to reorder them, improving the quality of what the LLM ultimately receives.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Why Vector DBs at Production Scale
+> At small scale, vector operations can run on a general-purpose database or even in memory. At millions or billions of documents, the same operations slow down dramatically. Vector databases are optimized specifically for high-dimensional similarity search and maintain acceptable latency at that scale.
+> 
+> #### Q2 — Vector vs Relational Database
+> A relational database organizes data in rows and columns and is optimized for structured queries (SQL). A vector database stores high-dimensional vector embeddings and is optimized for approximate nearest-neighbor search — the core operation behind semantic retrieval — which a relational database handles poorly at scale.
+> 
+> #### Q3 — Three Production RAG Techniques
+> **(1) Document chunking:** splitting long documents into smaller units so the retriever can surface the specific passage relevant to a query, rather than an entire document that may dilute the signal.
+> 
+> **(2) Query parsing:** transforming a raw user question into a structured form that the retriever can act on more precisely.
+> 
+> **(3) Re-ranking:** taking an initial set of retrieved candidates and applying a more expensive scoring model to reorder them, improving the quality of what the LLM ultimately receives.

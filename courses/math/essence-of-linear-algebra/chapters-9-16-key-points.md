@@ -132,11 +132,12 @@ Video: https://www.youtube.com/watch?v=TgKwz5Ikpc8
 2. How does duality also explain the 3D cross product formula? Walk through the logic from "signed volume map" to the resulting perpendicular vector `p`.
 3. Explain Cramer's Rule geometrically: how do determinants and column-replacement together yield the coordinates of the solution to `Ax = b`?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A 1×2 matrix defines a linear map from 2D to numbers with the same computational form as a dot product; by duality, every such linear map has a unique "dual vector" so that applying the map equals taking the dot product with that vector — dot products are not a standalone formula but a manifestation of linear transformation structure.
-2. Fix vectors `v` and `w`; the map sending any `u` to the signed volume of the parallelepiped spanned by `u`, `v`, `w` is linear, so by duality there exists a unique vector `p` with `p · u` equal to that volume for all `u` — algebraically this yields the determinant-with-basis-symbols formula, and geometrically `p` must be perpendicular to `v` and `w` with magnitude equal to the parallelogram area.
-3. Under transformation `A`, all signed areas/volumes scale uniformly by `det(A)`; replacing one column of `A` with output vector `b` builds a determinant capturing the transformed area corresponding to one unknown coordinate, and dividing by `det(A)` recovers that coordinate — repeating for each column gives the full solution vector.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Duality: Dot Products as Linear Maps
+> A 1×2 matrix defines a linear map from 2D to numbers with the same computational form as a dot product; by duality, every such linear map has a unique "dual vector" so that applying the map equals taking the dot product with that vector — dot products are not a standalone formula but a manifestation of linear transformation structure.
+> 
+> #### Q2 — Cross Product via Signed Volume Duality
+> Fix vectors `v` and `w`; the map sending any `u` to the signed volume of the parallelepiped spanned by `u`, `v`, `w` is linear, so by duality there exists a unique vector `p` with `p · u` equal to that volume for all `u` — algebraically this yields the determinant-with-basis-symbols formula, and geometrically `p` must be perpendicular to `v` and `w` with magnitude equal to the parallelogram area.
+> 
+> #### Q3 — Cramer's Rule via Column Replacement
+> Under transformation `A`, all signed areas/volumes scale uniformly by `det(A)`; replacing one column of `A` with output vector `b` builds a determinant capturing the transformed area corresponding to one unknown coordinate, and dividing by `det(A)` recovers that coordinate — repeating for each column gives the full solution vector.

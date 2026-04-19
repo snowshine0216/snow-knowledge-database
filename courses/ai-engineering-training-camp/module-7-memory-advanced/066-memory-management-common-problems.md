@@ -177,11 +177,12 @@ This ensures:
 2. Describe the two session ID anti-patterns covered in this lesson and explain how a composite session ID design solves both failure modes.
 3. Walk through the three mechanisms this lesson recommends for making a FAISS vector store production-resilient, and explain the tradeoff that comes with aggressive sharding.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. `InMemorySaver` stores all conversation history in RAM — it appears to work during development because the process stays alive, but restarts wipe all history. The fix is replacing it with `AsyncPostgresSaver` backed by a PostgreSQL connection pool; async is required because synchronous memory writes block the entire agent process and can cause hangs.
-2. Using a raw user ID collapses multiple tabs into one session, corrupting conversation histories; using a pure random UUID breaks reconnection continuity because no link back to the user exists. A composite key (`user_id + session_id`, where session_id is a UUID generated at session start) ensures sessions are both traceable to a user and isolated from each other.
-3. The three mechanisms are: distributed sharding via `IVF_FLAT` index type across multiple hosts communicating over socket ports; replica sets using the `index_replicas` parameter on different physical hosts; and periodic calls to FAISS's `save` function to flush the in-memory index to disk. The tradeoff is that too many shards trigger broadcast storms during inter-node communication, so shard count must be balanced against network load.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — InMemorySaver Production Pitfall
+> `InMemorySaver` stores all conversation history in RAM — it appears to work during development because the process stays alive, but restarts wipe all history. The fix is replacing it with `AsyncPostgresSaver` backed by a PostgreSQL connection pool; async is required because synchronous memory writes block the entire agent process and can cause hangs.
+> 
+> #### Q2 — Session ID Anti-Patterns
+> Using a raw user ID collapses multiple tabs into one session, corrupting conversation histories; using a pure random UUID breaks reconnection continuity because no link back to the user exists. A composite key (`user_id + session_id`, where session_id is a UUID generated at session start) ensures sessions are both traceable to a user and isolated from each other.
+> 
+> #### Q3 — FAISS Production Resilience
+> The three mechanisms are: distributed sharding via `IVF_FLAT` index type across multiple hosts communicating over socket ports; replica sets using the `index_replicas` parameter on different physical hosts; and periodic calls to FAISS's `save` function to flush the in-memory index to disk. The tradeoff is that too many shards trigger broadcast storms during inter-node communication, so shard count must be balanced against network load.

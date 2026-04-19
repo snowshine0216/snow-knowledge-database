@@ -87,16 +87,16 @@ One of the most valuable skills when building agentic systems is the ability to 
 2. Explain the purpose of the "request review" tool in the customer order inquiry agent. What failure mode does this design decision help prevent?
 3. Why do computer-use agents fail when web pages load slowly, and what does this reveal about a fundamental limitation of current agentic systems when operating outside structured APIs?
 
-<details>
-<summary>Answer Guide</summary>
-
-**Post-test Question 1**
-Invoice processing is easier for two reasons. First, the required steps are known ahead of time — convert to text, classify as invoice, extract fields, update the database — so the agent follows a fixed procedure rather than reasoning about what to do. Second, the task is entirely text-based: the PDF is converted to Markdown text before the LLM processes it, keeping the agent in a modality where LLMs are most capable.
-
-**Post-test Question 2**
-The "request review" tool routes the agent's drafted email to a human operator for approval before it is sent to the customer. This prevents the agent from delivering a flawed or incorrect response directly to a real customer. Because the agent's reasoning about order details could be wrong — or the drafted reply could be poorly phrased — having a human review step catches errors at the boundary between the automated system and the external world, reducing the risk of customer-facing mistakes.
-
-**Post-test Question 3**
-Computer-use agents fail with slow-loading pages because they cannot distinguish between a page that is still loading and a page that has fully loaded with a negative result (such as "no availability"). They interpret the ambiguous state incorrectly and either act prematurely or conclude the task has failed. This reveals a broader limitation: current agentic systems are trained to process content, not to reason about the state of an interface or the process by which that content is being delivered. Web interfaces assume a human user who can wait, notice loading spinners, and adjust accordingly — capabilities that require contextual awareness that current agents lack.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Invoice Processing Ease Factors
+>
+> Invoice processing is easier for two reasons. First, the required steps are known ahead of time — convert to text, classify as invoice, extract fields, update the database — so the agent follows a fixed procedure rather than reasoning about what to do. Second, the task is entirely text-based: the PDF is converted to Markdown text before the LLM processes it, keeping the agent in a modality where LLMs are most capable.
+>
+> #### Q2 — Purpose of Request Review Tool
+>
+> The "request review" tool routes the agent's drafted email to a human operator for approval before it is sent to the customer. This prevents the agent from delivering a flawed or incorrect response directly to a real customer. Because the agent's reasoning about order details could be wrong — or the drafted reply could be poorly phrased — having a human review step catches errors at the boundary between the automated system and the external world, reducing the risk of customer-facing mistakes.
+>
+> #### Q3 — Computer-Use Agents and Slow Pages
+>
+> Computer-use agents fail with slow-loading pages because they cannot distinguish between a page that is still loading and a page that has fully loaded with a negative result (such as "no availability"). They interpret the ambiguous state incorrectly and either act prematurely or conclude the task has failed. This reveals a broader limitation: current agentic systems are trained to process content, not to reason about the state of an interface or the process by which that content is being delivered. Web interfaces assume a human user who can wait, notice loading spinners, and adjust accordingly — capabilities that require contextual awareness that current agents lack.

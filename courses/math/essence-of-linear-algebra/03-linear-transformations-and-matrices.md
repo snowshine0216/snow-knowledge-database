@@ -108,11 +108,10 @@ Everything above extends cleanly to $n$ dimensions. In 3D, three basis vectors $
 2. Describe what matrix-vector multiplication is doing geometrically, using the column-combination view rather than the row-times-column algorithm.
 3. Walk through the 90° counter-clockwise rotation matrix — where do $\hat{i}$ and $\hat{j}$ land, and what matrix does that produce? What happens geometrically when both basis vectors land on the same line?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Any vector $\vec{v} = x\hat{i} + y\hat{j}$ can be written as a linear combination of the basis vectors. Because linearity preserves addition and scalar multiplication, $T(\vec{v}) = x\,T(\hat{i}) + y\,T(\hat{j})$ — so the two output basis vectors fully encode the entire transformation.
-2. Multiplying a matrix by $(x, y)$ scales the first column by $x$ and the second column by $y$, then adds the results; the row-times-column algorithm gives the same numbers but hides this geometric meaning.
-3. A 90° CCW rotation sends $\hat{i} \to (0,1)$ and $\hat{j} \to (-1,0)$, yielding $R_{90} = \begin{bmatrix}0 & -1 \\ 1 & 0\end{bmatrix}$; when both transformed basis vectors land on the same line (linearly dependent), the matrix collapses all of 2D space onto a single line and is not invertible.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Basis Vectors Encode Full Transformation
+> Any vector $\vec{v} = x\hat{i} + y\hat{j}$ can be written as a linear combination of the basis vectors. Because linearity preserves addition and scalar multiplication, $T(\vec{v}) = x\,T(\hat{i}) + y\,T(\hat{j})$ — so the two output basis vectors fully encode the entire transformation.
+> #### Q2 — Column-Combination View of Multiplication
+> Multiplying a matrix by $(x, y)$ scales the first column by $x$ and the second column by $y$, then adds the results; the row-times-column algorithm gives the same numbers but hides this geometric meaning.
+> #### Q3 — 90° Rotation and Linear Dependence
+> A 90° CCW rotation sends $\hat{i} \to (0,1)$ and $\hat{j} \to (-1,0)$, yielding $R_{90} = \begin{bmatrix}0 & -1 \\ 1 & 0\end{bmatrix}$; when both transformed basis vectors land on the same line (linearly dependent), the matrix collapses all of 2D space onto a single line and is not invertible.

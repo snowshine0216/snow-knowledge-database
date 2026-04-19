@@ -96,11 +96,10 @@ This is a conservation law for dimensions: whatever dimensionality is preserved 
 2. Describe what the column space tells you about whether the system $A\vec{x} = \vec{v}$ has a solution, and what it means when $A$ is full rank.
 3. State the Rank-Nullity Theorem and explain it as a "conservation law" — what is being conserved, and walk through a concrete 3×3 example.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. When $\det(A) = 0$, the transformation squishes space into a lower dimension (e.g., a plane collapses to a line); you cannot "un-squish" a lower-dimensional output back to the original, so no inverse exists. When $\det(A) \neq 0$, the transformation is reversible and $A^{-1}$ plays $A$ in reverse (e.g., a 90° CCW rotation is undone by a 90° CW rotation).
-2. For $A\vec{x} = \vec{v}$ to have a solution, $\vec{v}$ must lie in the column space of $A$ (the set of all possible outputs); if $\vec{v}$ is outside it, the system is inconsistent. When $A$ is full rank, the column space spans all of $\mathbb{R}^m$, so every $\vec{v}$ is reachable.
-3. The Rank-Nullity Theorem states $\text{rank}(A) + \dim(\text{null}(A)) = n$ (number of columns): dimensions preserved in the output plus dimensions collapsed to zero must sum to the input dimension. For a $3 \times 3$ matrix of rank 2, the null space has dimension 1 (a line), since $2 + 1 = 3$.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Determinant and Invertibility
+> When $\det(A) = 0$, the transformation squishes space into a lower dimension (e.g., a plane collapses to a line); you cannot "un-squish" a lower-dimensional output back to the original, so no inverse exists. When $\det(A) \neq 0$, the transformation is reversible and $A^{-1}$ plays $A$ in reverse (e.g., a 90° CCW rotation is undone by a 90° CW rotation).
+> #### Q2 — Column Space and Solutions
+> For $A\vec{x} = \vec{v}$ to have a solution, $\vec{v}$ must lie in the column space of $A$ (the set of all possible outputs); if $\vec{v}$ is outside it, the system is inconsistent. When $A$ is full rank, the column space spans all of $\mathbb{R}^m$, so every $\vec{v}$ is reachable.
+> #### Q3 — Rank-Nullity Conservation Law
+> The Rank-Nullity Theorem states $\text{rank}(A) + \dim(\text{null}(A)) = n$ (number of columns): dimensions preserved in the output plus dimensions collapsed to zero must sum to the input dimension. For a $3 \times 3$ matrix of rank 2, the null space has dimension 1 (a line), since $2 + 1 = 3$.

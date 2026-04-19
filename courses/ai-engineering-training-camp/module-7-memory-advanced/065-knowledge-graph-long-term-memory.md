@@ -198,13 +198,15 @@ This is not documented in the official LangChain docs — the instructor flagged
 2. Describe the two Redis memory patterns covered in this lesson — what problem each solves, and how they differ in scope (per-user vs. shared).
 3. What is the Redis Search module gotcha, and why does it matter when using `RedisChatMessageHistory` in LangChain?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Knowledge graphs store entities and relationships as nodes and edges (e.g., `Apple -[CLASSIFIED_AS]-> HealthyFood`), enabling structural traversal across multiple hops — like finding all fruits classified as healthy. Vector memory relies on semantic similarity (cosine distance), which is weak at following logical relationship chains across multiple steps.
-
-2. The hot-answer cache uses Redis TTL (e.g., 86400 s) to store popular LLM responses shared across all users — when the same question recurs, the cached answer is returned without re-querying the LLM. `RedisChatMessageHistory` is per-session conversational memory tied to a `session_id`, storing individual turn history for a specific user.
-
-3. Standard Redis does not include the Search module by default; without it, `RedisChatMessageHistory` will fail at runtime. The module must be manually downloaded, compiled with `make`, and loaded via `redis-server --loadmodule /path/to/redisearch.so` — a step not documented in the official LangChain docs.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Knowledge Graph vs Vector Memory
+> 
+> Knowledge graphs store entities and relationships as nodes and edges (e.g., `Apple -[CLASSIFIED_AS]-> HealthyFood`), enabling structural traversal across multiple hops — like finding all fruits classified as healthy. Vector memory relies on semantic similarity (cosine distance), which is weak at following logical relationship chains across multiple steps.
+> 
+> #### Q2 — Two Redis Memory Patterns
+> 
+> The hot-answer cache uses Redis TTL (e.g., 86400 s) to store popular LLM responses shared across all users — when the same question recurs, the cached answer is returned without re-querying the LLM. `RedisChatMessageHistory` is per-session conversational memory tied to a `session_id`, storing individual turn history for a specific user.
+> 
+> #### Q3 — Redis Search Module Gotcha
+> 
+> Standard Redis does not include the Search module by default; without it, `RedisChatMessageHistory` will fail at runtime. The module must be manually downloaded, compiled with `make`, and loaded via `redis-server --loadmodule /path/to/redisearch.so` — a step not documented in the official LangChain docs.

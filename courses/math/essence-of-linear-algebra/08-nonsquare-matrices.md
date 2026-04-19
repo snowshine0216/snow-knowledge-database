@@ -95,11 +95,12 @@ This structure has a deep connection to the dot product. A 1×2 matrix acting on
 2. Describe what happens geometrically when a 2×3 matrix transforms 3D space into 2D. Where does the "lost" dimension go, and what does that imply about the null space?
 3. Explain why a 1×2 matrix acting on a 2D vector is equivalent to computing a dot product, and what geometric condition the linearity requirement imposes on this mapping.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The number of **columns** equals the dimension of the input space (how many basis vectors the input has); the number of **rows** equals the dimension of the output space (how many coordinates are needed to describe where each basis vector lands). So an $m \times n$ matrix maps $\mathbb{R}^n \to \mathbb{R}^m$.
-2. A 2×3 matrix squashes all of 3D space onto a 2D plane, necessarily collapsing at least one dimension of information — vectors that differ only in the lost direction map to the same output point. This means the null space is at least one-dimensional.
-3. A 1×2 matrix has one row with two entries, and multiplying it by a 2D vector computes exactly the dot product of that row with the vector. The linearity condition requires that evenly-spaced points in the 2D plane map to evenly-spaced points on the number line — which is precisely what projecting the plane onto a single axis does.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Matrix Shape Encodes Dimensions
+> The number of **columns** equals the dimension of the input space (how many basis vectors the input has); the number of **rows** equals the dimension of the output space (how many coordinates are needed to describe where each basis vector lands). So an $m \times n$ matrix maps $\mathbb{R}^n \to \mathbb{R}^m$.
+> 
+> #### Q2 — 2×3 Matrix Geometric Collapse
+> A 2×3 matrix squashes all of 3D space onto a 2D plane, necessarily collapsing at least one dimension of information — vectors that differ only in the lost direction map to the same output point. This means the null space is at least one-dimensional.
+> 
+> #### Q3 — 1×2 Matrix as Dot Product
+> A 1×2 matrix has one row with two entries, and multiplying it by a 2D vector computes exactly the dot product of that row with the vector. The linearity condition requires that evenly-spaced points in the 2D plane map to evenly-spaced points on the number line — which is precisely what projecting the plane onto a single axis does.

@@ -84,11 +84,10 @@ The arc from Module 1 to Module 5 is the arc from understanding to deployment. M
 2. Why does Module 1 start with a simple RAG system rather than immediately introducing a vector database and advanced retrieval techniques?
 3. Trace the five-module progression: what specific limitation of the Module 1 system does each subsequent module address?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The retriever's job is to find relevant document chunks from a knowledge base given a user's query — it excels at locating text but cannot synthesize a coherent answer. The LLM's job is to read the retrieved evidence and generate a grounded, contextually appropriate response — it excels at language understanding and synthesis but cannot reliably recall specific private or up-to-date facts from memory. RAG combines both: retrieval provides the facts, the LLM provides the reasoning and articulation.
-2. Building a simple working system first gives the learner a concrete mental model of the architecture's essential structure before complexity is introduced. When vector databases, advanced retrieval, and monitoring are added in later modules, the learner understands exactly which part of the system is being improved and why, because they built the simpler version themselves. A purely theoretical survey of advanced techniques without this foundation produces fragile understanding.
-3. Module 2 improves retrieval robustness — basic similarity fails on paraphrased or domain-specific queries. Module 3 adds a vector database — in-memory indexing from Module 1 cannot scale to production workloads. Module 4 introduces advanced LLM techniques — the basic "retrieve then prompt" pattern does not handle multi-hop questions or assess retrieval quality. Module 5 adds monitoring and evaluation — a system that works in development can degrade silently in production without observability infrastructure.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Retriever vs LLM Roles
+> The retriever's job is to find relevant document chunks from a knowledge base given a user's query — it excels at locating text but cannot synthesize a coherent answer. The LLM's job is to read the retrieved evidence and generate a grounded, contextually appropriate response — it excels at language understanding and synthesis but cannot reliably recall specific private or up-to-date facts from memory. RAG combines both: retrieval provides the facts, the LLM provides the reasoning and articulation.
+> #### Q2 — Why Start Simple
+> Building a simple working system first gives the learner a concrete mental model of the architecture's essential structure before complexity is introduced. When vector databases, advanced retrieval, and monitoring are added in later modules, the learner understands exactly which part of the system is being improved and why, because they built the simpler version themselves. A purely theoretical survey of advanced techniques without this foundation produces fragile understanding.
+> #### Q3 — Five-Module Progression
+> Module 2 improves retrieval robustness — basic similarity fails on paraphrased or domain-specific queries. Module 3 adds a vector database — in-memory indexing from Module 1 cannot scale to production workloads. Module 4 introduces advanced LLM techniques — the basic "retrieve then prompt" pattern does not handle multi-hop questions or assess retrieval quality. Module 5 adds monitoring and evaluation — a system that works in development can degrade silently in production without observability infrastructure.

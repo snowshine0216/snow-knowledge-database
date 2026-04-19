@@ -25,11 +25,16 @@ source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai
 2. Describe the full training loop — forward pass, loss computation, backward pass, weight update — as if explaining it to someone who has never seen a neural network.
 3. Why can't we simply set all weights to the same initial value, and how does this relate to the role backpropagation plays in breaking symmetry during learning?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The chain rule allows a gradient of the loss with respect to any weight to be expressed as a product of local gradients along the path from that weight to the output; backpropagation applies this iteratively layer by layer so deep weights receive a well-defined error signal without recomputing the entire network from scratch for each weight.
-2. The forward pass feeds inputs through each layer to produce a prediction; the loss function measures how wrong that prediction is; the backward pass uses the chain rule to compute how much each weight contributed to the error; gradient descent then nudges every weight in the direction that reduces the loss by an amount scaled by the learning rate.
-3. If all weights start equal, every neuron in a layer computes the same gradient and receives the same update, so they never specialize — backpropagation can only differentiate weights if they produce different outputs, meaning random initialization is necessary for the backward pass to push weights toward distinct, useful features.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Chain Rule and Early-Layer Gradients
+> 
+> The chain rule allows a gradient of the loss with respect to any weight to be expressed as a product of local gradients along the path from that weight to the output; backpropagation applies this iteratively layer by layer so deep weights receive a well-defined error signal without recomputing the entire network from scratch for each weight.
+> >
+> #### Q2 — Full Training Loop Explained
+> >
+> The forward pass feeds inputs through each layer to produce a prediction; the loss function measures how wrong that prediction is; the backward pass uses the chain rule to compute how much each weight contributed to the error; gradient descent then nudges every weight in the direction that reduces the loss by an amount scaled by the learning rate.
+> >
+> #### Q3 — Symmetry Breaking and Initialization
+> >
+> If all weights start equal, every neuron in a layer computes the same gradient and receives the same update, so they never specialize — backpropagation can only differentiate weights if they produce different outputs, meaning random initialization is necessary for the backward pass to push weights toward distinct, useful features.

@@ -461,12 +461,23 @@ for _ in range(5):
 3. Explain how additive count smoothing (adding fake counts) and L2 regularization in the neural net loss are mathematically equivalent, and what effect both have on the learned probability distribution.
 4. Given logits `[2.0, 1.0, 0.1]` and the correct class is index 0: (a) compute the Softmax probabilities by hand, (b) compute the NLL loss for this single example, and (c) explain why `nn.CrossEntropyLoss` produces the same result without an explicit softmax step — and why it is numerically preferred.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Multiplying a one-hot input vector by weight matrix `W` simply selects the row of `W` corresponding to the active character index — identical to the counting table lookup. After gradient descent, `W.exp()` converges to the bigram count matrix, meaning `W` holds log-counts; the two approaches are the same computation reached by different paths.
-2. The loop zeros gradients (`W.grad = None`), runs the forward pass (one-hot → `xenc @ W` → `logits.exp()` → row-normalize to `probs`), computes NLL loss via `probs[arange, ys].log().mean()`, calls `loss.backward()` to populate `W.grad` via autograd, then subtracts the scaled gradient from `W.data` — nudging weights in the direction that reduces the loss.
-3. Adding `+1` fake counts before normalizing prevents zero probabilities and pulls the distribution toward uniform; adding `λ * (W**2).mean()` to the neural net loss penalizes large weights with the same effect — both regularize by discouraging extreme probability assignments and keeping predictions closer to a uniform distribution over characters.
-4. (a) Exponentiate: `[e²·⁰, e¹·⁰, e⁰·¹] = [7.39, 2.72, 1.11]`; sum = 11.22; probabilities = **`[0.659, 0.242, 0.099]`**. (b) Correct class is index 0 with $P_0 = 0.659$; NLL = $-\log(0.659) \approx$ **0.418**. (c) `nn.CrossEntropyLoss` takes raw logits and internally applies `log_softmax` (computing $z_i - \log\sum_j e^{z_j}$) before taking the negative mean — mathematically equivalent but numerically stable because it avoids computing $e^{z_i}$ and then immediately taking $\log$ of it (which amplifies floating-point errors). The fused `log_softmax` operation computes the result directly without the intermediate exponentiation.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Bigram Model vs Direct Counting
+> 
+> Multiplying a one-hot input vector by weight matrix `W` simply selects the row of `W` corresponding to the active character index — identical to the counting table lookup. After gradient descent, `W.exp()` converges to the bigram count matrix, meaning `W` holds log-counts; the two approaches are the same computation reached by different paths.
+> 
+> #### Q2 — Gradient Descent Training Loop Steps
+> 
+> The loop zeros gradients (`W.grad = None`), runs the forward pass (one-hot → `xenc @ W` → `logits.exp()` → row-normalize to `probs`), computes NLL loss via `probs[arange, ys].log().mean()`, calls `loss.backward()` to populate `W.grad` via autograd, then subtracts the scaled gradient from `W.data` — nudging weights in the direction that reduces the loss.
+> 
+> #### Q3 — Smoothing and L2 Regularization Equivalence
+> 
+> Adding `+1` fake counts before normalizing prevents zero probabilities and pulls the distribution toward uniform; adding `λ * (W**2).mean()` to the neural net loss penalizes large weights with the same effect — both regularize by discouraging extreme probability assignments and keeping predictions closer to a uniform distribution over characters.
+> 
+> #### Q4 — Softmax NLL and CrossEntropyLoss
+> 
+> **(a)** Exponentiate: `[e²·⁰, e¹·⁰, e⁰·¹] = [7.39, 2.72, 1.11]`; sum = 11.22; probabilities = **`[0.659, 0.242, 0.099]`**.
+> 
+> **(b)** Correct class is index 0 with $P_0 = 0.659$; NLL = $-\log(0.659) \approx$ **0.418**.
+> 
+> **(c)** `nn.CrossEntropyLoss` takes raw logits and internally applies `log_softmax` (computing $z_i - \log\sum_j e^{z_j}$) before taking the negative mean — mathematically equivalent but numerically stable because it avoids computing $e^{z_i}$ and then immediately taking $\log$ of it (which amplifies floating-point errors). The fused `log_softmax` operation computes the result directly without the intermediate exponentiation.

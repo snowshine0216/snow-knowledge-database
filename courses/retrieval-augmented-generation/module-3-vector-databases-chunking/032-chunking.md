@@ -96,11 +96,10 @@ For a practical starting point with no domain-specific tuning, fixed-size chunks
 2. Describe how fixed-size chunking with overlap works mechanically, and explain the specific problem it solves.
 3. What is the key advantage of recursive character text splitting over strict fixed-size chunking, and what new problem does it introduce?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. An embedding model must compress all the meaning of a book — dozens of topics across hundreds of pages — into a single fixed-size vector. The resulting vector cannot sharply represent any specific topic from any specific chapter; it averages over all of them. A query about one precise argument will be compared against this blurred, averaged representation, making it very unlikely to rank highly even when the book contains a perfect answer somewhere inside it.
-2. Fixed-size chunking with overlap divides a document into segments of equal character length, but adjacent segments share a portion of their content rather than having hard boundaries. For example, with 250-character chunks and 10% overlap, chunk 1 spans characters 1–250, chunk 2 spans 226–475, chunk 3 spans 451–700. This ensures that words near the boundary of one chunk also appear near the center of a neighboring chunk, where they are surrounded by context. It solves the problem of words being cut off from the neighboring text that gives them meaning.
-3. Recursive character text splitting uses a structural delimiter — such as a newline between paragraphs — as the split point, so chunk boundaries align with natural document boundaries. Related ideas within a paragraph stay together, producing more coherent and semantically precise embeddings. The problem it introduces is variable chunk length: since paragraph lengths vary, some chunks will be very large (re-introducing the averaging problem) and others very small (losing contextual richness), making the system harder to tune than fixed-size splitting.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Single Embedding Loses Specificity
+> An embedding model must compress all the meaning of a book — dozens of topics across hundreds of pages — into a single fixed-size vector. The resulting vector cannot sharply represent any specific topic from any specific chapter; it averages over all of them. A query about one precise argument will be compared against this blurred, averaged representation, making it very unlikely to rank highly even when the book contains a perfect answer somewhere inside it.
+> #### Q2 — Fixed-Size Chunking with Overlap
+> Fixed-size chunking with overlap divides a document into segments of equal character length, but adjacent segments share a portion of their content rather than having hard boundaries. For example, with 250-character chunks and 10% overlap, chunk 1 spans characters 1–250, chunk 2 spans 226–475, chunk 3 spans 451–700. This ensures that words near the boundary of one chunk also appear near the center of a neighboring chunk, where they are surrounded by context. It solves the problem of words being cut off from the neighboring text that gives them meaning.
+> #### Q3 — Recursive Splitting Tradeoffs
+> Recursive character text splitting uses a structural delimiter — such as a newline between paragraphs — as the split point, so chunk boundaries align with natural document boundaries. Related ideas within a paragraph stay together, producing more coherent and semantically precise embeddings. The problem it introduces is variable chunk length: since paragraph lengths vary, some chunks will be very large (re-introducing the averaging problem) and others very small (losing contextual richness), making the system harder to tune than fixed-size splitting.

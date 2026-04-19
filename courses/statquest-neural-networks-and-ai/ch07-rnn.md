@@ -31,11 +31,15 @@ Write `courses/statquest-neural-networks-and-ai/ch07-rnn-stock-prediction.md` wi
 2. Walk through how the chain-rule derivatives are applied when computing gradients through multiple RNN time steps.
 3. Why does the SSR loss function suit the stock prediction task, and what does minimizing it mean geometrically?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. In BPTT the recurrent weight W₂ appears raised to a power equal to the number of time steps being unrolled; when W₂ < 1 repeated multiplication drives gradients toward zero (vanishing gradient), and when W₂ > 1 it drives them toward infinity (exploding gradient), making it hard to learn long-range dependencies.
-2. The chain rule is applied by "unrolling" the RNN across time steps and multiplying local Jacobians together; each step contributes a factor of W₂, so the full gradient is a product of many such factors — which is where the W₂-power pattern originates.
-3. SSR sums the squared differences between the RNN's predicted values and the actual stock prices; minimizing SSR geometrically means finding model weights that minimize the squared distance between predictions and targets in output space, penalizing large errors more heavily than small ones.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — W₂ Power and Gradient Instability
+> 
+> In BPTT the recurrent weight W₂ appears raised to a power equal to the number of time steps being unrolled; when W₂ < 1 repeated multiplication drives gradients toward zero (vanishing gradient), and when W₂ > 1 it drives them toward infinity (exploding gradient), making it hard to learn long-range dependencies.
+> 
+> #### Q2 — Chain Rule Through RNN Time Steps
+> 
+> The chain rule is applied by "unrolling" the RNN across time steps and multiplying local Jacobians together; each step contributes a factor of W₂, so the full gradient is a product of many such factors — which is where the W₂-power pattern originates.
+> 
+> #### Q3 — SSR Loss Geometric Meaning
+> 
+> SSR sums the squared differences between the RNN's predicted values and the actual stock prices; minimizing SSR geometrically means finding model weights that minimize the squared distance between predictions and targets in output space, penalizing large errors more heavily than small ones.

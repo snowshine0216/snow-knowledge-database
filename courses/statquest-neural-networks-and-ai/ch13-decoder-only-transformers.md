@@ -34,11 +34,22 @@ The plan is ready. Here's what I'll write to `courses/statquest-neural-networks-
 2. Describe what Masked Self-Attention does and why it is used everywhere in a decoder-only transformer instead of only in certain layers.
 3. Walk through how the shifted-label prediction pattern works for a 5-token training sequence — what is the input and label for each of the 5 positions?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The single-unit design with a shared vocabulary avoids the memory overhead of maintaining separate encoder and decoder modules; both prompt tokens and generated tokens pass through the same weights, reducing parameters while preserving continuity of positional encoding across the full sequence.
-2. Masked Self-Attention prevents each token from attending to future positions, which is essential for autoregressive generation — without masking, the model could "see" the answer during training, making learned predictions meaningless; it is applied at every layer because there is no separate encoder stack with unrestricted attention.
-3. For a 5-token sequence [t1, t2, t3, t4, t5], the shifted pattern produces: position 1 input=t1 → label=t2, position 2 input=t1–t2 → label=t3, position 3 input=t1–t3 → label=t4, position 4 input=t1–t4 → label=t5, position 5 input=t1–t5 → label=EOS (or next token); each step trains the model to predict the next token given all preceding tokens.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Single-Unit Shared Vocabulary Design
+> The single-unit design with a shared vocabulary avoids the memory overhead of maintaining separate encoder and decoder modules; both prompt tokens and generated tokens pass through the same weights, reducing parameters while preserving continuity of positional encoding across the full sequence.
+> 
+> #### Q2 — Why Masked Self-Attention Everywhere
+> Masked Self-Attention prevents each token from attending to future positions, which is essential for autoregressive generation — without masking, the model could "see" the answer during training, making learned predictions meaningless; it is applied at every layer because there is no separate encoder stack with unrestricted attention.
+> 
+> #### Q3 — Shifted-Label Five-Token Pattern
+> For a 5-token sequence [t1, t2, t3, t4, t5], the shifted pattern produces:
+> 
+> > | Position | Input | Label |
+> > |----------|-------|-------|
+> > | 1 | t1 | t2 |
+> > | 2 | t1–t2 | t3 |
+> > | 3 | t1–t3 | t4 |
+> > | 4 | t1–t4 | t5 |
+> > | 5 | t1–t5 | EOS (or next token) |
+> 
+> Each step trains the model to predict the next token given all preceding tokens.

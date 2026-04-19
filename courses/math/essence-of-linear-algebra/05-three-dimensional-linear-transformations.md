@@ -95,11 +95,12 @@ In both cases, the column encoding logic is the same: read off where each basis 
 2. Describe the column-scaling mechanic: given a 3×3 matrix $M$ and a vector $(x, y, z)$, explain step by step how you compute $M\mathbf{v}$ using the columns of $M$.
 3. Using the rotation matrix $R_z(\theta)$ as a concrete example, explain how the "columns record where basis vectors land" principle produces that specific matrix — which column comes from which basis vector, and why?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Any 3D vector $(x, y, z)$ is a linear combination $x\hat{i} + y\hat{j} + z\hat{k}$; linearity guarantees that the transformed vector equals $x\,T(\hat{i}) + y\,T(\hat{j}) + z\,T(\hat{k})$, so the three landing spots fully determine the output for every possible input.
-2. Scale each column of $M$ by its corresponding coordinate — the first column by $x$, the second by $y$, the third by $z$ — then sum the three resulting vectors; this is the same column-scaling mechanic as in 2D with one additional column and coordinate.
-3. $R_z(\theta)$ rotates $\hat{i}$ to $(\cos\theta, \sin\theta, 0)$ and $\hat{j}$ to $(-\sin\theta, \cos\theta, 0)$ in the xy-plane, while $\hat{k}$ stays fixed at $(0, 0, 1)$; writing these three landing spots as columns in order produces exactly the matrix shown.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Why Basis Vectors Determine Everything
+> Any 3D vector $(x, y, z)$ is a linear combination $x\hat{i} + y\hat{j} + z\hat{k}$; linearity guarantees that the transformed vector equals $x\,T(\hat{i}) + y\,T(\hat{j}) + z\,T(\hat{k})$, so the three landing spots fully determine the output for every possible input.
+> 
+> #### Q2 — Column-Scaling in 3×3 Multiplication
+> Scale each column of $M$ by its corresponding coordinate — the first column by $x$, the second by $y$, the third by $z$ — then sum the three resulting vectors; this is the same column-scaling mechanic as in 2D with one additional column and coordinate.
+> 
+> #### Q3 — Rotation Matrix from Basis Landings
+> $R_z(\theta)$ rotates $\hat{i}$ to $(\cos\theta, \sin\theta, 0)$ and $\hat{j}$ to $(-\sin\theta, \cos\theta, 0)$ in the xy-plane, while $\hat{k}$ stays fixed at $(0, 0, 1)$; writing these three landing spots as columns in order produces exactly the matrix shown.

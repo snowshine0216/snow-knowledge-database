@@ -137,11 +137,10 @@ The mathematical details of exactly *which* partial derivatives to compute and i
 2. Why is the finite differences approach to computing gradients impractical, and how does backprop's complexity compare?
 3. Walk through the chain rule expansion for ∂C/∂w — what does each factor mean intuitively, and what information does each one depend on?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The error signal δ at a neuron is ∂C/∂z — how much the cost changes with that neuron's pre-activation. For hidden layers, δ⁽ˡ⁾ is a weighted sum of the errors from the next layer ahead (∑ wⱼₖ · δⱼ⁽ˡ⁺¹⁾), scaled by the local activation sensitivity σ′(z) — this weighted pullback is the backpropagation step.
-2. Finite differences requires one full forward pass per parameter, giving O(N) passes and O(N²) total operations for N parameters. Backprop computes all N partial derivatives in one forward pass plus one backward pass — O(N) total.
-3. ∂C/∂w = (∂C/∂a) · σ′(z) · a_prev: the first factor captures how much the downstream cost depends on this neuron's output, σ′(z) captures how sensitive the activation is to a nudge in pre-activation, and a_prev is the incoming activation that scales how much the weight's nudge actually moves z.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Error Signal δ and Backpropagation
+> The error signal δ at a neuron is ∂C/∂z — how much the cost changes with that neuron's pre-activation. For hidden layers, δ⁽ˡ⁾ is a weighted sum of the errors from the next layer ahead (∑ wⱼₖ · δⱼ⁽ˡ⁺¹⁾), scaled by the local activation sensitivity σ′(z) — this weighted pullback is the backpropagation step.
+> #### Q2 — Finite Differences vs Backprop Complexity
+> Finite differences requires one full forward pass per parameter, giving O(N) passes and O(N²) total operations for N parameters. Backprop computes all N partial derivatives in one forward pass plus one backward pass — O(N) total.
+> #### Q3 — Chain Rule Factors for ∂C/∂w
+> ∂C/∂w = (∂C/∂a) · σ′(z) · a_prev: the first factor captures how much the downstream cost depends on this neuron's output, σ′(z) captures how sensitive the activation is to a nudge in pre-activation, and a_prev is the incoming activation that scales how much the weight's nudge actually moves z.

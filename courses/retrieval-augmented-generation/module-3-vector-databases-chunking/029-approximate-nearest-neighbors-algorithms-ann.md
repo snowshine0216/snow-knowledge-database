@@ -87,13 +87,12 @@ Third, their quality depends critically on the **pre-computed index**. Building 
 2. Describe the greedy traversal that Navigable Small World uses to search a proximity graph, and explain what makes it both fast and approximate rather than exact.
 3. Why does HNSW's hierarchical layering produce logarithmic rather than linear runtime, and why does search begin at the top (sparsest) layer instead of the bottom?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. KNN computes the distance from the query vector to every document vector in the knowledge base, so the number of calculations grows linearly with the number of documents. A knowledge base of one thousand documents requires one thousand distance computations per query; one billion documents requires one billion. The second case is one million times more work than the first. At production scale with concurrent users this linear cost makes KNN completely unworkable.
-
-2. NSW starts from a randomly chosen node in the proximity graph. At each step, it examines all neighbors of the current node, identifies whichever neighbor is closest to the query vector, and moves there. This repeats until no neighbor is closer than the current node — a local minimum. The search is fast because only a small fixed number of neighbors are checked at each hop, rather than all documents. It is approximate because greedy local moves can converge to a local minimum that is not the global nearest neighbor; a closer document may exist elsewhere in the graph but be unreachable by always moving in the locally optimal direction.
-
-3. HNSW stacks multiple proximity graphs: the bottom layer contains all documents, and each higher layer retains roughly one-tenth the nodes of the layer below. Search begins at the top (sparsest) layer because the small number of nodes there allows the algorithm to make large jumps across the vector space in very few steps, arriving quickly in the approximate neighborhood of the query. Dropping layer by layer with a warm starting point means the expensive dense-layer traversal covers only a small local region. The total work sums across layers each containing exponentially fewer nodes, which makes the overall runtime grow as the logarithm of the total document count rather than linearly.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — KNN Scaling to Billions
+> KNN computes the distance from the query vector to every document vector in the knowledge base, so the number of calculations grows linearly with the number of documents. A knowledge base of one thousand documents requires one thousand distance computations per query; one billion documents requires one billion. The second case is one million times more work than the first. At production scale with concurrent users this linear cost makes KNN completely unworkable.
+> 
+> #### Q2 — NSW Greedy Traversal Mechanics
+> NSW starts from a randomly chosen node in the proximity graph. At each step, it examines all neighbors of the current node, identifies whichever neighbor is closest to the query vector, and moves there. This repeats until no neighbor is closer than the current node — a local minimum. The search is fast because only a small fixed number of neighbors are checked at each hop, rather than all documents. It is approximate because greedy local moves can converge to a local minimum that is not the global nearest neighbor; a closer document may exist elsewhere in the graph but be unreachable by always moving in the locally optimal direction.
+> 
+> #### Q3 — HNSW Logarithmic Runtime via Layers
+> HNSW stacks multiple proximity graphs: the bottom layer contains all documents, and each higher layer retains roughly one-tenth the nodes of the layer below. Search begins at the top (sparsest) layer because the small number of nodes there allows the algorithm to make large jumps across the vector space in very few steps, arriving quickly in the approximate neighborhood of the query. Dropping layer by layer with a warm starting point means the expensive dense-layer traversal covers only a small local region. The total work sums across layers each containing exponentially fewer nodes, which makes the overall runtime grow as the logarithm of the total document count rather than linearly.

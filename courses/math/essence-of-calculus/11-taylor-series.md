@@ -127,11 +127,12 @@ For $e^x$ on $[0,1]$, for instance, $|f^{(n+1)}(c)| \leq e^1 < 3$ for all $c \in
 2. The geometric series $1/(1-x)$ has radius of convergence $R = 1$, while $e^x$ converges for all $x$. Explain what determines a series' radius of convergence and why these two functions differ.
 3. State the Lagrange remainder formula and explain what each part tells you about the approximation error when you truncate a Taylor series at degree $n$.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Differentiating $(x-a)^n$ exactly $n$ times at $x = a$ produces $n!$ — so if you want $P^{(n)}(a) = f^{(n)}(a)$, you must set $c_n = f^{(n)}(a)/n!$ to cancel that factorial. Every coefficient is uniquely forced by this matching condition.
-2. The radius of convergence is limited by singularities: $1/(1-x)$ has a pole at $x = 1$, so the series cannot converge past distance 1 from the center. $e^x$ has no singularities anywhere in the complex plane, so its series converges everywhere ($R = \infty$).
-3. The Lagrange remainder is $R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$ for some $c$ between $a$ and $x$. It says the error is essentially the size of the next term evaluated at an intermediate point — bounding $|f^{(n+1)}(c)|$ by its maximum on the interval gives a rigorous worst-case error estimate.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Origin of the n! Coefficient
+> Differentiating $(x-a)^n$ exactly $n$ times at $x = a$ produces $n!$ — so if you want $P^{(n)}(a) = f^{(n)}(a)$, you must set $c_n = f^{(n)}(a)/n!$ to cancel that factorial. Every coefficient is uniquely forced by this matching condition.
+> 
+> #### Q2 — Radius of Convergence Explained
+> The radius of convergence is limited by singularities: $1/(1-x)$ has a pole at $x = 1$, so the series cannot converge past distance 1 from the center. $e^x$ has no singularities anywhere in the complex plane, so its series converges everywhere ($R = \infty$).
+> 
+> #### Q3 — Lagrange Remainder Formula
+> The Lagrange remainder is $R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$ for some $c$ between $a$ and $x$. It says the error is essentially the size of the next term evaluated at an intermediate point — bounding $|f^{(n+1)}(c)|$ by its maximum on the interval gives a rigorous worst-case error estimate.

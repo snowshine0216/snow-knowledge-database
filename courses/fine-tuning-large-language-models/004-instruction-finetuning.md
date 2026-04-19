@@ -85,11 +85,15 @@ A smaller model (70M parameter Pythia model) is also shown: asked about Lamini's
 2. Explain how Stanford Alpaca generated instruction fine-tuning data without relying on human annotators.
 3. Why can instruction fine-tuning enable a model to answer questions on code even if no code examples were in the fine-tuning dataset?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. GPT-3 was trained to predict the next token in raw text. ChatGPT was further trained (instruction fine-tuned) on (instruction, response) pairs, teaching it to answer user directives rather than just continue text. This behavior change — not new knowledge — is what made it feel qualitatively different.
-2. Stanford's Alpaca technique used ChatGPT itself as a labeler: given a prompt template, ChatGPT generated thousands of (instruction, response) pairs automatically, bypassing the need for expensive human annotation.
-3. The model already learned code during pre-training on internet text. Instruction fine-tuning teaches *how to answer questions* as a general behavior — this generalizes across all the model's pre-existing knowledge, including code, even without code examples in the fine-tuning set.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — GPT-3 to ChatGPT Training Change
+> 
+> GPT-3 was trained to predict the next token in raw text. ChatGPT was further trained (instruction fine-tuned) on (instruction, response) pairs, teaching it to answer user directives rather than just continue text. This behavior change — not new knowledge — is what made it feel qualitatively different.
+> 
+> #### Q2 — Alpaca's Automated Data Generation
+> 
+> Stanford's Alpaca technique used ChatGPT itself as a labeler: given a prompt template, ChatGPT generated thousands of (instruction, response) pairs automatically, bypassing the need for expensive human annotation.
+> 
+> #### Q3 — Generalization Beyond Fine-Tuning Data
+> 
+> The model already learned code during pre-training on internet text. Instruction fine-tuning teaches *how to answer questions* as a general behavior — this generalizes across all the model's pre-existing knowledge, including code, even without code examples in the fine-tuning set.

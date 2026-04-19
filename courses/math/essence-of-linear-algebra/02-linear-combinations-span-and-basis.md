@@ -120,11 +120,12 @@ The standard basis in 2D is $\{\hat{i},\, \hat{j}\}$, the two unit vectors along
 2. Describe what happens to the span of two vectors when they are collinear, and explain the geometric reason why the second vector contributes nothing new to the reachable set.
 3. A basis requires two properties simultaneously. Name both, explain what each one prevents if it were missing, and give an example of a valid basis for 2D space other than $\{\hat{i}, \hat{j}\}$.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The coordinates $x$ and $y$ are scalar multipliers applied to $\hat{i}$ and $\hat{j}$ respectively; the vector $(3, -2)$ means scale $\hat{i}$ by 3 and $\hat{j}$ by $-2$ then add the results, so every pair of coordinates is secretly a description of a linear combination of the two basis vectors.
-2. When two vectors are collinear ($\vec{w} = c\vec{v}$), scaling one is equivalent to scaling the other, so no new direction is reachable; the span collapses from the full plane down to a single line through the origin.
-3. A basis must be **linearly independent** (no vector is a redundant combination of the others, so no direction is wasted) and **spanning** (every direction in the space is reachable); without independence you have redundancy, without spanning you miss directions — any two non-collinear 2D vectors, such as $\{(1,1),(1,-1)\}$, form a valid basis.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Coordinates as Scaling Instructions
+> The coordinates $x$ and $y$ are scalar multipliers applied to $\hat{i}$ and $\hat{j}$ respectively; the vector $(3, -2)$ means scale $\hat{i}$ by 3 and $\hat{j}$ by $-2$ then add the results, so every pair of coordinates is secretly a description of a linear combination of the two basis vectors.
+> 
+> #### Q2 — Collinear Vectors and Span
+> When two vectors are collinear ($\vec{w} = c\vec{v}$), scaling one is equivalent to scaling the other, so no new direction is reachable; the span collapses from the full plane down to a single line through the origin.
+> 
+> #### Q3 — Basis Properties and Examples
+> A basis must be **linearly independent** (no vector is a redundant combination of the others, so no direction is wasted) and **spanning** (every direction in the space is reachable); without independence you have redundancy, without spanning you miss directions — any two non-collinear 2D vectors, such as $\{(1,1),(1,-1)\}$, form a valid basis.

@@ -127,11 +127,12 @@ Video: https://www.youtube.com/watch?v=v8VSDg_WQlA
 2. What does it mean geometrically when `det(A) = 0`, and why does this make the transformation non-invertible?
 3. A 3×2 matrix transforms vectors from one space to another. Describe the input dimension, output dimension, and what the transformation typically looks like geometrically.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A 2D linear transformation is fully determined by where it sends the two basis vectors i-hat and j-hat; because linearity forces every other vector to follow from those two destinations, storing those landing spots as columns is sufficient to reconstruct the effect on any input vector.
-2. When `det(A) = 0` the transformation collapses space into a lower dimension (a line or point in 2D), meaning multiple inputs map to the same output — so there is no way to uniquely reverse ("unsquish") the transformation, making the inverse impossible.
-3. A 3×2 matrix takes 2D inputs (two coordinates) and maps them to 3D outputs (three coordinates), typically landing all results on a plane passing through the origin in 3D space — the column count sets input dimension, the row count sets output dimension.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Why Columns Fully Describe Transformation
+> A 2D linear transformation is fully determined by where it sends the two basis vectors i-hat and j-hat; because linearity forces every other vector to follow from those two destinations, storing those landing spots as columns is sufficient to reconstruct the effect on any input vector.
+> 
+> #### Q2 — Geometric Meaning of Zero Determinant
+> When `det(A) = 0` the transformation collapses space into a lower dimension (a line or point in 2D), meaning multiple inputs map to the same output — so there is no way to uniquely reverse ("unsquish") the transformation, making the inverse impossible.
+> 
+> #### Q3 — 3×2 Matrix Input and Output Dimensions
+> A 3×2 matrix takes 2D inputs (two coordinates) and maps them to 3D outputs (three coordinates), typically landing all results on a plane passing through the origin in 3D space — the column count sets input dimension, the row count sets output dimension.

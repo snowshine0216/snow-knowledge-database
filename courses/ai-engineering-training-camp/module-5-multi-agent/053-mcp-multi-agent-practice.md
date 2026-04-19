@@ -317,11 +317,12 @@ This avoids modifying CrewAI internals — the framework sees a standard `ChatOp
 2. Describe how the checkpoint/resume system works: what data is saved, when it is saved, and how the system decides whether to resume or start fresh on startup.
 3. Explain the Qwen-as-OpenAI-drop-in technique: what two environment variables are set, what class is used, and why this approach avoids modifying CrewAI internals.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. LangGraph was rejected for requiring complex state management (Redis, gRPC, sub-graphs); AutoGen was rejected as a poor fit for a sequential pipeline. Xiaomei (Agent1) researches the topic and proposes 3 directions with outlines; Xiaoqing (Agent2) writes each chapter sequentially based on the confirmed outline; Xiaoyin (Agent3) reviews and polishes the full draft into a final version.
-2. The checkpoint file `cursor_checkpoint.json` stores topic, requirements, completed chapters, and current position. It is saved after each major stage via `_save_checkpoint()`. On startup, if the file exists and the completed chapter count is less than the expected total, the system asks the user whether to resume (y) or start fresh (n); `_clear_checkpoint()` deletes it on successful completion.
-3. `OPENAI_API_KEY` is set to the Qwen DashScope API key and `OPENAI_API_BASE` is set to `https://dashscope.aliyuncs.com/compatible-mode/v1`; `ChatOpenAI` is then instantiated pointing at that base URL. This works because CrewAI sees a standard `ChatOpenAI` object and never touches the underlying provider — no framework internals need modification.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — LangGraph vs AutoGen vs CrewAI
+> LangGraph was rejected for requiring complex state management (Redis, gRPC, sub-graphs); AutoGen was rejected as a poor fit for a sequential pipeline. Xiaomei (Agent1) researches the topic and proposes 3 directions with outlines; Xiaoqing (Agent2) writes each chapter sequentially based on the confirmed outline; Xiaoyin (Agent3) reviews and polishes the full draft into a final version.
+> 
+> #### Q2 — Checkpoint Resume System
+> The checkpoint file `cursor_checkpoint.json` stores topic, requirements, completed chapters, and current position. It is saved after each major stage via `_save_checkpoint()`. On startup, if the file exists and the completed chapter count is less than the expected total, the system asks the user whether to resume (y) or start fresh (n); `_clear_checkpoint()` deletes it on successful completion.
+> 
+> #### Q3 — Qwen as OpenAI Drop-In
+> `OPENAI_API_KEY` is set to the Qwen DashScope API key and `OPENAI_API_BASE` is set to `https://dashscope.aliyuncs.com/compatible-mode/v1`; `ChatOpenAI` is then instantiated pointing at that base URL. This works because CrewAI sees a standard `ChatOpenAI` object and never touches the underlying provider — no framework internals need modification.

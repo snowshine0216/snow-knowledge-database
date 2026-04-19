@@ -113,11 +113,10 @@ Recognizing the cross product as the dual vector of the determinant functional r
 2. Why is the cross product **p** = **w₁** × **w₂** guaranteed to be perpendicular to **w₁**? Give the argument using determinants and duality, not coordinate algebra.
 3. The symbolic determinant trick places **î**, **ĵ**, **k̂** in the first column. Why is this technically an abuse of notation, and why is it still valid as a computational shorthand?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Because f(**v**) = det([**v**, **w₁**, **w₂**]) is linear in **v**, the duality principle guarantees a unique vector **p** such that **p** · **v** = f(**v**) for all **v**. That vector **p** is defined to be the cross product — it is the dual vector of the determinant functional, not a formula memorized in coordinates.
-2. Setting **v** = **w₁** gives det([**w₁**, **w₁**, **w₂**]), which has two identical columns and therefore equals zero. Since **p** · **w₁** = 0, **p** is perpendicular to **w₁** — perpendicularity is a direct consequence of the determinant vanishing on repeated inputs.
-3. Mixing vectors (**î**, **ĵ**, **k̂**) with scalars in a determinant row is not formally valid, but it works as shorthand because each basis vector coefficient produced by expanding the determinant is exactly f evaluated at that basis vector — which by duality is the corresponding component of **p**.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Duality Defines Cross Product
+> Because f(**v**) = det([**v**, **w₁**, **w₂**]) is linear in **v**, the duality principle guarantees a unique vector **p** such that **p** · **v** = f(**v**) for all **v**. That vector **p** is defined to be the cross product — it is the dual vector of the determinant functional, not a formula memorized in coordinates.
+> #### Q2 — Cross Product Perpendicularity via Determinants
+> Setting **v** = **w₁** gives det([**w₁**, **w₁**, **w₂**]), which has two identical columns and therefore equals zero. Since **p** · **w₁** = 0, **p** is perpendicular to **w₁** — perpendicularity is a direct consequence of the determinant vanishing on repeated inputs.
+> #### Q3 — Basis Vectors in Determinant Abuse
+> Mixing vectors (**î**, **ĵ**, **k̂**) with scalars in a determinant row is not formally valid, but it works as shorthand because each basis vector coefficient produced by expanding the determinant is exactly f evaluated at that basis vector — which by duality is the corresponding component of **p**.

@@ -35,11 +35,12 @@ The plan is ready. Here's what I'll write to `courses/statquest-neural-networks-
 2. Walk through the 5-step process of computing an attention value: what are similarity scores, how does SoftMax transform them, and how is the final attention value constructed from encoder hidden states?
 3. Explain what the matrix form $D \cdot E^T$ computes and how `torch.matmul`, `transpose`, and `softmax` implement encoder-decoder attention in PyTorch — include what the shapes represent.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The context vector bottleneck forces the encoder to compress an entire input sequence into a single fixed-size vector; for long sentences this loses fine-grained word-level information the decoder needs at each step, degrading translation quality.
-2. Similarity scores are dot products between each decoder hidden state and every encoder hidden state; SoftMax normalizes these into weights that sum to 1; the attention value is then the weighted sum of encoder hidden states using those SoftMax weights — giving the decoder a soft, weighted "look" at the whole input.
-3. $D \cdot E^T$ produces a matrix where each row is one decoder state's similarity scores against all encoder states; in PyTorch: `torch.softmax(torch.matmul(D, E.transpose(-2, -1)), dim=-1)` yields the normalized attention weight matrix, with rows indexing decoder steps and columns indexing encoder positions.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Context Vector Bottleneck
+> The context vector bottleneck forces the encoder to compress an entire input sequence into a single fixed-size vector; for long sentences this loses fine-grained word-level information the decoder needs at each step, degrading translation quality.
+> 
+> #### Q2 — Five-Step Attention Computation
+> Similarity scores are dot products between each decoder hidden state and every encoder hidden state; SoftMax normalizes these into weights that sum to 1; the attention value is then the weighted sum of encoder hidden states using those SoftMax weights — giving the decoder a soft, weighted "look" at the whole input.
+> 
+> #### Q3 — Matrix Form and PyTorch Implementation
+> $D \cdot E^T$ produces a matrix where each row is one decoder state's similarity scores against all encoder states; in PyTorch: `torch.softmax(torch.matmul(D, E.transpose(-2, -1)), dim=-1)` yields the normalized attention weight matrix, with rows indexing decoder steps and columns indexing encoder positions.

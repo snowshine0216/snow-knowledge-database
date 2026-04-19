@@ -177,11 +177,12 @@ Each $\nabla_{\boldsymbol{\theta}} C_x$ is computed by running BP1–BP4 on a si
 2. Explain why the weight gradient formula is δ⁽ˡ⁾(a⁽ˡ⁻¹⁾)ᵀ — specifically, where the a⁽ˡ⁻¹⁾ term comes from in the chain rule derivation.
 3. Explain how mini-batch SGD relates to full-dataset gradient computation, and why the weight gradient formula includes a 1/m factor.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. BP1 computes the output layer error as the element-wise product of the cost's gradient w.r.t. final activations and σ'(z⁽ᴸ⁾), seeding the backward pass. BP2 then propagates this error to earlier layers by multiplying by the transposed weight matrix W⁽ˡ⁺¹⁾ᵀ (routing error back through connections) and modulating by the local derivative σ'(z⁽ˡ⁾).
-2. The weight gradient ∂C/∂w⁽ˡ⁾ⱼₖ = δ⁽ˡ⁾ⱼ · a⁽ˡ⁻¹⁾ₖ because by chain rule ∂z⁽ˡ⁾ⱼ/∂w⁽ˡ⁾ⱼₖ = a⁽ˡ⁻¹⁾ₖ — the pre-activation z is a weighted sum, so its derivative w.r.t. a specific weight equals the activation feeding into that weight.
-3. The full-dataset gradient is the mean of per-sample gradients over all n training examples; mini-batch SGD approximates this with a random subset of size m ≪ n, which is why the vectorized weight gradient is divided by m to produce a proper average over the batch.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — BP1 and BP2 Error Propagation
+> BP1 computes the output layer error as the element-wise product of the cost's gradient w.r.t. final activations and σ'(z⁽ᴸ⁾), seeding the backward pass. BP2 then propagates this error to earlier layers by multiplying by the transposed weight matrix W⁽ˡ⁺¹⁾ᵀ (routing error back through connections) and modulating by the local derivative σ'(z⁽ˡ⁾).
+> 
+> #### Q2 — Weight Gradient Chain Rule Origin
+> The weight gradient ∂C/∂w⁽ˡ⁾ⱼₖ = δ⁽ˡ⁾ⱼ · a⁽ˡ⁻¹⁾ₖ because by chain rule ∂z⁽ˡ⁾ⱼ/∂w⁽ˡ⁾ⱼₖ = a⁽ˡ⁻¹⁾ₖ — the pre-activation z is a weighted sum, so its derivative w.r.t. a specific weight equals the activation feeding into that weight.
+> 
+> #### Q3 — Mini-batch SGD and 1/m Factor
+> The full-dataset gradient is the mean of per-sample gradients over all n training examples; mini-batch SGD approximates this with a random subset of size m ≪ n, which is why the vectorized weight gradient is divided by m to produce a proper average over the batch.

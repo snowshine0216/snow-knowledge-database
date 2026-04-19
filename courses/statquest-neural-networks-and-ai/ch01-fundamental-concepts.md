@@ -205,11 +205,10 @@ Full tutorial code: <https://github.com/StatQuest/signa>
 2. Explain in your own words why a negative output weight (like −3.89 on the blue path) is useful when building a fitted curve from ReLU nodes.
 3. What two methods must every `nn.Module` subclass implement in PyTorch, and what is the responsibility of each one?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Top node: $1.43(0.5) - 0.61 = 0.105$, ReLU → $0.105$, scaled by $-3.89$ gives $-0.408$. Bottom node: $2.63(0.5) - 0.27 = 1.045$, ReLU → $1.045$, scaled by $1.35$ gives $1.411$. Sum: $\approx 1.0$ — the network predicts full effectiveness at Dose = 0.5.
-2. A negative output weight flips the ReLU's bent line upside down and stretches it; by combining flipped and unflipped bent lines, the summed output can form non-monotonic shapes (peaks, valleys) that match real data patterns.
-3. `__init__` initializes the network's layers, weights, and biases; `forward` defines how input data flows through those components during inference (the forward pass).
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Forward Pass at Dose 0.5
+> Top node: $1.43(0.5) - 0.61 = 0.105$, ReLU → $0.105$, scaled by $-3.89$ gives $-0.408$. Bottom node: $2.63(0.5) - 0.27 = 1.045$, ReLU → $1.045$, scaled by $1.35$ gives $1.411$. Sum: $\approx 1.0$ — the network predicts full effectiveness at Dose = 0.5.
+> #### Q2 — Negative Output Weight Purpose
+> A negative output weight flips the ReLU's bent line upside down and stretches it; by combining flipped and unflipped bent lines, the summed output can form non-monotonic shapes (peaks, valleys) that match real data patterns.
+> #### Q3 — Required nn.Module Methods
+> `__init__` initializes the network's layers, weights, and biases; `forward` defines how input data flows through those components during inference (the forward pass).

@@ -108,13 +108,15 @@ The art of building effective RAG systems is therefore not just "retrieve and in
 2. An LLM confidently gives you a detailed but entirely fabricated answer about your company's Q3 internal sales report. Explain mechanically why this happened — without using the word "bug."
 3. Why can't you solve the hallucination problem by simply injecting every document you have into the prompt, and what does this imply about the role of the retriever in a RAG system?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The LLM generates one token at a time. For each new token, it scans all preceding tokens to build a contextual representation, then computes a probability distribution over its entire vocabulary. It samples randomly from that distribution — not always picking the highest-probability token — which is why identical prompts produce different outputs. Coherence is preserved because each new token is sampled in the context of all previously generated tokens (auto-regression), so later choices naturally follow from earlier ones.
-
-2. The model has no knowledge of the internal sales report because that document was never in its training data. Its weights contain no representation of that information. When asked about it, the model still receives a well-formed question and is still optimized to generate probable text. Without the correct information, it generates a completion that has the *form* of a confident, specific answer — because that is what usually follows such a question in text the model has seen — while the content is confabulated from similar patterns. The model is functioning as designed; it is simply designed to produce probable text, not truthful text.
-
-3. Injecting all documents fails for two reasons: computational cost (longer prompts require more compute per token generated) and the finite context window (a hard architectural limit on total input length). Even before hitting the window limit, irrelevant context degrades answer quality by burying the relevant signal. This means the retriever must do real work — selecting only the most relevant documents for each specific query — rather than simply passing everything through. Retriever quality therefore sets the ceiling on overall RAG system performance.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Token Generation and Non-Determinism
+> 
+> The LLM generates one token at a time. For each new token, it scans all preceding tokens to build a contextual representation, then computes a probability distribution over its entire vocabulary. It samples randomly from that distribution — not always picking the highest-probability token — which is why identical prompts produce different outputs. Coherence is preserved because each new token is sampled in the context of all previously generated tokens (auto-regression), so later choices naturally follow from earlier ones.
+> 
+> #### Q2 — Hallucination Mechanism Explained
+> 
+> The model has no knowledge of the internal sales report because that document was never in its training data. Its weights contain no representation of that information. When asked about it, the model still receives a well-formed question and is still optimized to generate probable text. Without the correct information, it generates a completion that has the *form* of a confident, specific answer — because that is what usually follows such a question in text the model has seen — while the content is confabulated from similar patterns. The model is functioning as designed; it is simply designed to produce probable text, not truthful text.
+> 
+> #### Q3 — Why Retrieval Cannot Be Skipped
+> 
+> Injecting all documents fails for two reasons: computational cost (longer prompts require more compute per token generated) and the finite context window (a hard architectural limit on total input length). Even before hitting the window limit, irrelevant context degrades answer quality by burying the relevant signal. This means the retriever must do real work — selecting only the most relevant documents for each specific query — rather than simply passing everything through. Retriever quality therefore sets the ceiling on overall RAG system performance.

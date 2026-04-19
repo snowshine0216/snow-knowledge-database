@@ -112,11 +112,12 @@ If the root were shifted away from the origin, the clean correspondence between 
 2. Explain what it means to read a 2D coordinate pair as "instructions from the origin," and why anchoring vectors to the origin is a foundational design choice rather than an arbitrary convention.
 3. Describe what scalar multiplication does to a vector geometrically — covering all three cases for the value of the scalar — and explain where the word "scalar" comes from.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. In physics a vector is an arrow with magnitude and direction (movable in space); in CS it is an ordered list of numbers whose length indicates dimensionality; in math it is any abstract object supporting addition and scaling under fixed axioms — the first two are special cases of the third. For linear algebra, treating vectors simultaneously as arrows and coordinate lists lets you move between geometric intuition and numerical calculation.
-2. Reading $(x, y)$ as instructions means: start at the origin, move $x$ units horizontally, then $y$ units vertically — the arrow's tip lands there. Anchoring all vectors to the origin is essential because shifting the root would make the same coordinate pair describe a different arrow depending on where it started, breaking the unambiguous one-to-one link between numbers and directions.
-3. Multiplying by a scalar $c$ scales every component by $c$: if $|c| > 1$ the vector stretches; if $0 < |c| < 1$ it shrinks; if $c < 0$ the direction reverses and the length scales by $|c|$. The word "scalar" derives directly from this scaling action; the special case $c = 0$ yields the zero vector $\vec{0}$, which has no length or direction.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Three Perspectives on Vectors
+> In physics a vector is an arrow with magnitude and direction (movable in space); in CS it is an ordered list of numbers whose length indicates dimensionality; in math it is any abstract object supporting addition and scaling under fixed axioms — the first two are special cases of the third. For linear algebra, treating vectors simultaneously as arrows and coordinate lists lets you move between geometric intuition and numerical calculation.
+> 
+> #### Q2 — Coordinates as Instructions from Origin
+> Reading $(x, y)$ as instructions means: start at the origin, move $x$ units horizontally, then $y$ units vertically — the arrow's tip lands there. Anchoring all vectors to the origin is essential because shifting the root would make the same coordinate pair describe a different arrow depending on where it started, breaking the unambiguous one-to-one link between numbers and directions.
+> 
+> #### Q3 — Scalar Multiplication Geometric Effect
+> Multiplying by a scalar $c$ scales every component by $c$: if $|c| > 1$ the vector stretches; if $0 < |c| < 1$ it shrinks; if $c < 0$ the direction reverses and the length scales by $|c|$. The word "scalar" derives directly from this scaling action; the special case $c = 0$ yields the zero vector $\vec{0}$, which has no length or direction.

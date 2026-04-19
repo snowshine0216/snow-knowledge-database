@@ -91,13 +91,12 @@ Module 4 completes the LLM half of the RAG curriculum. Everything built here is 
 2. How do temperature and top-p sampling parameters control the trade-off between determinism and variety in model outputs?
 3. What problem does agentic RAG solve that a static retrieve-then-generate pipeline cannot handle, and how does fine-tuning complement retrieval in a production system?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The transformer processes the entire input sequence — query, retrieved context, conversation history — using attention to build meaning across all tokens simultaneously. Understanding attention explains why "lost in the middle" effects occur (the model attends more strongly to tokens at the sequence boundaries), why hallucination is a structural risk (the model resolves ambiguous context through learned priors rather than explicit logic), and why context window length is a hard engineering constraint. These are not bugs to patch; they are properties of the architecture that practitioners must design around.
-
-2. Temperature scales the probability distribution at each sampling step: low temperature makes the model nearly deterministic (almost always choosing the highest-probability token), while high temperature flattens the distribution and allows lower-probability, more surprising tokens to appear. Top-p (nucleus sampling) takes a different approach: it selects the smallest set of tokens whose cumulative probability reaches a threshold p, dynamically adjusting the candidate pool. For RAG applications where grounding in retrieved facts matters most, lower temperature and tighter top-p reduce the risk that the model drifts away from the evidence.
-
-3. A static RAG pipeline retrieves once per query and generates a response — this breaks down for multi-hop questions that require decomposing into sub-questions, retrieving separately for each, and synthesizing intermediate results. Agentic RAG gives the LLM the ability to invoke retrieval as a tool call within a reasoning loop, enabling this iterative process. Fine-tuning complements retrieval by shaping how the model reasons and communicates in domain-specific ways that prompt engineering alone cannot reliably achieve; retrieval keeps the model current with specific facts while fine-tuning governs behavior and output style.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Transformer Architecture and RAG Failure Modes
+> The transformer processes the entire input sequence — query, retrieved context, conversation history — using attention to build meaning across all tokens simultaneously. Understanding attention explains why "lost in the middle" effects occur (the model attends more strongly to tokens at the sequence boundaries), why hallucination is a structural risk (the model resolves ambiguous context through learned priors rather than explicit logic), and why context window length is a hard engineering constraint. These are not bugs to patch; they are properties of the architecture that practitioners must design around.
+> 
+> #### Q2 — Temperature and Top-p Sampling Trade-offs
+> Temperature scales the probability distribution at each sampling step: low temperature makes the model nearly deterministic (almost always choosing the highest-probability token), while high temperature flattens the distribution and allows lower-probability, more surprising tokens to appear. Top-p (nucleus sampling) takes a different approach: it selects the smallest set of tokens whose cumulative probability reaches a threshold p, dynamically adjusting the candidate pool. For RAG applications where grounding in retrieved facts matters most, lower temperature and tighter top-p reduce the risk that the model drifts away from the evidence.
+> 
+> #### Q3 — Agentic RAG vs Static Pipeline
+> A static RAG pipeline retrieves once per query and generates a response — this breaks down for multi-hop questions that require decomposing into sub-questions, retrieving separately for each, and synthesizing intermediate results. Agentic RAG gives the LLM the ability to invoke retrieval as a tool call within a reasoning loop, enabling this iterative process. Fine-tuning complements retrieval by shaping how the model reasons and communicates in domain-specific ways that prompt engineering alone cannot reliably achieve; retrieval keeps the model current with specific facts while fine-tuning governs behavior and output style.

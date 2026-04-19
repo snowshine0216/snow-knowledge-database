@@ -69,11 +69,16 @@ Prerequisites: familiarity with Python; basic deep learning knowledge (training 
 2. What is instruction fine-tuning, and what specific model transition from GPT-3 does it explain?
 3. Name the three hands-on steps the course covers for fine-tuning your own LLM.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Fine-tuning makes a model behave more *consistently* and allows reliable adjustment of stylistic properties (tone, verbosity, formality) that are difficult to control through prompts. It also enables an LLM to work fluently on private/proprietary data without the scale requirements of training from scratch.
-2. Instruction fine-tuning trains a model to follow natural-language instructions from users, rather than just predicting next tokens in raw text. It is the technique that transformed GPT-3 (a completion model) into ChatGPT (an instruction-following chat model).
-3. Data preparation, training the model, and evaluating the results — all implemented in code.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Limits of Prompt Engineering
+> 
+> Fine-tuning makes a model behave more *consistently* and allows reliable adjustment of stylistic properties (tone, verbosity, formality) that are difficult to control through prompts. It also enables an LLM to work fluently on private/proprietary data without the scale requirements of training from scratch.
+> 
+> #### Q2 — Instruction Fine-Tuning and GPT-3
+> 
+> Instruction fine-tuning trains a model to follow natural-language instructions from users, rather than just predicting next tokens in raw text. It is the technique that transformed GPT-3 (a completion model) into ChatGPT (an instruction-following chat model).
+> 
+> #### Q3 — Three Hands-On Course Steps
+> 
+> Data preparation, training the model, and evaluating the results — all implemented in code.

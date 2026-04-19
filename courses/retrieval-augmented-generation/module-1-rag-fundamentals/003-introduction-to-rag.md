@@ -89,11 +89,16 @@ This naming also implicitly clarifies what RAG is not. It is not "Retrieval-Only
 2. In the Vancouver hotel analogy, which question illustrates the RAG use case most clearly, and what specific property of that question makes retrieval necessary?
 3. Describe the three components of a RAG system and the distinct role each one plays.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. An LLM's knowledge is frozen in its weights at the moment training ended. Its weights only encode patterns from data it was exposed to — public internet text up to a cutoff date. Private documents and recent events were never part of that data, so the model has no representation of them. No prompting technique can extract information the model was never shown.
-2. The second question — "Why are hotel prices in Vancouver expensive *this* weekend?" — most clearly illustrates the RAG use case. The word "this" signals that the answer depends on current, specific, local information (such as a particular event happening that weekend). That information is too recent and too specific to be reliably encoded in model weights, making retrieval from an up-to-date knowledge base the only viable path to a correct answer.
-3. The knowledge base stores the trusted, relevant documents the LLM would otherwise lack — private, recent, or specialized information. The retriever takes the user's query and searches the knowledge base to find the most relevant chunks, solving a semantic search problem. The LLM (generator) receives the augmented prompt combining the original question with retrieved context, and synthesizes them into a coherent, grounded response.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Why LLMs Lack Recent Knowledge
+> 
+> An LLM's knowledge is frozen in its weights at the moment training ended. Its weights only encode patterns from data it was exposed to — public internet text up to a cutoff date. Private documents and recent events were never part of that data, so the model has no representation of them. No prompting technique can extract information the model was never shown.
+> 
+> #### Q2 — Vancouver Hotel RAG Use Case
+> 
+> The second question — "Why are hotel prices in Vancouver expensive *this* weekend?" — most clearly illustrates the RAG use case. The word "this" signals that the answer depends on current, specific, local information (such as a particular event happening that weekend). That information is too recent and too specific to be reliably encoded in model weights, making retrieval from an up-to-date knowledge base the only viable path to a correct answer.
+> 
+> #### Q3 — Three RAG System Components
+> 
+> The knowledge base stores the trusted, relevant documents the LLM would otherwise lack — private, recent, or specialized information. The retriever takes the user's query and searches the knowledge base to find the most relevant chunks, solving a semantic search problem. The LLM (generator) receives the augmented prompt combining the original question with retrieved context, and synthesizes them into a coherent, grounded response.

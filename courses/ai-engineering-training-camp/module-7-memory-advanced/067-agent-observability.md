@@ -260,11 +260,12 @@ backend/
 2. Describe LangSmith's two major limitations for production use, and explain what makes Coze's debugging UX superior by contrast.
 3. Explain how LangGraph's time-travel feature works: what API call enables it, what it returns, and how you resume execution from a specific checkpoint.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Level 1 is a global `LANGCHAIN_TRACING_V2=true` env var that captures all LangChain/LangGraph code on the machine; Level 2 wraps only the LLM client using `wrap_openai()` from `langsmith.wrappers`, capturing only LLM calls; Level 3 uses the `@traceable` decorator from `langsmith` on specific functions, sending only that function's execution to LangSmith.
-2. LangSmith requires all trace data to be uploaded to `smith.langchain.com`, making it unusable where data-privacy policies prohibit third-party data transfer; it also cannot pause a graph mid-run, edit a prompt, and resume from that node. Coze supports local/private deployment and true in-place node re-run — editing a node's input and re-executing without re-running earlier nodes.
-3. `graph.get_state_history(config)` returns a list of historical state snapshots for a graph run; you can replay or branch from any checkpoint by passing its snapshot ID back into `graph.invoke()`, requiring no additional setup beyond a checkpointer.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — LangSmith Tracing Granularity Levels
+> Level 1 is a global `LANGCHAIN_TRACING_V2=true` env var that captures all LangChain/LangGraph code on the machine; Level 2 wraps only the LLM client using `wrap_openai()` from `langsmith.wrappers`, capturing only LLM calls; Level 3 uses the `@traceable` decorator from `langsmith` on specific functions, sending only that function's execution to LangSmith.
+> 
+> #### Q2 — LangSmith Limitations vs Coze
+> LangSmith requires all trace data to be uploaded to `smith.langchain.com`, making it unusable where data-privacy policies prohibit third-party data transfer; it also cannot pause a graph mid-run, edit a prompt, and resume from that node. Coze supports local/private deployment and true in-place node re-run — editing a node's input and re-executing without re-running earlier nodes.
+> 
+> #### Q3 — LangGraph Time-Travel Mechanics
+> `graph.get_state_history(config)` returns a list of historical state snapshots for a graph run; you can replay or branch from any checkpoint by passing its snapshot ID back into `graph.invoke()`, requiring no additional setup beyond a checkpointer.

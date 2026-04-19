@@ -100,11 +100,12 @@ The point is not that arrows and functions are secretly the same thing. The poin
 2. Write out the derivative matrix for polynomials of degree ≤ 3 and explain how each column is constructed from the monomial basis {1, x, x², x³}.
 3. What does it mean that the null space of d/dx is the constant functions, and which general linear algebra theorem predicts the existence and dimension of that null space?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Functions form a vector space under pointwise addition — (f+g)(x) = f(x)+g(x) — and pointwise scalar multiplication — (c·f)(x) = c·f(x); the zero vector is the function identically equal to zero everywhere. All eight axioms are satisfied under these definitions.
-2. Each column is the coordinate representation of d/dx applied to the corresponding basis element: d/dx(1)=0, d/dx(x)=1, d/dx(x²)=2x, d/dx(x³)=3x², giving the matrix with entries 1, 2, 3 on the superdiagonal and zeros elsewhere.
-3. The null space of d/dx is the set of functions with zero derivative, which are exactly the constant functions — a one-dimensional subspace. This is predicted by the rank-nullity theorem, which applies to d/dx because it is a linear transformation and all theorems about linear maps hold in any vector space satisfying the eight axioms.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Functions as a Vector Space
+> Functions form a vector space under pointwise addition — (f+g)(x) = f(x)+g(x) — and pointwise scalar multiplication — (c·f)(x) = c·f(x); the zero vector is the function identically equal to zero everywhere. All eight axioms are satisfied under these definitions.
+> >
+> #### Q2 — Derivative Matrix Column Construction
+> Each column is the coordinate representation of d/dx applied to the corresponding basis element: d/dx(1)=0, d/dx(x)=1, d/dx(x²)=2x, d/dx(x³)=3x², giving the matrix with entries 1, 2, 3 on the superdiagonal and zeros elsewhere.
+> >
+> #### Q3 — Null Space and Rank-Nullity
+> The null space of d/dx is the set of functions with zero derivative, which are exactly the constant functions — a one-dimensional subspace. This is predicted by the rank-nullity theorem, which applies to d/dx because it is a linear transformation and all theorems about linear maps hold in any vector space satisfying the eight axioms.

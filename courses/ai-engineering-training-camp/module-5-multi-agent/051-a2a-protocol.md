@@ -279,13 +279,16 @@ If you have two projects both using e.g. CrewAI that need complex bidirectional 
 2. Walk through the decision tree for choosing between same-framework primitives, MCP, and A2A — what three conditions must all be true before you reach for A2A?
 3. Explain why A2A is described as "stateful" while MCP is "stateless," and what practical problem that statefulness solves for multi-agent systems.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The Agent Card is a publicly accessible JSON file hosted at `/.well-known/agent.json` on each A2A server; it contains the agent's name, description, skills, endpoint URLs, and authentication methods. It is foundational because without it, other agents have no way to discover what a remote agent can do before initiating communication.
-
-2. All three conditions must hold: agents are built on **heterogeneous frameworks**, deployed on **separate hosts/processes**, and the interaction requires **multi-turn dialogue with session state**. If any condition is false — same framework, stateless single call, or same host — use framework primitives, direct function calls, or wrap the remote agent as an MCP tool instead.
-
-3. MCP is stateless: each tool call is a single request–response with no memory of previous exchanges, and the calling agent must manage context manually. A2A is stateful: the Task object carries a unique ID across turns and the protocol automatically manages session context, enabling multi-turn conversations without the client stitching together history by hand.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Agent Card: Purpose and Location
+> 
+> The Agent Card is a publicly accessible JSON file hosted at `/.well-known/agent.json` on each A2A server; it contains the agent's name, description, skills, endpoint URLs, and authentication methods. It is foundational because without it, other agents have no way to discover what a remote agent can do before initiating communication.
+> 
+> #### Q2 — Choosing Between Primitives, MCP, A2A
+> 
+> All three conditions must hold: agents are built on **heterogeneous frameworks**, deployed on **separate hosts/processes**, and the interaction requires **multi-turn dialogue with session state**. If any condition is false — same framework, stateless single call, or same host — use framework primitives, direct function calls, or wrap the remote agent as an MCP tool instead.
+> 
+> #### Q3 — A2A Stateful vs MCP Stateless
+> 
+> MCP is stateless: each tool call is a single request–response with no memory of previous exchanges, and the calling agent must manage context manually. A2A is stateful: the Task object carries a unique ID across turns and the protocol automatically manages session context, enabling multi-turn conversations without the client stitching together history by hand.

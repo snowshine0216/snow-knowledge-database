@@ -102,11 +102,10 @@ A matrix is diagonalizable when it has enough linearly independent eigenvectors 
 2. Walk through the geometric intuition of what happens to eigenvectors during a 3D rotation, a 2D horizontal shear, and a projection onto a line — what are the eigenvalues in each case?
 3. Explain what diagonalization ($A = PDP^{-1}$) means geometrically, and why it makes computing $A^k$ so much cheaper than repeated matrix multiplication.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. For a nonzero eigenvector $\mathbf{v}$ to satisfy $(A - \lambda I)\mathbf{v} = \mathbf{0}$, the matrix $(A - \lambda I)$ must be singular — it must collapse space to a lower dimension — which happens precisely when its determinant is zero. If the determinant were nonzero, the matrix would be invertible and the only solution would be $\mathbf{v} = \mathbf{0}$, violating the requirement that eigenvectors be nonzero.
-2. In a 3D rotation, the rotation axis is unchanged with $\lambda = 1$; in a 2D horizontal shear, only vectors along the $x$-axis are eigenvectors with $\lambda = 1$; for projection onto a line, vectors on the line have $\lambda = 1$ and vectors perpendicular to the line are annihilated with $\lambda = 0$.
-3. Geometrically, $P^{-1}$ changes coordinates into the eigenvector basis, $D$ applies the transformation as pure scaling in that basis, and $P$ converts back — making $A^k = PD^kP^{-1}$, where $D^k$ is computed by simply raising each diagonal entry independently, far cheaper than multiplying $A$ by itself $k$ times.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Determinant Condition for Eigenvalues
+> For a nonzero eigenvector $\mathbf{v}$ to satisfy $(A - \lambda I)\mathbf{v} = \mathbf{0}$, the matrix $(A - \lambda I)$ must be singular — it must collapse space to a lower dimension — which happens precisely when its determinant is zero. If the determinant were nonzero, the matrix would be invertible and the only solution would be $\mathbf{v} = \mathbf{0}$, violating the requirement that eigenvectors be nonzero.
+> #### Q2 — Eigenvectors Under Geometric Transformations
+> In a 3D rotation, the rotation axis is unchanged with $\lambda = 1$; in a 2D horizontal shear, only vectors along the $x$-axis are eigenvectors with $\lambda = 1$; for projection onto a line, vectors on the line have $\lambda = 1$ and vectors perpendicular to the line are annihilated with $\lambda = 0$.
+> #### Q3 — Diagonalization Geometry and Powers
+> Geometrically, $P^{-1}$ changes coordinates into the eigenvector basis, $D$ applies the transformation as pure scaling in that basis, and $P$ converts back — making $A^k = PD^kP^{-1}$, where $D^k$ is computed by simply raising each diagonal entry independently, far cheaper than multiplying $A$ by itself $k$ times.

@@ -89,11 +89,16 @@ Zain Hassan, this course's primary instructor, brings direct expertise from his 
 2. How does an expanding LLM context window change the design tradeoffs for a RAG system's chunk size and retrieval count?
 3. Describe what an agentic RAG system can do when an initial retrieval attempt returns insufficient evidence — and why a traditional RAG pipeline cannot do the same thing.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Fine-tuning adjusts a model's behavior and style by training on example (instruction, response) pairs — it teaches the model *how to respond*, not *what facts to know*. Facts baked into weights during fine-tuning are imprecise, hard to update, and prone to hallucination. RAG bypasses this entirely by placing current, authoritative document text directly in the context window at inference time, so the model reasons over real text rather than reconstructed memory.
-2. Small context windows forced engineers to use short, tightly scoped chunks and retrieve only a handful of them, creating a hard tradeoff between breadth and depth of coverage. With windows of 100k tokens or more, a system can retrieve many more and longer chunks, substantially reducing the risk that the relevant passage was not among those retrieved. Chunk-size hyperparameter tuning becomes less critical because the window is large enough to absorb more generous chunk overlap and count.
-3. An agentic RAG system gives an LLM agent access to multiple retrieval tools and lets it evaluate whether the retrieved evidence is sufficient. If the first retrieval is weak, the agent can issue a refined query, route to a different source (e.g., web search instead of the internal database), or retry with different parameters — all autonomously. A traditional RAG pipeline executes fixed retrieval logic identically for every query, with no mechanism to detect or recover from a retrieval failure.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Fine-Tuning vs RAG Purpose
+>
+> Fine-tuning adjusts a model's behavior and style by training on example (instruction, response) pairs — it teaches the model *how to respond*, not *what facts to know*. Facts baked into weights during fine-tuning are imprecise, hard to update, and prone to hallucination. RAG bypasses this entirely by placing current, authoritative document text directly in the context window at inference time, so the model reasons over real text rather than reconstructed memory.
+>
+> #### Q2 — Expanding Context Window Tradeoffs
+>
+> Small context windows forced engineers to use short, tightly scoped chunks and retrieve only a handful of them, creating a hard tradeoff between breadth and depth of coverage. With windows of 100k tokens or more, a system can retrieve many more and longer chunks, substantially reducing the risk that the relevant passage was not among those retrieved. Chunk-size hyperparameter tuning becomes less critical because the window is large enough to absorb more generous chunk overlap and count.
+>
+> #### Q3 — Agentic RAG Recovery Capability
+>
+> An agentic RAG system gives an LLM agent access to multiple retrieval tools and lets it evaluate whether the retrieved evidence is sufficient. If the first retrieval is weak, the agent can issue a refined query, route to a different source (e.g., web search instead of the internal database), or retry with different parameters — all autonomously. A traditional RAG pipeline executes fixed retrieval logic identically for every query, with no mechanism to detect or recover from a retrieval failure.

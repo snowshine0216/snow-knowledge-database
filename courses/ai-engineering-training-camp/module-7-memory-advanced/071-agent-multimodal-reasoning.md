@@ -189,13 +189,15 @@ The instructor positions RPA as **the outer extension layer of LLM capability** 
 2. Explain how 引刀 (Yindao) improves on raw PyAutoGUI for web automation, and describe the two distinct modes of integrating 引刀 with an external LLM workflow like Dify.
 3. The lecture frames RPA as one stage in the evolution of LLM application patterns. Reconstruct that evolution path from RAG to deep tool integration, and explain where RPA sits in it and why the instructor calls it "the outer extension layer."
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The loop is: perform action via PyAutoGUI → take screenshot → send screenshot to multimodal LLM → LLM interprets the screen state and decides next action → drive PyAutoGUI for next step. PyAutoGUI handles dexterous local interaction that LLMs lack natively, while the LLM provides intelligence to interpret visual feedback.
-
-2. 引刀 works with web element selectors (like Selenium) rather than raw pixel coordinates, making workflows more robust against layout changes. The two modes are: Mode A — 引刀 calls Dify as a sub-workflow via HTTP POST and receives a result; Mode B — Dify calls 引刀 as a polling service where the RPA periodically fetches tasks, processes them (e.g., looks up product info), and returns results.
-
-3. The path is: RAG → Agent → ReAct-style reasoning with tool calls → Memory within Agents → Multi-agent systems → Deep business integration via tool invocation (RPA). RPA occupies the final layer because it handles local GUI and web automation that LLMs cannot perform natively, and is more accessible than building MCP servers from scratch, especially for pre-built connectors to Chinese SaaS platforms.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Vision-Feedback Loop with PyAutoGUI
+> 
+> The loop is: perform action via PyAutoGUI → take screenshot → send screenshot to multimodal LLM → LLM interprets the screen state and decides next action → drive PyAutoGUI for next step. PyAutoGUI handles dexterous local interaction that LLMs lack natively, while the LLM provides intelligence to interpret visual feedback.
+> 
+> #### Q2 — Yindao Improvements and Integration Modes
+> 
+> 引刀 works with web element selectors (like Selenium) rather than raw pixel coordinates, making workflows more robust against layout changes. The two modes are: Mode A — 引刀 calls Dify as a sub-workflow via HTTP POST and receives a result; Mode B — Dify calls 引刀 as a polling service where the RPA periodically fetches tasks, processes them (e.g., looks up product info), and returns results.
+> 
+> #### Q3 — RPA in LLM Evolution Path
+> 
+> The path is: RAG → Agent → ReAct-style reasoning with tool calls → Memory within Agents → Multi-agent systems → Deep business integration via tool invocation (RPA). RPA occupies the final layer because it handles local GUI and web automation that LLMs cannot perform natively, and is more accessible than building MCP servers from scratch, especially for pre-built connectors to Chinese SaaS platforms.

@@ -464,11 +464,12 @@ for _ in range(20):
 2. Walk through the three reasons Karpathy gives for using `F.cross_entropy` instead of manually computing softmax followed by negative log likelihood.
 3. Describe the 80/10/10 train/dev/test split strategy used in this lesson: what each split is used for, and how you would diagnose whether your model is underfitting or overfitting from the resulting loss values.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. `view()` is a zero-copy reshape — it only modifies tensor metadata (shape, strides, storage offset) without allocating new memory, whereas `torch.cat` allocates a fresh tensor. Every tensor has a flat 1D storage in memory; `view()` just changes how that block is interpreted as an n-dimensional array.
-2. The three reasons are: (1) fused kernels make the forward pass faster with no intermediate tensors for exp/sum/log; (2) the backward pass is analytically simpler — gradients reduce to clean closed-form expressions; (3) numerical stability via internal max-subtraction before exponentiation, preventing overflow from large logit values.
-3. The training set (~80%) updates model parameters via gradient descent; the dev/validation set (~10%) is used frequently to tune hyperparameters (hidden size, embedding dim, learning rate); the test set (~10%) is evaluated only once at the very end. When train loss ≈ dev loss, the model is underfitting — increase capacity. When dev loss >> train loss, the model is overfitting — regularize or get more data.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — view() vs torch.cat Memory
+> `view()` is a zero-copy reshape — it only modifies tensor metadata (shape, strides, storage offset) without allocating new memory, whereas `torch.cat` allocates a fresh tensor. Every tensor has a flat 1D storage in memory; `view()` just changes how that block is interpreted as an n-dimensional array.
+> 
+> #### Q2 — Three Reasons for F.cross_entropy
+> The three reasons are: (1) fused kernels make the forward pass faster with no intermediate tensors for exp/sum/log; (2) the backward pass is analytically simpler — gradients reduce to clean closed-form expressions; (3) numerical stability via internal max-subtraction before exponentiation, preventing overflow from large logit values.
+> 
+> #### Q3 — Train Dev Test Split Strategy
+> The training set (~80%) updates model parameters via gradient descent; the dev/validation set (~10%) is used frequently to tune hyperparameters (hidden size, embedding dim, learning rate); the test set (~10%) is evaluated only once at the very end. When train loss ≈ dev loss, the model is underfitting — increase capacity. When dev loss >> train loss, the model is overfitting — regularize or get more data.

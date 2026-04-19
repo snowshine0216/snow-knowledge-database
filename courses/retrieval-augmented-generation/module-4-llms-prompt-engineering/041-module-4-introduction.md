@@ -77,13 +77,16 @@ Together these concerns amount to a discipline: LLM prompt engineering for RAG s
 2. What is grounding in the context of a RAG LLM response, why does good retrieval not automatically guarantee grounded responses, and what category of techniques addresses it?
 3. Name at least three reasons why a basic LLM API call with retrieved context is insufficient for production RAG, and what Module 4 topics correspond to addressing each.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The retriever is an information-finding system: it locates and scores documents from the knowledge base and delivers the most relevant ones. The LLM is a reasoning and generation system: it reads the retrieved material alongside the user's question and produces a coherent answer. The retriever cannot generate fluent natural language responses, and the LLM cannot efficiently search a large knowledge base of external documents. A perfect retriever delivering to a poorly prompted LLM still produces poor answers; a capable LLM receiving irrelevant context still hallucinates. Each fills a gap the other cannot.
-
-2. Grounding means the LLM's response stays anchored to the retrieved context rather than introducing unverified claims from its parametric memory. Good retrieval does not guarantee grounding because LLMs are trained to produce fluent text and will do so even when the retrieved content is insufficient — blending retrieved facts with memorized or confabulated ones in plausible-sounding ways. Grounding techniques are prompt-design interventions: instruction phrasing, explicit constraints ("answer only from the provided context"), and output formatting that forces citation of retrieved content.
-
-3. Three reasons and their Module 4 topics: (1) LLM output quality is sensitive to how context is presented in the prompt — addressed by the LLM calls in code section, which covers prompt structure and iteration; (2) Models hallucinate when context is insufficient and prompts are unguarded — addressed by grounding techniques; (3) Transformer context window limits constrain how many chunks fit and where they should be placed — addressed by transformer architecture coverage; (4) Cost and latency make naive context concatenation untenable at scale — addressed by practical advice on balancing quality against token efficiency.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Retriever and LLM Complementarity
+>
+> The retriever is an information-finding system: it locates and scores documents from the knowledge base and delivers the most relevant ones. The LLM is a reasoning and generation system: it reads the retrieved material alongside the user's question and produces a coherent answer. The retriever cannot generate fluent natural language responses, and the LLM cannot efficiently search a large knowledge base of external documents. A perfect retriever delivering to a poorly prompted LLM still produces poor answers; a capable LLM receiving irrelevant context still hallucinates. Each fills a gap the other cannot.
+>
+> #### Q2 — Grounding and Retrieval Limits
+>
+> Grounding means the LLM's response stays anchored to the retrieved context rather than introducing unverified claims from its parametric memory. Good retrieval does not guarantee grounding because LLMs are trained to produce fluent text and will do so even when the retrieved content is insufficient — blending retrieved facts with memorized or confabulated ones in plausible-sounding ways. Grounding techniques are prompt-design interventions: instruction phrasing, explicit constraints ("answer only from the provided context"), and output formatting that forces citation of retrieved content.
+>
+> #### Q3 — Production RAG Insufficiencies
+>
+> Three reasons and their Module 4 topics: (1) LLM output quality is sensitive to how context is presented in the prompt — addressed by the LLM calls in code section, which covers prompt structure and iteration; (2) Models hallucinate when context is insufficient and prompts are unguarded — addressed by grounding techniques; (3) Transformer context window limits constrain how many chunks fit and where they should be placed — addressed by transformer architecture coverage; (4) Cost and latency make naive context concatenation untenable at scale — addressed by practical advice on balancing quality against token efficiency.

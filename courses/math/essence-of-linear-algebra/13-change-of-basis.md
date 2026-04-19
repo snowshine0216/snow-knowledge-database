@@ -96,11 +96,15 @@ In the eigenbasis, the transformation is diagonal — the simplest possible desc
 2. Walk through the conjugation formula $A^{-1}MA$ step by step, explaining what each of the three matrix multiplications is doing geometrically.
 3. Explain what diagonalization means in terms of change of basis, and why expressing a transformation in its eigenbasis is so computationally useful.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The columns of $A$ are Jennifer's basis vectors expressed in our coordinate system; multiplying $A$ by Jennifer's coordinates $(a, b)^\top$ forms a linear combination $a\mathbf{b}_1 + b\mathbf{b}_2$, which is exactly the same arrow described in our language.
-2. Reading right to left: $A$ translates Jennifer's input vector into our coordinate language, $M$ applies the transformation in our system, and $A^{-1}$ converts the output back into Jennifer's coordinates — giving the same geometric action written entirely in her language.
-3. Diagonalization uses the eigenvectors of $M$ as the columns of $A$, so $A^{-1}MA$ yields a diagonal matrix of eigenvalues; in this eigenbasis the transformation is pure axis-aligned scaling, making repeated applications (powers, exponentials) trivial since diagonal matrices compose by simply raising each diagonal entry to the desired power.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Basis Matrix Columns and Multiplication
+> 
+> The columns of $A$ are Jennifer's basis vectors expressed in our coordinate system; multiplying $A$ by Jennifer's coordinates $(a, b)^\top$ forms a linear combination $a\mathbf{b}_1 + b\mathbf{b}_2$, which is exactly the same arrow described in our language.
+> 
+> #### Q2 — Conjugation Formula Step by Step
+> 
+> Reading right to left: $A$ translates Jennifer's input vector into our coordinate language, $M$ applies the transformation in our system, and $A^{-1}$ converts the output back into Jennifer's coordinates — giving the same geometric action written entirely in her language.
+> 
+> #### Q3 — Diagonalization as Eigenbasis Scaling
+> 
+> Diagonalization uses the eigenvectors of $M$ as the columns of $A$, so $A^{-1}MA$ yields a diagonal matrix of eigenvalues; in this eigenbasis the transformation is pure axis-aligned scaling, making repeated applications (powers, exponentials) trivial since diagonal matrices compose by simply raising each diagonal entry to the desired power.

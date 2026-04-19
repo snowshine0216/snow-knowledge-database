@@ -227,11 +227,27 @@ For fine-tuned deployments especially, the four-layer security gateway is non-ne
 2. Explain how template-based controlled generation (Layer 3) eliminates the risk of arbitrary SQL, and describe the concrete trade-off that makes it unsuitable as the sole defense layer.
 3. Describe the risk-scoring routing logic in Layer 4: what are the three risk levels, what happens to a query at each level, and how does the human-in-the-loop feedback cycle work?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. **Layer 1** scans natural-language input for a blocklist of dangerous tokens (`DROP`, `TRUNCATE`, `DELETE`, etc.) before the LLM sees the query, catching naive literal injections. **Layer 2** parses the LLM-generated SQL, extracts target tables/columns, and checks them against the user's RBAC role — blocking DDL, restricted tables, and restricted columns. **Layer 3** constrains LLM output to pre-defined SQL templates, using the LLM only to extract parameter values (e.g., year, top-N) for substitution — refusing queries that match no template. **Layer 4** inspects the final SQL against a risk ruleset, assigns Low/Medium/High, and routes accordingly before execution.
-2. Layer 3 pre-defines a library of safe query patterns and uses the LLM solely to extract parameter values, never to generate free-form SQL; this eliminates arbitrary query generation entirely. The trade-off is that it only covers pre-defined patterns — any business question without a matching template is refused, requiring ongoing template maintenance as query needs evolve.
-3. **Low-risk** queries are auto-executed and logged. **Medium-risk** queries are executed but flagged for audit review. **High-risk** queries are blocked and routed to a human reviewer who can approve, reject, or modify the query; rejected queries notify the user, and approved/corrected queries can be fed back into the template library or fine-tuning dataset, closing the human-in-the-loop update cycle.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Four Layers of Text-to-SQL Defense
+> 
+> **Layer 1** scans natural-language input for a blocklist of dangerous tokens (`DROP`, `TRUNCATE`, `DELETE`, etc.) before the LLM sees the query, catching naive literal injections.
+> 
+> **Layer 2** parses the LLM-generated SQL, extracts target tables/columns, and checks them against the user's RBAC role — blocking DDL, restricted tables, and restricted columns.
+> 
+> **Layer 3** constrains LLM output to pre-defined SQL templates, using the LLM only to extract parameter values (e.g., year, top-N) for substitution — refusing queries that match no template.
+> 
+> **Layer 4** inspects the final SQL against a risk ruleset, assigns Low/Medium/High, and routes accordingly before execution.
+> 
+> #### Q2 — Template Generation Trade-offs
+> 
+> Layer 3 pre-defines a library of safe query patterns and uses the LLM solely to extract parameter values, never to generate free-form SQL; this eliminates arbitrary query generation entirely.
+> 
+> The trade-off is that it only covers pre-defined patterns — any business question without a matching template is refused, requiring ongoing template maintenance as query needs evolve.
+> 
+> #### Q3 — Risk-Scoring Routing Logic
+> 
+> **Low-risk** queries are auto-executed and logged.
+> 
+> **Medium-risk** queries are executed but flagged for audit review.
+> 
+> **High-risk** queries are blocked and routed to a human reviewer who can approve, reject, or modify the query; rejected queries notify the user, and approved/corrected queries can be fed back into the template library or fine-tuning dataset, closing the human-in-the-loop update cycle.

@@ -124,11 +124,10 @@ This is the general implicit differentiation formula. It requires $\partial F/\p
 2. Carry out implicit differentiation on $x^2 + y^2 = 1$ from scratch — show each step — and explain what the resulting slope formula $dy/dx = -x/y$ tells you geometrically.
 3. State and explain the general implicit differentiation formula for $F(x, y) = 0$, including the condition under which it breaks down and what that condition means geometrically.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Because $y$ is a function of $x$, the chain rule requires multiplying by the inner derivative $dy/dx$ whenever you differentiate a $y$-expression; for $y^3$, the power rule gives $3y^2$ and the chain rule appends $dy/dx$, yielding $3y^2 \cdot dy/dx$.
-2. Differentiating both sides gives $2x + 2y\,dy/dx = 0$, which solves to $dy/dx = -x/y$; geometrically this means the tangent at any circle point is perpendicular to the radius, since the radius has slope $y/x$ and the tangent has slope $-x/y$.
-3. The formula is $dy/dx = -(\partial F/\partial x)/(\partial F/\partial y)$; it breaks down when $\partial F/\partial y = 0$, which signals a vertical tangent or a singular point on the curve where $y$ is no longer locally a function of $x$.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Chain Rule Produces dy/dx
+> Because $y$ is a function of $x$, the chain rule requires multiplying by the inner derivative $dy/dx$ whenever you differentiate a $y$-expression; for $y^3$, the power rule gives $3y^2$ and the chain rule appends $dy/dx$, yielding $3y^2 \cdot dy/dx$.
+> #### Q2 — Implicit Differentiation on Unit Circle
+> Differentiating both sides gives $2x + 2y\,dy/dx = 0$, which solves to $dy/dx = -x/y$; geometrically this means the tangent at any circle point is perpendicular to the radius, since the radius has slope $y/x$ and the tangent has slope $-x/y$.
+> #### Q3 — General Formula and Breakdown Condition
+> The formula is $dy/dx = -(\partial F/\partial x)/(\partial F/\partial y)$; it breaks down when $\partial F/\partial y = 0$, which signals a vertical tangent or a singular point on the curve where $y$ is no longer locally a function of $x$.

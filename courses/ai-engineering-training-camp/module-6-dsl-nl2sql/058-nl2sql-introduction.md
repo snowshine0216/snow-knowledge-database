@@ -159,11 +159,16 @@ Vanna.ai is the recommended production-ready tool for the RAG/context-learning p
 2. Compare the two current NL2SQL technical paths. What are the key trade-offs between in-context learning and parameter fine-tuning, and which tools represent each?
 3. Why does NL2SQL remain genuinely hard for multi-table queries, and what real-world factor makes it harder than most other LLM applications?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The vector store pre-loads DDL definitions, documentation, and verified correct question-SQL pairs. At query time, relevant DDL, docs, and similar SQL examples are retrieved and combined with the user question into a prompt for the LLM, which generates SQL that is then executed. Human-in-the-loop validation marks results correct or incorrect, and correct examples accumulate back into the vector store for continuous improvement.
-2. In-context learning (RAG) uses few-shot prompting with tools like Vanna.ai — transparent, debuggable, no training required, ~60% accuracy on multi-table queries. Parameter fine-tuning uses SFT/LoRA/QLoRA on code-capable base models like Code LLaMA via DB-GPT Hub or LLaMA Factory — higher potential quality but requires labeled data, compute, and training time.
-3. Multi-table NL2SQL hits roughly 60% accuracy and no one in the industry claims to have solved it at scale. The core difficulty is that users' questions often require business logic embedded in stored procedures or complex joins that LLMs cannot reliably infer — as illustrated by the `ORDER BY ... LIMIT 1` example, which silently drops tied records when multiple patients share the highest risk value.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — RAG-Based NL2SQL Pipeline
+>
+> The vector store pre-loads DDL definitions, documentation, and verified correct question-SQL pairs. At query time, relevant DDL, docs, and similar SQL examples are retrieved and combined with the user question into a prompt for the LLM, which generates SQL that is then executed. Human-in-the-loop validation marks results correct or incorrect, and correct examples accumulate back into the vector store for continuous improvement.
+>
+> #### Q2 — In-Context vs Fine-Tuning Paths
+>
+> In-context learning (RAG) uses few-shot prompting with tools like Vanna.ai — transparent, debuggable, no training required, ~60% accuracy on multi-table queries. Parameter fine-tuning uses SFT/LoRA/QLoRA on code-capable base models like Code LLaMA via DB-GPT Hub or LLaMA Factory — higher potential quality but requires labeled data, compute, and training time.
+>
+> #### Q3 — Why Multi-Table NL2SQL Is Hard
+>
+> Multi-table NL2SQL hits roughly 60% accuracy and no one in the industry claims to have solved it at scale. The core difficulty is that users' questions often require business logic embedded in stored procedures or complex joins that LLMs cannot reliably infer — as illustrated by the `ORDER BY ... LIMIT 1` example, which silently drops tied records when multiple patients share the highest risk value.

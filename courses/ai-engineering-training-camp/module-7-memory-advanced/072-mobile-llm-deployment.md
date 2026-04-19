@@ -180,11 +180,16 @@ System-level: caching, batching, parallelism
 2. Walk through the full decision framework for mobile LLM deployment — from picking a target device all the way to system-level optimizations — as if explaining it to a teammate who has never deployed an edge model.
 3. Explain why the lesson advises against converting and quantizing models yourself, and what concrete alternative it recommends instead.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The teacher model outputs soft labels — full probability distributions over all possible outputs — rather than just the single correct answer. The student trains on these distributions first, learning the teacher's reasoning patterns (why certain outputs are more likely), which transfers richer signal than hard labels alone.
-2. Pick the target device → select the native model format (CoreML for iOS, TFLite/ONNX for Android, ONNX for Jetson) → find a pre-built model in that format on ModelScope or HuggingFace → benchmark on device → if still too slow, apply pruning, quantization (INT4/INT8), or use a vendor-distilled model → add system-level wins: context caching, batching, parallelism.
-3. Format conversion plus quantization must be repeated every time the upstream model updates, making it costly to maintain. The lesson recommends always searching for a pre-built quantized or distilled model in the target format on ModelScope or HuggingFace instead.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Knowledge Distillation Soft Labels
+> 
+> The teacher model outputs soft labels — full probability distributions over all possible outputs — rather than just the single correct answer. The student trains on these distributions first, learning the teacher's reasoning patterns (why certain outputs are more likely), which transfers richer signal than hard labels alone.
+> 
+> #### Q2 — Mobile LLM Deployment Decision Framework
+> 
+> Pick the target device → select the native model format (CoreML for iOS, TFLite/ONNX for Android, ONNX for Jetson) → find a pre-built model in that format on ModelScope or HuggingFace → benchmark on device → if still too slow, apply pruning, quantization (INT4/INT8), or use a vendor-distilled model → add system-level wins: context caching, batching, parallelism.
+> 
+> #### Q3 — Why Avoid Self-Converting Models
+> 
+> Format conversion plus quantization must be repeated every time the upstream model updates, making it costly to maintain. The lesson recommends always searching for a pre-built quantized or distilled model in the target format on ModelScope or HuggingFace instead.

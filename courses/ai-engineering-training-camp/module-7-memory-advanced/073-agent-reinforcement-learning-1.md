@@ -137,13 +137,15 @@ The instructor poses the key question: *Can this self-learning capability be app
 2. Walk through the four CartPole versions (V1–V4) and explain what distinguishes Q-Learning from the earlier heuristic approaches.
 3. Explain the exploration vs. exploitation tradeoff in Q-Learning: what is epsilon-greedy, how does it change over training, and why does this schedule matter?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The agent observes the environment's current state, applies its policy to select an action, and receives a reward plus a new state from the environment — reinforcing actions that yield rewards. No human intervention is needed once the reward function is defined; the agent learns autonomously through repeated episodes.
-
-2. V1–V3 use hardcoded or AI-generated heuristics (e.g., "pole leans left → push left"), while V4 (Q-Learning) builds a Q-table mapping discretized (state, action) pairs to expected cumulative rewards through ~1900 training episodes, converging to a true optimal policy rather than hand-tuned rules.
-
-3. Epsilon-greedy starts with high random exploration so the agent discovers diverse (state, action) outcomes, then gradually decays the exploration rate so the agent increasingly exploits its improving Q-table. This schedule is essential because pure exploitation early on would trap the agent in suboptimal policies before the Q-table is sufficiently populated.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Core RL Loop
+> 
+> The agent observes the environment's current state, applies its policy to select an action, and receives a reward plus a new state from the environment — reinforcing actions that yield rewards. No human intervention is needed once the reward function is defined; the agent learns autonomously through repeated episodes.
+> 
+> #### Q2 — CartPole Versions: Heuristic vs Q-Learning
+> 
+> V1–V3 use hardcoded or AI-generated heuristics (e.g., "pole leans left → push left"), while V4 (Q-Learning) builds a Q-table mapping discretized (state, action) pairs to expected cumulative rewards through ~1900 training episodes, converging to a true optimal policy rather than hand-tuned rules.
+> 
+> #### Q3 — Epsilon-Greedy Exploration Schedule
+> 
+> Epsilon-greedy starts with high random exploration so the agent discovers diverse (state, action) outcomes, then gradually decays the exploration rate so the agent increasingly exploits its improving Q-table. This schedule is essential because pure exploitation early on would trap the agent in suboptimal policies before the Q-table is sufficiently populated.

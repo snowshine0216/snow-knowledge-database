@@ -89,11 +89,12 @@ TF-IDF represents the standard baseline for keyword retrieval performance. Any m
 2. Why does normalizing term frequency by document length improve retrieval quality, and what specific problem does it fix?
 3. What is the structure of the term-document matrix, and why is this data structure also called an inverted index?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The word "the" has a document frequency of 1.0 (it's in every document), so its IDF is log(1) = 0 or near-zero — multiplying its term frequency by this IDF value effectively suppresses its contribution to any document's score. The word "pizza" appears in only a small fraction of documents, giving it a high IDF. Any document that contains "pizza" accumulates a substantially higher score because both its raw frequency (TF) and its rarity weight (IDF) are meaningful. TF-IDF thus rewards documents that frequently use rare, topic-specific words while ignoring the presence of common words that carry no topical signal.
-2. Without length normalization, long documents accumulate higher raw term frequency scores simply because they contain more words total — not because they are more relevant. A 5,000-word encyclopedia entry might mention "pizza" a dozen times while a focused 200-word recipe mentions it four times, but the recipe is far more relevant. Dividing a document's score by its total word count converts raw frequency into a proportion: documents where keywords make up a larger *share* of the text are rewarded over documents that merely happen to be long.
-3. The term-document matrix is a two-dimensional grid where each row corresponds to a word in the vocabulary and each column corresponds to a document. Each cell stores the (TF or TF-IDF) value for that word in that document. It is called an inverted index because the normal indexing direction — from document to words — is reversed: instead, you start from a word and immediately look across its row to find all documents that contain it. This inversion makes per-keyword document lookup fast and enables the entire retrieval pipeline to be precomputed before any query arrives.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — TF-IDF Rare vs Common Words
+> "The" appears in every document, so its document frequency is 1.0 and its IDF is log(1) = 0, or near-zero — multiplying any term frequency by this value effectively suppresses its contribution to any document's score. "Pizza" appears in only a small fraction of documents, giving it a high IDF. Any document containing "pizza" accumulates a substantially higher score because both its raw frequency (TF) and its rarity weight (IDF) are meaningful. TF-IDF thus rewards documents that frequently use rare, topic-specific words while ignoring common words that carry no topical signal.
+> 
+> #### Q2 — Length Normalization Problem Fix
+> Without length normalization, long documents accumulate higher raw term frequency scores simply because they contain more words total — not because they are more relevant. A 5,000-word encyclopedia entry might mention "pizza" a dozen times while a focused 200-word recipe mentions it four times, but the recipe is far more relevant. Dividing a document's score by its total word count converts raw frequency into a proportion: documents where keywords make up a larger *share* of the text are rewarded over documents that merely happen to be long.
+> 
+> #### Q3 — Term-Document Matrix and Inverted Index
+> The term-document matrix is a two-dimensional grid where each row corresponds to a word in the vocabulary and each column corresponds to a document. Each cell stores the TF or TF-IDF value for that word in that document. It is called an inverted index because the normal indexing direction — from document to words — is reversed: instead, you start from a word and immediately look across its row to find all documents that contain it. This inversion makes per-keyword document lookup fast and enables the entire retrieval pipeline to be precomputed before any query arrives.

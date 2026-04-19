@@ -121,11 +121,16 @@ This requires two full forward passes per parameter → $2 \times 13{,}002$ forw
 2. Describe what the softmax output layer produces and how you would interpret a case where the network is "confident and wrong."
 3. Explain why backpropagation is dramatically more efficient than finite-difference gradient estimation, using the specific numbers from this lesson.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Generalization means the network has learned underlying structure in the data rather than memorizing training examples; test data — examples never seen during training — is used to measure this, because performance on training data alone cannot distinguish memorization from true learning.
-2. Softmax converts the output layer into a probability distribution where all ten digit-class probabilities sum to 1; "confident and wrong" means a high probability is assigned to an incorrect class, which the lesson flags as a particularly interesting failure mode worth investigating.
-3. Finite differences require two full forward passes per parameter to approximate one gradient, totaling 2 × 13,002 forward passes per gradient step; backpropagation computes all 13,002 gradients in just two passes (one forward, one backward), making it orders of magnitude faster.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Generalization and Test Data Holdout
+>
+> Generalization means the network has learned underlying structure in the data rather than memorizing training examples; test data — examples never seen during training — is used to measure this, because performance on training data alone cannot distinguish memorization from true learning.
+>
+> #### Q2 — Softmax Output and Confident Wrong
+>
+> Softmax converts the output layer into a probability distribution where all ten digit-class probabilities sum to 1; "confident and wrong" means a high probability is assigned to an incorrect class, which the lesson flags as a particularly interesting failure mode worth investigating.
+>
+> #### Q3 — Backpropagation vs Finite-Difference Efficiency
+>
+> Finite differences require two full forward passes per parameter to approximate one gradient, totaling 2 × 13,002 forward passes per gradient step; backpropagation computes all 13,002 gradients in just two passes (one forward, one backward), making it orders of magnitude faster.

@@ -89,11 +89,12 @@ This three-phase structure maps cleanly onto the broader RAG pipeline. The datab
 2. When loading documents into Weaviate using the batch API, what two indexes does Weaviate automatically build, and what type of search does each enable?
 3. A colleague suggests setting alpha=0.9 for a hybrid search on a corpus of legal contracts where queries involve precise clause names and legal terminology. Would you agree or disagree, and why?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A relational database is optimized for exact matches and range queries over structured columns; finding the nearest neighbors among high-dimensional vectors requires computing distances across the entire corpus, which a relational system handles via an expensive linear scan. A vector database builds an HNSW (hierarchical navigable small world) proximity graph as its index, allowing approximate nearest neighbor search to navigate to the closest vectors in sub-linear time instead of scanning every entry.
-2. When documents are inserted, Weaviate automatically builds two indexes: an HNSW vector index over the dense embedding vectors (which enables semantic/vector search via ANN), and an inverted index over the document text (which maps terms to documents and enables BM25 keyword search). Both are built automatically from the same insertion call — no separate indexing step is needed.
-3. Disagree. An alpha of 0.9 weights vector search at 90% and keyword search at only 10%. For legal contracts where queries rely on precise clause names and specific legal terminology, exact vocabulary matching via BM25 is critical — semantic search may blur distinctions between similar-sounding but legally distinct phrases. A lower alpha (more weight to keyword) would be more appropriate here, preserving the precision of BM25 while still benefiting slightly from vector search's semantic flexibility.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Relational DB vs Vector DB
+> A relational database is optimized for exact matches and range queries over structured columns; finding the nearest neighbors among high-dimensional vectors requires computing distances across the entire corpus, which a relational system handles via an expensive linear scan. A vector database builds an HNSW (hierarchical navigable small world) proximity graph as its index, allowing approximate nearest neighbor search to navigate to the closest vectors in sub-linear time instead of scanning every entry.
+> 
+> #### Q2 — Weaviate Batch Indexing
+> When documents are inserted, Weaviate automatically builds two indexes: an HNSW vector index over the dense embedding vectors (which enables semantic/vector search via ANN), and an inverted index over the document text (which maps terms to documents and enables BM25 keyword search). Both are built automatically from the same insertion call — no separate indexing step is needed.
+> 
+> #### Q3 — Hybrid Search Alpha for Legal Corpus
+> Disagree. An alpha of 0.9 weights vector search at 90% and keyword search at only 10%. For legal contracts where queries rely on precise clause names and specific legal terminology, exact vocabulary matching via BM25 is critical — semantic search may blur distinctions between similar-sounding but legally distinct phrases. A lower alpha (more weight to keyword) would be more appropriate here, preserving the precision of BM25 while still benefiting slightly from vector search's semantic flexibility.

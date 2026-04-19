@@ -225,11 +225,15 @@ This lecture builds a **Generatively Pretrained Transformer (GPT)** from scratch
 2. Describe the full transformer `Block` as implemented here: which sub-layers does it contain, in what order, and how are LayerNorm and residual connections applied?
 3. Outline the four-stage ChatGPT training pipeline and explain what each stage contributes to the model's final behavior.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. v1 uses a for loop to average all prior token embeddings (correct semantics, slow); v2 replaces it with a masked matrix multiply using `torch.tril` for the same result in one matmul; v3 adds softmax so weights are learned and non-uniform rather than flat averages; v4 introduces Q/K/V linear projections so each token queries specific information via scaled dot-product attention (`softmax(Q @ Kᵀ / √head_size) @ V`).
-2. The Block applies two sub-layers in sequence, each using pre-LN residual: `x = x + MultiHeadAttention(LayerNorm(x))` then `x = x + FeedForward(LayerNorm(x))`. LayerNorm normalizes across the feature dimension per token (not across the batch), and residual connections let gradients bypass each sublayer so deep stacks can train without vanishing.
-3. (1) **Pretraining**: GPT-3 trained on ~300B tokens via next-token prediction; (2) **SFT**: fine-tune on human-written prompt–completion pairs; (3) **Reward model**: trained on human preference data (which completion is better?); (4) **RLHF (PPO)**: use the reward model to further fine-tune GPT toward preferred outputs — scale + data + these last three stages are what separates ChatGPT from the base architecture.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Four versions of self-attention
+> 
+> v1 uses a for loop to average all prior token embeddings (correct semantics, slow); v2 replaces it with a masked matrix multiply using `torch.tril` for the same result in one matmul; v3 adds softmax so weights are learned and non-uniform rather than flat averages; v4 introduces Q/K/V linear projections so each token queries specific information via scaled dot-product attention (`softmax(Q @ Kᵀ / √head_size) @ V`).
+> 
+> #### Q2 — Transformer Block sub-layers
+> 
+> The Block applies two sub-layers in sequence, each using pre-LN residual: `x = x + MultiHeadAttention(LayerNorm(x))` then `x = x + FeedForward(LayerNorm(x))`. LayerNorm normalizes across the feature dimension per token (not across the batch), and residual connections let gradients bypass each sublayer so deep stacks can train without vanishing.
+> 
+> #### Q3 — ChatGPT four-stage pipeline
+> 
+> (1) **Pretraining**: GPT-3 trained on ~300B tokens via next-token prediction; (2) **SFT**: fine-tune on human-written prompt–completion pairs; (3) **Reward model**: trained on human preference data (which completion is better?); (4) **RLHF (PPO)**: use the reward model to further fine-tune GPT toward preferred outputs — scale + data + these last three stages are what separates ChatGPT from the base architecture.

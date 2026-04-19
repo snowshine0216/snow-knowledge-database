@@ -215,11 +215,12 @@ The lecture emphasises clean code structure as LangGraph projects grow:
 2. Describe the full flow of the vector-based memory system in p08: what happens at the start of a conversation, during the query, and after the LLM responds?
 3. A colleague suggests using summarisation for every project because "it preserves more information than trimming." Using the scenario examples from this lesson, explain when trimming or semantic retrieval would be preferable to summarisation.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A pure UUID is unpredictable and cannot be reconstructed later, making it impossible to reliably look up a user's session. The recommended pattern is `user_id + date + consistent hash`, which is unique per user, reproducible, and scoped so sessions can be retrieved deterministically.
-2. At conversation start, top-3 semantically similar memories are loaded from the vector store filtered by `user_id`; the retrieved memories plus the query are passed to the LLM; after the LLM responds, the `save_memory` tool is called to store the new exchange as an embedding in the vector store.
-3. For a translation task, the first few messages contain critical style/tone instructions that must be preserved exactly — trimming the middle pairs keeps those intact better than a lossy summary. For a coding assistant, semantic retrieval surfaces the original requirement message regardless of when it occurred, which is more useful than a rolling summary that may compress away key constraints.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — UUID vs Reproducible Thread ID
+> A pure UUID is unpredictable and cannot be reconstructed later, making it impossible to reliably look up a user's session. The recommended pattern is `user_id + date + consistent hash`, which is unique per user, reproducible, and scoped so sessions can be retrieved deterministically.
+> 
+> #### Q2 — Vector Memory System Full Flow
+> At conversation start, top-3 semantically similar memories are loaded from the vector store filtered by `user_id`; the retrieved memories plus the query are passed to the LLM; after the LLM responds, the `save_memory` tool is called to store the new exchange as an embedding in the vector store.
+> 
+> #### Q3 — When Trimming Beats Summarisation
+> For a translation task, the first few messages contain critical style/tone instructions that must be preserved exactly — trimming the middle pairs keeps those intact better than a lossy summary. For a coding assistant, semantic retrieval surfaces the original requirement message regardless of when it occurred, which is more useful than a rolling summary that may compress away key constraints.

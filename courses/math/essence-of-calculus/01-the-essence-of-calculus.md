@@ -128,11 +128,16 @@ This concrete example foreshadows the Fundamental Theorem: integration and diffe
 2. Walk through the circle-area derivation using concentric rings — what is the area of a single ring at radius $r$ with thickness $dr$, and how does lining up all rings from $0$ to $R$ produce the formula $A = \pi R^2$?
 3. Explain how the circle-area problem simultaneously introduces both differentiation and the Fundamental Theorem of Calculus, without ever using a formal algebraic rule.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Break the hard quantity into $n$ thin slices of width $dr$; approximate each slice as simple (constant conditions); sum all slices. As $dr \to 0$, the curvature/error terms (of order $dr^2$) vanish, turning the Riemann sum $\sum f(x_i)\Delta x$ into the exact definite integral $\int_a^b f(x)\,dx$.
-2. A ring at radius $r$ has circumference $2\pi r$, so its area is $2\pi r \cdot dr$. Lining all rings from $r=0$ to $r=R$ traces a triangle with base $R$ and height $2\pi R$; its area $\tfrac{1}{2} \times R \times 2\pi R = \pi R^2$ confirms the formula, also verified by $\int_0^R 2\pi r\,dr = \pi R^2$.
-3. Adding one thin ring shows $dA/dr = 2\pi r$ — the derivative of $\pi r^2$ — purely from geometry. Recovering $A(r) = \pi r^2$ by integrating that derivative previews the Fundamental Theorem: integration and differentiation are perfect inverses, a conclusion reached before either operation was formally defined.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Decomposition Principle Three Steps
+> 
+> Break the hard quantity into $n$ thin slices of width $dr$; approximate each slice as simple (constant conditions); sum all slices. As $dr \to 0$, the curvature/error terms (of order $dr^2$) vanish, turning the Riemann sum $\sum f(x_i)\Delta x$ into the exact definite integral $\int_a^b f(x)\,dx$.
+> 
+> #### Q2 — Concentric Rings Circle Area
+> 
+> A ring at radius $r$ has circumference $2\pi r$, so its area is $2\pi r \cdot dr$. Lining all rings from $r=0$ to $r=R$ traces a triangle with base $R$ and height $2\pi R$; its area $\tfrac{1}{2} \times R \times 2\pi R = \pi R^2$ confirms the formula, also verified by $\int_0^R 2\pi r\,dr = \pi R^2$.
+> 
+> #### Q3 — Differentiation and FTC from Geometry
+> 
+> Adding one thin ring shows $dA/dr = 2\pi r$ — the derivative of $\pi r^2$ — purely from geometry. Recovering $A(r) = \pi r^2$ by integrating that derivative previews the Fundamental Theorem: integration and differentiation are perfect inverses, a conclusion reached before either operation was formally defined.

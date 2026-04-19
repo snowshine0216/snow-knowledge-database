@@ -64,13 +64,16 @@ Module 2 covered retrieval at the conceptual and algorithmic level — what the 
 2. Why is the "close in vector space" property of embeddings necessary for semantic search to work? What would break if embeddings were assigned randomly?
 3. A colleague proposes removing metadata filtering from the pipeline to simplify it, arguing that semantic search will naturally deprioritize irrelevant documents. What failure mode does this create, and why does filtering need to be a hard constraint rather than a soft ranking signal?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The pipeline runs keyword search and semantic search in parallel across the knowledge base. Keyword search ranks documents by exact token overlap with the query; semantic search ranks documents by embedding-vector proximity. A metadata filter is then applied to both result sets, removing documents that fail strict eligibility criteria (e.g., wrong user, wrong date range). The two filtered lists are merged into a single ranked list, and the top documents from that list are returned to the augmented prompt. No single technique dominates — each handles a class of queries the others handle poorly.
-
-2. If embeddings were random, a query vector would be equally distant from all document vectors regardless of meaning. The only reason semantic search can retrieve conceptually related documents that share no keywords is that the embedding model has learned to place semantically similar texts near each other. Proximity is the signal; without it, there is no information to retrieve on.
-
-3. Metadata filtering enforces hard eligibility constraints — documents that must not appear for a given user or context (e.g., documents belonging to another tenant, or documents outside an authorized date range). Semantic search produces a ranking, not a binary gate. A document that is highly semantically relevant to a query but belongs to the wrong user might rank very highly and slip through — a ranking signal cannot prevent this. Metadata filtering operates as a binary exclude/include decision that relevance scores cannot override, which is exactly the behavior required for security, privacy, and scope constraints.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Full Hybrid Search Pipeline
+>
+> The pipeline runs keyword search and semantic search in parallel across the knowledge base. Keyword search ranks documents by exact token overlap with the query; semantic search ranks documents by embedding-vector proximity. A metadata filter is then applied to both result sets, removing documents that fail strict eligibility criteria (e.g., wrong user, wrong date range). The two filtered lists are merged into a single ranked list, and the top documents from that list are returned to the augmented prompt. No single technique dominates — each handles a class of queries the others handle poorly.
+>
+> #### Q2 — Why Embedding Proximity Matters
+>
+> If embeddings were random, a query vector would be equally distant from all document vectors regardless of meaning. The only reason semantic search can retrieve conceptually related documents that share no keywords is that the embedding model has learned to place semantically similar texts near each other. Proximity is the signal; without it, there is no information to retrieve on.
+>
+> #### Q3 — Metadata Filter as Hard Constraint
+>
+> Metadata filtering enforces hard eligibility constraints — documents that must not appear for a given user or context (e.g., documents belonging to another tenant, or documents outside an authorized date range). Semantic search produces a ranking, not a binary gate. A document that is highly semantically relevant to a query but belongs to the wrong user might rank very highly and slip through — a ranking signal cannot prevent this. Metadata filtering operates as a binary exclude/include decision that relevance scores cannot override, which is exactly the behavior required for security, privacy, and scope constraints.

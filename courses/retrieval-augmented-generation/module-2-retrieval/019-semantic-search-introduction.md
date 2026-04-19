@@ -91,11 +91,15 @@ This pipeline is why semantic search can match "happy" to "glad" and distinguish
 2. Why do practitioners prefer cosine similarity over Euclidean distance for comparing embedding vectors, and what is the numerical range of cosine similarity scores?
 3. Walk through the two stages of a semantic search pipeline — what happens at indexing time and what happens at query time?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Semantic search uses a learned model that maps text to positions in a mathematical space. That model was trained on enormous amounts of text and learned that "joyful" and "happy" appear in similar contexts — so it places them close to each other in that space. When the query is processed by the same model, it lands near documents about happiness, regardless of exact word overlap. Keyword search can only count shared tokens, so synonyms always score zero similarity against each other.
-2. In high-dimensional spaces, Euclidean distances between points tend to converge, making it hard to distinguish near neighbors from far ones. Cosine similarity avoids this by measuring the angle between vectors — whether they point in the same direction — rather than their absolute separation. This directional measure remains discriminative even in thousands of dimensions. Cosine similarity ranges from −1 (opposite directions, maximally dissimilar) to +1 (same direction, maximally similar), with 0 indicating no directional relationship.
-3. At indexing time, every document in the knowledge base is run through an embedding model to produce its numerical vector, and those vectors are stored. This happens once when the knowledge base is built. At query time, the user's query is run through the same model to produce a query vector, and the system computes similarity scores between the query vector and every document vector. Documents are then ranked highest-similarity-first, and the top results are returned as the relevant context for the RAG system.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Semantic Search Matches Synonyms
+> 
+> Semantic search uses a learned model that maps text to positions in a mathematical space. That model was trained on enormous amounts of text and learned that "joyful" and "happy" appear in similar contexts — so it places them close to each other in that space. When the query is processed by the same model, it lands near documents about happiness, regardless of exact word overlap. Keyword search can only count shared tokens, so synonyms always score zero similarity against each other.
+> 
+> #### Q2 — Cosine vs Euclidean Distance
+> 
+> In high-dimensional spaces, Euclidean distances between points tend to converge, making it hard to distinguish near neighbors from far ones. Cosine similarity avoids this by measuring the angle between vectors — whether they point in the same direction — rather than their absolute separation. This directional measure remains discriminative even in thousands of dimensions. Cosine similarity ranges from −1 (opposite directions, maximally dissimilar) to +1 (same direction, maximally similar), with 0 indicating no directional relationship.
+> 
+> #### Q3 — Indexing and Query Pipeline Stages
+> 
+> At indexing time, every document in the knowledge base is run through an embedding model to produce its numerical vector, and those vectors are stored. This happens once when the knowledge base is built. At query time, the user's query is run through the same model to produce a query vector, and the system computes similarity scores between the query vector and every document vector. Documents are then ranked highest-similarity-first, and the top results are returned as the relevant context for the RAG system.

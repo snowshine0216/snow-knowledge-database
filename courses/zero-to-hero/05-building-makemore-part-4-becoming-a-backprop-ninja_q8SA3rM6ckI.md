@@ -517,13 +517,15 @@ with torch.no_grad():
 2. Describe the elegant analytical gradient formula for cross-entropy + softmax, and explain intuitively what it means for how the network corrects its predictions.
 3. Explain the duality between broadcast and sum in tensor backpropagation — both directions — and why this single pattern is enough to derive most backward pass formulas correctly.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Backprop is a leaky abstraction because not understanding its internals leads to silent, hard-to-debug failures — for example, a real code snippet found online was trying to clip gradients but was actually clipping the loss values, which silently zeroed gradients on outliers because the author did not understand how gradients flow through the loss computation.
-
-2. The analytical gradient is `dlogits[i] = softmax(logits)[i] - 1_{i == true_class}`, divided by batch size. Intuitively, it pushes down the probability of every class proportional to how much probability mass the model currently assigns to it, while simultaneously pushing up the true class by 1 — the total force sums to zero across all classes, and the magnitude of correction is proportional to how wrong the prediction currently is.
-
-3. A forward broadcast (tensor replicated to match another's shape) requires summing gradients over the replicated dimension in the backward pass; conversely, a forward sum (reducing over a dimension) requires broadcasting/replicating the gradient over that dimension in the backward pass. This duality alone — combined with shape-matching — is sufficient to correctly derive gradient formulas for operations like batch norm, matrix multiply, and embedding lookups without memorizing any formulas.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Backprop as Leaky Abstraction
+> 
+> Backprop is a leaky abstraction because not understanding its internals leads to silent, hard-to-debug failures — for example, a real code snippet found online was trying to clip gradients but was actually clipping the loss values, which silently zeroed gradients on outliers because the author did not understand how gradients flow through the loss computation.
+> 
+> #### Q2 — Softmax Cross-Entropy Gradient Formula
+> 
+> The analytical gradient is `dlogits[i] = softmax(logits)[i] - 1_{i == true_class}`, divided by batch size. Intuitively, it pushes down the probability of every class proportional to how much probability mass the model currently assigns to it, while simultaneously pushing up the true class by 1 — the total force sums to zero across all classes, and the magnitude of correction is proportional to how wrong the prediction currently is.
+> 
+> #### Q3 — Broadcast-Sum Duality in Backprop
+> 
+> A forward broadcast (tensor replicated to match another's shape) requires summing gradients over the replicated dimension in the backward pass; conversely, a forward sum (reducing over a dimension) requires broadcasting/replicating the gradient over that dimension in the backward pass. This duality alone — combined with shape-matching — is sufficient to correctly derive gradient formulas for operations like batch norm, matrix multiply, and embedding lookups without memorizing any formulas.

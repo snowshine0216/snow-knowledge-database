@@ -126,11 +126,10 @@ self.lstm = nn.LSTM(input_size=1, hidden_size=1)
 2. Walk through all three LSTM gates — Forget, Input, Output — and explain what each one decides, which activations it uses, and how it modifies either the Cell State or Hidden State.
 3. The chapter demonstrates the same trained LSTM correctly predicting Day 5 for two companies whose sequences differ only on Day 1. What mechanism inside the LSTM makes this possible — how does that early difference propagate forward to influence later outputs?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The Cell State flows horizontally across the top of the LSTM as a "highway" with no weight matrices sitting directly on the path — it is modified only by element-wise multiplication and addition. Because no weight matrix repeatedly multiplies the Cell State gradient at each time step, the gradient does not shrink or explode across long sequences the way it does through the Hidden State, which passes through weight matrices at every unrolled step.
-2. The **Forget Gate** applies a sigmoid to a weighted combination of the current input and previous hidden state, then multiplies the result (a fraction in (0,1)) by the old Cell State to decide how much to retain. The **Input Gate** uses a sigmoid to scale a tanh-produced candidate value, then adds the result to the (already-forgotten) Cell State to write new information in. The **Output Gate** applies a sigmoid to produce a fraction, then multiplies it by tanh of the updated Cell State to decide how much of the Long-Term Memory to expose as the new Short-Term Memory (Hidden State).
-3. The Cell State preserves the difference introduced on Day 1 by carrying it forward through each unrolled unit with only element-wise operations; the Forget Gate retains most of the Long-Term Memory each step (close to 1.0), so that early distinction persists all the way to Day 5 and causes the final Hidden State — used as the prediction — to differ between the two companies.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Cell State vs Hidden State Gradients
+> The Cell State flows horizontally across the top of the LSTM as a "highway" with no weight matrices sitting directly on the path — it is modified only by element-wise multiplication and addition. Because no weight matrix repeatedly multiplies the Cell State gradient at each time step, the gradient does not shrink or explode across long sequences the way it does through the Hidden State, which passes through weight matrices at every unrolled step.
+> #### Q2 — Three LSTM Gates Explained
+> The **Forget Gate** applies a sigmoid to a weighted combination of the current input and previous hidden state, then multiplies the result (a fraction in (0,1)) by the old Cell State to decide how much to retain. The **Input Gate** uses a sigmoid to scale a tanh-produced candidate value, then adds the result to the (already-forgotten) Cell State to write new information in. The **Output Gate** applies a sigmoid to produce a fraction, then multiplies it by tanh of the updated Cell State to decide how much of the Long-Term Memory to expose as the new Short-Term Memory (Hidden State).
+> #### Q3 — Early Difference Propagation Mechanism
+> The Cell State preserves the difference introduced on Day 1 by carrying it forward through each unrolled unit with only element-wise operations; the Forget Gate retains most of the Long-Term Memory each step (close to 1.0), so that early distinction persists all the way to Day 5 and causes the final Hidden State — used as the prediction — to differ between the two companies.

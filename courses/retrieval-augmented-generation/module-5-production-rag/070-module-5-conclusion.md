@@ -93,13 +93,15 @@ Looking back across the full course arc — RAG fundamentals in Module 1, retrie
 2. What are the two structural layers of a comprehensive RAG evaluation system, and what failure class does each layer catch that the other cannot?
 3. Describe two security threats unique to RAG architectures and explain why they do not apply to a standard LLM API call without retrieval.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A test suite is bounded by what the developer anticipated when writing tests. Production exposes an effectively unbounded input space — real users ask things no test anticipated, in volumes and patterns that reveal race conditions, latency spikes, and edge cases invisible at development scale. Higher stakes also mean that failures have real consequences rather than failing a CI check. Production reliability requires ongoing evaluation against real traffic and monitoring infrastructure that surfaces failures continuously — a one-time test suite cannot substitute for that operational practice.
-
-2. Component-level evaluations test each pipeline stage in isolation — retriever recall and precision, LLM faithfulness to context, chunking quality — and catch localized failures where a specific component is underperforming regardless of how the others behave. End-to-end evaluations test the complete integrated pipeline on full query-response pairs and catch emergent failures where individual components pass their isolated tests but the pipeline as a whole produces bad outputs due to cross-component interactions. Both layers are necessary because neither covers the failure modes the other catches.
-
-3. First, **prompt injection via retrieved content**: in a RAG pipeline, retrieved documents enter the model alongside the user query and system prompt. An adversarially crafted document in the knowledge base can contain instructions designed to override the system prompt and alter model behavior — this threat does not exist in a standard LLM API call because retrieved content is not in the input. Second, **unintended data leakage**: the knowledge base may contain information that should not be surfaced to certain users or queries; retrieval can inadvertently surface it and the model may include it in a response. Access control on the knowledge base and output filtering are mitigations specific to the RAG architecture.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Testing Cannot Anticipate Production
+> 
+> A test suite is bounded by what the developer anticipated when writing tests. Production exposes an effectively unbounded input space — real users ask things no test anticipated, in volumes and patterns that reveal race conditions, latency spikes, and edge cases invisible at development scale. Higher stakes also mean that failures have real consequences rather than failing a CI check. Production reliability requires ongoing evaluation against real traffic and monitoring infrastructure that surfaces failures continuously — a one-time test suite cannot substitute for that operational practice.
+> 
+> #### Q2 — Two Evaluation Layers, Distinct Failures
+> 
+> Component-level evaluations test each pipeline stage in isolation — retriever recall and precision, LLM faithfulness to context, chunking quality — and catch localized failures where a specific component is underperforming regardless of how the others behave. End-to-end evaluations test the complete integrated pipeline on full query-response pairs and catch emergent failures where individual components pass their isolated tests but the pipeline as a whole produces bad outputs due to cross-component interactions. Both layers are necessary because neither covers the failure modes the other catches.
+> 
+> #### Q3 — Two RAG-Specific Security Threats
+> 
+> First, **prompt injection via retrieved content**: in a RAG pipeline, retrieved documents enter the model alongside the user query and system prompt. An adversarially crafted document in the knowledge base can contain instructions designed to override the system prompt and alter model behavior — this threat does not exist in a standard LLM API call because retrieved content is not in the input. Second, **unintended data leakage**: the knowledge base may contain information that should not be surfaced to certain users or queries; retrieval can inadvertently surface it and the model may include it in a response. Access control on the knowledge base and output filtering are mitigations specific to the RAG architecture.

@@ -85,13 +85,12 @@ The practical workflow for building a retriever, which the next lesson covers in
 2. You train the same embedding model twice on identical data but with different random seeds. Are the two resulting vector spaces identical, equivalent in structure, or completely unrelated? What does your answer imply about comparing vectors across different models?
 3. Why do production embedding models use hundreds or thousands of dimensions instead of a small number like three?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Contrastive training requires a large dataset of positive pairs (semantically similar texts) and negative pairs (semantically dissimilar texts). After embedding a batch of pairs, the model evaluates how well it placed positive pairs close together and negative pairs far apart. It then updates its parameters using an optimization algorithm that pulls positive pairs toward each other and pushes negative pairs further apart. This cycle repeats thousands of times until the vector space reflects the semantic structure of the training data.
-
-2. The two vector spaces will have identical semantic structure — the same concepts will cluster together — but the clusters will sit at different absolute positions in the space because of different random initializations. This makes the two spaces incompatible for direct comparison. The implication is broad: you can only meaningfully compare vectors produced by the exact same model. Any difference in training data, architecture, dimensionality, or random initialization produces a geometrically incompatible vector space, and mixing vectors across models produces meaningless results.
-
-3. In low-dimensional space, it is geometrically impossible to simultaneously satisfy millions of push-and-pull constraints without unrelated concepts being forced into the same neighborhoods. High-dimensional space gives the optimization algorithm enough degrees of freedom to find a geometry where all constraints are approximately satisfied at once. The dimensionality is chosen to give the model capacity to encode the full nuanced complexity of language, not for interpretability.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Contrastive Training Mechanics
+> Contrastive training requires a large dataset of positive pairs (semantically similar texts) and negative pairs (semantically dissimilar texts). After embedding a batch of pairs, the model evaluates how well it placed positive pairs close together and negative pairs far apart. It then updates its parameters using an optimization algorithm that pulls positive pairs toward each other and pushes negative pairs further apart. This cycle repeats thousands of times until the vector space reflects the semantic structure of the training data.
+> 
+> #### Q2 — Comparing Vectors Across Models
+> The two vector spaces will have identical semantic structure — the same concepts will cluster together — but the clusters will sit at different absolute positions in the space because of different random initializations. This makes the two spaces incompatible for direct comparison. The implication is broad: you can only meaningfully compare vectors produced by the exact same model. Any difference in training data, architecture, dimensionality, or random initialization produces a geometrically incompatible vector space, and mixing vectors across models produces meaningless results.
+> 
+> #### Q3 — Why High Dimensionality
+> In low-dimensional space, it is geometrically impossible to simultaneously satisfy millions of push-and-pull constraints without unrelated concepts being forced into the same neighborhoods. High-dimensional space gives the optimization algorithm enough degrees of freedom to find a geometry where all constraints are approximately satisfied at once. The dimensionality is chosen to give the model capacity to encode the full nuanced complexity of language, not for interpretability.

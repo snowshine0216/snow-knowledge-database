@@ -74,11 +74,16 @@ The practical upshot is that metadata filtering is a **refiner, not a retriever*
 2. In the newspaper example, why are metadata filter values typically determined by who is querying rather than what they asked?
 3. What is the single most important capability that metadata filtering provides that no probabilistic ranking technique can replicate — and what is the most significant thing it cannot do?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Metadata filtering narrows the candidate pool using hard boolean criteria applied to structured document attributes — it decides which documents are *eligible*, not which are *relevant*. It has no mechanism for assessing topical relevance or ranking documents against each other. Its role is to exclude ineligible documents before keyword and vector search techniques rank the remaining candidates by content relevance.
-2. The filter values are set by the system based on the user's identity or context (authentication status, location, department, language preference) because metadata filtering enforces structural access rules rather than answering questions. The user's query governs what content they are looking for; the metadata filter governs what content they are *allowed to see* or *scoped to see*. These are orthogonal concerns, and the system handles the latter automatically.
-3. The most important unique capability is enforcing hard, non-negotiable exclusions — documents that must never appear for a given user cannot be excluded reliably by probabilistic ranking, which might still surface them with a high score. The most significant limitation is that metadata filtering says nothing about content relevance: two documents that both pass the filter are treated as equals regardless of how topically matched they are to the user's question.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Metadata Filtering as Eligibility Refiner
+> 
+> Metadata filtering narrows the candidate pool using hard boolean criteria applied to structured document attributes — it decides which documents are *eligible*, not which are *relevant*. It has no mechanism for assessing topical relevance or ranking documents against each other. Its role is to exclude ineligible documents before keyword and vector search techniques rank the remaining candidates by content relevance.
+> 
+> #### Q2 — Filter Values Set by Identity Not Query
+> 
+> The filter values are set by the system based on the user's identity or context (authentication status, location, department, language preference) because metadata filtering enforces structural access rules rather than answering questions. The user's query governs what content they are looking for; the metadata filter governs what content they are *allowed to see* or *scoped to see*. These are orthogonal concerns, and the system handles the latter automatically.
+> 
+> #### Q3 — Hard Exclusions vs Content Relevance Blind Spot
+> 
+> The most important unique capability is enforcing hard, non-negotiable exclusions — documents that must never appear for a given user cannot be excluded reliably by probabilistic ranking, which might still surface them with a high score. The most significant limitation is that metadata filtering says nothing about content relevance: two documents that both pass the filter are treated as equals regardless of how topically matched they are to the user's question.

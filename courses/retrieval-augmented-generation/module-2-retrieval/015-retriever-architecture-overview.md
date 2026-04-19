@@ -100,13 +100,16 @@ Designing a high-performing retriever is therefore an exercise in understanding 
 2. A document about "vehicle coverage rates" is highly relevant to a user's query about "car insurance costs," but it contains none of the words in the query. Which retrieval technique would surface it, and why does the other technique miss it?
 3. An HR document scores in the top 5 results of both keyword and semantic search for a given query. The user submitting the query is an engineer with no HR access. What happens to that document, and at what stage of the pipeline?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The prompt arrives at the retriever, which runs keyword search and semantic search in parallel against the knowledge base, each producing a candidate list of roughly 20–50 documents. Both lists are then filtered against the user's metadata attributes (role, permissions, date range, etc.), removing categorically inappropriate documents. The two filtered lists are merged into a single unified ranking that combines relevance signals from both techniques. The top-ranked documents from the merged list are returned by the retriever and forwarded to the augmented prompt stage.
-
-2. Semantic search surfaces the "vehicle coverage rates" document because it converts both the query and the document into vector embeddings representing their meaning, and the two meanings are geometrically close in that space — "car insurance costs" and "vehicle coverage rates" describe the same concept. Keyword search misses it entirely because keyword search operates on exact lexical overlap: it looks for documents containing the words "car," "insurance," and "costs," and finds none of those words in a document that uses "vehicle," "coverage," and "rates."
-
-3. The HR document is eliminated by metadata filtering, which occurs after both keyword and semantic search have produced their candidate lists. The system knows the user belongs to the engineering department and applies a filter that excludes all HR-designated documents. The HR document passes the relevance tests from both search techniques but fails the metadata filter, so it is removed from both candidate lists before those lists are merged. It never appears in the final ranked output returned to the pipeline.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — End-to-End Retriever Pipeline Flow
+> 
+> The prompt arrives at the retriever, which runs keyword search and semantic search in parallel against the knowledge base, each producing a candidate list of roughly 20–50 documents. Both lists are then filtered against the user's metadata attributes (role, permissions, date range, etc.), removing categorically inappropriate documents. The two filtered lists are merged into a single unified ranking that combines relevance signals from both techniques. The top-ranked documents from the merged list are returned by the retriever and forwarded to the augmented prompt stage.
+> 
+> #### Q2 — Semantic vs Keyword Lexical Gap
+> 
+> Semantic search surfaces the "vehicle coverage rates" document because it converts both the query and the document into vector embeddings representing their meaning, and the two meanings are geometrically close in that space — "car insurance costs" and "vehicle coverage rates" describe the same concept. Keyword search misses it entirely because keyword search operates on exact lexical overlap: it looks for documents containing the words "car," "insurance," and "costs," and finds none of those words in a document that uses "vehicle," "coverage," and "rates."
+> 
+> #### Q3 — Metadata Filtering and Access Control
+> 
+> The HR document is eliminated by metadata filtering, which occurs after both keyword and semantic search have produced their candidate lists. The system knows the user belongs to the engineering department and applies a filter that excludes all HR-designated documents. The HR document passes the relevance tests from both search techniques but fails the metadata filter, so it is removed from both candidate lists before those lists are merged. It never appears in the final ranked output returned to the pipeline.

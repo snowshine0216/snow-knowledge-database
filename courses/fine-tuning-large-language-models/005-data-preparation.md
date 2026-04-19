@@ -100,11 +100,16 @@ Three bonus datasets in the lab for experimentation: Taylor Swift Q&A, BTS Q&A, 
 2. Why must the tokenizer match the model, and what Hugging Face class handles this automatically?
 3. When should you truncate from the left rather than the right, and why?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Quality > Diversity > Real data > Quantity. Quantity ranks last because the base model already learned from trillions of tokens during pre-training — fine-tuning needs to adjust behavior, not rebuild knowledge from scratch. A small, high-quality dataset outperforms a large, noisy one.
-2. Each tokenizer assigns its own integer IDs to character clusters based on the frequency patterns of the text it was trained on. If you use a different tokenizer, the model receives the wrong integer mappings and produces nonsense. `AutoTokenizer.from_pretrained(model_name)` automatically loads the tokenizer that matches the model.
-3. Truncate from the left when the important content is on the right side of the sequence — for example, when the instruction is long but the answer/response portion (which the model must learn to produce) is on the right. Truncating from the right would discard the target output.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Data Quality Priority Ranking
+> 
+> Quality > Diversity > Real data > Quantity. Quantity ranks last because the base model already learned from trillions of tokens during pre-training — fine-tuning needs to adjust behavior, not rebuild knowledge from scratch. A small, high-quality dataset outperforms a large, noisy one.
+> 
+> #### Q2 — Tokenizer Must Match Model
+> 
+> Each tokenizer assigns its own integer IDs to character clusters based on the frequency patterns of the text it was trained on. If you use a different tokenizer, the model receives the wrong integer mappings and produces nonsense. `AutoTokenizer.from_pretrained(model_name)` automatically loads the tokenizer that matches the model.
+> 
+> #### Q3 — Truncate Left vs Right
+> 
+> Truncate from the left when the important content is on the right side of the sequence — for example, when the instruction is long but the answer/response portion (which the model must learn to produce) is on the right. Truncating from the right would discard the target output.

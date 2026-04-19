@@ -93,11 +93,19 @@ The difference is clear and immediate. ChatGPT (estimated 70B parameters) also d
 2. What are the three main benefits of fine-tuning your own LLM, and give one specific example for each?
 3. In the lab demo, what did the non-fine-tuned Llama-2 do when asked "Tell me how to train my dog to sit" — and why?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A general-purpose LLM is like a PCP (good for general checkups). Fine-tuning specializes it into a domain expert like a cardiologist — able to diagnose heart problems in much greater depth because it has learned from domain-specific training data.
-2. Performance (e.g., a dermatology-tuned model gives a specific diagnosis from symptoms instead of "probably acne"); Privacy (fine-tuning inside your VPC prevents data leakage to third-party APIs); Cost (a fine-tuned smaller model can deliver sub-200ms autocomplete latency vs 30+ seconds for GPT-4, at lower per-request cost).
-3. It echoed the question back and generated related questions ("tell me how to teach my dog to come, how to get my dog to heel…") because the base model was trained to predict and continue text, not to answer questions — it behaved like a text completion engine, not a chat assistant.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Fine-Tuning as Specialisation
+> 
+> A general-purpose LLM is like a PCP (good for general checkups). Fine-tuning specializes it into a domain expert like a cardiologist — able to diagnose heart problems in much greater depth because it has learned from domain-specific training data.
+> 
+> #### Q2 — Three Fine-Tuning Benefits
+> 
+> **Performance** — a dermatology-tuned model gives a specific diagnosis from symptoms instead of "probably acne."
+> 
+> **Privacy** — fine-tuning inside your VPC prevents data leakage to third-party APIs.
+> 
+> **Cost** — a fine-tuned smaller model can deliver sub-200ms autocomplete latency vs 30+ seconds for GPT-4, at lower per-request cost.
+> 
+> #### Q3 — Base Model Completion Behavior
+> 
+> It echoed the question back and generated related questions ("tell me how to teach my dog to come, how to get my dog to heel…") because the base model was trained to predict and continue text, not to answer questions — it behaved like a text completion engine, not a chat assistant.

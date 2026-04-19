@@ -138,11 +138,15 @@ self.pool = nn.MaxPool2d(
 2. Trace a 6×6 grayscale image through one full CNN pipeline: filter → feature map → ReLU → max pooling. What are the output dimensions at each step, and what mathematical operation happens at each stage?
 3. Why are CNN filters described as "learned, not hand-crafted"? What mechanism trains them, and what two sets of parameters does that mechanism update?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. CNNs solve: (1) parameter explosion — filters share weights across the image instead of one weight per pixel per node; (2) shift sensitivity — max pooling keeps the strongest local activation regardless of exact position; (3) ignoring spatial correlations — the filter's dot product operation explicitly combines neighboring pixels.
-2. A 3×3 filter slides over the 6×6 image (stride=1), computing element-wise dot product + bias at each position to produce a 4×4 feature map; ReLU is applied element-wise (negatives → 0); a 2×2 max pool with stride=2 selects the maximum in each non-overlapping region, reducing to a 2×2 output (4 values from 36 original pixels).
-3. Filter pixel values and biases start as random values and are optimized end-to-end via backpropagation during training — the same gradient-based process that updates weights in standard neural network layers, requiring no manual design of the filter values.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Three Problems CNNs Solve
+> 
+> CNNs solve: (1) parameter explosion — filters share weights across the image instead of one weight per pixel per node; (2) shift sensitivity — max pooling keeps the strongest local activation regardless of exact position; (3) ignoring spatial correlations — the filter's dot product operation explicitly combines neighboring pixels.
+> 
+> #### Q2 — Image Through Full CNN Pipeline
+> 
+> A 3×3 filter slides over the 6×6 image (stride=1), computing element-wise dot product + bias at each position to produce a 4×4 feature map; ReLU is applied element-wise (negatives → 0); a 2×2 max pool with stride=2 selects the maximum in each non-overlapping region, reducing to a 2×2 output (4 values from 36 original pixels).
+> 
+> #### Q3 — How Filters Are Trained
+> 
+> Filter pixel values and biases start as random values and are optimized end-to-end via backpropagation during training — the same gradient-based process that updates weights in standard neural network layers, requiring no manual design of the filter values.

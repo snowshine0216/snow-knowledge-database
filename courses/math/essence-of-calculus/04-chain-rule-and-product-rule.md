@@ -165,11 +165,10 @@ $$
 2. Walk through the chain rule derivation using cascading nudges: starting from a nudge $dx$, explain how $dy$ and then $dz$ arise, and why the final sensitivity $dz/dx$ is a product of two local sensitivities.
 3. Differentiate $e^x \cos(x^2)$ step by step, naming which rule you apply at each stage and why.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. A rectangle with sides $f$ and $g$ grows by three pieces when $x$ is nudged: a top strip $f\,dg$, a right strip $g\,df$, and a corner square $df\,dg$. The corner is second-order (product of two tiny quantities) and vanishes in the limit, leaving $d(fg) = f\,dg + g\,df$, which divided by $dx$ gives $f'g + fg'$.
-2. A nudge $dx$ propagates to $y = g(x)$ as $dy = g'(x)\,dx$, then that nudge to $y$ propagates to $z = f(y)$ as $dz = f'(y)\,dy$; substituting gives $dz = f'(g(x))\cdot g'(x)\,dx$, so $dz/dx = f'(g(x))\cdot g'(x)$ — each link in the chain contributes one multiplicative factor.
-3. Apply the product rule to $e^x$ and $\cos(x^2)$: the derivative is $e^x\cos(x^2) + e^x \cdot \frac{d}{dx}\cos(x^2)$; the chain rule on the second term gives $-\sin(x^2)\cdot 2x$, yielding $e^x(\cos(x^2) - 2x\sin(x^2))$.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Product Rule Rectangle Geometry
+> A rectangle with sides $f$ and $g$ grows by three pieces when $x$ is nudged: a top strip $f\,dg$, a right strip $g\,df$, and a corner square $df\,dg$. The corner is second-order (product of two tiny quantities) and vanishes in the limit, leaving $d(fg) = f\,dg + g\,df$, which divided by $dx$ gives $f'g + fg'$.
+> #### Q2 — Chain Rule Cascading Nudges
+> A nudge $dx$ propagates to $y = g(x)$ as $dy = g'(x)\,dx$, then that nudge to $y$ propagates to $z = f(y)$ as $dz = f'(y)\,dy$; substituting gives $dz = f'(g(x))\cdot g'(x)\,dx$, so $dz/dx = f'(g(x))\cdot g'(x)$ — each link in the chain contributes one multiplicative factor.
+> #### Q3 — Differentiating Product with Chain Rule
+> Apply the product rule to $e^x$ and $\cos(x^2)$: the derivative is $e^x\cos(x^2) + e^x \cdot \frac{d}{dx}\cos(x^2)$; the chain rule on the second term gives $-\sin(x^2)\cdot 2x$, yielding $e^x(\cos(x^2) - 2x\sin(x^2))$.

@@ -82,16 +82,16 @@ Together, evals and error analysis form a closed feedback loop. Evals give you r
 2. You are evaluating a creative-writing agent's outputs. Why would a simple code-based checker be insufficient, and how would you set up an LLM-as-judge eval to handle this case?
 3. Your end-to-end eval score for a research agent drops after a prompt change, but you are not sure which step caused the regression. What type of eval would you run next, and how does it narrow the problem?
 
-<details>
-<summary>Answer Guide</summary>
-
-**Q1 — Discovering and tracking a discount-threshold leak:**
-First, build and run the system against real or realistic inputs, then manually read outputs to spot the disclosure pattern. Once confirmed, determine whether "discount threshold" mentions are objective (they are — a specific dollar figure or percentage appearing in the text is detectable by string search or regex). Create a code-based eval that flags any response containing known threshold values or patterns like "X% off internal limit," compute a leak-rate metric, and track it across versions. Continue running error analysis on traces to find the step where the disclosure originates (likely a retrieval step that returns internal pricing documents).
-
-**Q2 — LLM-as-judge for creative writing:**
-Free-form creative prose cannot be scored by string matching because quality is inherently subjective and multi-dimensional (voice, coherence, originality). Instead, construct a judge prompt that defines the criteria explicitly — e.g., "Score the following story from 1 to 5 for narrative coherence, originality, and prose quality, where 5 is excellent." Feed the generated stories to a capable judge LLM and collect scores. Be aware that numeric-scale ratings cluster and lack fine discrimination; treat the scores as directional signals rather than precise measurements, and plan to adopt more sophisticated judging techniques (pairwise comparisons, rubric-based scoring) as the eval matures.
-
-**Q3 — Using component-level evals after an end-to-end regression:**
-Run component-level evals on each step of the pipeline in isolation: test the retrieval step, the reasoning/planning step, and the report-generation step separately. Compare per-component scores before and after the prompt change. The step whose score drops most is the source of the regression. Component-level evals are faster to run and more precise in attribution than waiting for the full end-to-end pipeline, making them the right tool for diagnosing where a specific change went wrong.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Tracing and Measuring a Disclosure Leak
+>
+> First, build and run the system against real or realistic inputs, then manually read outputs to spot the disclosure pattern. Once confirmed, determine whether "discount threshold" mentions are objective (they are — a specific dollar figure or percentage appearing in the text is detectable by string search or regex). Create a code-based eval that flags any response containing known threshold values or patterns like "X% off internal limit," compute a leak-rate metric, and track it across versions. Continue running error analysis on traces to find the step where the disclosure originates (likely a retrieval step that returns internal pricing documents).
+>
+> #### Q2 — LLM-as-Judge for Creative Writing
+>
+> Free-form creative prose cannot be scored by string matching because quality is inherently subjective and multi-dimensional (voice, coherence, originality). Instead, construct a judge prompt that defines the criteria explicitly — e.g., "Score the following story from 1 to 5 for narrative coherence, originality, and prose quality, where 5 is excellent." Feed the generated stories to a capable judge LLM and collect scores. Be aware that numeric-scale ratings cluster and lack fine discrimination; treat the scores as directional signals rather than precise measurements, and plan to adopt more sophisticated judging techniques (pairwise comparisons, rubric-based scoring) as the eval matures.
+>
+> #### Q3 — Component Evals After End-to-End Regression
+>
+> Run component-level evals on each step of the pipeline in isolation: test the retrieval step, the reasoning/planning step, and the report-generation step separately. Compare per-component scores before and after the prompt change. The step whose score drops most is the source of the regression. Component-level evals are faster to run and more precise in attribution than waiting for the full end-to-end pipeline, making them the right tool for diagnosing where a specific change went wrong.

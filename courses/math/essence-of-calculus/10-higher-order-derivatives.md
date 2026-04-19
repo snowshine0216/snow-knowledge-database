@@ -154,11 +154,12 @@ When the curve is nearly flat ($f' \approx 0$), curvature reduces to $|f''|$, so
 2. Walk through the full physics derivative chain from position to pop, naming each level and explaining what each one measures relative to the one before it.
 3. Explain why $f''(c) = 0$ is necessary but not sufficient for an inflection point, and give the additional condition that must be verified.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Jerk measures how fast acceleration is changing, and since $F = ma$, a changing acceleration means a changing force — $dF/dt = mj$. An elevator that ramps acceleration gradually (small jerk) feels smooth; one that switches instantly (large jerk) produces a sharp lurch passengers feel as discomfort.
-2. Position $s$ → velocity $s'$ (rate of change of position) → acceleration $s''$ (rate of change of velocity) → jerk $s'''$ (rate of change of acceleration) → snap $s^{(4)}$ → crackle $s^{(5)}$ → pop $s^{(6)}$; each level is the derivative of the previous one.
-3. $f''$ could equal zero and then bounce back to the same sign without ever changing sign — as with $f(x) = x^4$ at $x = 0$. To confirm an inflection point you must verify that $f''$ actually changes sign across $c$, not merely touches zero.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Jerk and Newton's Second Law
+> Jerk measures how fast acceleration is changing, and since $F = ma$, a changing acceleration means a changing force — $dF/dt = mj$. An elevator that ramps acceleration gradually (small jerk) feels smooth; one that switches instantly (large jerk) produces a sharp lurch passengers feel as discomfort.
+> 
+> #### Q2 — Position-to-Pop Derivative Chain
+> Position $s$ → velocity $s'$ (rate of change of position) → acceleration $s''$ (rate of change of velocity) → jerk $s'''$ (rate of change of acceleration) → snap $s^{(4)}$ → crackle $s^{(5)}$ → pop $s^{(6)}$; each level is the derivative of the previous one.
+> 
+> #### Q3 — Inflection Point Sufficiency Condition
+> $f''$ could equal zero and then bounce back to the same sign without ever changing sign — as with $f(x) = x^4$ at $x = 0$. To confirm an inflection point you must verify that $f''$ actually changes sign across $c$, not merely touches zero.

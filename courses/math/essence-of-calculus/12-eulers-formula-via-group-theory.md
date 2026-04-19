@@ -141,11 +141,16 @@ Magnitudes multiply; angles add. This is why complex exponentials are the natura
 2. Walk through the Taylor series derivation of $e^{i\theta} = \cos\theta + i\sin\theta$, explaining why the even and odd powers separate the way they do.
 3. What does it mean geometrically to multiply a complex number $z$ by $e^{i\theta}$, and how does the polar multiplication rule $z \cdot w = r\rho\, e^{i(\phi+\psi)}$ express this?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The real numbers under addition and the unit circle under multiplication are both groups with the same abstract symmetry; $e^{i\theta}$ is the unique continuous homomorphism mapping $(\mathbb{R}, +) \to (S^1, \times)$, so any reasonable continuous map that translates addition into multiplication on the unit circle must take this form.
-2. Substituting $x = i\theta$ into $e^x = \sum (i\theta)^n/n!$ produces powers of $i$ that cycle with period 4 ($1, i, -1, -i, \ldots$); even powers (with alternating signs) collect into the series for $\cos\theta$, and odd powers (with alternating signs, factored by $i$) collect into $i\sin\theta$.
-3. Multiplying $z$ by $e^{i\theta}$ rotates $z$ by angle $\theta$ without changing its magnitude (since $|e^{i\theta}| = 1$); in polar form, $z \cdot w = r\rho\, e^{i(\phi+\psi)}$ shows that magnitudes multiply and angles add.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Euler's Formula as Inevitable Structure
+> 
+> The real numbers under addition and the unit circle under multiplication are both groups with the same abstract symmetry; $e^{i\theta}$ is the unique continuous homomorphism mapping $(\mathbb{R}, +) \to (S^1, \times)$, so any reasonable continuous map that translates addition into multiplication on the unit circle must take this form.
+> 
+> #### Q2 — Taylor Series Derivation
+> 
+> Substituting $x = i\theta$ into $e^x = \sum (i\theta)^n/n!$ produces powers of $i$ that cycle with period 4 ($1, i, -1, -i, \ldots$); even powers (with alternating signs) collect into the series for $\cos\theta$, and odd powers (with alternating signs, factored by $i$) collect into $i\sin\theta$.
+> 
+> #### Q3 — Geometric Meaning of Complex Multiplication
+> 
+> Multiplying $z$ by $e^{i\theta}$ rotates $z$ by angle $\theta$ without changing its magnitude (since $|e^{i\theta}| = 1$); in polar form, $z \cdot w = r\rho\, e^{i(\phi+\psi)}$ shows that magnitudes multiply and angles add.

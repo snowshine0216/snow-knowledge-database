@@ -25,11 +25,12 @@ source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai
 2. Describe how a multi-output neural network differs architecturally from a single-output network, and explain what each output node represents.
 3. Explain why adding more inputs or outputs increases model complexity, and what risk this introduces during training.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Each input feature connects to every neuron in the first hidden layer via its own weight, so total connections = number of inputs × number of hidden neurons; this forms a fully connected (dense) layer.
-2. A multi-output network has multiple nodes in the output layer, one per target class or value; each output node has its own set of weights connecting back through the network.
-3. More inputs/outputs multiply the parameter count, increasing the model's capacity but also its risk of overfitting — especially when training data is limited relative to the number of weights.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Multiple Input Feature Weight Connections
+> Each input feature connects to every neuron in the first hidden layer via its own weight, so total connections = number of inputs × number of hidden neurons; this forms a fully connected (dense) layer.
+> 
+> #### Q2 — Multi-Output Network Architecture
+> A multi-output network has multiple nodes in the output layer, one per target class or value; each output node has its own set of weights connecting back through the network.
+> 
+> #### Q3 — Inputs, Outputs, and Overfitting Risk
+> More inputs/outputs multiply the parameter count, increasing the model's capacity but also its risk of overfitting — especially when training data is limited relative to the number of weights.

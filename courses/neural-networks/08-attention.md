@@ -165,11 +165,12 @@ $$4 \cdot d_{\text{model}}^2 \quad \text{(when } d_k = d_v = d_{\text{model}} / 
 2. Explain how causal masking works mechanically: what is added to the score matrix, what effect does it have after softmax, and why is it needed for autoregressive generation?
 3. Explain why the total parameter count for a multi-head attention layer simplifies to $4 \cdot d_{\text{model}}^2$, accounting for all projection matrices.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Queries ($\mathbf{Q}$) ask "what am I looking for?", keys ($\mathbf{K}$) signal "what do I contain?", and values ($\mathbf{V}$) carry "what I contribute." Their dot products form a score matrix scaled by $\sqrt{d_k}$ (to prevent softmax saturation at large $d_k$), then softmax normalizes each row into a probability distribution, which weights a sum over value vectors to produce the context-aware output.
-2. A causal mask adds $-\infty$ to all positions $j > i$ in the score matrix before softmax; since $e^{-\infty} = 0$, those positions receive zero attention weight, ensuring token $i$ can only attend to earlier tokens and itself — which is required so the model cannot "see" future tokens it hasn't generated yet.
-3. Each of the $h$ heads contributes three matrices ($\mathbf{W}_Q$, $\mathbf{W}_K$, $\mathbf{W}_V$) of shape $d_{\text{model}} \times (d_{\text{model}}/h)$, totaling $3 \cdot d_{\text{model}}^2$ across all heads; the output projection $\mathbf{W}_O$ of shape $h(d_{\text{model}}/h) \times d_{\text{model}} = d_{\text{model}} \times d_{\text{model}}$ adds another $d_{\text{model}}^2$, giving $4 \cdot d_{\text{model}}^2$ total.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Scaled Dot-Product Attention Components
+> Queries ($\mathbf{Q}$) ask "what am I looking for?", keys ($\mathbf{K}$) signal "what do I contain?", and values ($\mathbf{V}$) carry "what I contribute." Their dot products form a score matrix scaled by $\sqrt{d_k}$ (to prevent softmax saturation at large $d_k$), then softmax normalizes each row into a probability distribution, which weights a sum over value vectors to produce the context-aware output.
+> 
+> #### Q2 — Causal Masking Mechanics
+> A causal mask adds $-\infty$ to all positions $j > i$ in the score matrix before softmax; since $e^{-\infty} = 0$, those positions receive zero attention weight, ensuring token $i$ can only attend to earlier tokens and itself — which is required so the model cannot "see" future tokens it hasn't generated yet.
+> 
+> #### Q3 — Multi-Head Attention Parameter Count
+> Each of the $h$ heads contributes three matrices ($\mathbf{W}_Q$, $\mathbf{W}_K$, $\mathbf{W}_V$) of shape $d_{\text{model}} \times (d_{\text{model}}/h)$, totaling $3 \cdot d_{\text{model}}^2$ across all heads; the output projection $\mathbf{W}_O$ of shape $h(d_{\text{model}}/h) \times d_{\text{model}} = d_{\text{model}} \times d_{\text{model}}$ adds another $d_{\text{model}}^2$, giving $4 \cdot d_{\text{model}}^2$ total.

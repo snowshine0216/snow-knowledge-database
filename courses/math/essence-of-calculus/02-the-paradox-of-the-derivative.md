@@ -134,13 +134,12 @@ The derivative $v(t) = ds/dt$ also has a geometric meaning: it is the **slope of
 2. Walk through the algebra of computing the derivative of s(t) = t³ from the limit definition — explain what happens to the dt terms and why the limit is not just a trick.
 3. Describe what the three derivative notations (Lagrange, Leibniz, Newton) each emphasize, and explain the geometric interpretation of the derivative.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Velocity requires two distinct moments to measure change, yet "instantaneous" means a single point — plugging dt = 0 yields 0/0, which is undefined. The limit resolves this by asking what value the ratio *approaches* as dt shrinks arbitrarily, never actually setting dt to zero, so the trend is well-defined without evaluating the undefined expression.
-
-2. Expanding (t+dt)³ gives t³ + 3t²·dt + 3t·(dt)² + (dt)³; subtracting t³ and dividing by dt yields 3t² + 3t·dt + (dt)²; as dt → 0 the remaining dt terms vanish, leaving s′(t) = 3t². The dt does real algebraic work canceling the denominator before the limit removes it — it is never set to zero directly.
-
-3. Lagrange (s′(t)) emphasizes the derivative as a function of t; Leibniz (ds/dt) reads as a tiny change in s per tiny change in t and is ideal for the chain rule and integration by substitution; Newton (ṡ) is compact and common in physics. Geometrically, the derivative at a point equals the slope of the tangent line to the graph at that point, and equivalently gives the best local linear approximation f(x+Δx) ≈ f(x) + f′(x)·Δx.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Paradox of the Instantaneous Derivative
+> Velocity requires two distinct moments to measure change, yet "instantaneous" means a single point — plugging dt = 0 yields 0/0, which is undefined. The limit resolves this by asking what value the ratio *approaches* as dt shrinks arbitrarily, never actually setting dt to zero, so the trend is well-defined without evaluating the undefined expression.
+> 
+> #### Q2 — Limit Definition of t³ Derivative
+> Expanding (t+dt)³ gives t³ + 3t²·dt + 3t·(dt)² + (dt)³; subtracting t³ and dividing by dt yields 3t² + 3t·dt + (dt)²; as dt → 0 the remaining dt terms vanish, leaving s′(t) = 3t². The dt does real algebraic work canceling the denominator before the limit removes it — it is never set to zero directly.
+> 
+> #### Q3 — Three Notations and Geometric Meaning
+> Lagrange (s′(t)) emphasizes the derivative as a function of t; Leibniz (ds/dt) reads as a tiny change in s per tiny change in t and is ideal for the chain rule and integration by substitution; Newton (ṡ) is compact and common in physics. Geometrically, the derivative at a point equals the slope of the tangent line to the graph at that point, and equivalently gives the best local linear approximation f(x+Δx) ≈ f(x) + f′(x)·Δx.

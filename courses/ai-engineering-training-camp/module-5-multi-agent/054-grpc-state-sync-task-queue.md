@@ -211,13 +211,19 @@ The instructor also notes: you can describe the 5-1 → 5-2 refactoring to an AI
 2. Walk through the worker loop sequence: what steps happen from the moment a task appears in Redis to the moment it is confirmed complete or retried?
 3. Describe the three-question AI code-reading framework from this lesson and explain what each question is designed to reveal about unfamiliar code.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. In 5-1, tasks were stored in process memory, so a crash wiped all in-progress state (e.g., losing chapter 4 progress and regenerating from scratch). LangGraph's state object is also process-bound and cannot cross process boundaries. The 5-2 architecture moves tasks into Redis (persistent, external), separates the producer (UI/submission) from the consumer (Agent execution), and lets tasks survive crashes because they live in Redis until explicitly confirmed complete.
-
-2. On each worker loop tick: check if a task exists via `LPOP`; acquire a distributed lock (atomic Redis operation) to prevent duplicate execution; call `agent.exe(...)` to run the task; on success, report the result, remove the task, and release the lock; on failure, retry using exponential backoff via the `RetryManager` class up to a configurable maximum attempt count.
-
-3. The three questions are: (1) the **hypothetical removal test** — "if this class were removed, what unexpected problems would occur?" — which reveals the code's necessity and purpose; (2) the **built-in alternative check** — "does a library already do this, and could we simplify?" — which uncovers whether custom behavior (e.g., task-specific backoff curves) justifies the code; (3) the **thread-safety verification** — "is this function thread-safe?" — which is critical before extending multi-threaded or distributed code.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — 5-1 Failure and Redis Solution
+> >
+> In 5-1, tasks were stored in process memory, so a crash wiped all in-progress state (e.g., losing chapter 4 progress and regenerating from scratch). LangGraph's state object is also process-bound and cannot cross process boundaries. The 5-2 architecture moves tasks into Redis (persistent, external), separates the producer (UI/submission) from the consumer (Agent execution), and lets tasks survive crashes because they live in Redis until explicitly confirmed complete.
+> >
+> #### Q2 — Worker Loop Sequence
+> >
+> On each worker loop tick: check if a task exists via `LPOP`; acquire a distributed lock (atomic Redis operation) to prevent duplicate execution; call `agent.exe(...)` to run the task; on success, report the result, remove the task, and release the lock; on failure, retry using exponential backoff via the `RetryManager` class up to a configurable maximum attempt count.
+> >
+> #### Q3 — Three-Question Code-Reading Framework
+> >
+> The three questions are:
+> >
+> 1. The **hypothetical removal test** — "if this class were removed, what unexpected problems would occur?" — which reveals the code's necessity and purpose.
+> 2. The **built-in alternative check** — "does a library already do this, and could we simplify?" — which uncovers whether custom behavior (e.g., task-specific backoff curves) justifies the code.
+> 3. The **thread-safety verification** — "is this function thread-safe?" — which is critical before extending multi-threaded or distributed code.

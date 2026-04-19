@@ -155,11 +155,12 @@ The right strategy depends on **data volume and business requirements**, not a s
 2. Walk through exactly what happens on an incoming `POST /run` request when the DSL file has changed on disk since the last request.
 3. Explain the file storage strategy a LangGraph agent should use when its required files are large but change frequently, and why.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Access Layer (FastAPI REST endpoints) validates and dispatches requests; Management Layer (`WorkflowManager`) handles DSL loading, caching, and hot-reload logic; Execution Layer (`GraphBuilder`) compiles the DSL into a runnable LangGraph graph; Data Layer (SQLite/file storage) persists DSL files and execution traces.
-2. On each request the server computes an MD5 hash of the DSL file and compares it to the stored hash; a mismatch triggers explicit cache invalidation, a lock acquisition to prevent concurrent rebuilds, and a full recompile of the LangGraph graph before serving the request.
-3. Pre-fetch the files at LangGraph startup and cache them locally — even though they change frequently, on-demand fetching for large files incurs 30–60 second latency that would destroy the user experience, so data volume overrides the "fetch on change" heuristic.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Four-Layer Architecture Overview
+> Access Layer (FastAPI REST endpoints) validates and dispatches requests; Management Layer (`WorkflowManager`) handles DSL loading, caching, and hot-reload logic; Execution Layer (`GraphBuilder`) compiles the DSL into a runnable LangGraph graph; Data Layer (SQLite/file storage) persists DSL files and execution traces.
+> 
+> #### Q2 — Incoming POST /run with Changed DSL
+> On each request the server computes an MD5 hash of the DSL file and compares it to the stored hash; a mismatch triggers explicit cache invalidation, a lock acquisition to prevent concurrent rebuilds, and a full recompile of the LangGraph graph before serving the request.
+> 
+> #### Q3 — Large Frequently-Changing File Strategy
+> Pre-fetch the files at LangGraph startup and cache them locally — even though they change frequently, on-demand fetching for large files incurs 30–60 second latency that would destroy the user experience, so data volume overrides the "fetch on change" heuristic.

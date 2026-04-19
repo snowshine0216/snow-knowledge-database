@@ -61,11 +61,12 @@ Finally, the module introduces strategies for evaluating retrieval quality. Meas
 2. Why is simple keyword matching insufficient for retrieval in a RAG system? Give a concrete example illustrating where it would fail.
 3. What three areas does Module 2 cover, and why is each one necessary for building a competent retriever?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Users submit natural-language queries — conversational, informal, and often ambiguous. The documents in a knowledge base are typically formal, domain-specific texts written for human readers: memos, journal articles, policy documents. The retriever must bridge the vocabulary and style gap between these two sides, connecting intent expressed casually to information expressed formally.
-2. Keyword matching only links a query to documents that share the same words. If a user asks "remote work policy" but the document says "flexible work arrangements," no keyword overlap exists and the relevant document is invisible to the retriever. Semantic gap — the same concept expressed with different vocabulary — is a pervasive failure mode for purely lexical approaches.
-3. The module covers: (1) the techniques individual retrievers use, building theoretical understanding of how they work and their trade-offs; (2) how techniques are combined in practice, since hybrid approaches outperform single methods; and (3) evaluation strategies for retrieval quality, which are needed separately from end-to-end evaluation to pinpoint and fix retrieval-specific failures.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Query-Document Vocabulary Gap
+> Users submit natural-language queries — conversational, informal, and often ambiguous. The documents in a knowledge base are typically formal, domain-specific texts written for human readers: memos, journal articles, policy documents. The retriever must bridge the vocabulary and style gap between these two sides, connecting intent expressed casually to information expressed formally.
+> 
+> #### Q2 — Keyword Matching Failures
+> Keyword matching only links a query to documents that share the same words. If a user asks "remote work policy" but the document says "flexible work arrangements," no keyword overlap exists and the relevant document is invisible to the retriever. Semantic gap — the same concept expressed with different vocabulary — is a pervasive failure mode for purely lexical approaches.
+> 
+> #### Q3 — Module 2 Three Coverage Areas
+> The module covers: (1) the techniques individual retrievers use, building theoretical understanding of how they work and their trade-offs; (2) how techniques are combined in practice, since hybrid approaches outperform single methods; and (3) evaluation strategies for retrieval quality, which are needed separately from end-to-end evaluation to pinpoint and fix retrieval-specific failures.

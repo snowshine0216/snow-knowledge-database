@@ -255,11 +255,12 @@ If you'd like me to save this to `courses/statquest-neural-networks-and-ai/ch12-
 2. Walk through the full Self-Attention computation for a single token — from the input vector $\mathbf{x}$ to the final output — including every formula and what each step accomplishes.
 3. Describe the role of Residual Connections in the Encoder. Why are they added after Self-Attention rather than replacing it, and what problem do they solve?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Teacher Forcing feeds the full ground-truth target sequence as Decoder inputs simultaneously (shifted right, starting with `<EOS>`), eliminating sequential dependency. Masked Self-Attention ensures each position can only attend to itself and prior tokens, preserving causal order while still processing all positions in parallel within a single forward pass.
-2. Compute $\mathbf{q} = W^Q\mathbf{x}$, $\mathbf{k} = W^K\mathbf{x}$, $\mathbf{v} = W^V\mathbf{x}$; calculate scaled similarity $\mathbf{q} \cdot \mathbf{k}_j / \sqrt{d_k}$ against every token; apply SoftMax to get weights $\alpha_j$ summing to 1; output is $\sum_j \alpha_j \mathbf{v}_j$ — a weighted blend of all value vectors proportional to relevance.
-3. Residual Connections add the pre-Attention input back to the Attention output ($\mathbf{h} = \text{SelfAttn}(\mathbf{x}) + \mathbf{x}$), letting the Attention layer focus purely on learning *relationships* between tokens without also needing to reconstruct and carry forward the original positional/embedding information.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Teacher Forcing and Masked Self-Attention
+> Teacher Forcing feeds the full ground-truth target sequence as Decoder inputs simultaneously (shifted right, starting with `<EOS>`), eliminating sequential dependency. Masked Self-Attention ensures each position can only attend to itself and prior tokens, preserving causal order while still processing all positions in parallel within a single forward pass.
+> 
+> #### Q2 — Full Self-Attention Computation
+> Compute $\mathbf{q} = W^Q\mathbf{x}$, $\mathbf{k} = W^K\mathbf{x}$, $\mathbf{v} = W^V\mathbf{x}$; calculate scaled similarity $\mathbf{q} \cdot \mathbf{k}_j / \sqrt{d_k}$ against every token; apply SoftMax to get weights $\alpha_j$ summing to 1; output is $\sum_j \alpha_j \mathbf{v}_j$ — a weighted blend of all value vectors proportional to relevance.
+> 
+> #### Q3 — Role of Residual Connections
+> Residual Connections add the pre-Attention input back to the Attention output ($\mathbf{h} = \text{SelfAttn}(\mathbf{x}) + \mathbf{x}$), letting the Attention layer focus purely on learning *relationships* between tokens without also needing to reconstruct and carry forward the original positional/embedding information.

@@ -121,12 +121,11 @@ Key points:
 2. What is Masked Language Modeling, why is it used during BERT pre-training, and what property of the architecture does it force the model to use?
 3. How would you use a pre-trained BERT encoder — with no labeled data — to cluster a set of documents by semantic similarity? Describe the steps from document to cluster assignment.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The input is tokenized with a `[CLS]` token prepended; after passing through all encoder layers with bidirectional self-attention, the `[CLS]` hidden state accumulates sequence-level context. That vector is fed through a linear layer and softmax to produce class probabilities; the whole model is fine-tuned end-to-end with cross-entropy loss.
-2. MLM randomly masks 15 % of input tokens and trains the model to predict the originals; because the model cannot use a causal mask, it must leverage both left and right context simultaneously, which forces the development of rich bidirectional representations.
-3. Encode each document by running it through the BERT encoder and extracting the `[CLS]` vector (or mean-pooling all token vectors) as a fixed-length embedding; then apply k-means (or another clustering algorithm) in that embedding space — documents with similar meaning end up in the same cluster because semantic similarity is encoded in the distance between vectors.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — CLS Token Sentiment Classification Pipeline
+> The input is tokenized with a `[CLS]` token prepended; after passing through all encoder layers with bidirectional self-attention, the `[CLS]` hidden state accumulates sequence-level context. That vector is fed through a linear layer and softmax to produce class probabilities; the whole model is fine-tuned end-to-end with cross-entropy loss.
+> #### Q2 — Masked Language Modeling Purpose
+> MLM randomly masks 15 % of input tokens and trains the model to predict the originals; because the model cannot use a causal mask, it must leverage both left and right context simultaneously, which forces the development of rich bidirectional representations.
+> #### Q3 — Unsupervised Document Clustering with BERT
+> Encode each document by running it through the BERT encoder and extracting the `[CLS]` vector (or mean-pooling all token vectors) as a fixed-length embedding; then apply k-means (or another clustering algorithm) in that embedding space — documents with similar meaning end up in the same cluster because semantic similarity is encoded in the distance between vectors.
 ===END===

@@ -123,13 +123,15 @@ Together these metrics support both development iteration and production monitor
 2. Explain, in plain terms, what MAP@K measures that Precision@K does not — and why the distinction matters for a ranked retrieval system.
 3. Describe MRR in your own words: what does it measure, when is it the right metric to use, and what would a high MRR score fail to tell you?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Precision = 9/15 = 60%: of the 15 documents returned, 40% are irrelevant noise — the retriever is not very trustworthy in the sense that many of its results should not be there. Recall = 9/10 = 90%: the retriever found 9 of the 10 documents that actually matter — it is highly comprehensive. Together the numbers tell you the retriever casts a wide, mostly successful net but includes a fair amount of irrelevant material alongside the good results.
-
-2. Precision@K treats the top-K documents as an unordered set and only asks "how many are relevant?" MAP@K also asks "where in the ranking do the relevant documents appear?" by averaging precision values at each rank position where a relevant document is found. In a ranked retrieval system this distinction is crucial: a retriever that buries relevant documents at ranks 9 and 10 of a top-10 list scores the same Precision@10 as one that surfaces them at ranks 1 and 2, but receives a much lower MAP score. MAP rewards systems that surface the right documents *early*.
-
-3. MRR measures the position of the *first* relevant document across multiple queries — specifically, it averages the reciprocal of that rank position. It is the right metric when users or downstream systems (like a single-result QA system) need at least one relevant document as high in the ranking as possible. A high MRR score would fail to tell you whether the retriever is finding *all* (or even most) of the relevant documents in the knowledge base — a system could score perfectly on MRR by always returning one correct result while missing nine others, something only Recall would expose.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Precision and Recall Calculation
+> 
+> Precision = 9/15 = 60%: of the 15 documents returned, 40% are irrelevant noise — the retriever is not very trustworthy in the sense that many of its results should not be there. Recall = 9/10 = 90%: the retriever found 9 of the 10 documents that actually matter — it is highly comprehensive. Together the numbers tell you the retriever casts a wide, mostly successful net but includes a fair amount of irrelevant material alongside the good results.
+> 
+> #### Q2 — MAP@K vs Precision@K
+> 
+> Precision@K treats the top-K documents as an unordered set and only asks "how many are relevant?" MAP@K also asks "where in the ranking do the relevant documents appear?" by averaging precision values at each rank position where a relevant document is found. In a ranked retrieval system this distinction is crucial: a retriever that buries relevant documents at ranks 9 and 10 of a top-10 list scores the same Precision@10 as one that surfaces them at ranks 1 and 2, but receives a much lower MAP score. MAP rewards systems that surface the right documents *early*.
+> 
+> #### Q3 — MRR Meaning and Limits
+> 
+> MRR measures the position of the *first* relevant document across multiple queries — specifically, it averages the reciprocal of that rank position. It is the right metric when users or downstream systems (like a single-result QA system) need at least one relevant document as high in the ranking as possible. A high MRR score would fail to tell you whether the retriever is finding *all* (or even most) of the relevant documents in the knowledge base — a system could score perfectly on MRR by always returning one correct result while missing nine others, something only Recall would expose.

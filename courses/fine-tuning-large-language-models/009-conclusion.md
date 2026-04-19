@@ -33,11 +33,15 @@ This closing lecture is a brief send-off. After completing the course — coveri
 2. What makes instruction fine-tuning qualitatively different from standard next-token-prediction training?
 3. What is the recommended first model size to start with when exploring fine-tuning on a new task?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Data preparation → model training → evaluation.
-2. Instruction fine-tuning trains the model on (instruction, response) pairs rather than raw text continuations, teaching it to follow user directives — the mechanism that transformed GPT-3 into ChatGPT.
-3. A 400M–1B parameter model, to establish a baseline cheaply before scaling up.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Three Fine-Tuning Steps
+> 
+> Data preparation → model training → evaluation.
+> 
+> #### Q2 — Instruction Fine-Tuning Difference
+> 
+> Instruction fine-tuning trains the model on (instruction, response) pairs rather than raw text continuations, teaching it to follow user directives — the mechanism that transformed GPT-3 into ChatGPT.
+> 
+> #### Q3 — Starting Model Size
+> 
+> A 400M–1B parameter model, to establish a baseline cheaply before scaling up.

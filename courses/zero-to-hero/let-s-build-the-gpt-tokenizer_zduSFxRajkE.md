@@ -212,11 +212,20 @@ Tokenization is the translation layer between raw text and the integer sequences
 2. Explain why the `encode()` function uses a "greedy lowest-rank merge" strategy — what would go wrong if you picked the *most frequent* pair instead of the *earliest-assigned* pair?
 3. Pick any three of the following LLM quirks and explain their root cause in terms of tokenization: spelling failures, arithmetic errors, non-English degradation, SolidGoldMagikarp glitch tokens, YAML preferred over JSON, GPT-2 Python indentation weakness.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. BPE starts with 256 byte tokens (raw UTF-8 bytes). Each iteration calls `get_stats()` to build a `{pair: count}` dict over the current token list, selects the most frequent pair via `max(stats, key=stats.get)`, calls `merge()` to replace every non-overlapping occurrence of that pair with a new integer ID, and records `(child1, child2) → new_id` in the `merges` dict. This repeats until the target vocabulary size is reached; after 20 merges on a blog post the compression ratio is roughly 1.27×.
-2. `encode()` must reproduce the *exact same merges in the exact same order* as training — so it applies the merge with the lowest assigned ID first (earliest merge = most frequent pair from training time). Using frequency at inference time would be wrong because the current input's pair frequencies differ from the training corpus, producing inconsistent token boundaries and breaking the encode/decode roundtrip.
-3. **Spelling failures**: tokens like `DefaultStyle` are single atoms — the model has no character-level view inside them, so it cannot spell or count characters. **Arithmetic errors**: multi-digit numbers are split arbitrarily across token boundaries, forcing the model to compose digit values it has never seen aligned that way. **Non-English degradation**: non-English text requires more tokens per sentence, consuming context window faster and effectively shrinking the model's useful memory. **SolidGoldMagikarp**: the token appeared in tokenizer vocabulary training data but had near-zero occurrence in LLM training, leaving its embedding essentially undefined and triggering bizarre behavior. **YAML over JSON**: YAML's syntax is more token-efficient in common tokenizers — the same structured data encodes to fewer tokens, making YAML cheaper in context budget.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — BPE Training Loop From Scratch
+> 
+> BPE starts with 256 byte tokens (raw UTF-8 bytes). Each iteration calls `get_stats()` to build a `{pair: count}` dict over the current token list, selects the most frequent pair via `max(stats, key=stats.get)`, calls `merge()` to replace every non-overlapping occurrence of that pair with a new integer ID, and records `(child1, child2) → new_id` in the `merges` dict. This repeats until the target vocabulary size is reached; after 20 merges on a blog post the compression ratio is roughly 1.27×.
+> 
+> #### Q2 — Encode Greedy Lowest-Rank Merge
+> 
+> `encode()` must reproduce the *exact same merges in the exact same order* as training — so it applies the merge with the lowest assigned ID first (earliest merge = most frequent pair from training time). Using frequency at inference time would be wrong because the current input's pair frequencies differ from the training corpus, producing inconsistent token boundaries and breaking the encode/decode roundtrip.
+> 
+> #### Q3 — LLM Quirks Tokenization Root Causes
+> 
+> - **Spelling failures**: tokens like `DefaultStyle` are single atoms — the model has no character-level view inside them, so it cannot spell or count characters.
+> - **Arithmetic errors**: multi-digit numbers are split arbitrarily across token boundaries, forcing the model to compose digit values it has never seen aligned that way.
+> - **Non-English degradation**: non-English text requires more tokens per sentence, consuming context window faster and effectively shrinking the model's useful memory.
+> - **SolidGoldMagikarp**: the token appeared in tokenizer vocabulary training data but had near-zero occurrence in LLM training, leaving its embedding essentially undefined and triggering bizarre behavior.
+> - **YAML over JSON**: YAML's syntax is more token-efficient in common tokenizers — the same structured data encodes to fewer tokens, making YAML cheaper in context budget.

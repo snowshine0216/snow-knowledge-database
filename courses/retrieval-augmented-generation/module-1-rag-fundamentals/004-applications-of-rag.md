@@ -86,11 +86,21 @@ As covered in [[003-introduction-to-rag]], the three-component structure of know
 2. Why does the medical and legal use case represent the strongest argument for RAG rather than just a convenient one?
 3. Explain how a modern AI-powered search engine maps onto the three-component RAG architecture.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Three examples: (1) Code generation — the knowledge base contains the project's own classes, functions, and conventions, which are private and never published publicly. (2) Enterprise chatbots — the knowledge base contains company-specific product details, policies, and operational documentation that are proprietary and never trained on. (3) Personal assistants — the knowledge base contains the user's personal emails, messages, calendar, and documents, which are private by definition. In each case, the information is either too private, too recent, or too specific to appear in public training data.
-2. In healthcare and legal domains, the consequences of hallucination are severe — incorrect medical guidance or fabricated legal citations can cause direct harm. The information required is both highly specialized (niche journals, case-specific documents) and often private. An LLM without retrieval cannot reliably access it, making RAG not merely helpful but architecturally necessary for building a product that meets the precision standards these fields require.
-3. The retriever is the search engine's indexing and ranking system, which identifies the most relevant pages given a query. The knowledge base is the entire indexed web — continuously crawled and updated. The LLM serves as the generator, synthesizing the top retrieved pages into a coherent prose summary with attribution. The output is an augmented, grounded answer rather than a list of links.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Three RAG Application Domains
+> 
+> Three examples:
+> 
+> **(1) Code generation** — the knowledge base contains the project's own classes, functions, and conventions, which are private and never published publicly.
+> 
+> **(2) Enterprise chatbots** — the knowledge base contains company-specific product details, policies, and operational documentation that are proprietary and never trained on.
+> 
+> **(3) Personal assistants** — the knowledge base contains the user's personal emails, messages, calendar, and documents, which are private by definition.
+> 
+> In each case, the information is either too private, too recent, or too specific to appear in public training data.
+> #### Q2 — Why Medical and Legal Need RAG
+> 
+> In healthcare and legal domains, the consequences of hallucination are severe — incorrect medical guidance or fabricated legal citations can cause direct harm. The information required is both highly specialized (niche journals, case-specific documents) and often private. An LLM without retrieval cannot reliably access it, making RAG not merely helpful but architecturally necessary for building a product that meets the precision standards these fields require.
+> #### Q3 — Search Engine as RAG Architecture
+> 
+> The **retriever** is the search engine's indexing and ranking system, which identifies the most relevant pages given a query. The **knowledge base** is the entire indexed web — continuously crawled and updated. The **LLM** serves as the generator, synthesizing the top retrieved pages into a coherent prose summary with attribution. The output is an augmented, grounded answer rather than a list of links.

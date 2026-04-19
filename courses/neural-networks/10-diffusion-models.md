@@ -146,11 +146,15 @@ where $s > 1$ is the guidance scale — higher $s$ produces outputs more tightly
 2. Walk through what Classifier-Free Guidance (CFG) does mathematically and intuitively — what does the guidance scale $s$ control, and what is the trade-off when you raise it?
 3. Explain the DDPM training objective in your own words: what does the network see as input, what does it predict, and what loss function is used?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Rather than iterating through all $T$ steps to get a noisy image at step $t$, the closed-form trick lets you directly sample $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\varepsilon}$ in one shot, where $\bar{\alpha}_t = \prod_{s=1}^{t}(1-\beta_s)$ encodes how much signal vs. noise remains at step $t$.
-2. CFG computes a weighted combination of the conditioned and unconditioned noise predictions: $\hat{\boldsymbol{\varepsilon}} = \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\emptyset) + s\cdot(\boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\mathbf{c}) - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\emptyset))$; higher $s$ pushes outputs closer to the text prompt but reduces diversity.
-3. The network $\boldsymbol{\varepsilon}_\theta$ receives a noisy image $\mathbf{x}_t$ and timestep $t$, predicts the noise $\boldsymbol{\varepsilon}$ that was added, and is trained with MSE loss $\|\boldsymbol{\varepsilon} - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t, t)\|^2$ averaged over random timesteps and noise samples (DDPM, Ho et al. 2020).
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Closed-Form Forward Diffusion Sampling
+> 
+> Rather than iterating through all $T$ steps to get a noisy image at step $t$, the closed-form trick lets you directly sample $\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\varepsilon}$ in one shot, where $\bar{\alpha}_t = \prod_{s=1}^{t}(1-\beta_s)$ encodes how much signal vs. noise remains at step $t$.
+> 
+> #### Q2 — Classifier-Free Guidance Scale Trade-Off
+> 
+> CFG computes a weighted combination of the conditioned and unconditioned noise predictions: $\hat{\boldsymbol{\varepsilon}} = \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\emptyset) + s\cdot(\boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\mathbf{c}) - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t,t,\emptyset))$; higher $s$ pushes outputs closer to the text prompt but reduces diversity.
+> 
+> #### Q3 — DDPM Network Input Prediction Loss
+> 
+> The network $\boldsymbol{\varepsilon}_\theta$ receives a noisy image $\mathbf{x}_t$ and timestep $t$, predicts the noise $\boldsymbol{\varepsilon}$ that was added, and is trained with MSE loss $\|\boldsymbol{\varepsilon} - \boldsymbol{\varepsilon}_\theta(\mathbf{x}_t, t)\|^2$ averaged over random timesteps and noise samples (DDPM, Ho et al. 2020).

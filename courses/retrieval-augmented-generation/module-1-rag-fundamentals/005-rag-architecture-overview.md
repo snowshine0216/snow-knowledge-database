@@ -120,11 +120,18 @@ The RAG pattern described here, introduced in [[003-introduction-to-rag]], is th
 2. Pick two of RAG's five advantages and explain the underlying mechanism that makes each one possible — not just what the advantage is, but why the architecture produces it.
 3. You are maintaining a RAG system for a law firm. New court rulings come out every day. How do you keep the system current, and why is this approach more practical than the alternative?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The user's prompt is sent simultaneously to the retriever and (later) to the LLM. The retriever queries the knowledge base and returns the top-ranked relevant document chunks. The augmented prompt builder combines the original user question with the retrieved chunks into a single enriched prompt. The LLM receives this augmented prompt and generates a response that draws on both its pre-trained knowledge and the supplied context. The response is returned to the user.
-2. Reduced hallucinations: when the prompt contains specific, accurate retrieved documents, the model has authoritative text to draw from rather than having to generate facts from sparse training-data representations. It still reasons over the retrieved text, but grounding in concrete evidence reduces the gap that hallucination typically fills. Source citation: because retrieved documents carry metadata (title, URL, date) that can be included in the prompt, the LLM can be instructed to attribute its claims to specific sources — producing a traceable response rather than an anonymous assertion. This traceability is only possible when the evidence chain runs from document to prompt to answer.
-3. To keep the system current, you add new court rulings to the knowledge base as they are published — no changes to the model are needed. The retriever will find and surface the new documents at the next relevant query. The alternative — retraining or fine-tuning the model on new data — requires enormous computational resources and time, and would need to be repeated every time new rulings emerge. Updating a document database is orders of magnitude cheaper and faster.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Full RAG Pipeline Trace
+>
+> The user's prompt is sent simultaneously to the retriever and (later) to the LLM. The retriever queries the knowledge base and returns the top-ranked relevant document chunks. The augmented prompt builder combines the original user question with the retrieved chunks into a single enriched prompt. The LLM receives this augmented prompt and generates a response that draws on both its pre-trained knowledge and the supplied context. The response is returned to the user.
+>
+> #### Q2 — Two RAG Advantages Explained
+>
+> **Reduced hallucinations:** when the prompt contains specific, accurate retrieved documents, the model has authoritative text to draw from rather than having to generate facts from sparse training-data representations. It still reasons over the retrieved text, but grounding in concrete evidence reduces the gap that hallucination typically fills.
+>
+> **Source citation:** because retrieved documents carry metadata (title, URL, date) that can be included in the prompt, the LLM can be instructed to attribute its claims to specific sources — producing a traceable response rather than an anonymous assertion. This traceability is only possible when the evidence chain runs from document to prompt to answer.
+>
+> #### Q3 — Keeping a RAG System Current
+>
+> To keep the system current, you add new court rulings to the knowledge base as they are published — no changes to the model are needed. The retriever will find and surface the new documents at the next relevant query. The alternative — retraining or fine-tuning the model on new data — requires enormous computational resources and time, and would need to be repeated every time new rulings emerge. Updating a document database is orders of magnitude cheaper and faster.

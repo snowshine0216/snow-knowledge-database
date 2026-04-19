@@ -25,11 +25,12 @@ source: https://www.statquest.org/statquest-illustrated-guide-neural-networks-ai
 2. Explain in your own words why the context vector is described as a "bottleneck," and what information might be lost when compressing a long source sentence into it.
 3. How does the decoder produce its output sequence token by token, and how does the output from one decoding step feed into the next?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The encoder is an LSTM (or RNN) that processes source tokens one at a time; its final hidden state (and cell state) — the **context vector** — summarizes the entire source sequence and is passed as the initial state to the decoder.
-2. The context vector is a fixed-size vector regardless of source length, so information from early tokens can be overwritten or diluted as the sequence grows — long sentences force too much meaning into too small a representation.
-3. The decoder is also an LSTM initialized with the context vector; at each step it predicts the next target token, then feeds that token as the input to the following step (auto-regressive generation) until a stop token is produced.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Encoder Forward Pass Steps
+> The encoder is an LSTM (or RNN) that processes source tokens one at a time; its final hidden state (and cell state) — the **context vector** — summarizes the entire source sequence and is passed as the initial state to the decoder.
+> 
+> #### Q2 — Context Vector Bottleneck
+> The context vector is a fixed-size vector regardless of source length, so information from early tokens can be overwritten or diluted as the sequence grows — long sentences force too much meaning into too small a representation.
+> 
+> #### Q3 — Decoder Auto-Regressive Generation
+> The decoder is also an LSTM initialized with the context vector; at each step it predicts the next target token, then feeds that token as the input to the following step (auto-regressive generation) until a stop token is produced.

@@ -77,11 +77,16 @@ When full fine-tuning is too memory-expensive for large models, **PEFT** methods
 2. Why do writing tasks require larger models than reading tasks?
 3. Explain how LoRA works mechanically and what efficiency gains it achieves for GPT-3.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Define task → collect and structure data (generate if scarce) → fine-tune a small 400M–1B model → vary data quantity → evaluate and iterate → scale task complexity then model size.
-2. Writing tasks produce more output tokens (chat, email, code), making the generation problem harder. More tokens means more opportunities for error, requiring larger model capacity. Reading tasks like classification produce only a few tokens.
-3. LoRA freezes the original pre-trained weights and trains small rank-decomposition matrices added to specific layers. For GPT-3 this reduced trainable parameters by 10,000×, cutting GPU memory by 3×. At inference time the LoRA weights are merged back into the base weights, so latency is unchanged.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Six-Step Fine-Tuning Workflow
+> 
+> Define task → collect and structure data (generate if scarce) → fine-tune a small 400M–1B model → vary data quantity → evaluate and iterate → scale task complexity then model size.
+> 
+> #### Q2 — Writing vs Reading Task Size
+> 
+> Writing tasks produce more output tokens (chat, email, code), making the generation problem harder. More tokens means more opportunities for error, requiring larger model capacity. Reading tasks like classification produce only a few tokens.
+> 
+> #### Q3 — LoRA Mechanics and Efficiency
+> 
+> LoRA freezes the original pre-trained weights and trains small rank-decomposition matrices added to specific layers. For GPT-3 this reduced trainable parameters by 10,000×, cutting GPU memory by 3×. At inference time the LoRA weights are merged back into the base weights, so latency is unchanged.

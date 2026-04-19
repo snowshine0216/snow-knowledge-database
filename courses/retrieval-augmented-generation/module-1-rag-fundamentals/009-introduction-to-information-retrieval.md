@@ -93,13 +93,20 @@ The choice of vector database — Pinecone, Weaviate, Chroma, pgvector, Qdrant, 
 2. Walk through the four stages of the retrieval pipeline in order, explaining what each stage does and why it exists as a separate step.
 3. Why do most production RAG systems use vector databases rather than relational databases for retrieval, and how do vector databases fit alongside existing relational infrastructure?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The two pressures are precision (returning only relevant documents) and recall (returning all relevant documents). Returning too many documents destroys precision: the LLM context fills with noise, increasing cost and degrading generation quality. Returning too few documents destroys recall: the relevant content may be ranked just outside the cutoff and the LLM answers without it. Practitioners resolve this by treating k (the number of returned documents) as an empirical hyperparameter — monitoring retrieval quality on representative queries and tuning k based on measured performance rather than setting it once and leaving it.
-
-2. The four stages are: (1) Indexing — documents are preprocessed at ingest time into a searchable data structure (inverted index or vector index) so queries do not require scanning every document; (2) Prompt processing — the incoming query is transformed into the same representation as the index (typically a vector embedding) so similarity can be computed consistently; (3) Scoring — every indexed document receives a numerical similarity score against the processed query, capturing semantic closeness rather than keyword overlap; (4) Ranking and returning — documents are sorted by score and the top-k are selected to be inserted into the augmented prompt.
-
-3. Vector databases are specialized for high-dimensional embedding storage and approximate nearest-neighbor search, which is exactly the operation needed to find semantically similar documents at production scale. Relational databases are designed for structured predicate queries and cannot efficiently execute nearest-neighbor search over millions of vectors. In practice the two coexist: primary data stays in the relational store while embeddings live in the vector database. At query time the vector database returns chunk identifiers that are then fetched from the primary store.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Precision vs Recall Tradeoff
+> 
+> The two pressures are **precision** (returning only relevant documents) and **recall** (returning all relevant documents). Returning too many documents destroys precision: the LLM context fills with noise, increasing cost and degrading generation quality. Returning too few documents destroys recall: the relevant content may be ranked just outside the cutoff and the LLM answers without it. Practitioners resolve this by treating **k** (the number of returned documents) as an empirical hyperparameter — monitoring retrieval quality on representative queries and tuning k based on measured performance rather than setting it once and leaving it.
+> 
+> #### Q2 — Four Retrieval Pipeline Stages
+> 
+> The four stages are:
+> 
+> 1. **Indexing** — documents are preprocessed at ingest time into a searchable data structure (inverted index or vector index) so queries do not require scanning every document.
+> 2. **Prompt processing** — the incoming query is transformed into the same representation as the index (typically a vector embedding) so similarity can be computed consistently.
+> 3. **Scoring** — every indexed document receives a numerical similarity score against the processed query, capturing semantic closeness rather than keyword overlap.
+> 4. **Ranking and returning** — documents are sorted by score and the top-k are selected to be inserted into the augmented prompt.
+> 
+> #### Q3 — Vector vs Relational Databases
+> 
+> Vector databases are specialized for high-dimensional embedding storage and approximate nearest-neighbor search, which is exactly the operation needed to find semantically similar documents at production scale. Relational databases are designed for structured predicate queries and cannot efficiently execute nearest-neighbor search over millions of vectors. In practice the two coexist: primary data stays in the relational store while embeddings live in the vector database. At query time the vector database returns chunk identifiers that are then fetched from the primary store.

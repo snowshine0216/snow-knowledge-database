@@ -229,11 +229,12 @@ Demo result: the graph successfully changed `heating_time: 30s` to `heating_time
 2. Walk through the full parsing pipeline from raw DSL text to a Python dict, naming each stage and the component responsible for it.
 3. A teammate suggests replacing Lark with ANTLR4 for a new Python-only prototype. What factors from this lesson would you use to push back or agree, and what is the recommended strategy for choosing between them?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Core capabilities (heating algorithm, PID control, brewing sequence) are fixed in compiled or Python code and cannot change at runtime; only the DSL configuration layer — temperatures, volumes, timings, conditional logic — is swappable live, ensuring that an LLM or human editor cannot accidentally rewrite critical control logic.
-2. DSL text is fed into the Lark parser together with the `.lark` grammar file → Lark produces an AST (parse tree) → a `CoffeeTransformer` (a Lark `Transformer` subclass) walks the tree and converts nodes into Python dicts → those dicts can be serialized to JSON for use by application code.
-3. Lark is Python-only, lightweight, easy to prototype with, and produces precise line/column error messages — ideal for a Python-only prototype; ANTLR4 is Java-based with compiled/generated code, supports multiple target languages, and suits production or multi-language pipelines. The recommended strategy from the lesson is to use Lark for rapid validation and grammar iteration, then switch to ANTLR4 when the system needs production Java or multi-language support.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — DSL as the Only Mutable Layer
+> Core capabilities (heating algorithm, PID control, brewing sequence) are fixed in compiled or Python code and cannot change at runtime; only the DSL configuration layer — temperatures, volumes, timings, conditional logic — is swappable live, ensuring that an LLM or human editor cannot accidentally rewrite critical control logic.
+> 
+> #### Q2 — Full DSL Parsing Pipeline
+> DSL text is fed into the Lark parser together with the `.lark` grammar file → Lark produces an AST (parse tree) → a `CoffeeTransformer` (a Lark `Transformer` subclass) walks the tree and converts nodes into Python dicts → those dicts can be serialized to JSON for use by application code.
+> 
+> #### Q3 — Lark vs ANTLR4 Trade-offs
+> Lark is Python-only, lightweight, easy to prototype with, and produces precise line/column error messages — ideal for a Python-only prototype; ANTLR4 is Java-based with compiled/generated code, supports multiple target languages, and suits production or multi-language pipelines. The recommended strategy from the lesson is to use Lark for rapid validation and grammar iteration, then switch to ANTLR4 when the system needs production Java or multi-language support.

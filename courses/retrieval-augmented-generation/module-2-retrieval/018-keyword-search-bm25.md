@@ -89,13 +89,16 @@ The fundamental limitation of keyword search is its dependence on vocabulary ove
 2. Why does BM25 use diminishing document length penalties rather than the direct normalization used in TF-IDF? What failure mode does this fix?
 3. Name the two tunable hyperparameters in BM25, describe what each controls, and explain why tunability is a meaningful practical advantage over TF-IDF.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Term frequency saturation means that BM25's score contribution from a keyword grows quickly with the first few occurrences but flattens asymptotically as the count increases, approaching a ceiling rather than rising indefinitely. TF-IDF scores keyword counts nearly linearly, so a document with forty mentions of a term scores roughly twice as high as one with twenty — even though the extra repetition adds no real relevance signal. BM25's saturation prevents this runaway reward for repetition, making rankings more accurate and less exploitable by keyword stuffing.
-
-2. TF-IDF applies a fixed per-word penalty as documents grow longer, which means very long documents accumulate heavy discounts regardless of how focused and relevant they are. This over-corrects: a genuinely exhaustive reference document that covers a topic in depth gets buried under shorter, shallower results. BM25's diminishing length penalties impose steep discounts for the first growth beyond average length but smaller marginal penalties as length continues to increase. This allows long, keyword-dense, genuinely relevant documents to still rank highly, while still protecting against short-document disadvantage due to raw count differences.
-
-3. The first hyperparameter controls the rate of term frequency saturation — how quickly the score contribution from repeated keywords flattens. The second controls the strength of document length normalization — how aggressively longer documents are penalized relative to shorter ones. TF-IDF has no equivalent knobs; its scoring behavior is fixed. BM25's tunability matters because different knowledge bases have different statistical profiles: a corpus of terse product descriptions behaves very differently from a corpus of lengthy technical papers, and the optimal scoring balance differs accordingly. Empirical tuning on a labeled evaluation set allows BM25 to be calibrated to the specific data at hand.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Term Frequency Saturation in BM25
+>
+> Term frequency saturation means that BM25's score contribution from a keyword grows quickly with the first few occurrences but flattens asymptotically as the count increases, approaching a ceiling rather than rising indefinitely. TF-IDF scores keyword counts nearly linearly, so a document with forty mentions of a term scores roughly twice as high as one with twenty — even though the extra repetition adds no real relevance signal. BM25's saturation prevents this runaway reward for repetition, making rankings more accurate and less exploitable by keyword stuffing.
+>
+> #### Q2 — Diminishing Length Penalties
+>
+> TF-IDF applies a fixed per-word penalty as documents grow longer, which means very long documents accumulate heavy discounts regardless of how focused and relevant they are. This over-corrects: a genuinely exhaustive reference document that covers a topic in depth gets buried under shorter, shallower results. BM25's diminishing length penalties impose steep discounts for the first growth beyond average length but smaller marginal penalties as length continues to increase. This allows long, keyword-dense, genuinely relevant documents to still rank highly, while still protecting against short-document disadvantage due to raw count differences.
+>
+> #### Q3 — Two Tunable Hyperparameters
+>
+> The first hyperparameter controls the rate of term frequency saturation — how quickly the score contribution from repeated keywords flattens. The second controls the strength of document length normalization — how aggressively longer documents are penalized relative to shorter ones. TF-IDF has no equivalent knobs; its scoring behavior is fixed. BM25's tunability matters because different knowledge bases have different statistical profiles: a corpus of terse product descriptions behaves very differently from a corpus of lengthy technical papers, and the optimal scoring balance differs accordingly. Empirical tuning on a labeled evaluation set allows BM25 to be calibrated to the specific data at hand.

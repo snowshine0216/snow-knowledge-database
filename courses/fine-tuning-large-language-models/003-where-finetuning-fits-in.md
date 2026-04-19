@@ -148,11 +148,12 @@ Data is typically stored as **JSONL** (`.jsonl`): each line is a complete JSON o
 2. What are the two things fine-tuning can accomplish, and how do they differ?
 3. What is the recommended starting quantity of training examples for a first fine-tuning project, and why does the quality of those examples matter more than just generating them from a weaker LLM?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The model starts with completely random weights — no language, no knowledge. It learns by predicting the next token on web-scale text. It's called self-supervised because the next token in the sequence acts as its own label; no human annotation is needed.
-2. Behavior change: the model responds in a consistent format (chatbot style, moderation, focus) rather than continuing raw text. New knowledge: inject domain-specific or updated facts not present in the base model. Most real use cases do both.
-3. ~1,000 input-output pairs is a good starting point. Quality matters because if you generate pairs from an "okay" LLM, you bake in that model's weaknesses — the fine-tuned model can't exceed the quality of its training targets.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Pre-training: weights, task, supervision
+> The model starts with completely random weights — no language, no knowledge. It learns by predicting the next token on web-scale text. It's called self-supervised because the next token in the sequence acts as its own label; no human annotation is needed.
+> 
+> #### Q2 — Two purposes of fine-tuning
+> Behavior change: the model responds in a consistent format (chatbot style, moderation, focus) rather than continuing raw text. New knowledge: inject domain-specific or updated facts not present in the base model. Most real use cases do both.
+> 
+> #### Q3 — Starting quantity and data quality
+> ~1,000 input-output pairs is a good starting point. Quality matters because if you generate pairs from an "okay" LLM, you bake in that model's weaknesses — the fine-tuned model can't exceed the quality of its training targets.

@@ -96,11 +96,12 @@ This is immediately intuitive: if $A$ doubles area and $B$ triples area, the com
 2. A friend says "the determinant of this matrix is −3." What two distinct pieces of information can you extract from that single number, and what does each mean?
 3. Without looking up the formula, explain why `det(AB) = det(A) · det(B)` makes intuitive sense in terms of area scaling.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The `ad` term represents the rectangle area when $\hat{i}$ and $\hat{j}$ are stretched along their own axes with no shear; the `bc` term corrects for the overlap introduced by diagonal shearing, so subtracting it recovers the exact signed area of the resulting parallelogram.
-2. The absolute value (3) tells you the transformation scales areas by a factor of 3; the negative sign tells you the transformation flipped the orientation of space (in 2D, $\hat{j}$ ended up to the right of $\hat{i}$ rather than to the left).
-3. Transformation $A$ scales all areas by $\det(A)$ and then $B$ scales them again by $\det(B)$, so the net scaling is simply their product — determinants convert matrix composition into ordinary scalar multiplication of scale factors.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Why the ad − bc Formula
+> The `ad` term represents the rectangle area when $\hat{i}$ and $\hat{j}$ are stretched along their own axes with no shear; the `bc` term corrects for the overlap introduced by diagonal shearing, so subtracting it recovers the exact signed area of the resulting parallelogram.
+> 
+> #### Q2 — Two Facts from a Negative Determinant
+> The absolute value (3) tells you the transformation scales areas by a factor of 3; the negative sign tells you the transformation flipped the orientation of space (in 2D, $\hat{j}$ ended up to the right of $\hat{i}$ rather than to the left).
+> 
+> #### Q3 — det(AB) as Composed Scaling
+> Transformation $A$ scales all areas by $\det(A)$ and then $B$ scales them again by $\det(B)$, so the net scaling is simply their product — determinants convert matrix composition into ordinary scalar multiplication of scale factors.

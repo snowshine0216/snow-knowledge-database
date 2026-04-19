@@ -133,11 +133,12 @@ The key bottleneck is computing all those partial derivatives $\partial C / \par
 2. Walk through the gradient descent update rule step by step: what is being updated, by how much, and in which direction — and what role does the learning rate η play if it is set too high or too low?
 3. Explain why mini-batch gradient descent is preferred over both full-batch and pure stochastic gradient descent, and what the term "epoch" means in this context.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. MSE averages the squared Euclidean distance between the network's actual output and the desired label across all training examples; it is small when outputs closely match labels on every example and large when the network is frequently wrong.
-2. Each parameter is nudged by subtracting η times its partial derivative of C — moving downhill in the cost landscape; too large an η overshoots and may diverge, while too small an η converges safely but wastefully slowly.
-3. Mini-batch SGD averages gradients over a small random subset (typically 32–256 examples), balancing the computational cost of full-batch against the instability of single-example SGD — and the resulting gradient noise is actually beneficial because it helps escape shallow local minima; one full pass through all training data is called an epoch.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — MSE Cost Function Explained
+> MSE averages the squared Euclidean distance between the network's actual output and the desired label across all training examples; it is small when outputs closely match labels on every example and large when the network is frequently wrong.
+> 
+> #### Q2 — Gradient Descent Update Rule
+> Each parameter is nudged by subtracting η times its partial derivative of C — moving downhill in the cost landscape; too large an η overshoots and may diverge, while too small an η converges safely but wastefully slowly.
+> 
+> #### Q3 — Mini-Batch SGD and Epochs
+> Mini-batch SGD averages gradients over a small random subset (typically 32–256 examples), balancing the computational cost of full-batch against the instability of single-example SGD — and the resulting gradient noise is actually beneficial because it helps escape shallow local minima; one full pass through all training data is called an epoch.

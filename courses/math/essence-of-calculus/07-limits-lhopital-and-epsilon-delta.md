@@ -124,13 +124,16 @@ $$\lim_{x \to a} f(x) = L$$
 2. Walk through the geometric reasoning that justifies L'Hôpital's rule — why does replacing $f(x)/g(x)$ with $f'(x)/g'(x)$ work when both functions equal zero at $a$?
 3. State the squeeze theorem and explain what conditions must hold for it to let you conclude $\lim_{x \to a} f(x) = L$.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. An adversary names any output tolerance $\varepsilon > 0$; you must respond with an input tolerance $\delta > 0$ such that every $x$ within $\delta$ of $a$ (excluding $a$ itself) maps to an output within $\varepsilon$ of $L$. If you can always find such a $\delta$ for every $\varepsilon$, the limit is $L$. Note that $f$ need not even be defined at $a$ — the limit concerns behavior *near* $a$, which is why $x = a$ is explicitly excluded.
-
-2. Since $f(a) = g(a) = 0$, near $a$ each function behaves like its linearization: $f(x) \approx f'(a)(x-a)$ and $g(x) \approx g'(a)(x-a)$. Dividing, the $(x-a)$ factors cancel, leaving $f'(a)/g'(a)$. The intuition is that both functions vanish at $a$, so comparing their sizes there gives nothing — instead you compare how quickly each *runs away from zero*, i.e., their derivatives.
-
-3. The squeeze theorem requires $g(x) \leq f(x) \leq h(x)$ near $a$, and that both bounding functions share the same limit $L$ as $x \to a$. Under those conditions you can conclude $\lim_{x \to a} f(x) = L$ even without evaluating $f$ directly — the canonical use is proving $\lim_{x \to 0}\frac{\sin x}{x} = 1$.
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Epsilon-Delta Limit Game
+>
+> An adversary names any output tolerance $\varepsilon > 0$; you must respond with an input tolerance $\delta > 0$ such that every $x$ within $\delta$ of $a$ (excluding $a$ itself) maps to an output within $\varepsilon$ of $L$. If you can always find such a $\delta$ for every $\varepsilon$, the limit is $L$. Note that $f$ need not even be defined at $a$ — the limit concerns behavior *near* $a$, which is why $x = a$ is explicitly excluded.
+>
+> #### Q2 — L'Hôpital's Rule Geometry
+>
+> Since $f(a) = g(a) = 0$, near $a$ each function behaves like its linearization: $f(x) \approx f'(a)(x-a)$ and $g(x) \approx g'(a)(x-a)$. Dividing, the $(x-a)$ factors cancel, leaving $f'(a)/g'(a)$. The intuition is that both functions vanish at $a$, so comparing their sizes there gives nothing — instead you compare how quickly each *runs away from zero*, i.e., their derivatives.
+>
+> #### Q3 — Squeeze Theorem Conditions
+>
+> The squeeze theorem requires $g(x) \leq f(x) \leq h(x)$ near $a$, and that both bounding functions share the same limit $L$ as $x \to a$. Under those conditions you can conclude $\lim_{x \to a} f(x) = L$ even without evaluating $f$ directly — the canonical use is proving $\lim_{x \to 0}\frac{\sin x}{x} = 1$.

@@ -139,11 +139,18 @@ The field is actively developing tools (e.g., sparse autoencoders) to disentangl
 2. What is the superposition hypothesis, and why does it make individual neuron activations hard to interpret as single human-readable concepts? Explain the interference term and what it measures.
 3. Why does the MLP sublayer roughly double a transformer's parameter count per layer? Walk through the math comparing attention parameters to MLP parameters for a model with dimension d_model.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Each row of W₁ is a key vector; when the input x has high dot product with a key, that neuron activates and adds its corresponding W₂ row (the value vector) to the output — making the MLP a soft key-value lookup: MLP(x) ≈ Σᵢ f(w₁ᵢ · x + b₁ᵢ) · w₂ᵢ. The activation function gates how strongly each value is added.
-2. Superposition occurs when the model must represent F ≫ d_ff features in a lower-dimensional space, so features share nearly-orthogonal directions rather than having dedicated ones. Interference between features f and g equals (ê_f · ê_g)², meaning overlapping directions cause crosstalk — so a single neuron encodes a mixture of many features, not one clean concept.
-3. Attention contributes 4d²_model parameters per layer; the MLP has two matrices each of size d_model × d_ff = d_model × 4d_model, giving 2 × 4d²_model = 8d²_model parameters — exactly double the attention budget, making MLP weights the larger share of transformer storage.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — MLP as Key-Value Memory
+> Each row of **W₁** is a key vector; when the input **x** has high dot product with a key, that neuron activates and adds its corresponding **W₂** row (the value vector) to the output — making the MLP a soft key-value lookup:
+> >
+> > MLP(x) ≈ Σᵢ f(w₁ᵢ · x + b₁ᵢ) · w₂ᵢ
+> >
+> The activation function gates how strongly each value is added.
+> #### Q2 — Superposition and Feature Interference
+> Superposition occurs when the model must represent **F ≫ d_ff** features in a lower-dimensional space, so features share nearly-orthogonal directions rather than having dedicated ones. Interference between features **f** and **g** equals **(ê_f · ê_g)²**, meaning overlapping directions cause crosstalk — so a single neuron encodes a mixture of many features, not one clean concept.
+> #### Q3 — MLP vs Attention Parameter Count
+> Attention contributes **4d²_model** parameters per layer. The MLP has two matrices each of size **d_model × d_ff = d_model × 4d_model**, giving:
+> >
+> > 2 × 4d²_model = **8d²_model** parameters
+> >
+> This is exactly double the attention budget, making MLP weights the larger share of transformer storage.

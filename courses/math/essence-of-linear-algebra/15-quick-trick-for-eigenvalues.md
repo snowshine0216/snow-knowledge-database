@@ -89,11 +89,12 @@ More broadly, Vieta's formulas hold for any polynomial: for a degree-$n$ monic p
 2. Walk through the eigenvalue calculation for a matrix with trace 4 and determinant 0. What does the result tell you about the matrix's geometric properties?
 3. How does Vieta's formulas connect to the characteristic polynomial of a 2×2 matrix, and why does this make the trace and determinant the "natural" inputs for finding eigenvalues?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. m is half the trace (the mean of the two eigenvalues) and p is the determinant (their product); writing the eigenvalues as m±d and using (m+d)(m−d) = m²−d² = p gives d = √(m²−p), skipping polynomial expansion entirely.
-2. m = 2, p = 0, d = √(4−0) = 2, so eigenvalues are {4, 0}; a zero eigenvalue means the matrix is singular (rank-deficient) and det(A) = 0 confirms this.
-3. Vieta's formulas state that for a monic quadratic, the sum of roots equals the x-coefficient and the product equals the constant term; the characteristic polynomial λ²− tr(A)λ + det(A) = 0 maps these directly to trace and determinant, which are the most natural scalar invariants of the matrix.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Shortcut Formula m and p
+> m is half the trace (the mean of the two eigenvalues) and p is the determinant (their product); writing the eigenvalues as m±d and using (m+d)(m−d) = m²−d² = p gives d = √(m²−p), skipping polynomial expansion entirely.
+> 
+> #### Q2 — Trace 4 Determinant 0 Calculation
+> m = 2, p = 0, d = √(4−0) = 2, so eigenvalues are {4, 0}; a zero eigenvalue means the matrix is singular (rank-deficient) and det(A) = 0 confirms this.
+> 
+> #### Q3 — Vieta's Formulas and Characteristic Polynomial
+> Vieta's formulas state that for a monic quadratic, the sum of roots equals the x-coefficient and the product equals the constant term; the characteristic polynomial λ²− tr(A)λ + det(A) = 0 maps these directly to trace and determinant, which are the most natural scalar invariants of the matrix.

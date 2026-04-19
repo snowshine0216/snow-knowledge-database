@@ -110,11 +110,12 @@ By including these examples in training, the fine-tuned model learns to *redirec
 2. What are the three abstraction levels for fine-tuning in this course, and how many lines of code does each require?
 3. How do you teach a fine-tuned model to redirect off-topic queries, and how many examples were used in this lab?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Forward pass: feed batch through model to get predictions. Loss: compare predictions to target labels. Backprop: compute gradients via backward pass. Optimizer step: update weights to reduce loss. An epoch = one full pass over the entire dataset. A step = one batch of data (e.g., 1 data point if batch size is 1).
-2. PyTorch (full training loop, many lines); Hugging Face Trainer (pass model, data, TrainingArguments); Lamini library (3 lines: load model, load data, `model.train()`).
-3. Include (off-topic question, "Let's keep the discussion relevant to Lamini") pairs in the training dataset. The lab included 37 such examples. The model learns the redirect behavior from those labeled pairs.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Four-Step Training Loop
+> Forward pass: feed batch through model to get predictions. Loss: compare predictions to target labels. Backprop: compute gradients via backward pass. Optimizer step: update weights to reduce loss. An epoch = one full pass over the entire dataset. A step = one batch of data (e.g., 1 data point if batch size is 1).
+> 
+> #### Q2 — Three Abstraction Levels
+> PyTorch (full training loop, many lines); Hugging Face Trainer (pass model, data, TrainingArguments); Lamini library (3 lines: load model, load data, `model.train()`).
+> 
+> #### Q3 — Teaching Off-Topic Redirection
+> Include (off-topic question, "Let's keep the discussion relevant to Lamini") pairs in the training dataset. The lab included 37 such examples. The model learns the redirect behavior from those labeled pairs.

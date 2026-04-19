@@ -160,11 +160,16 @@ Each forward pass costs $O(n \cdot d_{\text{model}}^2)$ — it grows with contex
 2. Walk through the full GPT forward pass pipeline — from raw text to a probability distribution — naming every major step and data structure involved.
 3. Explain what "weight tying" means in GPT, why the unembedding matrix equals the transpose of the embedding matrix, and what practical benefit this provides.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Transformers process all tokens in parallel and have no inherent notion of order, so positional encodings $\mathbf{p}_i$ are added to each token embedding to inject sequence position. Sinusoidal encodings use fixed sine/cosine functions of position and dimension; learned positional embeddings (used in GPT) store a trainable parameter vector per position — both perform comparably.
-2. Raw text → tokenizer (BPE) → integer token sequence → embedding lookup + positional encoding → embedding matrix $X \in \mathbb{R}^{n \times d_\text{model}}$ → $N$ transformer blocks (attention + MLP + residual + LayerNorm) → unembedding matrix → logits $\in \mathbb{R}^{|V|}$ → softmax → probability distribution over next tokens.
-3. Weight tying means $\mathbf{U} = \mathbf{E}^\top$: the unembedding matrix is literally the transpose of the learned embedding matrix rather than a separate set of parameters. This halves the number of embedding parameters, which is significant given GPT-3's vocabulary size of 50,257 tokens.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Why Positional Encodings Exist
+> 
+> Transformers process all tokens in parallel and have no inherent notion of order, so positional encodings $\mathbf{p}_i$ are added to each token embedding to inject sequence position. Sinusoidal encodings use fixed sine/cosine functions of position and dimension; learned positional embeddings (used in GPT) store a trainable parameter vector per position — both perform comparably.
+> 
+> #### Q2 — GPT Forward Pass Pipeline
+> 
+> Raw text → tokenizer (BPE) → integer token sequence → embedding lookup + positional encoding → embedding matrix $X \in \mathbb{R}^{n \times d_\text{model}}$ → $N$ transformer blocks (attention + MLP + residual + LayerNorm) → unembedding matrix → logits $\in \mathbb{R}^{|V|}$ → softmax → probability distribution over next tokens.
+> 
+> #### Q3 — Weight Tying in GPT
+> 
+> Weight tying means $\mathbf{U} = \mathbf{E}^\top$: the unembedding matrix is literally the transpose of the learned embedding matrix rather than a separate set of parameters. This halves the number of embedding parameters, which is significant given GPT-3's vocabulary size of 50,257 tokens.

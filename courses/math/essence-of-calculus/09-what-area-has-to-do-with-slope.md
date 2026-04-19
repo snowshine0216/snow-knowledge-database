@@ -127,11 +127,10 @@ Geometrically this says there is always a rectangle with the same base $[a,b]$ a
 2. State both parts of the Fundamental Theorem of Calculus and explain what each part actually *lets you do* — don't just quote the formula.
 3. What does the Mean Value Theorem for Integrals guarantee, and what is its geometric interpretation in terms of rectangles?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Nudging the upper limit from $x$ to $x+dx$ adds a sliver of area approximately equal to $f(x)\cdot dx$; dividing by $dx$ and taking the limit gives $A'(x) = f(x)$ — the slope of the accumulation function equals the height of the original curve at that point.
-2. Part 1 ($\frac{d}{dx}\int_a^x f(t)\,dt = f(x)$) says differentiation undoes integration, recovering the original function; Part 2 ($\int_a^b f(x)\,dx = F(b)-F(a)$) says you can evaluate any definite integral by finding an antiderivative and subtracting its endpoint values.
-3. For a continuous $f$ on $[a,b]$, there exists at least one point $c \in [a,b]$ where $f(c) \cdot (b-a) = \int_a^b f(x)\,dx$ — geometrically, there is always a rectangle with base $[a,b]$ and height $f(c)$ whose area exactly equals the area under the curve.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Thin-Sliver Argument for A'(x)
+> Nudging the upper limit from $x$ to $x+dx$ adds a sliver of area approximately equal to $f(x)\cdot dx$; dividing by $dx$ and taking the limit gives $A'(x) = f(x)$ — the slope of the accumulation function equals the height of the original curve at that point.
+> #### Q2 — Both Parts of the FTC
+> Part 1 ($\frac{d}{dx}\int_a^x f(t)\,dt = f(x)$) says differentiation undoes integration, recovering the original function; Part 2 ($\int_a^b f(x)\,dx = F(b)-F(a)$) says you can evaluate any definite integral by finding an antiderivative and subtracting its endpoint values.
+> #### Q3 — Mean Value Theorem for Integrals
+> For a continuous $f$ on $[a,b]$, there exists at least one point $c \in [a,b]$ where $f(c) \cdot (b-a) = \int_a^b f(x)\,dx$ — geometrically, there is always a rectangle with base $[a,b]$ and height $f(c)$ whose area exactly equals the area under the curve.

@@ -221,11 +221,12 @@ This lecture takes the 2-layer MLP character language model from Part 3 and deep
 2. Describe the BatchNorm1D bug that appeared with 3D tensor inputs, why it produces wrong statistics, and exactly how the fix (`dim=(0,1)`) corrects it.
 3. Explain why dilated causal convolutions are described as a more *efficient* implementation of the same WaveNet forward pass — what redundant computation do they eliminate?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. `FlattenConsecutive(n)` collapses `n` consecutive elements along the sequence dimension into the channel dimension, turning `(B, T, C)` into `(B, T//n, n*C)` so a standard linear layer can process all groups in parallel via batched matmul. When `T//n == 1`, the group dimension is squeezed out to return a 2D tensor, avoiding a degenerate leading dimension.
-2. The bug: reducing only over `dim=0` when input is `(B, T, C)` computed separate mean/variance per sequence position, using only 32 numbers each — effectively treating each position as independent. The fix reduces over `dim=(0,1)`, pooling all `B×T` examples per channel so running statistics have shape `(1,1,C)` and represent the true channel-wise distribution.
-3. The current model runs a full forward pass independently for each context window. For a sequence of length L there are L overlapping windows that share intermediate tree nodes — recomputing them wastefully. Dilated causal convolutions slide the same filter weights across the sequence in one operation, reusing shared intermediate activations, reducing redundant computation proportional to sequence length.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — FlattenConsecutive View and Squeeze
+> `FlattenConsecutive(n)` collapses `n` consecutive elements along the sequence dimension into the channel dimension, turning `(B, T, C)` into `(B, T//n, n*C)` so a standard linear layer can process all groups in parallel via batched matmul. When `T//n == 1`, the group dimension is squeezed out to return a 2D tensor, avoiding a degenerate leading dimension.
+> 
+> #### Q2 — BatchNorm1D 3D Tensor Bug
+> The bug: reducing only over `dim=0` when input is `(B, T, C)` computed separate mean/variance per sequence position, using only 32 numbers each — effectively treating each position as independent. The fix reduces over `dim=(0,1)`, pooling all `B×T` examples per channel so running statistics have shape `(1,1,C)` and represent the true channel-wise distribution.
+> 
+> #### Q3 — Dilated Convolutions Eliminate Redundancy
+> The current model runs a full forward pass independently for each context window. For a sequence of length L there are L overlapping windows that share intermediate tree nodes — recomputing them wastefully. Dilated causal convolutions slide the same filter weights across the sequence in one operation, reusing shared intermediate activations, reducing redundant computation proportional to sequence length.

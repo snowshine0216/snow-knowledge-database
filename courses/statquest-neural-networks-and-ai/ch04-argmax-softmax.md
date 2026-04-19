@@ -34,11 +34,12 @@ Here's a preview of what the note contains:
 2. Walk through how SoftMax converts raw output scores into probabilities — use the iris example values (0.69 / 0.10 / 0.21) to ground your explanation.
 3. Explain the correct way to use `nn.CrossEntropyLoss` in PyTorch for a SoftMax classifier, and what mistake to avoid when switching from training to inference.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. ArgMax outputs a discrete winner (index of the largest value) with no gradient — its derivative is zero everywhere, so backpropagation has nothing to update, making the network untrainable through that layer.
-2. SoftMax exponentiates each raw score and divides by the sum of all exponentiated scores, forcing outputs to sum to 1; the iris worked example yields probabilities ~0.69 / 0.10 / 0.21, giving a full ranking rather than just a winner.
-3. `nn.CrossEntropyLoss` expects raw logits (it applies SoftMax internally), so you must NOT apply SoftMax before passing scores to it; at inference time, use `torch.argmax()` on the raw logits to pick the predicted class.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — ArgMax Zero Derivative Problem
+> ArgMax outputs a discrete winner (index of the largest value) with no gradient — its derivative is zero everywhere, so backpropagation has nothing to update, making the network untrainable through that layer.
+> > 
+> #### Q2 — SoftMax Probability Conversion
+> SoftMax exponentiates each raw score and divides by the sum of all exponentiated scores, forcing outputs to sum to 1; the iris worked example yields probabilities ~0.69 / 0.10 / 0.21, giving a full ranking rather than just a winner.
+> > 
+> #### Q3 — CrossEntropyLoss Correct Usage
+> `nn.CrossEntropyLoss` expects raw logits (it applies SoftMax internally), so you must NOT apply SoftMax before passing scores to it; at inference time, use `torch.argmax()` on the raw logits to pick the predicted class.

@@ -135,11 +135,12 @@ The answer — minimizing a cost function via gradient descent — is the subjec
 2. Walk through the matrix form of the forward pass `a^(l) = σ(W^(l) a^(l-1) + b^(l))` — what does each symbol represent, and why is this vectorized form preferred?
 3. Compare sigmoid and ReLU as activation functions: what does each output, and what specific problem does ReLU address that sigmoid cannot?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The bias `b` shifts the activation threshold independently of the input weights — it lets a neuron fire even when all inputs are zero, or stay inactive even when inputs are large, giving each neuron its own independently adjustable trigger point.
-2. `W^(l)` is the weight matrix (rows = neurons in layer l, columns = neurons in layer l−1), `b^(l)` is the bias vector, `a^(l-1)` is the previous layer's activations, and `σ` is applied element-wise; vectorization replaces a slow neuron-by-neuron loop with a single matrix multiply.
-3. Sigmoid squashes any real input to (0,1) but saturates near 0 and 1, causing vanishing gradients in deep networks; ReLU outputs `max(0,x)`, which is non-saturating for positive values and produces sparse (on/off) activations, making it more practical in modern deep networks.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Role of the Bias Term
+> The bias `b` shifts the activation threshold independently of the input weights — it lets a neuron fire even when all inputs are zero, or stay inactive even when inputs are large, giving each neuron its own independently adjustable trigger point.
+> 
+> #### Q2 — Matrix Form of Forward Pass
+> `W^(l)` is the weight matrix (rows = neurons in layer l, columns = neurons in layer l−1), `b^(l)` is the bias vector, `a^(l-1)` is the previous layer's activations, and `σ` is applied element-wise; vectorization replaces a slow neuron-by-neuron loop with a single matrix multiply.
+> 
+> #### Q3 — Sigmoid vs ReLU Activations
+> Sigmoid squashes any real input to (0,1) but saturates near 0 and 1, causing vanishing gradients in deep networks; ReLU outputs `max(0,x)`, which is non-saturating for positive values and produces sparse (on/off) activations, making it more practical in modern deep networks.

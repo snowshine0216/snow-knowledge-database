@@ -251,11 +251,16 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 2. Describe how BatchNorm behaves differently during training versus inference, and why that difference exists.
 3. What is the update:data ratio diagnostic, what is the target value, and what does a ratio far above or below that target tell you?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. When pre-activations are large in magnitude (e.g. ±15), tanh outputs near ±1 where its local gradient `1 − t²` approaches 0, killing the gradient signal during backprop. Kaiming init uses `std = gain / √fan_in` with gain = 5/3 for tanh to compensate for tanh's contractive effect, keeping activation standard deviation stable across layers.
-2. During training, BatchNorm normalizes using the current minibatch's mean and std; during inference, it uses a running exponential moving average of mean and variance accumulated during training — because at test time you may have a single example with no meaningful batch statistics to compute.
-3. The update:data ratio is `log10(lr × std(grad) / std(data))` tracked per parameter over training; the target is approximately 1e-3 (−3 on a log10 scale). A ratio much above −3 means updates are too large (learning rate too high), and much below −3 means updates are too small (learning rate too low or weights improperly scaled).
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Tanh Saturation and Kaiming Gain
+> 
+> When pre-activations are large in magnitude (e.g. ±15), tanh outputs near ±1 where its local gradient `1 − t²` approaches 0, killing the gradient signal during backprop. Kaiming init uses `std = gain / √fan_in` with gain = 5/3 for tanh to compensate for tanh's contractive effect, keeping activation standard deviation stable across layers.
+> 
+> #### Q2 — BatchNorm Train vs Inference
+> 
+> During training, BatchNorm normalizes using the current minibatch's mean and std; during inference, it uses a running exponential moving average of mean and variance accumulated during training — because at test time you may have a single example with no meaningful batch statistics to compute.
+> 
+> #### Q3 — Update-to-Data Ratio Diagnostic
+> 
+> The update:data ratio is `log10(lr × std(grad) / std(data))` tracked per parameter over training; the target is approximately 1e-3 (−3 on a log10 scale). A ratio much above −3 means updates are too large (learning rate too high), and much below −3 means updates are too small (learning rate too low or weights improperly scaled).

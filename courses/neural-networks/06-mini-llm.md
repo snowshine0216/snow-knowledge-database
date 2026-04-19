@@ -127,11 +127,12 @@ Randomness in sampling is not a bug — it produces more natural and varied text
 2. What does the cross-entropy training loss actually measure, and what does it mean for perplexity to be "lower"?
 3. Walk through what temperature does mathematically to the softmax distribution, and describe the practical effect of setting T → 0 versus T > 1.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Autoregressive generation means the model produces a probability distribution over the vocabulary, samples one token from it, appends that token to the context, then repeats — each new token becomes part of the input for the next step, so the model always conditions on its own previous outputs.
-2. Cross-entropy loss measures how surprised the model is by the actual next token: low loss means the model assigned high probability to the correct token, high loss means it was caught off-guard. Perplexity is $e^{\mathcal{L}}$, so lower perplexity directly means better next-token prediction on average.
-3. Temperature divides each logit by $T$ before the softmax: as $T \to 0$ the highest logit dominates completely (greedy, repetitive output), while $T > 1$ flattens the distribution so lower-probability tokens get more chance, producing more varied and creative — but potentially less coherent — text.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Autoregressive Generation Loop
+> Autoregressive generation means the model produces a probability distribution over the vocabulary, samples one token from it, appends that token to the context, then repeats — each new token becomes part of the input for the next step, so the model always conditions on its own previous outputs.
+> 
+> #### Q2 — Cross-Entropy Loss and Perplexity
+> Cross-entropy loss measures how surprised the model is by the actual next token: low loss means the model assigned high probability to the correct token, high loss means it was caught off-guard. Perplexity is $e^{\mathcal{L}}$, so lower perplexity directly means better next-token prediction on average.
+> 
+> #### Q3 — Temperature and Softmax Distribution
+> Temperature divides each logit by $T$ before the softmax: as $T \to 0$ the highest logit dominates completely (greedy, repetitive output), while $T > 1$ flattens the distribution so lower-probability tokens get more chance, producing more varied and creative — but potentially less coherent — text.

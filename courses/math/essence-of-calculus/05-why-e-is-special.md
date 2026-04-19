@@ -118,11 +118,12 @@ $$\frac{d}{dx}a^{g(x)} = (\ln a)\,a^{g(x)}\cdot g'(x)$$
 2. Describe the compound interest path to $e$: what expression do you compute, what happens as compounding frequency increases, and what limit does it converge to?
 3. How does implicit differentiation of $e^y = x$ yield $\frac{d}{dx}\ln x = \frac{1}{x}$? Trace each step of the reasoning.
 
-<details>
-<summary>Answer Guide</summary>
-
-1. Writing the limit definition gives $\frac{d}{dx}a^x = a^x \cdot \lim_{h\to 0}\frac{a^h-1}{h}$; the $a^x$ factor pulls out cleanly, leaving a constant $C(a)$ that depends only on the base — and that constant turns out to equal $\ln a$.
-2. Starting with $\$1$ at 100% interest compounded $n$ times per year yields $\left(1+\frac{1}{n}\right)^n$; as $n\to\infty$ this converges to $e \approx 2.71828$, the balance after one year of continuous compounding.
-3. Differentiating both sides of $e^y = x$ gives $e^y \cdot \frac{dy}{dx} = 1$, so $\frac{dy}{dx} = \frac{1}{e^y} = \frac{1}{x}$, which is the derivative of $\ln x$.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Derivative of $a^x$ via Limit
+> Writing the limit definition gives $\frac{d}{dx}a^x = a^x \cdot \lim_{h\to 0}\frac{a^h-1}{h}$; the $a^x$ factor pulls out cleanly, leaving a constant $C(a)$ that depends only on the base — and that constant turns out to equal $\ln a$.
+> 
+> #### Q2 — Compound Interest Path to $e$
+> Starting with $\$1$ at 100% interest compounded $n$ times per year yields $\left(1+\frac{1}{n}\right)^n$; as $n\to\infty$ this converges to $e \approx 2.71828$, the balance after one year of continuous compounding.
+> 
+> #### Q3 — Implicit Differentiation for $\ln x$
+> Differentiating both sides of $e^y = x$ gives $e^y \cdot \frac{dy}{dx} = 1$, so $\frac{dy}{dx} = \frac{1}{e^y} = \frac{1}{x}$, which is the derivative of $\ln x$.

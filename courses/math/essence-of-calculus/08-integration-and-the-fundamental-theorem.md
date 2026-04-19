@@ -119,11 +119,10 @@ This converts an integral in $x$ to a (hopefully simpler) integral in $u$.
 2. Why does the indefinite integral $\int f(x)\,dx$ include a $+ C$, and why does that constant vanish when you evaluate a definite integral using $F(b) - F(a)$?
 3. Describe the substitution rule: what problem does it solve, what calculus rule does it reverse, and what do you substitute to make it work?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. FTC Part 1 shows the area function $A(x) = \int_a^x f(t)\,dt$ has derivative $A'(x) = f(x)$ — because a tiny width-$dx$ sliver adds area $f(x)\,dx$. Since any two antiderivatives differ only by a constant, any $F$ with $F'=f$ satisfies $F(x) = A(x) + C$, so $A(b) - A(a) = [F(b)+C] - [F(a)+C] = F(b) - F(a)$ — no sums needed.
-2. Shifting a function vertically does not change its derivative, so every antiderivative of $f$ is valid; the $+C$ captures all of them. When computing $F(b) - F(a)$, the same constant $C$ appears in both terms and cancels exactly, so the choice of $C$ is irrelevant for definite integrals.
-3. Substitution converts $\int f(g(x))\,g'(x)\,dx$ into the simpler $\int f(u)\,du$ by setting $u = g(x)$ and $du = g'(x)\,dx$; it is the chain rule run in reverse, used when an integrand contains a composite function multiplied by the derivative of its inner part.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — FTC Part 2 area function logic
+> FTC Part 1 shows the area function $A(x) = \int_a^x f(t)\,dt$ has derivative $A'(x) = f(x)$ — because a tiny width-$dx$ sliver adds area $f(x)\,dx$. Since any two antiderivatives differ only by a constant, any $F$ with $F'=f$ satisfies $F(x) = A(x) + C$, so $A(b) - A(a) = [F(b)+C] - [F(a)+C] = F(b) - F(a)$ — no sums needed.
+> #### Q2 — Indefinite integral constant cancellation
+> Shifting a function vertically does not change its derivative, so every antiderivative of $f$ is valid; the $+C$ captures all of them. When computing $F(b) - F(a)$, the same constant $C$ appears in both terms and cancels exactly, so the choice of $C$ is irrelevant for definite integrals.
+> #### Q3 — Substitution rule chain rule reversal
+> Substitution converts $\int f(g(x))\,g'(x)\,dx$ into the simpler $\int f(u)\,du$ by setting $u = g(x)$ and $du = g'(x)\,dx$; it is the chain rule run in reverse, used when an integrand contains a composite function multiplied by the derivative of its inner part.

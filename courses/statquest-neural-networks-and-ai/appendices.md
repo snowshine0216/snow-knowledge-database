@@ -25,11 +25,15 @@ The plan is to write a new file at `courses/statquest-neural-networks-and-ai/app
 2. Describe how partial derivatives differ from ordinary derivatives, and explain why partial derivatives appear in backpropagation through a multi-input neural network.
 3. Explain how matrix multiplication connects to the forward pass of a neural network — what do the matrices represent, and why does the order of multiplication matter?
 
-<details>
-<summary>Answer Guide</summary>
-
-1. The chain rule states that the derivative of a composed function f(g(x)) equals f′(g(x)) · g′(x); you differentiate the outer function (leaving the inner intact) then multiply by the derivative of the inner function. In backpropagation this allows gradients to flow layer-by-layer by multiplying local derivatives along the computation graph.
-2. A partial derivative measures how a function changes with respect to one variable while holding all others constant; in a neural network each weight influences the loss through multiple paths, so partial derivatives isolate each weight's contribution and are summed (via the chain rule) to give the full gradient used in gradient descent.
-3. In the forward pass, inputs and weights are arranged as matrices so a single matrix multiply computes all weighted sums simultaneously; matrix dimensions must align (inner dimensions must match), and order matters because AB ≠ BA in general — swapping the order changes which inputs are weighted by which weights.
-
-</details>
+> [!example]- Answer Guide
+> #### Q1 — Chain Rule Step-by-Step
+> 
+> The chain rule states that the derivative of a composed function f(g(x)) equals f′(g(x)) · g′(x); you differentiate the outer function (leaving the inner intact) then multiply by the derivative of the inner function. In backpropagation this allows gradients to flow layer-by-layer by multiplying local derivatives along the computation graph.
+> 
+> #### Q2 — Partial Derivatives in Backpropagation
+> 
+> A partial derivative measures how a function changes with respect to one variable while holding all others constant; in a neural network each weight influences the loss through multiple paths, so partial derivatives isolate each weight's contribution and are summed (via the chain rule) to give the full gradient used in gradient descent.
+> 
+> #### Q3 — Matrix Multiplication Forward Pass
+> 
+> In the forward pass, inputs and weights are arranged as matrices so a single matrix multiply computes all weighted sums simultaneously; matrix dimensions must align (inner dimensions must match), and order matters because AB ≠ BA in general — swapping the order changes which inputs are weighted by which weights.

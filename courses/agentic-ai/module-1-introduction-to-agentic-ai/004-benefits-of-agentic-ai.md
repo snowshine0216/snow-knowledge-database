@@ -66,18 +66,18 @@ Together, these three properties explain why agentic design has become a central
 2. In the black-hole essay example, which specific step is responsible for the speed advantage over a human researcher, and why is that step particularly suited to parallelization in an agentic context?
 3. Name the three categories of components that practitioners commonly swap when iterating on an agentic workflow, and give one concrete example from the lecture for each category.
 
-<details>
-<summary>Answer Guide</summary>
-
-**Q1: HumanEval and workflow leverage**
-The benchmark data shows that workflow design can deliver larger performance gains than a full model-generation upgrade. GPT-3.5 with agentic techniques (e.g., iterative reflection) outperforms GPT-4 in direct-generation mode, even though GPT-4 represents a substantial improvement in raw model capability. The practical implication is that engineering teams should invest in agentic workflow design rather than simply waiting for or paying for a stronger base model — the returns on workflow architecture can exceed the returns on model substitution.
-
-**Q2: Parallelism source in the essay workflow**
-The speed advantage comes from the web-page fetching step. After running three parallel search queries and identifying a set of result URLs (up to nine in the example), the agentic workflow downloads all nine pages simultaneously. A human must open and read pages one at a time; the workflow has no such constraint because HTTP requests are independent — fetching one page does not require waiting for another. This makes web retrieval an ideal target for parallelization.
-
-**Q3: Three swappable component categories**
-- **Search engines**: The lecture names Google (via API), Bing, DuckDuckGo, Tavily, and You.com as interchangeable web search providers.
-- **Specialized retrieval tools**: A news search engine is cited as a drop-in replacement for the general web search step when recency matters (e.g., latest breakthroughs in black hole science).
-- **LLMs / model providers**: Different large language models from different providers can be tried at each step to find which delivers the best result for that particular subtask.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Workflow Design vs Model Capability
+> 
+> The benchmark data shows that workflow design can deliver larger performance gains than a full model-generation upgrade. GPT-3.5 with agentic techniques (e.g., iterative reflection) outperforms GPT-4 in direct-generation mode, even though GPT-4 represents a substantial improvement in raw model capability. The practical implication is that engineering teams should invest in agentic workflow design rather than simply waiting for or paying for a stronger base model — the returns on workflow architecture can exceed the returns on model substitution.
+> 
+> #### Q2 — Parallelism Source in Essay Workflow
+> 
+> The speed advantage comes from the web-page fetching step. After running three parallel search queries and identifying a set of result URLs (up to nine in the example), the agentic workflow downloads all nine pages simultaneously. A human must open and read pages one at a time; the workflow has no such constraint because HTTP requests are independent — fetching one page does not require waiting for another. This makes web retrieval an ideal target for parallelization.
+> 
+> #### Q3 — Three Swappable Component Categories
+> 
+> - **Search engines**: The lecture names Google (via API), Bing, DuckDuckGo, Tavily, and You.com as interchangeable web search providers.
+> - **Specialized retrieval tools**: A news search engine is cited as a drop-in replacement for the general web search step when recency matters (e.g., latest breakthroughs in black hole science).
+> - **LLMs / model providers**: Different large language models from different providers can be tried at each step to find which delivers the best result for that particular subtask.
