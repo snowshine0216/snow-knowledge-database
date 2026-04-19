@@ -13,14 +13,14 @@ source: https://learn.deeplearning.ai/courses/agentic-ai/lesson/nae3i1/what-is-a
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 001 | [[module-1-introduction-to-agentic-ai/001-welcome]] | ⬜ pending |
-| 002 | [[module-1-introduction-to-agentic-ai/002-what-is-agentic-ai]] | ⬜ pending |
-| 003 | [[module-1-introduction-to-agentic-ai/003-degrees-of-autonomy]] | ⬜ pending |
-| 004 | [[module-1-introduction-to-agentic-ai/004-benefits-of-agentic-ai]] | ⬜ pending |
-| 005 | [[module-1-introduction-to-agentic-ai/005-agentic-ai-applications]] | ⬜ pending |
-| 006 | [[module-1-introduction-to-agentic-ai/006-task-decomposition-identifying-the-steps-in-a-workflow]] | ⬜ pending |
-| 007 | [[module-1-introduction-to-agentic-ai/007-evaluating-agentic-ai-evals]] | ⬜ pending |
-| 008 | [[module-1-introduction-to-agentic-ai/008-agentic-design-patterns]] | ⬜ pending |
+| 001 | [[module-1-introduction-to-agentic-ai/001-welcome]] | ✅ done |
+| 002 | [[module-1-introduction-to-agentic-ai/002-what-is-agentic-ai]] | ✅ done |
+| 003 | [[module-1-introduction-to-agentic-ai/003-degrees-of-autonomy]] | ✅ done |
+| 004 | [[module-1-introduction-to-agentic-ai/004-benefits-of-agentic-ai]] | ✅ done |
+| 005 | [[module-1-introduction-to-agentic-ai/005-agentic-ai-applications]] | ✅ done |
+| 006 | [[module-1-introduction-to-agentic-ai/006-task-decomposition-identifying-the-steps-in-a-workflow]] | ✅ done |
+| 007 | [[module-1-introduction-to-agentic-ai/007-evaluating-agentic-ai-evals]] | ✅ done |
+| 008 | [[module-1-introduction-to-agentic-ai/008-agentic-design-patterns]] | ✅ done |
 | 009 | [[module-1-introduction-to-agentic-ai/009-optional-set-up-your-local-environment-for-the-ungraded-labs]] | ⏭ lab |
 | 010 | [[module-1-introduction-to-agentic-ai/010-try-the-research-agent]] | ⏭ lab |
 
@@ -28,9 +28,9 @@ source: https://learn.deeplearning.ai/courses/agentic-ai/lesson/nae3i1/what-is-a
 
 | # | Lesson | Status |
 |---|--------|--------|
-| 011 | [[module-2-reflection/011-reflection-to-improve-outputs-of-a-task]] | ⬜ pending |
-| 012 | [[module-2-reflection/012-why-not-just-direct-generation]] | ⬜ pending |
-| 013 | [[module-2-reflection/013-chart-generation-workflow]] | ⬜ pending |
+| 011 | [[module-2-reflection/011-reflection-to-improve-outputs-of-a-task]] | ✅ done |
+| 012 | [[module-2-reflection/012-why-not-just-direct-generation]] | ✅ done |
+| 013 | [[module-2-reflection/013-chart-generation-workflow]] | ✅ done |
 | 014 | [[module-2-reflection/014-ungraded-lab-chart-generation]] | ⏭ lab |
 | 015 | [[module-2-reflection/015-evaluating-the-impact-of-reflection]] | ⬜ pending |
 | 016 | [[module-2-reflection/016-using-external-feedback]] | ⬜ pending |

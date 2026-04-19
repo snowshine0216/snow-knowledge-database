@@ -43,7 +43,7 @@
       "title": "Introduction to LLMs",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ccw96/introduction-to-llms",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "007": {
@@ -113,35 +113,35 @@
       "title": "Metadata filtering",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/bb3k6/metadata-filtering",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "017": {
       "title": "Keyword search - TF-IDF",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngg/keyword-search---tf-idf",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "018": {
       "title": "Keyword search - BM25",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/66p34/keyword-search---bm25",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "019": {
       "title": "Semantic search - introduction",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/aam1t/semantic-search---introduction",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "020": {
       "title": "Semantic search - embedding model deepdive",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/00us3/semantic-search---embedding-model-deepdive",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "021": {
@@ -155,14 +155,14 @@
       "title": "Hybrid search",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/77dro/hybrid-search",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "023": {
       "title": "Evaluating retrieval",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/558u1/evaluating-retrieval",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "024": {
@@ -190,28 +190,28 @@
       "title": "Module 2 conclusion",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/nnrir/module-2-conclusion",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "028": {
       "title": "Module 3 introduction",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/tthfc/module-3-introduction",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "029": {
       "title": "Approximate nearest neighbors algorithms ANN",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nl/approximate-nearest-neighbors-algorithms-ann",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "030": {
       "title": "Vector databases",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzkt7/vector-databases",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "031": {
@@ -225,7 +225,7 @@
       "title": "Chunking",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emtv/chunking",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "033": {
@@ -239,14 +239,14 @@
       "title": "Advanced chunking techniques",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz0/advanced-chunking-techniques",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "035": {
       "title": "Query parsing",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/oo48qx/query-parsing",
       "duration": 0,
-      "status": "pending",
+      "status": "transcribed",
       "retries": 0
     },
     "036": {
