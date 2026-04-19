@@ -407,14 +407,14 @@
       "title": "Implementing RAG evaluation strategies",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/llxcw6/implementing-rag-evaluation-strategies",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "059": {
       "title": "Logging monitoring and observability",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/pp6bgx/logging-monitoring-and-observability",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "060": {
@@ -428,42 +428,42 @@
       "title": "Customized evaluation",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/dd7nex/customized-evaluation",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "062": {
       "title": "Quantization",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/zzktiz/quantization",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "063": {
       "title": "Cost vs Response Quality",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/ssvq8m/cost-vs-response-quality",
       "duration": 0,
-      "status": "transcribed",
+      "status": "done",
       "retries": 0
     },
     "064": {
       "title": "Latency vs Response Quality",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/99emrt/latency-vs-response-quality",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "065": {
       "title": "Security",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/rrngaa/security",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "066": {
       "title": "Multimodal RAG",
       "url": "https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2x06/multimodal-rag",
       "duration": 0,
-      "status": "pending",
+      "status": "done",
       "retries": 0
     },
     "067": {

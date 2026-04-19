@@ -8,8 +8,9 @@ source: https://www.youtube.com/watch?v=PaCmpygFfXo
 > *Attempt these before reading. Wrong answers are intentional — pretesting primes your brain to encode the correct answers more deeply when you encounter them.*
 
 1. A bigram language model predicts the next character using how many previous characters as context? What makes this the "simplest possible" language model?
-2. In a neural network trained for character prediction, what mathematical operation converts raw output scores (logits) into a valid probability distribution that sums to 1?
-3. If you wanted to measure how well a language model assigns probability to correct next characters across a training set, what loss function would you use, and should you minimize or maximize it?
+2. A neural network's final linear layer outputs logits `[3.0, 1.0, 0.5]`. What operation converts these into a valid probability distribution? Walk through the two sub-steps of that operation and explain what happens to the relative differences between values.
+3. Write the NLL loss formula for $N$ training examples. Why does it include a negative sign, and what does a loss of **0** mean in concrete terms?
+4. PyTorch offers both `nn.NLLLoss` and `nn.CrossEntropyLoss`. What is the key difference in what each one expects as input, and which should you prefer when training from raw logits — and why?
 
 ---
 
@@ -126,6 +127,58 @@ plt.axis('off')
 - **Tensor broadcasting**: operating on rows or columns of a 2D tensor without an explicit loop — `N / N.sum(1, keepdim=True)` normalizes all rows at once.
 - **Model smoothing**: add fake counts (e.g., `+1`) to every entry before normalizing; prevents zero-probability bigrams and avoids `-inf` log loss.
 
+#### Deep Dive: Negative Log Likelihood (NLL)
+
+NLL is the core loss function for classification tasks. In character prediction, the intuition is simple: **we want the model to assign as high a probability as possible to the correct next character.**
+
+**1. The Formula**
+
+For $N$ training examples, where $P_i$ is the model's predicted probability for the correct character at step $i$:
+
+$$\mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} \log(P_i)$$
+
+- $P_i \in (0, 1]$ — the probability assigned to the true label.
+- $\sum$ — sums log-probabilities across all examples.
+- $\frac{1}{N}$ — normalizes by dataset size so loss magnitude is independent of $N$.
+- **Negative sign** — converts maximization into minimization (explained below).
+
+**2. Why the Negative Sign?**
+
+We want to *maximize* the likelihood of the correct answers — i.e., maximize $P_1 \times P_2 \times \cdots \times P_N$. Products of small numbers are numerically unstable (they underflow to zero), so we take $\log$ to convert products into sums.
+
+But $\log(P)$ for $P \in (0, 1]$ is always $\leq 0$: it equals $0$ at perfect confidence and $-\infty$ as $P \to 0$. Since optimizers *minimize* by convention, we flip the sign — turning "maximize log-likelihood" into "minimize negative log-likelihood."
+
+**3. How Loss Scales with Confidence**
+
+| Predicted probability $P_i$ | $\log(P_i)$ | Loss $-\log(P_i)$ | Assessment |
+|---|---|---|---|
+| **1.0 (100%)** | 0 | **0** | Perfect — no penalty |
+| **0.5 (50%)** | −0.69 | **0.69** | Acceptable |
+| **0.1 (10%)** | −2.30 | **2.30** | Poor — moderate penalty |
+| **0.01 (1%)** | −4.60 | **4.60** | Bad — heavy penalty |
+| **0.0001** | −9.21 | **9.21** | Near-zero confidence — severe penalty |
+
+The loss is **0** when the model is perfectly certain and **approaches infinity** as confidence in the correct answer collapses.
+
+**4. Relationship to Cross-Entropy**
+
+For single-label classification (one correct answer per example), NLL and cross-entropy are identical. In PyTorch:
+
+- `nn.NLLLoss` — expects log-probabilities (i.e., output of `log_softmax`).
+- `nn.CrossEntropyLoss` — expects raw logits; applies `log_softmax` internally (numerically more stable, prefer this).
+
+**5. Expected Initial Loss**
+
+At initialization, a random model distributes probability uniformly over all 27 characters, so each character gets $P \approx 1/27 \approx 0.037$. The expected initial NLL is:
+
+$$-\log(1/27) \approx 3.3$$
+
+If training brings the loss from **3.3 → 2.0**, the model has learned meaningful character-pair patterns. In code:
+
+```python
+loss = -prob.log().mean()  # prob = model's predicted P for the correct next char
+```
+
 ### Learning Objectives
 
 - [ ] Sample character sequences from a normalized bigram probability table
@@ -202,6 +255,59 @@ print(f'nll: {nll:.4f}')
 - **Logits**: raw, unnormalized scores output by the network; can be any real number.
 - **Softmax**: `probs = counts / counts.sum(1, keepdim=True)` where `counts = logits.exp()`. Converts logits to a valid probability distribution (positive, sums to 1).
 - **`requires_grad=True`**: tells PyTorch to track operations on `W` so `.backward()` can populate `W.grad`.
+
+#### Deep Dive: Softmax
+
+Softmax is the final step in a classification network's forward pass. Its job: convert a vector of arbitrary real numbers (logits) into a valid probability distribution — positive values that sum to exactly 1.
+
+**1. Why Softmax Exists**
+
+A linear layer outputs logits: raw scores that can be any real number, positive or negative, with no constraint on their sum. They cannot be used directly as probabilities. Softmax fixes both problems in one step.
+
+**2. The Formula**
+
+For a logit vector $z$ with $K$ elements, the Softmax output for element $i$ is:
+
+$$P_i = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}$$
+
+Two operations in sequence:
+
+1. **Exponentiation ($e^{z_i}$)**: forces all values positive; amplifies differences — a slightly larger logit becomes a disproportionately larger count ("winner-take-more").
+2. **Normalization (divide by sum)**: all outputs land in $(0, 1)$ and their sum is exactly 1.
+
+**3. Step-by-Step Example**
+
+Logits: `[2.0, 1.0, 0.1]`
+
+| Step | Computation | Result |
+|---|---|---|
+| **Exponentiate** | $[e^{2.0},\ e^{1.0},\ e^{0.1}]$ | `[7.39, 2.72, 1.11]` |
+| **Sum** | $7.39 + 2.72 + 1.11$ | `11.22` |
+| **Normalize** | `[7.39/11.22, 2.72/11.22, 1.11/11.22]` | **`[0.66, 0.24, 0.10]`** |
+
+The highest logit (2.0) captures 66% of the probability mass.
+
+**4. Key Properties**
+
+- **Temperature sensitivity**: scaling all logits up (e.g., `[20, 10, 1]`) makes the distribution sharper — probability piles onto the top class. Scaling down makes it flatter, approaching uniform. Large weights → overconfident predictions.
+- **Differentiable**: softmax has well-defined gradients everywhere, so backpropagation flows through it to update `W`.
+- **Numerical stability**: $e^{z_i}$ overflows for large $z_i$. The standard fix: subtract the max first — $e^{z_i - \max(z)} / \sum_j e^{z_j - \max(z)}$ — mathematically identical but never overflows.
+- **Softmax + NLL = Cross-Entropy**: `nn.CrossEntropyLoss` fuses `log_softmax` and `NLLLoss` into one stable operation. Always prefer it over computing softmax then NLL separately.
+
+**5. Softmax in the Bigram Neural Net**
+
+```
+One-hot input → xenc @ W → Logits → Softmax → Probs → NLL Loss
+```
+
+In code:
+
+```python
+logits = xenc @ W                              # raw scores (any real number)
+counts = logits.exp()                          # exponentiate → all positive
+probs  = counts / counts.sum(1, keepdim=True)  # normalize → valid distribution
+loss   = -probs[torch.arange(n), ys].log().mean()  # NLL over correct chars
+```
 
 ### Learning Objectives
 
@@ -353,6 +459,7 @@ for _ in range(5):
 1. Explain in your own words why a single-layer neural network bigram model and the direct counting approach produce mathematically identical results after training converges.
 2. Walk through the full gradient descent training loop for the bigram neural net — what happens at each step, and what does `W.data += -50 * W.grad` actually do to the weight matrix?
 3. Explain how additive count smoothing (adding fake counts) and L2 regularization in the neural net loss are mathematically equivalent, and what effect both have on the learned probability distribution.
+4. Given logits `[2.0, 1.0, 0.1]` and the correct class is index 0: (a) compute the Softmax probabilities by hand, (b) compute the NLL loss for this single example, and (c) explain why `nn.CrossEntropyLoss` produces the same result without an explicit softmax step — and why it is numerically preferred.
 
 <details>
 <summary>Answer Guide</summary>
@@ -360,5 +467,6 @@ for _ in range(5):
 1. Multiplying a one-hot input vector by weight matrix `W` simply selects the row of `W` corresponding to the active character index — identical to the counting table lookup. After gradient descent, `W.exp()` converges to the bigram count matrix, meaning `W` holds log-counts; the two approaches are the same computation reached by different paths.
 2. The loop zeros gradients (`W.grad = None`), runs the forward pass (one-hot → `xenc @ W` → `logits.exp()` → row-normalize to `probs`), computes NLL loss via `probs[arange, ys].log().mean()`, calls `loss.backward()` to populate `W.grad` via autograd, then subtracts the scaled gradient from `W.data` — nudging weights in the direction that reduces the loss.
 3. Adding `+1` fake counts before normalizing prevents zero probabilities and pulls the distribution toward uniform; adding `λ * (W**2).mean()` to the neural net loss penalizes large weights with the same effect — both regularize by discouraging extreme probability assignments and keeping predictions closer to a uniform distribution over characters.
+4. (a) Exponentiate: `[e²·⁰, e¹·⁰, e⁰·¹] = [7.39, 2.72, 1.11]`; sum = 11.22; probabilities = **`[0.659, 0.242, 0.099]`**. (b) Correct class is index 0 with $P_0 = 0.659$; NLL = $-\log(0.659) \approx$ **0.418**. (c) `nn.CrossEntropyLoss` takes raw logits and internally applies `log_softmax` (computing $z_i - \log\sum_j e^{z_j}$) before taking the negative mean — mathematically equivalent but numerically stable because it avoids computing $e^{z_i}$ and then immediately taking $\log$ of it (which amplifies floating-point errors). The fused `log_softmax` operation computes the result directly without the intermediate exponentiation.
 
 </details>

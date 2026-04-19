@@ -90,15 +90,15 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 |---|--------|--------|
 | 056 | [[module-5-production-rag/056-module-5-introduction]] | ✅ done |
 | 057 | [[module-5-production-rag/057-what-makes-production-challenging]] | ✅ done |
-| 058 | 058-implementing-rag-evaluation-strategies | ⬜ pending |
-| 059 | 059-logging-monitoring-and-observability | ⬜ pending |
+| 058 | [[module-5-production-rag/058-implementing-rag-evaluation-strategies]] | ✅ done |
+| 059 | [[module-5-production-rag/059-logging-monitoring-and-observability]] | ✅ done |
 | 060 | 060-tracing-a-rag-system | ⬜ pending |
-| 061 | 061-customized-evaluation | ⬜ pending |
-| 062 | 062-quantization | ⬜ pending |
-| 063 | 063-cost-vs-response-quality | ⬜ pending |
-| 064 | 064-latency-vs-response-quality | ⬜ pending |
-| 065 | 065-security | ⬜ pending |
-| 066 | 066-multimodal-rag | ⬜ pending |
+| 061 | [[module-5-production-rag/061-customized-evaluation]] | ✅ done |
+| 062 | [[module-5-production-rag/062-quantization]] | ✅ done |
+| 063 | [[module-5-production-rag/063-cost-vs-response-quality]] | ✅ done |
+| 064 | [[module-5-production-rag/064-latency-vs-response-quality]] | ✅ done |
+| 065 | [[module-5-production-rag/065-security]] | ✅ done |
+| 066 | [[module-5-production-rag/066-multimodal-rag]] | ✅ done |
 | 067 | 067-lecture-notes-m5 | ⬜ skipped (non-video) |
 | 068 | 068-end-of-access-reminder | ⬜ skipped (non-video) |
 | 069 | 069-improving-the-chatbot | ⬜ pending |
@@ -108,9 +108,8 @@ source: https://learn.deeplearning.ai/courses/retrieval-augmented-generation
 
 ## Summary
 
-- **Done:** 41 / 72
-- **Pending:** 18 / 72
-- **Transcribing:** 2 / 72 (058, 059)
+- **Done:** 49 / 72
+- **Pending:** 15 / 72
 - **Skipped (non-video):** 8 / 72
 
 To resume recording: `/encrypted-video-capture https://learn.deeplearning.ai/courses/retrieval-augmented-generation/lesson/qq2xz/module-1-introduction --resume`

@@ -380,7 +380,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [008: Getting Started Now](wiki/courses/fine-tuning-large-language-models/008-consideration-on-getting-started-now.md) | lora, peft, gpu, hardware | 6-step workflow, GPU memory table, LoRA 10,000× parameter reduction |
 | [009: Conclusion](wiki/courses/fine-tuning-large-language-models/009-conclusion.md) | fine-tuning, llm | Course wrap-up and key takeaways |
 
-### Retrieval-Augmented Generation — DeepLearning.AI (25 of 41 video lessons done)
+### Retrieval-Augmented Generation — DeepLearning.AI (49 of 64 video lessons done)
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
@@ -425,3 +425,11 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [056: Module 5 Introduction](wiki/courses/retrieval-augmented-generation/module-5-production-rag/056-module-5-introduction.md) | rag, production, deeplearning-ai, course | Module 5 roadmap: production challenges, evaluation, observability, cost/latency optimization |
 | [052: RAG vs Fine-Tuning](wiki/courses/retrieval-augmented-generation/module-4-llms-prompt-engineering/052-rag-vs-fine-tuning.md) | rag, fine-tuning, model-selection, deeplearning-ai, course | Decision framework: when RAG beats fine-tuning, when to combine both, cost/latency/accuracy tradeoffs |
 | [057: What Makes Production Challenging](wiki/courses/retrieval-augmented-generation/module-5-production-rag/057-what-makes-production-challenging.md) | rag, production, scale, reliability, security, deeplearning-ai, course | Scale constraints, query unpredictability, messy data, security, business impact — the gap from prototype to prod |
+| [058: Implementing RAG Evaluation Strategies](wiki/courses/retrieval-augmented-generation/module-5-production-rag/058-implementing-rag-evaluation-strategies.md) | rag, evaluation, observability, ragas, deeplearning-ai, course | Four observability pillars, evaluation grid (scope × evaluator type), LLM-as-judge bias, starter metrics |
+| [059: Logging, Monitoring and Observability](wiki/courses/retrieval-augmented-generation/module-5-production-rag/059-logging-monitoring-and-observability.md) | rag, observability, monitoring, logging, deeplearning-ai, course | Phoenix traces, RAGAS integration, aggregate metrics, Datadog/Grafana, improvement flywheel |
+| [061: Customized Evaluation](wiki/courses/retrieval-augmented-generation/module-5-production-rag/061-customized-evaluation.md) | rag, evaluation, custom-metrics, deeplearning-ai, course | Custom eval datasets from production logs, component-level logging, prompt clustering, closed eval loop |
+| [062: Quantization](wiki/courses/retrieval-augmented-generation/module-5-production-rag/062-quantization.md) | rag, quantization, optimization, deeplearning-ai, course | Weight quantization 16→4-bit, INT8 embedding quantization, binary quantization + Hamming rescoring, Matryoshka embeddings |
+| [063: Cost vs Response Quality](wiki/courses/retrieval-augmented-generation/module-5-production-rag/063-cost-vs-response-quality.md) | rag, cost-optimization, production, deeplearning-ai, course | Smaller models, token efficiency, dedicated hardware, vector DB storage tiers, multi-tenancy |
+| [064: Latency vs Response Quality](wiki/courses/retrieval-augmented-generation/module-5-production-rag/064-latency-vs-response-quality.md) | rag, latency, optimization, production, deeplearning-ai, course | Latency budget, transformer inference bottleneck, router LLMs, semantic caching, binary quantization, sharding |
+| [065: Security](wiki/courses/retrieval-augmented-generation/module-5-production-rag/065-security.md) | rag, security, prompt-injection, pii, deeplearning-ai, course | Prompt injection, PII handling, access control, output validation, RAG-specific security threat model |
+| [066: Multimodal RAG](wiki/courses/retrieval-augmented-generation/module-5-production-rag/066-multimodal-rag.md) | rag, multimodal, vision, embeddings, deeplearning-ai, course | Multimodal embeddings, language vision models, PDF grid-chunking (PDF RAG), ColBERT-style scoring for images |
