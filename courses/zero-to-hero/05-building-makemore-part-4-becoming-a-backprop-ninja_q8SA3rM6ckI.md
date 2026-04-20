@@ -1,6 +1,16 @@
 ---
-tags: [neural-networks, backpropagation, deep-learning, pytorch, makemore, zero-to-hero, andrej-karpathy, batchnorm, gradients]
+tags:
+  - neural-networks
+  - backpropagation
+  - deep-learning
+  - pytorch
+  - makemore
+  - zero-to-hero
+  - andrej-karpathy
+  - batchnorm
+  - gradients
 source: https://www.youtube.com/watch?v=q8SA3rM6ckI
+google-colab: https://colab.research.google.com/drive/1WV2oi2fh9XXyldh02wupFQX0wh5ZC-z-?usp=sharing
 ---
 
 ## Pre-test
