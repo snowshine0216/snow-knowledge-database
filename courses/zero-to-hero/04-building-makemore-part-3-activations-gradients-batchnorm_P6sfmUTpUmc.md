@@ -41,7 +41,9 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 | 1.2 | Starter code walkthrough | 0:01:22 |
 | 1.3 | Diagnosing the "hockey stick" loss curve | 0:04:19 |
 
-### Key Concepts
+### Problem
+![[file-20260420095353571.png|440]]
+###Key Concepts
 
 - **Expected initial loss:** For 27 character classes with a uniform prior, the expected cross-entropy at initialization is −log(1/27) ≈ 3.29. Seeing loss = 27 at step 0 signals badly miscalibrated logits.
 - **Logit explosion:** When the output weight matrix `W2` is initialized with random normal values (not scaled down), the logits take extreme values → the softmax is confidently wrong → huge initial loss → "hockey stick" training curve.
@@ -69,6 +71,9 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 | 2.3 | Fan-in scaling: preserving standard deviation | 0:27:53 |
 | 2.4 | Kaiming (He) initialization for tanh & ReLU | 0:33:00 |
 
+### Problem: Saturated Activations
+![[file-20260420095446139.png|406]]
+![[file-20260420095511629.png|518]]
 ### Key Concepts
 
 - **tanh saturation:** When pre-activations are too large in magnitude (e.g. ±15), `tanh` output is near ±1. Its local gradient `1 − t²` approaches 0 → **gradient is killed** during backprop for those neurons.
@@ -88,6 +93,8 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 
   The gain compensates for the contractive effect of the nonlinearity (tanh squashes tails; ReLU discards the negative half).
 - **PyTorch API:** `torch.nn.init.kaiming_normal_(tensor, mode='fan_in', nonlinearity='tanh')`
+### After fixing
+![[file-20260420095545346.png|539]]
 
 ### Learning Objectives
 
@@ -185,10 +192,12 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
   - Track `% saturation` = `(|t| > 0.97).float().mean()`. Aim for ~5%.
   - With gain = 5/3 (Kaiming for tanh), standard deviation stabilizes at ~0.65 across all layers.
   - Too small a gain → activations shrink to zero. Too large → saturated.
+  - ![[file-20260420095919382.png]]
 
 - **Viz #2 — Gradient histograms:**
   - Plot histogram of `layer.out.grad` for each tanh layer.
   - Should be roughly equal magnitude across layers. Shrinking gradients = vanishing; growing = exploding.
+  - ![[file-20260420095931572.png]]
 
 - **Fully linear case insight:** A stack of linear layers (no nonlinearities) collapses to a single linear transformation in the forward pass, but has different backward-pass dynamics. The nonlinearities are essential for representational power, and the gain corrects for their contractive effect.
 
