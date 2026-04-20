@@ -104,14 +104,14 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 
 ### Lessons
 
-| # | Title | Timestamp |
-|---|-------|-----------|
-| 3.1 | The core idea: normalize hidden states | 0:40:40 |
-| 3.2 | Scale & shift (γ and β) parameters | 0:49:00 |
-| 3.3 | Inference: calibrating running mean & std | 0:57:00 |
-| 3.4 | BatchNorm as regularizer (batch-coupling side effect) | 1:01:00 |
-| 3.5 | Summary of the BatchNorm layer | 1:03:07 |
-| 3.6 | Real-world example: ResNet-50 walkthrough | 1:04:50 |
+| #   | Title                                                 | Timestamp |
+| --- | ----------------------------------------------------- | --------- |
+| 3.1 | The core idea: normalize hidden states                | 0:40:40   |
+| 3.2 | Scale & shift (γ and β) parameters                    | 0:49:00   |
+| 3.3 | Inference: calibrating running mean & std             | 0:57:00   |
+| 3.4 | BatchNorm as regularizer (batch-coupling side effect) | 1:01:00   |
+| 3.5 | Summary of the BatchNorm layer                        | 1:03:07   |
+| 3.6 | Real-world example: ResNet-50 walkthrough             | 1:04:50   |
 
 ### Key Concepts
 ![[file-20260411062510464.png|336]]
