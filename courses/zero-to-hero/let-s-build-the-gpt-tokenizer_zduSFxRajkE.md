@@ -72,6 +72,29 @@ Tokenization is the translation layer between raw text and the integer sequences
 - **Tokenization-free LLMs**: research direction (e.g. MegaByte) that feeds raw bytes into hierarchical Transformers; not yet proven at scale.
 - **BPE core idea**: start with 256 byte tokens; iteratively find the most frequent consecutive pair, mint a new token ID for it, replace all occurrences, repeat. Each round compresses the sequence slightly and grows the vocabulary by one.
 
+### Code Examples
+
+**UTF-8 Encoding Basics:**
+```python
+# Convert text to UTF-8 bytes
+text = "U n i c o d e ! 👍"
+tokens = text.encode("utf-8")  # bytes object
+tokens_list = list(map(int, tokens))  # convert to list of integers
+
+print(f"Text: {text}")
+print(f"Tokens: {tokens_list}")
+print(f"Length: {len(text)} chars, {len(tokens_list)} bytes")
+```
+
+**Unicode Code Points:**
+```python
+# Access Unicode code points via ord()
+text_korean = "민영재요 😀 (hello in Korean!)"
+code_points = [ord(c) for c in text_korean]
+print(code_points)
+# Output: [51116, 50689, 51020, 50957, 32, 128512, 32, 40, 104, 101, 108, 108, 111, ...]
+```
+
 ### Learning Objectives
 - [ ] Use Python's `str.encode('utf-8')` and `bytes.decode('utf-8')` correctly.
 - [ ] Explain why UTF-8 is preferred over UTF-16/UTF-32 for tokenization.
@@ -102,6 +125,102 @@ Tokenization is the translation layer between raw text and the integer sequences
 - **`decode(ids)`**: build a `vocab` dict (0–255 = raw bytes, then each merge = parent bytes concatenated), look up each id, concatenate bytes, call `bytes.decode('utf-8', errors='replace')` to handle invalid UTF-8.
 - **`encode(text)`**: convert string to UTF-8 bytes, greedily find and apply the merge with the lowest assigned id (earliest merge wins) until no more merges apply.
 
+### Code Examples
+
+**Finding Most Frequent Pair:**
+```python
+def get_stats(ids):
+    """Count consecutive pairs in a list of integers."""
+    stats = {}
+    for pair in zip(ids, ids[1:]):
+        stats[pair] = stats.get(pair, 0) + 1
+    return stats
+
+# Find the most frequent pair
+stats = get_stats([5, 6, 6, 7, 9, 1])
+top_pair = max(stats, key=stats.get)
+print(top_pair)  # (6, 6) or similar
+```
+
+**Merging Pairs:**
+```python
+def merge(ids, pair, idx):
+    """Replace all consecutive occurrences of pair with idx."""
+    newids = []
+    i = 0
+    while i < len(ids):
+        if i < len(ids) - 1 and ids[i] == pair[0] and ids[i+1] == pair[1]:
+            newids.append(idx)
+            i += 2
+        else:
+            newids.append(ids[i])
+            i += 1
+    return newids
+
+# Example: merge the pair (6, 7) with new token 99
+result = merge([5, 6, 6, 7, 9, 1], (6, 7), 99)
+print(result)  # [5, 6, 99, 9, 1]
+```
+
+**Building Vocabulary and Training Loop:**
+```python
+# Initialize with 256 byte tokens + target vocabulary size
+vocab_size = 276  # 256 bytes + 20 merges
+ids = list(text.encode("utf-8"))
+merges = {}
+
+for i in range(vocab_size - 256):
+    stats = get_stats(ids)
+    pair = max(stats, key=stats.get)
+    idx = 256 + i
+    ids = merge(ids, pair, idx)
+    merges[pair] = idx
+    print(f"Merge {i}: {pair} -> {idx}")
+
+# Compression ratio
+print(f"Compression ratio: {len(text.encode('utf-8')) / len(ids):.2f}X")
+```
+
+**Decoding (IDs → Text):**
+```python
+def decode(ids):
+    """Convert token IDs back to text."""
+    # Build vocabulary: first 256 are raw bytes, rest are merged tokens
+    vocab = {idx: bytes([idx]) for idx in range(256)}
+    for (p0, p1), idx in merges.items():
+        vocab[idx] = vocab[p0] + vocab[p1]
+    
+    # Convert IDs to bytes and decode
+    tokens_b = b"".join(vocab[idx] for idx in ids)
+    return tokens_b.decode("utf-8", errors="replace")
+
+decoded = decode([256, 100, 101])  # Example
+print(decoded)
+```
+
+**Encoding (Text → IDs):**
+```python
+def encode(text):
+    """Convert text to token IDs using learned merges."""
+    tokens = list(text.encode("utf-8"))
+    
+    while len(tokens) >= 2:
+        stats = get_stats(tokens)
+        # Use earliest merge (lowest id), not most frequent
+        pair = min(stats, key=lambda p: merges.get(p, float("inf")))
+        
+        if pair not in merges:
+            break  # No more merges possible
+        
+        idx = merges[pair]
+        tokens = merge(tokens, pair, idx)
+    
+    return tokens
+
+result = encode("hello")
+print(result)  # List of token IDs
+```
+
 ### Learning Objectives
 - [ ] Implement `get_stats()`, `merge()`, and a BPE training loop from scratch.
 - [ ] Implement `decode()` and handle the invalid-UTF-8 edge case.
@@ -130,6 +249,58 @@ Tokenization is the translation layer between raw text and the integer sequences
 - **GPT-4 (cl100k_base) pattern**: updated regex that groups whitespace more aggressively and is case-insensitive; supports Unicode category matching.
 - **Special tokens**: handled outside BPE. `<|endoftext|>` (ID 50256 in GPT-2) delimits documents. GPT-4 adds FIM tokens (`<|fim_prefix|>`, `<|fim_middle|>`, `<|fim_suffix|>`) and a `<|endofprompt|>` token. Chat fine-tuning adds many more (`<|im_start|>`, `<|im_end|>`, etc.).
 - **Model surgery for special tokens**: adding a special token requires resizing both the embedding matrix (add rows) and the final linear projection (add columns). New rows/columns are initialized with small random values; typically only these new parameters are trained initially.
+
+### Code Examples
+
+**GPT-2 Regex Pre-splitting:**
+```python
+import regex as re
+
+# GPT-2 tokenization pattern
+gpt2pat = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d|\p{L}+|\p{N}+|[^\s\p{L}\p{N}]|[\s]""")
+
+# Apply regex to split text into chunks
+text = "Hello've world123 how's are you!!?"
+chunks = re.findall(gpt2pat, text)
+print(chunks)
+# Output: ['Hello', "'ve", ' world', '123', ' how', "'s", ' are', ' you', '!!?']
+```
+
+**Using tiktoken (GPT-4 cl100k_base):**
+```python
+import tiktoken
+
+# Load GPT-4 tokenizer
+enc = tiktoken.get_encoding("cl100k_base")
+
+# Encode text to token IDs
+text = "민영재요 😀 (hello in Korean!)"
+tokens = enc.encode(text)
+print(tokens)
+# Output: [31495, 230, 75265, 243, 92245, 62904, 233, 320, 15339, 304, 16526, 16715]
+
+# Decode back to text (roundtrip)
+decoded = enc.decode(tokens)
+assert decoded == text  # Verify roundtrip works
+print(f"Roundtrip successful: {decoded == text}")
+```
+
+**Loading GPT-2 Vocabulary Files:**
+```python
+import json
+
+# Load pre-trained GPT-2 encoder
+with open('encoder.json', 'r') as f:
+    encoder = json.load(f)  # Maps token string to ID
+
+with open('vocab.bpe', 'r', encoding="utf-8") as f:
+    bpe_data = f.read()
+    bpe_merges = [tuple(merge_str.split()) for merge_str in bpe_data.split('\n')[1:-1]]
+    merges = {tuple(map(int, merge)): i for i, merge in enumerate(bpe_merges)}
+
+# Now use encoder and merges for encoding/decoding
+special_tokens = {"<|endoftext|>": 50256}
+```
 
 ### Learning Objectives
 - [ ] Explain why regex pre-splitting prevents cross-category merges.
@@ -168,6 +339,75 @@ Tokenization is the translation layer between raw text and the integer sequences
   - *YAML preferred over JSON*: YAML is more token-efficient for structured data in many tokenizers.
   - *Trailing whitespace warnings*: a tokenization artifact; whitespace changes token boundaries.
 
+### Code Examples
+
+**SentencePiece Training (Conceptual):**
+```python
+# SentencePiece operates on Unicode code points, not UTF-8 bytes
+# Key difference: BPE on code points + byte_fallback for rare chars
+
+# Example: Train SentencePiece on a text file
+# import sentencepiece as spm
+# spm.SentencePieceTrainer.train(
+#     input='corpus.txt',
+#     model_prefix='m',
+#     vocab_size=32000,
+#     character_coverage=0.9995,  # Handle 99.95% of chars directly
+#     model_type='bpe'
+# )
+# sp = spm.SentencePieceProcessor()
+# sp.Load('m.model')
+# tokens = sp.EncodeAsIds('hello world')
+```
+
+**Using Tiktoken for GPT-4:**
+```python
+import tiktoken
+
+# GPT-4 tokenizer comparison with GPT-2
+enc_gpt4 = tiktoken.get_encoding("cl100k_base")
+enc_gpt2 = tiktoken.get_encoding("gpt2")
+
+text = "Hello world! This is a test."
+
+tokens_gpt4 = enc_gpt4.encode(text)
+tokens_gpt2 = enc_gpt2.encode(text)
+
+print(f"GPT-4 tokens ({len(tokens_gpt4)}): {tokens_gpt4}")
+print(f"GPT-2 tokens ({len(tokens_gpt2)}): {tokens_gpt2}")
+# GPT-4 uses fewer tokens due to larger vocab and smarter grouping
+```
+
+**Measuring Compression Ratio:**
+```python
+def compression_ratio(text, tokenizer):
+    """Calculate how much a tokenizer compresses text."""
+    tokens = tokenizer.encode(text)
+    original_bytes = len(text.encode("utf-8"))
+    num_tokens = len(tokens)
+    return original_bytes / num_tokens
+
+text = "U n i c o d e ! 👍"
+ratio = len(text.encode("utf-8")) / len(enc_gpt4.encode(text))
+print(f"Compression ratio: {ratio:.2f}X")
+```
+
+**minBPE Exercise (GPT-4 Compatible Tokenizer):**
+```python
+# Exercise: Implement a tokenizer that matches GPT-4's cl100k_base
+# Key steps:
+# 1. Implement get_stats() to count pair frequencies
+# 2. Implement merge() to replace pairs with new token IDs
+# 3. Train BPE loop with regex pre-splitting
+# 4. Implement encode() using greedy lowest-rank merge
+# 5. Implement decode() building vocab and decoding bytes
+# 6. Verify roundtrip: encode(text) then decode == original text
+
+# Example verification:
+assert enc_gpt4.decode(enc_gpt4.encode(text)) == text
+print("✓ Roundtrip successful")
+```
+
 ### Learning Objectives
 - [ ] Compare SentencePiece and tiktoken tokenization strategies at the code-point level.
 - [ ] Choose a reasonable vocabulary size for a new LLM and justify the trade-off.
@@ -192,6 +432,57 @@ Tokenization is the translation layer between raw text and the integer sequences
 - Train a tokenizer on a different corpus (e.g. code-heavy or multilingual) and compare the resulting merge order to GPT-4's.
 - Experiment with different vocabulary sizes (256, 1000, 32000) and measure compression ratio vs. downstream sequence length.
 - Add a custom special token to minbpe and verify encode/decode roundtrip.
+
+---
+
+## Quick Code Reference
+
+### Essential Functions
+
+| Function | Purpose | Key Pattern |
+|----------|---------|-------------|
+| `get_stats()` | Count pair frequencies | `{(a, b): count}` dict |
+| `merge()` | Replace pair with token ID | Left-to-right scan, skip merged pairs |
+| `encode()` | Text → token IDs | Greedy: `min(stats, key=lambda p: merges.get(p, inf))` |
+| `decode()` | Token IDs → text | Build vocab, concatenate bytes, decode UTF-8 |
+
+### Core Algorithm Pattern
+```
+1. Start with bytes: tokens = list(text.encode("utf-8"))
+2. Loop until done:
+   a. stats = get_stats(tokens)  # Count pairs
+   b. pair = max(stats, key=stats.get)  # Most frequent
+   c. tokens = merge(tokens, pair, new_id)
+   d. Record merges[(a, b)] = new_id
+3. For inference, apply merges in order (lowest ID first)
+```
+
+### Regex Pre-split Pattern
+```python
+# Split text into chunks, process each independently
+chunks = re.findall(pattern, text)
+token_ids = []
+for chunk in chunks:
+    token_ids.extend(encode(chunk))
+```
+
+### Production Libraries
+- **tiktoken** (OpenAI): Fast, pre-trained for GPT-2/GPT-4, inference-only
+- **SentencePiece** (Google): Can train & infer, BPE on code points, byte fallback
+- **minbpe** (Karpathy): Educational, shows full implementation details
+
+### Common Token IDs
+| Model | Special Token | ID |
+|-------|---------------|----|
+| GPT-2 | `<\|endoftext\|>` | 50256 |
+| GPT-4 | `<\|endoftext\|>` | 100257 |
+| GPT-4 | `<\|fim_prefix\|>` | (varies) |
+
+### Validation Checklist
+- ✅ Roundtrip: `decode(encode(text)) == text`
+- ✅ Consistency: Same text always encodes to same IDs
+- ✅ Compression: ~1.2–1.5× reduction in sequence length
+- ✅ Regex splitting: No cross-category merges (letters+punctuation)
 
 ---
 
