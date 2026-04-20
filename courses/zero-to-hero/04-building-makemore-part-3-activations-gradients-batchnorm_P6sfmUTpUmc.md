@@ -204,6 +204,7 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
 - **Viz #3 — Weight gradient statistics:**
   - Plot mean, std, and histograms of `.grad` for each 2D weight tensor.
   - Identifies outlier layers (e.g. the final output layer is typically a gradient outlier if initialized with a very small scale).
+  - ![[file-20260420100733109.png]]
 
 - **Viz #4 — Update:data ratio (most important diagnostic):**
   - For each parameter: `log10(lr × std(grad) / std(data))` tracked over training.
@@ -211,6 +212,7 @@ This lecture stays at the MLP level — before moving to RNNs — to build deep 
   - Much above −3 → updates too large (learning rate too high).
   - Much below −3 → updates too small (learning rate too low, or weights improperly scaled).
   - The final layer (if scaled down to prevent overconfident logits) will show a high ratio initially but stabilizes as training proceeds.
+  - ![[file-20260420100748225.png]]
 
 - **BatchNorm + visualizations:** With BatchNorm inserted between each linear and tanh layer, activations are *by construction* well-behaved — the histograms look good regardless of the gain setting. However, the update:data ratio still depends on the learning rate and can require retuning.
 
