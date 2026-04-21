@@ -57,9 +57,26 @@ Tokenization converts text into integer sequences that the model operates on. To
 
 ```python
 from transformers import AutoTokenizer
+
 tokenizer = AutoTokenizer.from_pretrained("EleutherAI/pythia-70m")
-tokens = tokenizer("Hi, how are you?")  # returns {"input_ids": [...], "attention_mask": [...]}
-text = tokenizer.decode(tokens["input_ids"])  # → "Hi, how are you?"
+```
+
+**Tokenize single text:**
+```python
+text = "Hi, how are you?"
+encoded_text = tokenizer(text)["input_ids"]
+# Output: [12764, 13, 849, 403, 368, 32]
+
+decoded_text = tokenizer.decode(encoded_text)
+# Output: "Hi, how are you?"
+```
+
+**Tokenize multiple texts at once:**
+```python
+list_texts = ["Hi, how are you?", "I'm good", "Yes"]
+encoded_texts = tokenizer(list_texts)
+print(encoded_texts["input_ids"])
+# Output: [[12764, 13, 849, 403, 368, 32], [42, 1353, 1175], [4374]]
 ```
 
 ---
@@ -71,24 +88,119 @@ Models require fixed-size tensors — all sequences in a batch must be the same 
 **Padding**: shorter sequences are padded with a special token (typically `0`, also used as the end-of-sentence token) to match the longest sequence in the batch.
 
 ```python
-tokenizer(["Hi, how are you?", "I'm good.", "Yes."], padding=True)
-# "Yes." → [token_yes, 0, 0, 0, 0, 0, ...]
+tokenizer.pad_token = tokenizer.eos_token 
+list_texts = ["Hi, how are you?", "I'm good", "Yes"]
+encoded_texts_longest = tokenizer(list_texts, padding=True)
+print(encoded_texts_longest["input_ids"])
+# Output: [[12764, 13, 849, 403, 368, 32], [42, 1353, 1175, 0, 0, 0], [4374, 0, 0, 0, 0, 0]]
 ```
 
 **Truncation**: sequences longer than the model's maximum context length are cut. Default truncation is from the right. For prompts where critical context is on the right (e.g., the answer portion), set `truncation_side="left"` to preserve the response.
 
+```python
+# Truncate from the right (default)
+encoded_texts_truncation = tokenizer(list_texts, max_length=3, truncation=True)
+print(encoded_texts_truncation["input_ids"])
+# Output: [[12764, 13, 849], [42, 1353, 1175], [4374]]
+
+# Truncate from the left to preserve answer portion
+tokenizer.truncation_side = "left"
+encoded_texts_truncation_left = tokenizer(list_texts, max_length=3, truncation=True)
+print(encoded_texts_truncation_left["input_ids"])
+# Output: [[403, 368, 32], [42, 1353, 1175], [4374]]
+```
+
 In practice, both are used together:
 ```python
-tokenizer(text, padding=True, truncation=True, max_length=max_len)
+encoded_texts_both = tokenizer(list_texts, max_length=3, truncation=True, padding=True)
+print(encoded_texts_both["input_ids"])
+# Output: [[403, 368, 32], [42, 1353, 1175], [4374, 0, 0]]
 ```
 
 ---
 
 ## Lab: Tokenizing a Dataset with Hugging Face
 
-The lab tokenizes the Lamini Q&A dataset (a company-specific instruction dataset) using the 70M-parameter Pythia model. The `tokenize_function` computes the minimum of the model's max context length and the actual token count, then re-tokenizes with truncation at that length. The full dataset is processed using Hugging Face's `.map()` function with `batch_size=1` and `drop_last_batch=True` (to handle edge-case batch sizes). After adding a `labels` column (required by Hugging Face for training), a `train_test_split(test_size=0.1, shuffle=True)` produces the final datasets.
+The lab tokenizes the Lamini Q&A dataset (a company-specific instruction dataset) using the 70M-parameter Pythia model. The `tokenize_function` computes the minimum of the model's max context length and the actual token count, then re-tokenizes with truncation at that length.
 
-Three bonus datasets in the lab for experimentation: Taylor Swift Q&A, BTS Q&A, and open-source LLM Q&A — all available on Hugging Face.
+**Define the tokenization function:**
+```python
+def tokenize_function(examples):
+    if "question" in examples and "answer" in examples:
+      text = examples["question"][0] + examples["answer"][0]
+    elif "input" in examples and "output" in examples:
+      text = examples["input"][0] + examples["output"][0]
+    else:
+      text = examples["text"][0]
+
+    tokenizer.pad_token = tokenizer.eos_token
+    tokenized_inputs = tokenizer(
+        text,
+        return_tensors="np",
+        padding=True,
+    )
+
+    max_length = min(
+        tokenized_inputs["input_ids"].shape[1],
+        2048
+    )
+    tokenizer.truncation_side = "left"
+    tokenized_inputs = tokenizer(
+        text,
+        return_tensors="np",
+        truncation=True,
+        max_length=max_length
+    )
+
+    return tokenized_inputs
+```
+
+**Load dataset and apply tokenization:**
+```python
+import datasets
+
+finetuning_dataset_loaded = datasets.load_dataset("kotzeje/lamini_docs.jsonl", split="train")
+
+tokenized_dataset = finetuning_dataset_loaded.map(
+    tokenize_function,
+    batched=True,
+    batch_size=1,
+    drop_last_batch=True
+)
+
+print(tokenized_dataset)
+# Output: Dataset({
+#     features: ['question', 'answer', 'input_ids', 'attention_mask'],
+#     num_rows: 1400
+# })
+```
+
+**Add labels and split into train/test:**
+```python
+tokenized_dataset = tokenized_dataset.add_column("labels", tokenized_dataset["input_ids"])
+
+split_dataset = tokenized_dataset.train_test_split(test_size=0.1, shuffle=True, seed=123)
+print(split_dataset)
+# Output: DatasetDict({
+#     train: Dataset({
+#         features: ['question', 'answer', 'input_ids', 'attention_mask', 'labels'],
+#         num_rows: 1260
+#     })
+#     test: Dataset({
+#         features: ['question', 'answer', 'input_ids', 'attention_mask', 'labels'],
+#         num_rows: 140
+#     })
+# })
+```
+
+**Bonus datasets for experimentation:**
+```python
+taylor_swift_dataset = "lamini/taylor_swift"
+bts_dataset = "lamini/bts"
+open_llms = "lamini/open_llms"
+```
+
+The full dataset is processed using Hugging Face's `.map()` function with `batch_size=1` and `drop_last_batch=True` (to handle edge-case batch sizes). After adding a `labels` column (required by Hugging Face for training), a `train_test_split(test_size=0.1, shuffle=True)` produces the final datasets.
 
 ---
 
