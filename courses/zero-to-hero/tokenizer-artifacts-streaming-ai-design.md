@@ -245,7 +245,7 @@ This conversation explores a series of interconnected design decisions in real-t
 ### 7.1 跨语言的"语义切分"冲突
 
 **Q:** 在处理多语言文本（比如中英文混排）时，空格的"不可见性"会不会让分词器产生更严重的歧义？
-**A:** 会产生更严重的奇异
+	**A:** 会产生更严重的歧义
 
 **The conflict:**
 - 英文（依赖空格）：空格是天然词界，分词器将空格作为前缀包含
