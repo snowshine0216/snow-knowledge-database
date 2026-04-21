@@ -36,6 +36,10 @@ This conversation explores a series of interconnected design decisions in real-t
 
 > **Interviewer follow-up:** Transformer attention is O(L²). If you double your token width and halve L, by what factor does your attention cost change? What does that tell you about why tokenizer width matters more than model depth for latency?
 
+> [!example]- Answer
+>
+> Attention cost is O(L²). Halving L gives O((L/2)²) = O(L²/4) — a **4× reduction**. Model depth adds only O(L) cost per layer without shrinking L at all. So a 2× wider tokenizer saves 75% of attention compute, while doubling depth doubles only per-layer cost. Tokenizer width wins because it attacks the quadratic term; depth additions are linear and don't reduce sequence length.
+
 ### 1.2 Why Wider Tokenizer Beats Deeper WaveNet Tree
 
 | 维度 | 宽分词器 (Wide Tokenizer) | 更深的 WaveNet 树 |
@@ -50,6 +54,10 @@ This conversation explores a series of interconnected design decisions in real-t
 - **显存浪费**：为了长距离记忆而增加深度，会浪费显存去存储对当前决策影响微弱的中间节点（Shared Nodes）
 
 > **Interviewer follow-up:** Describe the "hierarchical latency" problem in WaveNet trees in your own words. At what point does adding tree depth become net-negative for a latency-sensitive system?
+
+> [!example]- Answer
+>
+> Each WaveNet tree layer must wait for the layer below to finish — signals can't propagate upward until all leaf nodes have computed. A 10-layer tree is 10 serial blocking steps; a 20-layer tree is 20. In real-time streaming with a <100ms budget, every added layer consumes that budget linearly while doing nothing to reduce sequence length L. Adding depth becomes net-negative **when per-layer latency exceeds ~10ms** — at that threshold you'd rather offload long-term memory to an async Vector DB and keep the model shallow (3–5 layers) for local coherence only.
 
 ### 1.3 The Industrial Gold Standard for Live Streaming
 
@@ -74,6 +82,10 @@ This conversation explores a series of interconnected design decisions in real-t
 - 以"量"补"质"：快速回答 10 个"大意正确"的问题，比慢吞吞完美回答 1 个问题对直播间热度贡献更大
 
 > **Interviewer follow-up:** Name a scenario where the "fast but approximate" decision would be the WRONG call — where you absolutely need precision over speed. How would you architect the system differently in that case?
+
+> [!example]- Answer
+>
+> **Legal contract review or medical diagnosis** — one missed clause or contraindication causes downstream catastrophe that a 2-second delay never would. The architecture inverts: the **slow precise layer** (full-context RAG + Judge LLM) becomes the primary path, and the fast-approximate layer is demoted to an optional "quick summary" with an explicit "unverified" warning. Speed serves engagement; precision serves liability. When the cost of a wrong answer exceeds the cost of latency, always flip the architecture.
 
 ### 2.2 架构上的"快慢分道"策略
 
@@ -103,6 +115,10 @@ This conversation explores a series of interconnected design decisions in real-t
 
 > **Interviewer follow-up:** GPT-4o uses end-to-end audio token processing. What specific capability does this give it that a pipeline with ASR cannot replicate? When would you still choose ASR anyway?
 
+> [!example]- Answer
+>
+> GPT-4o captures **prosody, emotion, hesitation, and environmental context** — "I'm fine" spoken sarcastically arrives as sarcasm, not as cheerful text. ASR collapses the waveform to words and destroys all of that. You'd still choose ASR when: (1) latency budget is under 100ms and end-to-end audio processing is too slow, (2) you have no raw waveform (pre-transcribed input), or (3) you need interpretable intermediate output for debugging. Trade: gain ~100ms latency, lose emotional grounding — the model must infer intent from text alone.
+
 ---
 
 ## Part 4 — Handling Noisy ASR: Ignore vs. Correct
@@ -126,6 +142,22 @@ This conversation explores a series of interconnected design decisions in real-t
 | 静默处理 | 不给前台反馈或仅在主播后台提示"指令不清晰" | 保持直播间流畅 |
 
 > **Interviewer follow-up:** You choose to log all ignored noisy instructions. What specific signal would you extract from that log to train a custom "noise filter" ASR model? What labeled data format would you create?
+
+> [!example]- Answer
+>
+> Extract: **ASR confidence score + estimated SNR + whether the streamer repeated the instruction within 10s** (repetition = proxy for ground truth). Labeled format:
+> ```json
+> {
+>   "audio_segment_id": "stream_20260421_142300",
+>   "asr_confidence": 0.22,
+>   "snr_estimate_db": 3.5,
+>   "asr_output": "上链接",
+>   "repeated_clearly_within_10s": true,
+>   "ground_truth_intent": "product_link",
+>   "label": "valid_but_noisy"
+> }
+> ```
+> Train a lightweight decision model: "Given confidence + SNR, discard or attempt execution?" Retrain weekly — noise conditions shift with studio setups and new broadcast environments.
 
 ---
 
@@ -153,6 +185,14 @@ This conversation explores a series of interconnected design decisions in real-t
 - 幻觉风险：模型无法理解对话结束，从而继续胡言乱语
 
 > **Interviewer follow-up:** If you add a brand-new Special Token to an existing model's vocabulary (e.g. `<|tool_call|>`), what two mandatory steps must you take before fine-tuning? What happens if you skip the embedding resize?
+
+> [!example]- Answer
+>
+> Two mandatory steps:
+> 1. **Resize the input embedding matrix** — expand `Embedding.weight` from `(old_vocab, hidden_dim)` to `(new_vocab, hidden_dim)`. Initialize the new row with small random values or average nearby token embeddings.
+> 2. **Resize the output logits layer** — expand the final `Linear` weight and bias to match `new_vocab`.
+>
+> If you skip: the tokenizer emits the new token ID, the model's forward pass tries to index `Embedding[new_id]` — which doesn't exist — and crashes with an out-of-bounds error. If you resize input but not output (or vice versa), inference silently produces garbage distributions for the new token with no runtime error.
 
 ---
 
@@ -184,6 +224,20 @@ This conversation explores a series of interconnected design decisions in real-t
 
 > **Interviewer follow-up:** Give two concrete production bug scenarios where a trailing whitespace could cause a failure that's very hard to debug. How would you detect this in a CI pipeline?
 
+> [!example]- Answer
+>
+> **Scenario 1 — Chatbot template rendering**: A system prompt builder appends a trailing space during string concatenation. The model sees an orphaned `" "` token at the end and shifts its first response character — users see `"M"` instead of `"My"`. The bug is invisible in the UI (spaces don't render) and non-deterministic (model behavior varies by sampling temperature).
+>
+> **Scenario 2 — Legal AI clause retrieval**: A post-processing step accidentally appends `" "` to a retrieved contract clause. The Lint validator passes (format is valid), but the Judge LLM hallucinates a "next clause" that doesn't exist — the trailing space pushed its probability distribution into unfamiliar territory.
+>
+> **CI detection**:
+> ```bash
+> # Fail the build if any prompt template has trailing whitespace
+> grep -rE ' $' prompts/ && exit 1
+> # Python assertion in test suite:
+> assert all(s == s.strip() for s in template_prompts), "Trailing whitespace in prompt"
+> ```
+
 ---
 
 ## Part 7 — Multilingual Tokenization: Chinese/English Mixed Text
@@ -211,6 +265,18 @@ BPE 会合并常用组合——例如词表里可能有一个高阶 token `"机�
 
 > **Interviewer follow-up:** You're building a RAG system that must handle Japanese/English mixed queries. Japanese has no spaces (like Chinese). Describe your full pre-processing pipeline before the text hits the tokenizer — including normalization, space handling, and any special considerations for CJK languages.
 
+> [!example]- Answer
+>
+> Full pipeline before tokenization:
+> 1. **Language detection** — classify each span as Japanese, English, or mixed (e.g. langdetect or a small classifier)
+> 2. **Japanese word segmentation** — run MeCab or Janome on Japanese spans to insert morpheme boundaries: `"機械学習"` → `"機械 学習"`. Never insert spaces in English spans.
+> 3. **CJK normalization** — remove invisible Unicode joiners (U+2060), zero-width spaces (U+200B), and control characters that disrupt BPE merges
+> 4. **Full/half-width normalization** — convert full-width ASCII and spaces (U+FF00–U+FFEF) to ASCII equivalents
+> 5. **Punctuation standardization** — normalize Japanese brackets 「」→ `""`, em-dashes, multiple quotation styles
+> 6. **Whitespace collapse** — reduce consecutive spaces to one
+> 7. **Trailing strip** — `.strip()` on the full query and every retrieved chunk
+> 8. **Tokenize** — feed to BPE
+
 ### 7.3 应对策略：格式对齐 vs. 让模型学习更多空格组合
 
 **Q:** 是应该让模型学习更多的空格组合，还是在入口处强制进行更严格的格式对齐？
@@ -227,6 +293,21 @@ BPE 会合并常用组合——例如词表里可能有一个高阶 token `"机�
 - 模板对齐：确保 Special Tokens 与文本之间无误插空格
 
 > **Interviewer follow-up:** There's one case where you MUST let the model understand spaces semantically — not strip them. What is that case, and how does your pre-processing pipeline differentiate between "valid semantic whitespace" and "artifact whitespace"?
+
+> [!example]- Answer
+>
+> **The case**: source code — indentation in Python is syntax, not decoration. Stripping leading spaces destroys the program's meaning. Same for Markdown tables and poetry with intentional stanza spacing.
+>
+> **Differentiation**: gate on `content_type` before applying any whitespace normalization:
+> ```python
+> if content_type == "code":
+>     # Only strip trailing whitespace per line; preserve leading indentation
+>     cleaned = "\n".join(line.rstrip() for line in text.split("\n"))
+> else:
+>     # Natural language: aggressive strip + collapse
+>     cleaned = re.sub(r" +", " ", text).strip()
+> ```
+> The rule: **leading whitespace = potentially semantic (indentation, structure); trailing whitespace = always artifact**. Never strip leading; always strip trailing.
 
 ---
 
@@ -277,6 +358,21 @@ Lint 校验在生产级 AI Agent 架构中作为**第一道防线**，与裁判�
 
 > **Interviewer follow-up:** Design the complete validation pipeline for a legal citation in your system: from user query to final response delivery. Name every component, its latency budget, and what it catches that the previous component cannot.
 
+> [!example]- Answer
+>
+> | Step | Component | Budget | Catches |
+> |---|---|---|---|
+> | 1 | **Intent Rewriter** (small LLM) | 50ms | Informal language → legal terms; expands ambiguous queries |
+> | 2 | **Multi-angle RAG** (3–5 parallel queries) | 150ms | Missing related statutes, case law, and regulatory cross-references |
+> | 3 | **Main LLM generation** | 300ms | Incoherent reasoning; prompted to cite sources explicitly |
+> | 4 | **Lint Validator** (regex/schema) | <10ms | Fabricated article IDs, malformed citation format, non-existent law codes |
+> | 5 | **Judge LLM** (small model) | 200–500ms | Semantic drift, paraphrase hallucinations, claims that contradict the source |
+> | 6 | **Output formatter** | 50ms | Broken source links, missing attribution |
+>
+> **Total: ~750ms–1100ms** — acceptable for legal research, not real-time chat.
+>
+> Lint and Judge LLM are both required: Lint catches non-existent IDs with 100% precision but cannot judge whether a valid ID is being faithfully represented. The Judge LLM catches semantic drift but may confabulate that a fabricated ID is valid (it "knows" the law). Each layer catches what the other is blind to.
+
 ---
 
 ## Key Takeaways
@@ -291,177 +387,6 @@ Lint 校验在生产级 AI Agent 架构中作为**第一道防线**，与裁判�
 - **Multilingual mixed text** (Chinese + English) amplifies whitespace artifacts by breaking BPE high-order token merges; use normalization, not model re-training, to fix this
 - **Lint validation is deterministic and zero-latency** — use it as the first gate for format and citation correctness before involving any LLM judge
 - **Legal AI citation validation**: RAG-sourced citations + Lint gate (valid ID?) + Judge LLM (faithful to source?) forms the minimum viable anti-hallucination stack
-
----
-
-## Interviewer Follow-Up Answers
-
-> *Guided answers for the inline follow-up questions throughout the document.*
-
-### Part 1.1 — Transformer Attention and Token Width
-
-**Q: Transformer attention is O(L²). If you double your token width and halve L, by what factor does your attention cost change?**
-
-Attention cost is O(L²). If you halve L (from doubling token width), the new cost is O((L/2)²) = O(L²/4). The attention cost drops by a factor of **4×**. This demonstrates that tokenizer width is exponentially more impactful than model depth for latency optimization — small reductions in sequence length compound dramatically through the quadratic relationship.
-
----
-
-### Part 1.2 — Hierarchical Latency in WaveNet Trees
-
-**Q: Describe the "hierarchical latency" problem in WaveNet trees in your own words. At what point does adding tree depth become net-negative?**
-
-In WaveNet trees, each layer must wait for the previous layer to complete before it can process its input — information cannot propagate upward until leaf nodes have computed. A 10-layer tree means 10 serial steps; a 20-layer tree means 20 steps. In real-time streaming (< 100ms latency budget), every added layer consumes that budget linearly while not reducing sequence length L. Adding depth becomes net-negative **when latency-per-layer exceeds ~10ms** — at that point, you'd be better off offloading long-term memory to an async vector database and keeping the model shallow (3-5 layers max) for local coherence only.
-
----
-
-### Part 2.1 — When Precision Beats Speed
-
-**Q: Name a scenario where "fast but approximate" would be the WRONG call — where you need precision over speed.**
-
-Counterexample: **Legal contract review or medical diagnosis**. In these domains, one missed detail (a liability clause, a contraindication) can cause catastrophic downstream harm. The cost of a missed precision error far exceeds the cost of a 2-second delay. The architecture would invert: use a **slow precise layer** (full-context RAG + judge LLM) as the primary path, then add a fast-but-approximate layer only as an optional "quick summary" that explicitly warns the user it's incomplete. Speed serves the user; precision serves the business's legal and medical obligations.
-
----
-
-### Part 3.1 — End-to-End Audio vs. ASR Pipeline
-
-**Q: GPT-4o uses end-to-end audio token processing. What specific capability does this give it that a pipeline with ASR cannot replicate? When would you still choose ASR?**
-
-GPT-4o captures **prosody, emotion, and environmental context** — the tone of voice, hesitation, sarcasm, or background noise that shapes meaning. An ASR pipeline loses all of this: "I'm fine" transcribed from a sarcastic tone reads as cheerful. When you MUST choose ASR anyway: **latency-critical systems where the 200ms of end-to-end processing is unaffordable**, or when the audio is already noisy/transcribed and you have no access to raw waveform. Trade: you get 100ms latency but lose emotional grounding; the model must work harder to infer intent from text alone.
-
----
-
-### Part 4.1 — Logging Noisy ASR for Filter Training
-
-**Q: You choose to log all ignored noisy instructions. What signal would you extract from that log to train a custom noise filter? What labeled data format would you create?**
-
-Extract signal: correlate **ASR confidence score, SNR estimate (signal-to-noise ratio), and whether the instruction was later repeated clearly** (a proxy for ground truth). Labeled data format:
-
-```json
-{
-  "audio_segment_id": "stream_20260421_14230045",
-  "asr_confidence": 0.22,
-  "snr_estimate_db": 3.5,
-  "asr_output": "上链接",
-  "repeated_clearly": true,
-  "ground_truth_intent": "product_link",
-  "label": "ignore_noise"
-}
-```
-
-Use this to train a lightweight decision forest: "Given ASR confidence + SNR, should we discard this instruction?" Retraining weekly on new broadcasts catches drifts in background noise conditions (studio changes, new product types).
-
----
-
-### Part 5.2 — Adding New Special Tokens
-
-**Q: If you add a brand-new Special Token to an existing model's vocabulary (e.g. `<|tool_call|>`), what two mandatory steps must you take before fine-tuning? What happens if you skip the embedding resize?**
-
-Two mandatory steps:
-1. **Resize the embedding matrix**: Expand `Embedding.weight` from shape `(old_vocab_size, hidden_dim)` to `(new_vocab_size, hidden_dim)`. Initialize new rows with small random values or copy from semantically similar tokens.
-2. **Resize the output/logits layer**: Expand the final linear layer's weight matrix and bias from `(old_vocab_size)` to `(new_vocab_size)`.
-
-If you skip: the tokenizer can emit the new token ID, but the model's forward pass will **index out of bounds** when trying to embed it or compute logits, causing a runtime crash. Alternatively, if you don't update both layers symmetrically, inference will silently produce garbage embeddings for the new token.
-
----
-
-### Part 6.1 — Production Bugs from Trailing Whitespace
-
-**Q: Give two concrete production bug scenarios where trailing whitespace could cause a failure. How would you detect this in a CI pipeline?**
-
-**Scenario 1**: A chatbot appends a trailing space to system prompts during template rendering. The model sees an orphaned space token and shifts the first character of its response — users see `"M"` instead of `"My"` or worse, hallucinated Unicode. Root cause invisible to QA because the UI hides trailing spaces.
-
-**Scenario 2**: A legal AI system retrieves a contract clause but the post-processing step accidentally adds `" "` at the end. The Lint validator checks clause format (valid), but the Judge LLM never trained on trailing-space variants — it hallucinates a fictional "next clause" that doesn't exist in the source.
-
-**CI Detection**:
-```bash
-# Regex in CI linter:
-grep -E '"\s+$' prompts/*.txt && exit 1  # Fail if trailing whitespace found
-# Or in Python:
-assert all(s.strip() == s for s in template_prompts), "Trailing whitespace detected"
-```
-
----
-
-### Part 7.2 — RAG Pipeline for Multilingual Queries
-
-**Q: You're building a RAG system handling Japanese/English mixed queries. Japanese has no spaces (like Chinese). Describe your full preprocessing pipeline before tokenization.**
-
-Full preprocessing pipeline:
-
-1. **Language Detection**: Identify segments as Japanese, English, or mixed using a lightweight classifier.
-2. **Japanese Segmentation**: Use MeCab or Janome to insert word boundaries (spaces) between morphemes: `"機械学習"` → `"機械 学習"` (but only for Japanese spans — never insert spaces in English).
-3. **Normalization**: Collapse multiple consecutive spaces to one; normalize full-width and half-width spaces to ASCII space.
-4. **CJK-aware cleaning**: Remove invisible Unicode joiners or control characters that might disrupt tokenization.
-5. **Quote/punctuation normalization**: Standardize all quote types and em-dashes (Japanese uses various quotation marks).
-6. **Trailing whitespace strip**: `.strip()` on the entire query and every retrieved chunk.
-7. **Tokenize**: Feed the cleaned, segmented text to BPE.
-
-This prevents the "space artifact" problem by handling it at the boundary — the tokenizer receives well-formed input where semantic spaces are explicit and artifact spaces are eliminated.
-
----
-
-### Part 7.3 — When Whitespace Is Semantically Required
-
-**Q: There's one case where you MUST let the model understand spaces semantically — not strip them. What is that case? How do you differentiate "valid semantic whitespace" from "artifact whitespace"?**
-
-**Case**: **Code or poetry or structured text where indentation/whitespace encodes meaning**. In Python, indentation is syntax; in poetry, stanza breaks are semantic; in JSON, spaces around delimiters can matter for display.
-
-**Differentiation strategy**:
-- **Artifact whitespace**: trailing spaces at line/document end, spaces between delimiters (e.g., `[ 1, 2 ]` vs `[1,2]`), multiple consecutive spaces outside code.
-- **Valid semantic whitespace**: leading indentation within a code block, structured newlines in poetry, spaces explicitly part of the syntax domain (SQL formatting, Markdown tables).
-
-**Implementation**: Add a `preserve_whitespace` flag to your preprocessing:
-
-```python
-if domain == "code" or content_type == "python":
-    preserve_whitespace = True
-    # Only strip line-trailing spaces, keep structural indentation
-    cleaned = "\n".join(line.rstrip() for line in text.split("\n"))
-elif domain == "natural_language":
-    preserve_whitespace = False
-    cleaned = text.strip()  # Full aggressive strip
-```
-
----
-
-### Part 8.2 — Complete Legal Citation Validation Pipeline
-
-**Q: Design the complete validation pipeline for a legal citation: from user query to final response. Name every component, its latency budget, and what it catches.**
-
-**End-to-end pipeline**:
-
-1. **User Query** → Intent Rewrite (50ms budget)
-   - Catches: informal language ("can I sue my boss?"), maps to legal terminology ("wrongful termination claim")
-   - Tool: Small intent-classification LLM
-
-2. **Multi-dimensional Retrieval** (150ms budget)
-   - Catches: missing related articles by searching from 3+ angles (statute, case law, related rights)
-   - Tool: Parallel RAG queries (law articles, case citations, regulatory references)
-
-3. **Main Model Generation** (300ms budget)
-   - Catches: incoherent reasoning, missing citations
-   - Tool: Full-context LLM, prompted to cite sources
-
-4. **Lint Validator** (0-10ms budget — deterministic regex/schema)
-   - Catches: fabricated article IDs, malformed citation format, non-existent law codes
-   - Tool: Regex or JSON schema against indexed law articles database
-   - Signal: "Article 125(b) of the Labor Law" → regex confirms `125(b)` exists in database
-
-5. **Judge LLM** (200-500ms budget)
-   - Catches: semantic drift, paraphrase hallucinations, misquotes
-   - Tool: Separate smaller LLM reads model output + retrieved source fragments
-   - Prompt: "Does this claim faithfully match the source text?"
-
-6. **Output Formatting + Hyperlinks** (50ms budget)
-   - Catches: broken links, missing source attribution
-   - Tool: Template formatter links citations to original documents
-
-**Total latency**: ~750ms-1100ms (acceptable for legal research, not real-time chat)
-
-**Why you need all layers**:
-- Lint catches format/ID errors (100% precision, zero false negatives)
-- Judge catches semantic errors (high precision, catches drift Lint misses)
-- Together they form redundant defenses against different failure modes
 
 ---
 
