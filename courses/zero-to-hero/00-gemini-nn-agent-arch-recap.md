@@ -61,6 +61,12 @@ source: https://gemini.google.com/app/20ee9086e135744c
 - **工程细节**：Linear 层之后接 BN，就**不需要**设置 Bias（均值会被 BN 减掉，Bias 被抵消）。
 - **潜在 Bug**：Karpathy 指出 PyTorch 的 `BatchNorm1d` 在训练时用 Bessel 修正（除以 $n-1$），推理时用 Running Stats（除以 $n$），存在细微不一致。
 
+> **Interviewer follow-up:** You train a ResNet with BatchNorm, then deploy it. A month later, the inference results drift from your validation metrics. You forgot to call `model.eval()`. Walk through exactly what's happening at the mathematical level — why would `model.train()` mode break inference, and what would the output distribution look like?
+
+> [!example]- Answer
+>
+> In `train()` mode, BN uses the current batch's mean/variance instead of the running statistics. At inference, each batch (or single example) has a different distribution — if you feed one image, BN computes mean=image_value, var=0 (or near 0). The normalization term $\frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}}$ becomes $\frac{x - x}{\sqrt{0 + \epsilon}} = 0$ — all activations collapse to zero. The model produces garbage predictions because every layer's output is pinned to the BN learned scale/shift. The fix: always call `model.eval()` before inference, which switches to `running_mean` and `running_var`, restoring the distribution the model was trained on.
+
 ---
 
 ## Part 2 — WaveNet 的高效之道
@@ -88,6 +94,12 @@ source: https://gemini.google.com/app/20ee9086e135744c
 - **自动驾驶**：毫秒级响应传感器数据流，卷积的固定感受野和并行性确保延迟可控。
 - **同声传译**：虽有因果限制，但一旦有一段 buffer，卷积能瞬间处理完，而不是等 Token 慢慢吐出。
 - **语音生成**：WaveNet 最初设计目标，通过特征复用大幅缩短每秒音频所需算力。
+
+> **Interviewer follow-up:** You're building a real-time voice assistant. An RNN processes one token per timestep (serialized). WaveNet with 8 dilation layers processes an entire buffer in parallel. If an RNN takes 5ms per token and you have a 1-second buffer (16k samples, ≈200 tokens after tokenization), what's the latency comparison? Why does WaveNet's tree structure matter for this math?
+
+> [!example]- Answer
+>
+> RNN: 200 tokens × 5ms/token = 1000ms (serial, can't parallelize). WaveNet: All tokens process simultaneously, bottlenecked by the deepest dilation layer. With tree-based fusion, the bottom layer processes all 200 tokens in ~5ms, the next layer fuses outputs in ~3ms (fewer positions), and so on — total ≈ 5 + 3 + 2 + 1 = 11ms for the entire buffer. The 90× speedup comes from **parallelism** (RNN's sequential dependency is the curse) and **tree structure** (exponentially fewer nodes at higher levels, reducing per-layer cost). The catch: WaveNet's 1000ms warmth-up vs RNN's streaming nature means WaveNet must buffer; for true online streaming, a hybrid approach (shallow WaveNet + async long-context) wins.
 
 ---
 
@@ -136,6 +148,12 @@ dlogits /= n
 
 - **错误类别**（梯度 = $p_i$）：概率越大，梯度越大 → 模型越想压低它。
 - **正确类别**（梯度 = $p_y - 1 < 0$）：梯度永远为负 → 模型永远想拉高它。
+
+> **Interviewer follow-up:** In the final gradient formula $\frac{\partial L}{\partial l_i} = p_i - \mathbf{1}_{i=y}$, the correct class has gradient $p_y - 1$ (always negative), but the loss is already minimizing. Explain the intuition: why is a negative gradient on the *correct* class necessary, and what would happen if you accidentally used the absolute value instead?
+
+> [!example]- Answer
+>
+> The negative gradient on the correct class pulls $l_y$ upward (in the direction of decreasing loss). Since gradient descent moves in the $-\nabla$ direction, $\frac{\partial L}{\partial l_y} = (p_y - 1) < 0$ means the update is $\Delta l_y \propto -(p_y - 1) = (1 - p_y) > 0$, increasing $l_y$. This increases the unnormalized logit for the correct class, which increases $p_y$ toward 1. If you used absolute value $|p_y - 1|$ on the correct class, you'd still *decrease* $l_y$ (negative update), pushing the correct class logit downward — inverting the learning direction entirely. The model would learn to make the correct class *less* likely, a catastrophic 180° flip.
 
 ---
 
@@ -196,6 +214,12 @@ dlogits /= n
 2. **执行层**：Pydantic/JSON Schema 约束格式，不烧 Token。
 3. **出口层**：统一裁判模型，对比最初用户需求与最终聚合结果，做语义把关。
 
+> **Interviewer follow-up:** You deploy the three-layer validation pipeline. At runtime, you observe that Lint catches 5% of errors (format issues), but Judge LLM catches another 12% (semantic drift). Some errors slip through both layers. What category of error is your pipeline structurally blind to, and how would you add a fourth layer without exploding latency?
+
+> [!example]- Answer
+>
+> Your pipeline is blind to **hallucinated facts that are both semantically coherent and formatted correctly** — e.g., a valid API call to retrieve a product that doesn't exist, or a grammatically perfect sentence that contradicts ground truth but the Judge LLM doesn't have access to that ground truth. Add a fourth layer: **Feedback Loop Validator** (async, post-execution): log the actual execution result and compare it against the model's predicted result. If a product query returned 404 but the model claimed success, flag it. Run this layer asynchronously (not in the user's latency budget) to train a specialized "hallucination detector" without slowing down the main request path. Cost: 50–200ms of post-hoc logging, but zero user-facing latency.
+
 ---
 
 ## Part 5 — Tokenization 权衡
@@ -212,6 +236,12 @@ dlogits /= n
 3. **非组合性词汇失效**：成语"炒鱿鱼"整体义（被解雇）≠ 字符之和（炒+鱿+鱼），字符级模型极易产生字面意义的幻觉。
 
 **比喻**：BPE 是用 LEGO 预制件盖房子（快、结构稳）；字符级是用沙子盖房子（理论上万能，但先把沙子变成砖头就耗尽了大量能量）。
+
+> **Interviewer follow-up:** Suppose you're building a code-completion model. Code has many made-up identifiers (variable names like `xDxZq42`). Would you choose character-level tokenization to handle unseen identifiers, or stick with BPE? What's the tradeoff, and is there a hybrid approach?
+
+> [!example]- Answer
+>
+> Stick with BPE. Code identifiers, even when "made-up," follow composition rules (camelCase, snake_case, `_prefix`, etc.) — BPE can learn these patterns and decompose unseen identifiers into known subword units. Character-level would force the model to learn character-by-character typing rules from scratch, bloating the sequence length and wasting parameters on "spelling" instead of logic patterns. **Hybrid approach**: use a larger BPE vocab (32k instead of 10k) specifically tuned for code, with a special rule: if a token stays unseen after vocab freezing, fall back to character-level only for that identifier. This gives you the best of both — known tokens fast via BPE, rare tokens gracefully via characters — with no sequence explosion.
 
 ---
 
