@@ -232,11 +232,16 @@ asyncio.run(main())
 2. 同步版本三个任务各耗时 2 秒，总耗时 6 秒；异步版本用 `asyncio.gather` 并发执行同样三个任务，总耗时约 2 秒。请解释为什么异步能缩短总耗时，以及 `asyncio.sleep` 和 `time.sleep` 在行为上的本质区别。
 3. 在 Jupyter Notebook 中直接使用 `asyncio.run()` 会报错，需要用 `nest_asyncio` 解决。请解释报错的根本原因，以及 `nest_asyncio.apply()` 解决了什么问题。
 
-<details>
-<summary>答案指南</summary>
-
-1. 遇到 `await` 时，协程主动让出控制权给事件循环；事件循环作为调度器，持续监听哪些协程已就绪并决定谁继续执行，IO 完成后再将控制权归还给原协程。直接调用协程函数只返回协程对象而不执行任何代码，必须传入事件循环（通过 `asyncio.run()`）才能驱动它运行。
-2. 异步并发时各任务在 `await` 点交出控制权，让其他协程同时推进，总耗时约等于最长单任务时间而非各任务之和。`asyncio.sleep` 只挂起当前协程并让出控制权，不阻塞线程；`time.sleep` 阻塞整个线程，导致事件循环无法调度其他协程。
-3. Jupyter 自身维护着一个事件循环，`asyncio.run()` 会尝试创建新的事件循环，产生"嵌套事件循环"冲突而报错。`nest_asyncio.apply()` 补丁允许事件循环嵌套运行，从而可以在 Jupyter 的事件循环内部再次使用 `await` 或 `asyncio.run()`。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Coroutine await and event loop
+> 
+> 遇到 `await` 时，协程主动让出控制权给事件循环；事件循环作为调度器，持续监听哪些协程已就绪并决定谁继续执行，IO 完成后再将控制权归还给原协程。直接调用协程函数只返回协程对象而不执行任何代码，必须传入事件循环（通过 `asyncio.run()`）才能驱动它运行。
+> 
+> #### Q2 — Async concurrency vs sync total time
+> 
+> 异步并发时各任务在 `await` 点交出控制权，让其他协程同时推进，总耗时约等于最长单任务时间而非各任务之和。`asyncio.sleep` 只挂起当前协程并让出控制权，不阻塞线程；`time.sleep` 阻塞整个线程，导致事件循环无法调度其他协程。
+> 
+> #### Q3 — Jupyter nested event loop fix
+> 
+> Jupyter 自身维护着一个事件循环，`asyncio.run()` 会尝试创建新的事件循环，产生"嵌套事件循环"冲突而报错。`nest_asyncio.apply()` 补丁允许事件循环嵌套运行，从而可以在 Jupyter 的事件循环内部再次使用 `await` 或 `asyncio.run()`。

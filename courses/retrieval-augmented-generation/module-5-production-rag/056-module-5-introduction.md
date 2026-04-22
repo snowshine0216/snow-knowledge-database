@@ -84,12 +84,22 @@ Module 5 closes, as each module has, with a programming assignment in which stud
 2. Describe the three layers of evaluation introduced in Module 5. What does each layer measure, and why is each necessary even when the others are already in place?
 3. What is the central constraint that must govern all efficiency optimizations in a production RAG system, and what does Module 5 provide to ensure practitioners respect that constraint?
 
-<details><summary>Answer guide</summary>
-
-1. Development obscures real-world failure modes in at least two ways. First, developers control test inputs — they test against queries they have written, which do not reflect the full distribution of what real users will ask. Second, scale-related constraints (cost, memory, latency) are invisible at low volumes: a few hundred test queries are cheap and fast, but thousands of daily users expose cost, memory, and latency problems that simply do not appear in a notebook. A working development system may also lack logging and observability, meaning that failures in production are untraceable without additional engineering.
-
-2. The three layers are: (1) Component-level evaluation, which measures how well individual pipeline components perform in isolation — e.g., retriever recall@k or LLM faithfulness — useful for diagnosing which component is causing a failure; (2) End-to-end evaluation, which treats the full pipeline as a unit and measures whether the user's question receives a satisfactory final answer, capturing interaction effects between components that component-level evaluation cannot see; (3) Custom dataset evaluation from production traffic, which grounds evaluation in the actual distribution of real user queries rather than synthetic benchmarks, ensuring that improvements measured in testing transfer to production.
-
-3. The central constraint is that efficiency optimizations must not significantly degrade response quality. Every cost, memory, or latency optimization must be evaluated against the system's quality metrics — a system that is faster but produces worse answers has been degraded, not improved. Module 5 provides the evaluation frameworks established in its first section as the instrument for enforcing this constraint: practitioners can measure quality before and after each optimization and accept only those changes that preserve acceptable quality levels.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Development vs Production Failure Modes
+> 
+> Development obscures real-world failure modes in at least two ways. First, developers control test inputs — they test against queries they have written, which do not reflect the full distribution of what real users will ask. Second, scale-related constraints (cost, memory, latency) are invisible at low volumes: a few hundred test queries are cheap and fast, but thousands of daily users expose cost, memory, and latency problems that simply do not appear in a notebook. A working development system may also lack logging and observability, meaning that failures in production are untraceable without additional engineering.
+> 
+> #### Q2 — Three Layers of RAG Evaluation
+> 
+> The three layers are:
+> 
+> **(1) Component-level evaluation** — measures how well individual pipeline components perform in isolation (e.g., retriever recall@k or LLM faithfulness); useful for diagnosing which component is causing a failure.
+> 
+> **(2) End-to-end evaluation** — treats the full pipeline as a unit and measures whether the user's question receives a satisfactory final answer, capturing interaction effects between components that component-level evaluation cannot see.
+> 
+> **(3) Custom dataset evaluation from production traffic** — grounds evaluation in the actual distribution of real user queries rather than synthetic benchmarks, ensuring that improvements measured in testing transfer to production.
+> 
+> #### Q3 — Central Constraint on Efficiency Optimizations
+> 
+> The central constraint is that efficiency optimizations must not significantly degrade response quality. Every cost, memory, or latency optimization must be evaluated against the system's quality metrics — a system that is faster but produces worse answers has been degraded, not improved. Module 5 provides the evaluation frameworks established in its first section as the instrument for enforcing this constraint: practitioners can measure quality before and after each optimization and accept only those changes that preserve acceptable quality levels.

@@ -75,12 +75,16 @@ The remaining work concerns the other major subsystem in a RAG architecture: the
 2. How does chunking address both a retrieval precision problem and a language model resource constraint simultaneously?
 3. At what stage of the retrieval pipeline is re-ranking applied, and what architectural property of re-ranking models allows them to score documents more accurately than the initial ANN retrieval?
 
-<details><summary>Answer guide</summary>
-
-**Post-test Q1.** ANN search reduces query latency to sub-linear complexity by restricting comparisons to an indexed subset of the corpus rather than scanning every stored vector. The trade-off is recall: ANN is not guaranteed to return the single closest vector in every case. This is acceptable in RAG because the system retrieves multiple candidates, and marginal rank differences rarely affect final answer quality.
-
-**Post-test Q2.** Chunking improves retrieval precision because smaller, topically focused segments produce embeddings that are semantically closer to narrow queries than whole-document embeddings would be. It simultaneously reduces context-window consumption because each retrieved chunk contributes far fewer tokens than a full document would, leaving more room for multiple high-quality chunks within the language model's fixed token budget.
-
-**Post-test Q3.** Re-ranking is applied after the vector database has returned an initial candidate set. Re-ranking models are typically *cross-encoders* that process the query and a candidate document jointly in a single forward pass, allowing them to model fine-grained relevance interactions between the two. Bi-encoder retrieval models, by contrast, embed query and document independently and compare them only via dot product or cosine similarity, which is computationally efficient but captures less nuanced relevance signal.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — ANN Trade-off vs Exact k-NN
+> 
+> ANN search reduces query latency to sub-linear complexity by restricting comparisons to an indexed subset of the corpus rather than scanning every stored vector. The trade-off is recall: ANN is not guaranteed to return the single closest vector in every case. This is acceptable in RAG because the system retrieves multiple candidates, and marginal rank differences rarely affect final answer quality.
+> 
+> #### Q2 — Chunking Precision and Token Budget
+> 
+> Chunking improves retrieval precision because smaller, topically focused segments produce embeddings that are semantically closer to narrow queries than whole-document embeddings would be. It simultaneously reduces context-window consumption because each retrieved chunk contributes far fewer tokens than a full document would, leaving more room for multiple high-quality chunks within the language model's fixed token budget.
+> 
+> #### Q3 — Re-ranking Stage and Cross-Encoders
+> 
+> Re-ranking is applied after the vector database has returned an initial candidate set. Re-ranking models are typically *cross-encoders* that process the query and a candidate document jointly in a single forward pass, allowing them to model fine-grained relevance interactions between the two. Bi-encoder retrieval models, by contrast, embed query and document independently and compare them only via dot product or cosine similarity, which is computationally efficient but captures less nuanced relevance signal.

@@ -66,15 +66,16 @@ Each of the three external-feedback examples above — code execution, pattern m
 2. How does regular-expression pattern matching function as external feedback in a content-generation workflow, and why is this more reliable than asking the model to self-censor?
 3. What role does a programmatic word counter play in the reflection loop for length-constrained generation, and why is this preferable to relying on the model's own sense of length?
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Three-stage performance curve:**
-Stage 1 — direct generation with prompt tuning: performance improves initially then plateaus as further tuning yields diminishing returns. Stage 2 — adding self-reflection and tuning the reflection prompt: a second bump in performance, then a second plateau because the model is still reasoning over fixed information. Stage 3 — introducing external feedback: the performance curve lifts to a higher trajectory because genuinely new, verifiable information enters the loop at each iteration.
-
-**Q2 — Pattern matching as external feedback:**
-A regular-expression scanner runs on the model's output after generation, deterministically finding any occurrence of competitor names. The result is an objective, factual signal ("Competitor X was mentioned") that is passed back as criticism. This is more reliable than asking the model to self-censor because the model may simply miss names it doesn't associate with competitors, or rationalize that a mention is acceptable; the scanner applies a consistent, rules-based check with no such ambiguity.
-
-**Q3 — Word counter in the reflection loop:**
-A programmatic counter measures the exact word count of a draft and reports it back to the model when the target is exceeded. The model uses that concrete number to understand by how much it overshot and adjusts its next draft accordingly. This is preferable to relying on the model's own sense of length because LLMs do not count tokens or words reliably and routinely miss explicit word-limit instructions; the external counter provides ground truth the model cannot argue with or misremember.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Three-Stage Performance Improvement Curve
+> 
+> Stage 1 — direct generation with prompt tuning: performance improves initially then plateaus as further tuning yields diminishing returns. Stage 2 — adding self-reflection and tuning the reflection prompt: a second bump in performance, then a second plateau because the model is still reasoning over fixed information. Stage 3 — introducing external feedback: the performance curve lifts to a higher trajectory because genuinely new, verifiable information enters the loop at each iteration.
+> 
+> #### Q2 — Regex Pattern Matching as External Feedback
+> 
+> A regular-expression scanner runs on the model's output after generation, deterministically finding any occurrence of competitor names. The result is an objective, factual signal ("Competitor X was mentioned") that is passed back as criticism. This is more reliable than asking the model to self-censor because the model may simply miss names it doesn't associate with competitors, or rationalize that a mention is acceptable; the scanner applies a consistent, rules-based check with no such ambiguity.
+> 
+> #### Q3 — Programmatic Word Counter in Reflection Loop
+> 
+> A programmatic counter measures the exact word count of a draft and reports it back to the model when the target is exceeded. The model uses that concrete number to understand by how much it overshot and adjusts its next draft accordingly. This is preferable to relying on the model's own sense of length because LLMs do not count tokens or words reliably and routinely miss explicit word-limit instructions; the external counter provides ground truth the model cannot argue with or misremember.

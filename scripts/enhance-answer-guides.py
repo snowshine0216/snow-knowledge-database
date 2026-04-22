@@ -18,8 +18,8 @@ COURSES_ROOT = Path(__file__).parent.parent / "courses"
 DRY_RUN = "--dry-run" in sys.argv
 
 DETAILS_PATTERN = re.compile(
-    r"<details>\s*\n<summary>Answer Guide</summary>(.*?)</details>",
-    re.DOTALL,
+    r"<details>\s*<summary>(?:Answer Guide|答案指南)</summary>(.*?)</details>",
+    re.DOTALL | re.IGNORECASE,
 )
 
 POST_TEST_PATTERN = re.compile(

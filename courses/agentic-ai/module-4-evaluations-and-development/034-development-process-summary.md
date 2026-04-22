@@ -65,12 +65,16 @@ Module 4 concludes here. The instructor notes that implementing even a fraction 
 2. Describe the four progressive stages of analysis rigor that the instructor outlines as a system matures from early prototype to production-grade.
 3. What is the stated reason that even developers who use third-party tracing and monitoring tools still end up building substantial custom evaluation infrastructure?
 
-<details><summary>Answer Guide</summary>
-
-**Post-test Q1:** The recommended first step is to quickly build a rough end-to-end implementation — even a "quick and dirty" version. Its primary purpose is not to perform well, but to produce outputs and execution traces that can be manually inspected to gain an early intuition about which components are failing and where improvement effort should be directed.
-
-**Post-test Q2:** The four progressive stages are: (1) manual inspection of a small number of outputs and traces to gain intuition; (2) constructing a small evaluation dataset (10–20 examples) and computing end-to-end metrics; (3) systematic error analysis that counts how frequently each component contributed to subpar outputs; and (4) building component-level evaluations that measure individual components in isolation for targeted, efficient improvement.
-
-**Post-test Q3:** Most agentic workflows are highly custom, meaning they have specific failure modes and correctness criteria that generic third-party tools are not designed to capture. Because the relevant bugs and edge cases are unique to each application, developers need custom evaluations tailored to exactly what goes wrong in their particular system — even when general-purpose tooling is also in use.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — First Step in Agentic Workflow
+> 
+> The recommended first step is to quickly build a rough end-to-end implementation — even a "quick and dirty" version. Its primary purpose is not to perform well, but to produce outputs and execution traces that can be manually inspected to gain an early intuition about which components are failing and where improvement effort should be directed.
+> 
+> #### Q2 — Four Stages of Analysis Rigor
+> 
+> The four progressive stages are: (1) manual inspection of a small number of outputs and traces to gain intuition; (2) constructing a small evaluation dataset (10–20 examples) and computing end-to-end metrics; (3) systematic error analysis that counts how frequently each component contributed to subpar outputs; and (4) building component-level evaluations that measure individual components in isolation for targeted, efficient improvement.
+> 
+> #### Q3 — Why Custom Eval Infrastructure
+> 
+> Most agentic workflows are highly custom, meaning they have specific failure modes and correctness criteria that generic third-party tools are not designed to capture. Because the relevant bugs and edge cases are unique to each application, developers need custom evaluations tailored to exactly what goes wrong in their particular system — even when general-purpose tooling is also in use.

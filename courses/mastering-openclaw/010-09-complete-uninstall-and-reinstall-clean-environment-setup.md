@@ -109,11 +109,28 @@ openclaw uninstall
 2. 本地卸载 OpenClaw 时，`openclaw uninstall` 命令会自动清理哪些内容？如果该命令无法执行，有哪两种替代方式？
 3. 完成彻底清理的行动清单中，"吊销 Key"这一步是为了解决什么风险？请结合云端卸载步骤解释它的重要性。
 
-<details>
-<summary>答案指南</summary>
-
-1. 四种情况分别是：报错不断且多次修复后仍有新问题；版本混乱不确定当前运行哪个版本；配置文件损坏导致行为异常；以及想从零开始获得干净体验。核心思想类比"打扫房间"——进入干净环境比小修小补更有效。
-2. `openclaw uninstall` 会自动清理 OpenClaw 进程、配置文件和数据目录（含记忆文件）。若命令无法执行，可通过 `brew uninstall openclaw`（Homebrew 安装）或从应用程序删除并手动清理数据目录（Qcolo 安装）来替代。
-3. 吊销旧 API Key 是为了防止残留 Key 被他人获取并使用，从而消耗你在各 AI 平台的额度；在云端还需额外关闭自动续费，避免已销毁的实例继续扣费。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Four Reasons to Reinstall
+> 
+> 四种情况分别是：
+> - 报错不断且多次修复后仍有新问题
+> - 版本混乱，不确定当前运行哪个版本
+> - 配置文件损坏导致行为异常
+> - 想从零开始获得干净体验
+> 
+> 核心思想类比"打扫房间"——进入干净环境比小修小补更有效。
+> 
+> #### Q2 — Uninstall Command Cleanup Scope
+> 
+> `openclaw uninstall` 会自动清理 OpenClaw 进程、配置文件和数据目录（含记忆文件）。
+> 
+> 若命令无法执行，有两种替代方式：
+> - `brew uninstall openclaw`（Homebrew 安装）
+> - 从应用程序删除并手动清理数据目录（Qcolo 安装）
+> 
+> #### Q3 — Revoking API Key Risk
+> 
+> 吊销旧 API Key 是为了防止残留 Key 被他人获取并使用，从而消耗你在各 AI 平台的额度。
+> 
+> 在云端还需额外关闭自动续费，避免已销毁的实例继续扣费。

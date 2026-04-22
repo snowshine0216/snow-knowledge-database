@@ -180,11 +180,16 @@ Dashboard 可展示内容：
 2. 描述这套监控系统的完整搭建流程（从构建镜像到看到 Dashboard），以及各步骤的顺序依赖关系。
 3. 在生产环境中，监控系统如何帮助排查"模型效果下降"和"客户反馈与实际不符"这两类问题？具体看哪些指标？
 
-<details>
-<summary>答案指南</summary>
-
-1. Ollama 运行在 Windows 宿主机，Exporter 运行在 Docker 容器内，属于"容器 → 宿主机"访问方向。在这个方向下，`127.0.0.1` 会指向容器自身而非宿主机，必须使用 `host.docker.internal` 才能正确访问宿主机上的 Ollama（默认端口 11434）。
-2. 流程依次为：构建 ollama-exporter 镜像 → 启动 exporter 容器 → 修改 `prometheus.yaml` 添加抓取配置（targets 指向 exporter 端口）→ 启动 Prometheus 容器 → 启动 Grafana 容器；Grafana 默认连接本机 Prometheus，无需额外配置，最后导入 `dashboard.json` 即可可视化。
-3. 效果下降时检查 GPU 使用率是否不足（推理能力下降）；客户反馈与实际不符时，通过监控查看请求路径——确认请求是否绕过了 RAG/知识图谱直接打到大模型，从而还原操作现场定位根因。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — 容器访问宿主机网络
+> 
+> Ollama 运行在 Windows 宿主机，Exporter 运行在 Docker 容器内，属于"容器 → 宿主机"访问方向。在这个方向下，`127.0.0.1` 会指向容器自身而非宿主机，必须使用 `host.docker.internal` 才能正确访问宿主机上的 Ollama（默认端口 11434）。
+> 
+> #### Q2 — 监控系统完整搭建流程
+> 
+> 流程依次为：构建 ollama-exporter 镜像 → 启动 exporter 容器 → 修改 `prometheus.yaml` 添加抓取配置（targets 指向 exporter 端口）→ 启动 Prometheus 容器 → 启动 Grafana 容器；Grafana 默认连接本机 Prometheus，无需额外配置，最后导入 `dashboard.json` 即可可视化。
+> 
+> #### Q3 — 生产环境排查指标定位
+> 
+> 效果下降时检查 GPU 使用率是否不足（推理能力下降）；客户反馈与实际不符时，通过监控查看请求路径——确认请求是否绕过了 RAG/知识图谱直接打到大模型，从而还原操作现场定位根因。

@@ -74,15 +74,16 @@ The instructor describes this as tricky because the right decomposition is rarel
 
 3. What are the two sub-skills of task decomposition that the instructor identifies as central to building agentic workflows, and what happens when the decomposition is done poorly?
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Single-pass analogy**
-The instructor compares standard LLM prompting to asking a human to write an essay from the first word to the last without ever pressing backspace — a completely linear, non-revisable process. This prevents the writer (human or AI) from reconsidering earlier decisions in light of later discoveries, correcting errors once they are recognized, or looking up information mid-draft. Iteration removes this constraint, enabling the kind of reflective, recursive process that produces higher-quality writing.
-
-**Q2 — Essay-writing pipeline sequence**
-(1) Draft an essay outline. (2) Determine web search terms and query a search API to retrieve relevant pages. (3) Feed downloaded pages into an LLM to write a first draft grounded in external sources. (4) Have a separate LLM call read the draft critically and identify sections needing revision or additional research. (5) Optionally, invoke a human-in-the-loop step where the LLM requests human review of specific facts — inserted before final revision to catch contested or sensitive claims. (6) Revise the draft based on all feedback.
-
-**Q3 — Two sub-skills of decomposition and failure modes**
-The first sub-skill is knowing how to partition a complex task into the right steps — identifying which boundaries minimize error propagation and which operations benefit from separate LLM invocations. The second is building the components that execute each step reliably, including well-designed prompts, tool integrations, and feedback mechanisms. When decomposition is poor, errors multiply across steps rather than staying contained, and components that work individually can fail when chained — meaning the quality ceiling of the entire workflow is set by the weakest partition decision.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Single-pass analogy
+> 
+> The instructor compares standard LLM prompting to asking a human to write an essay from the first word to the last without ever pressing backspace — a completely linear, non-revisable process. This prevents the writer (human or AI) from reconsidering earlier decisions in light of later discoveries, correcting errors once they are recognized, or looking up information mid-draft. Iteration removes this constraint, enabling the kind of reflective, recursive process that produces higher-quality writing.
+> 
+> #### Q2 — Essay-writing pipeline sequence
+> 
+> (1) Draft an essay outline. (2) Determine web search terms and query a search API to retrieve relevant pages. (3) Feed downloaded pages into an LLM to write a first draft grounded in external sources. (4) Have a separate LLM call read the draft critically and identify sections needing revision or additional research. (5) Optionally, invoke a human-in-the-loop step where the LLM requests human review of specific facts — inserted before final revision to catch contested or sensitive claims. (6) Revise the draft based on all feedback.
+> 
+> #### Q3 — Two decomposition sub-skills and failures
+> 
+> The first sub-skill is knowing how to partition a complex task into the right steps — identifying which boundaries minimize error propagation and which operations benefit from separate LLM invocations. The second is building the components that execute each step reliably, including well-designed prompts, tool integrations, and feedback mechanisms. When decomposition is poor, errors multiply across steps rather than staying contained, and components that work individually can fail when chained — meaning the quality ceiling of the entire workflow is set by the weakest partition decision.

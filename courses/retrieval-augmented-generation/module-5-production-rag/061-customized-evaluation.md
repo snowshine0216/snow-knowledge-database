@@ -148,15 +148,16 @@ Custom datasets are the bridge between the controlled conditions of development-
 
 3. You have clustered 50,000 logged prompts into 12 topic groups. Three clusters have average quality scores above 0.85, but one cluster (shipping delays) has an average score of 0.48. What actions would you take, and in what order?
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1 — Investigating billing query failures:**
-Start by filtering logs to prompts classified under the billing topic (either via manual tagging or cluster membership). For each such prompt, inspect the retrieved document chunks column. If retrieved chunks are irrelevant to billing, the retriever is the bottleneck — check whether the knowledge base contains adequate billing documentation and whether the embedding model handles billing terminology well. If retrieved chunks are relevant but re-ranked chunks demote the most useful ones, the re-ranker is mis-weighting billing content. If both retrieval and re-ranking look correct but the final response is still poor, inspect the generation LLM's output against the context provided — the problem may lie in the prompt template or in how context is assembled. Follow each signal until you reach the component where the breakdown occurs.
-
-**Post-test 2 — Against logging only prompt + response:**
-The primary weakness of logging only endpoints is that it tells you *what* went wrong but not *why*. When a response is poor, there is no way to distinguish between a retrieval failure (the knowledge base returned irrelevant chunks), a re-ranking failure (the correct chunk was retrieved but demoted), a query-rewriting failure (the rewrite steered retrieval off-target), or a generation failure (the LLM had good context but produced a poor response). Without component-level data, every debugging session starts from scratch. The highest-priority additional fields are: retrieved document chunks (before re-ranking), re-ranked document chunks (after re-ranking), and — in agentic systems — the router's decision for each prompt.
-
-**Post-test 3 — Acting on a low-scoring cluster:**
-First, pull the shipping-delays cluster logs and inspect retrieved chunks: if the retriever is returning few or no relevant documents, the most impactful fix is to enrich the knowledge base with shipping and delay policy content. Second, if retrieval looks adequate but re-ranked ordering is poor, audit the re-ranker on a sample of delay-related prompts to see whether it is systematically mis-scoring that content type. Third, if retrieval and re-ranking are both reasonable, examine the generation LLM's responses against the provided context to identify prompt-template issues. Finally, set an automated alert so that the shipping-delays cluster score is monitored continuously — any regression after future deployments will be caught immediately rather than discovered via user complaints.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Investigating Billing Query Failures
+> 
+> Start by filtering logs to prompts classified under the billing topic (either via manual tagging or cluster membership). For each such prompt, inspect the retrieved document chunks column. If retrieved chunks are irrelevant to billing, the retriever is the bottleneck — check whether the knowledge base contains adequate billing documentation and whether the embedding model handles billing terminology well. If retrieved chunks are relevant but re-ranked chunks demote the most useful ones, the re-ranker is mis-weighting billing content. If both retrieval and re-ranking look correct but the final response is still poor, inspect the generation LLM's output against the context provided — the problem may lie in the prompt template or in how context is assembled. Follow each signal until you reach the component where the breakdown occurs.
+> 
+> #### Q2 — Against Logging Only Endpoints
+> 
+> The primary weakness of logging only endpoints is that it tells you *what* went wrong but not *why*. When a response is poor, there is no way to distinguish between a retrieval failure (the knowledge base returned irrelevant chunks), a re-ranking failure (the correct chunk was retrieved but demoted), a query-rewriting failure (the rewrite steered retrieval off-target), or a generation failure (the LLM had good context but produced a poor response). Without component-level data, every debugging session starts from scratch. The highest-priority additional fields are: retrieved document chunks (before re-ranking), re-ranked document chunks (after re-ranking), and — in agentic systems — the router's decision for each prompt.
+> 
+> #### Q3 — Acting on Low-Scoring Cluster
+> 
+> First, pull the shipping-delays cluster logs and inspect retrieved chunks: if the retriever is returning few or no relevant documents, the most impactful fix is to enrich the knowledge base with shipping and delay policy content. Second, if retrieval looks adequate but re-ranked ordering is poor, audit the re-ranker on a sample of delay-related prompts to see whether it is systematically mis-scoring that content type. Third, if retrieval and re-ranking are both reasonable, examine the generation LLM's responses against the provided context to identify prompt-template issues. Finally, set an automated alert so that the shipping-delays cluster score is monitored continuously — any regression after future deployments will be caught immediately rather than discovered via user complaints.

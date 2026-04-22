@@ -92,15 +92,16 @@ With reflection established as a baseline, the next lesson moves to a systematic
 
 ---
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Two-step structure:**
-The first prompt instructs the model to generate a first draft of the output (e.g., an email or piece of code) from the task description. The second prompt passes the model the original task description plus the first-draft output, with an instruction to critique and produce an improved version. The second call has context the first did not: it can see both the goal and a concrete prior attempt, making errors and gaps visible.
-
-**Q2 — Condition for largest gains:**
-Reflection yields the largest gains when external feedback — information from outside the model's own generation — is injected into the reflection step. For code, executing the first-draft code and capturing runtime errors or wrong outputs provides concrete, specific evidence of what failed. This is far more informative than asking the model to speculate about potential bugs, and produces substantially better revised output.
-
-**Q3 — Reasoning model for reflection:**
-Different models have different strengths. Reasoning (thinking) models are particularly well-suited to error detection because they are structured for step-by-step analysis rather than fast fluent generation. Using a reasoning model specifically for the critique-and-revise step, while using a faster generative model for the first draft, leverages the comparative advantages of each model type.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Two-step reflection structure
+> 
+> The first prompt instructs the model to generate a first draft of the output (e.g., an email or piece of code) from the task description. The second prompt passes the model the original task description plus the first-draft output, with an instruction to critique and produce an improved version. The second call has context the first did not: it can see both the goal and a concrete prior attempt, making errors and gaps visible.
+> 
+> #### Q2 — Condition for largest gains
+> 
+> Reflection yields the largest gains when external feedback — information from outside the model's own generation — is injected into the reflection step. For code, executing the first-draft code and capturing runtime errors or wrong outputs provides concrete, specific evidence of what failed. This is far more informative than asking the model to speculate about potential bugs, and produces substantially better revised output.
+> 
+> #### Q3 — Reasoning model for reflection
+> 
+> Different models have different strengths. Reasoning (thinking) models are particularly well-suited to error detection because they are structured for step-by-step analysis rather than fast fluent generation. Using a reasoning model specifically for the critique-and-revise step, while using a faster generative model for the first draft, leverages the comparative advantages of each model type.

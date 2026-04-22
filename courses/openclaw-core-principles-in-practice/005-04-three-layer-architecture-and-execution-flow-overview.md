@@ -126,11 +126,16 @@ OpenClaw 的三层架构设计，正是 Agent Loop 能力的工程化体现。
 2. 双重队列机制中，Session 队列和 Global 队列各自解决什么问题？请用课文中的类比重新表述它们的关系。
 3. 外层重试循环 `runEmbeddedPiAgent()`（run.ts）具体"不关心"哪些事情，又只专注于解决哪一个核心问题？它实现了哪些容错手段？
 
-<details>
-<summary>答案指南</summary>
-
-1. 外层（run.ts）只关注失败恢复策略（重试与容错），中层（attempt.ts）负责单次 LLM 调用的准备工作，内层负责实时事件流解析与响应。分层的目的是关注点分离：修改重试策略不影响事件处理，每层可独立测试，新增 Provider 只需改中层。
-2. Session 队列保证同一会话内的消息串行执行，避免并发写入导致历史记录混乱；Global 队列控制系统整体并发上限，防止资源耗尽。课文以医院挂号系统类比：Session 队列像"按顺序叫号看诊"，Global 队列像"限制同时就诊人数不超过诊室容量"。
-3. `runEmbeddedPiAgent()` 不关心 LLM 如何调用、Prompt 如何构建，只关注一件事：当下层汇报出错时采取什么恢复策略。它实现了 OpenClaw 的"七重容错策略"，包括 Auth 刷新、上下文压缩、Profile 轮换、模型降级等。
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — Three-Layer Architecture Separation
+>
+> 外层（run.ts）只关注失败恢复策略（重试与容错），中层（attempt.ts）负责单次 LLM 调用的准备工作，内层负责实时事件流解析与响应。分层的目的是关注点分离：修改重试策略不影响事件处理，每层可独立测试，新增 Provider 只需改中层。
+>
+> #### Q2 — Session vs Global Queue Roles
+>
+> Session 队列保证同一会话内的消息串行执行，避免并发写入导致历史记录混乱；Global 队列控制系统整体并发上限，防止资源耗尽。课文以医院挂号系统类比：Session 队列像"按顺序叫号看诊"，Global 队列像"限制同时就诊人数不超过诊室容量"。
+>
+> #### Q3 — Outer Retry Loop Fault Tolerance
+>
+> `runEmbeddedPiAgent()` 不关心 LLM 如何调用、Prompt 如何构建，只关注一件事：当下层汇报出错时采取什么恢复策略。它实现了 OpenClaw 的"七重容错策略"，包括 Auth 刷新、上下文压缩、Profile 轮换、模型降级等。

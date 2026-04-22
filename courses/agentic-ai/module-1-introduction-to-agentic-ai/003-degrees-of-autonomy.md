@@ -83,12 +83,16 @@ As a builder, the spectrum helps you make an explicit design choice: for a given
 2. Using the essay-writing-about-black-holes example, explain one concrete difference between how a less-autonomous agent and a more-autonomous agent handle the web search phase.
 3. What are two practical tradeoffs that come with moving toward the highly autonomous end of the spectrum?
 
-<details><summary>Answer Guide</summary>
-
-**Q1.** Treating "agentic" as an adjective means any system can be more or less agentic — it is a continuous property, not an all-or-nothing category. Ng preferred this because the binary "is it an agent?" debate was unproductive, and the adjective framing lets practitioners acknowledge degrees of autonomy and focus on building rather than gatekeeping.
-
-**Q2.** In the less-autonomous version, the web search step is hard-coded by the programmer — the agent always performs a web search, always calls the same tool, and the number of pages fetched is predetermined. In the more-autonomous version, the LLM decides whether to do a general web search, query news sources, or search arXiv; it also decides how many pages to fetch and whether to call additional tools (e.g., PDF-to-text conversion). The decision is made at runtime by the LLM, not preset by the engineer.
-
-**Q3.** Any two of: (a) highly autonomous agents are less easily controllable; (b) they are more unpredictable in behavior; (c) they are the subject of significant active research, meaning best practices are still being established; (d) they can write new tools or functions on the fly, which increases capability but also increases the surface area for unexpected behavior.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Agentic as Adjective Not Noun
+> 
+> Treating "agentic" as an adjective means any system can be more or less agentic — it is a continuous property, not an all-or-nothing category. Ng preferred this because the binary "is it an agent?" debate was unproductive, and the adjective framing lets practitioners acknowledge degrees of autonomy and focus on building rather than gatekeeping.
+> 
+> #### Q2 — Less vs More Autonomous Web Search
+> 
+> In the less-autonomous version, the web search step is hard-coded by the programmer — the agent always performs a web search, always calls the same tool, and the number of pages fetched is predetermined. In the more-autonomous version, the LLM decides whether to do a general web search, query news sources, or search arXiv; it also decides how many pages to fetch and whether to call additional tools (e.g., PDF-to-text conversion). The decision is made at runtime by the LLM, not preset by the engineer.
+> 
+> #### Q3 — Tradeoffs of High Autonomy
+> 
+> Any two of: (a) highly autonomous agents are less easily controllable; (b) they are more unpredictable in behavior; (c) they are the subject of significant active research, meaning best practices are still being established; (d) they can write new tools or functions on the fly, which increases capability but also increases the surface area for unexpected behavior.

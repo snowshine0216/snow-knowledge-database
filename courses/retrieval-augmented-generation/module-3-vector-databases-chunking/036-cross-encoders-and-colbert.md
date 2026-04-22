@@ -102,12 +102,16 @@ This storage overhead is the reason ColBERT has not displaced bi-encoders as the
 
 3. A team building a medical literature search system is evaluating whether to use a bi-encoder, cross-encoder, or ColBERT as their primary retrieval architecture. What recommendation would you give, and what is the key cost they would need to accept?
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1:** A bi-encoder embeds the query and document independently into separate vectors, then scores them by computing cosine similarity between those two vectors. A cross-encoder concatenates the query and document into a single input sequence and passes that combined sequence through a transformer, allowing every attention layer to compute cross-attention between query tokens and document tokens. Because the model sees both texts simultaneously, it can learn fine-grained token-level alignments — e.g. "eat" aligning to "cuisine" — that a bi-encoder collapses into aggregate vector geometry. This richer contextual interaction produces higher ranking quality at the cost of not being able to pre-compute document representations.
-
-**Post-test 2:** ColBERT embeds each of the 5 query tokens into a dense vector and each of the 50 document tokens into a dense vector (all precomputed at index time for the document). At scoring time, the algorithm computes the similarity between every pair: 5 × 50 = 250 similarity scores arranged in a 5-by-50 grid. For each of the 5 query tokens, the algorithm finds the maximum similarity across its 50 document-token scores (5 max operations). The 5 per-query-token maxima are then summed to produce the final relevancy score for the document.
-
-**Post-test 3:** The recommendation is ColBERT as the primary retrieval architecture, supplemented by a cross-encoder reranker on the top candidates. Medical literature search requires high precision and deep contextual understanding — ColBERT's per-token representations and MaxSim scoring capture nuanced domain-specific term alignments that a bi-encoder misses. The key cost the team must accept is a substantially larger vector index: with per-token storage, the index grows by roughly the average token length of documents compared to a bi-encoder, typically two to three orders of magnitude more vectors. This requires significantly more memory and may necessitate specialised vector database infrastructure with native ColBERT support.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Cross-Encoder vs Bi-Encoder Scoring
+> 
+> A bi-encoder embeds the query and document independently into separate vectors, then scores them by computing cosine similarity between those two vectors. A cross-encoder concatenates the query and document into a single input sequence and passes that combined sequence through a transformer, allowing every attention layer to compute cross-attention between query tokens and document tokens. Because the model sees both texts simultaneously, it can learn fine-grained token-level alignments — e.g. "eat" aligning to "cuisine" — that a bi-encoder collapses into aggregate vector geometry. This richer contextual interaction produces higher ranking quality at the cost of not being able to pre-compute document representations.
+> 
+> #### Q2 — ColBERT MaxSim Procedure
+> 
+> ColBERT embeds each of the 5 query tokens into a dense vector and each of the 50 document tokens into a dense vector (all precomputed at index time for the document). At scoring time, the algorithm computes the similarity between every pair: 5 × 50 = 250 similarity scores arranged in a 5-by-50 grid. For each of the 5 query tokens, the algorithm finds the maximum similarity across its 50 document-token scores (5 max operations). The 5 per-query-token maxima are then summed to produce the final relevancy score for the document.
+> 
+> #### Q3 — Medical Literature Architecture Recommendation
+> 
+> The recommendation is ColBERT as the primary retrieval architecture, supplemented by a cross-encoder reranker on the top candidates. Medical literature search requires high precision and deep contextual understanding — ColBERT's per-token representations and MaxSim scoring capture nuanced domain-specific term alignments that a bi-encoder misses. The key cost the team must accept is a substantially larger vector index: with per-token storage, the index grows by roughly the average token length of documents compared to a bi-encoder, typically two to three orders of magnitude more vectors. This requires significantly more memory and may necessitate specialised vector database infrastructure with native ColBERT support.

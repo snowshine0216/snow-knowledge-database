@@ -64,12 +64,22 @@ The next lecture extends this pattern to multi-modal contexts — applying refle
 2. Describe two task types where a reflection prompt is likely to improve output quality over direct generation, and explain why reflection helps in each case.
 3. What are the two most important structural elements of an effective reflection prompt, according to the lecture?
 
-<details><summary>Answer Guide</summary>
-
-**Post-test Q1:** Zero-shot prompting means the prompt contains zero examples of desired input-output pairs — the model receives only an instruction and produces an output with no demonstrations to guide it. Direct generation is zero-shot because it relies on a single instruction without providing any example outputs; the model must rely entirely on its pre-trained knowledge to determine the appropriate format and content.
-
-**Post-test Q2:** Two examples: (1) Structured data generation (HTML, nested JSON) — models can introduce subtle formatting errors on the first pass; reflection gives the model a chance to re-examine its output against a structural validity criterion it may not have applied during generation. (2) Sequential instructions — a model outlining a multi-step process may omit steps; a reflection prompt asking it to review for coherence and completeness increases the chance missing steps are caught before the output is finalized.
-
-**Post-test Q3:** (1) Clearly indicate that the model should review or reflect on the prior draft, rather than simply continue generating. (2) Specify concrete, named evaluation criteria — such as "check if the name is easy to pronounce" or "verify tone and factual accuracy" — so the model focuses its critique on the dimensions that matter most.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Zero-Shot Prompting Definition
+> 
+> Zero-shot prompting means the prompt contains zero examples of desired input-output pairs — the model receives only an instruction and produces an output with no demonstrations to guide it. Direct generation is zero-shot because it relies on a single instruction without providing any example outputs; the model must rely entirely on its pre-trained knowledge to determine the appropriate format and content.
+> 
+> #### Q2 — Task Types Benefiting from Reflection
+> 
+> Two examples:
+> 
+> (1) **Structured data generation (HTML, nested JSON)** — models can introduce subtle formatting errors on the first pass; reflection gives the model a chance to re-examine its output against a structural validity criterion it may not have applied during generation.
+> 
+> (2) **Sequential instructions** — a model outlining a multi-step process may omit steps; a reflection prompt asking it to review for coherence and completeness increases the chance missing steps are caught before the output is finalized.
+> 
+> #### Q3 — Key Structural Elements of Reflection Prompt
+> 
+> (1) Clearly indicate that the model should review or reflect on the prior draft, rather than simply continue generating.
+> 
+> (2) Specify concrete, named evaluation criteria — such as "check if the name is easy to pronounce" or "verify tone and factual accuracy" — so the model focuses its critique on the dimensions that matter most.

@@ -92,15 +92,20 @@ Understanding the impact of reflection also provides actionable guidance: if the
 
 ---
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Why a multimodal LLM is required:**
-Chart quality is fundamentally a visual property. A text-only LLM can read the code that produced the chart but cannot see the chart itself, so it must infer visual quality from code structure alone — a much weaker signal. A multimodal LLM accepts the rendered chart image as input and applies visual reasoning directly to assess whether the chart is clear, readable, and well-designed. In the lesson's example, this allowed the model to recognize that a stacked bar chart was harder to read than a grouped bar chart for year-over-year comparison, and to rewrite the code accordingly.
-
-**Q2 — Evaluation criteria in the reflection prompt:**
-The three criteria are readability, clarity, and completeness. Specifying them explicitly narrows the model's analytical focus: rather than producing generic commentary, it assesses whether specific, defined properties are present in the chart. This makes the critique more actionable and the resulting code revision more likely to address the actual weaknesses of the original visualization.
-
-**Q3 — What to do before adopting reflection:**
-Teams should measure the actual performance impact of reflection on their specific application before committing to it architecturally. Since gains range from large to negligible depending on the task, empirical evaluation — using benchmarks or evaluations — is the only reliable way to determine whether reflection is worth the added cost and complexity. If the gain is small, the team should then investigate whether tuning the initial generation prompt, the reflection prompt, or introducing richer external feedback can increase the benefit.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Why Multimodal LLM Is Required
+> 
+> Chart quality is fundamentally a visual property. A text-only LLM can read the code that produced the chart but cannot see the chart itself, so it must infer visual quality from code structure alone — a much weaker signal. A multimodal LLM accepts the rendered chart image as input and applies visual reasoning directly to assess whether the chart is clear, readable, and well-designed. In the lesson's example, this allowed the model to recognize that a stacked bar chart was harder to read than a grouped bar chart for year-over-year comparison, and to rewrite the code accordingly.
+> 
+> ---
+> 
+> #### Q2 — Three Reflection Evaluation Criteria
+> 
+> The three criteria are readability, clarity, and completeness. Specifying them explicitly narrows the model's analytical focus: rather than producing generic commentary, it assesses whether specific, defined properties are present in the chart. This makes the critique more actionable and the resulting code revision more likely to address the actual weaknesses of the original visualization.
+> 
+> ---
+> 
+> #### Q3 — When to Adopt Reflection Architecturally
+> 
+> Teams should measure the actual performance impact of reflection on their specific application before committing to it architecturally. Since gains range from large to negligible depending on the task, empirical evaluation — using benchmarks or evaluations — is the only reliable way to determine whether reflection is worth the added cost and complexity. If the gain is small, the team should then investigate whether tuning the initial generation prompt, the reflection prompt, or introducing richer external feedback can increase the benefit.

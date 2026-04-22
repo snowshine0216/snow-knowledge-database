@@ -279,11 +279,16 @@ def numpy_task(n):
 2. NumPy 为什么能绕过 GIL 实现真正的多线程并行？这个能力有什么局限性，哪些场景无法受益？
 3. 根据本课的决策路径，如果 `vmstat` 显示 `wa`（IO 等待）很高且并发量超过 1000 QPS，应该选择哪种并行模型？如果是纯 Python CPU 计算且无法用 NumPy，又该选哪种？
 
-<details>
-<summary>答案指南</summary>
-
-1. IO 密集型（`time.sleep(1)`）：3 线程实际耗时约 1 秒，接近理想值——因为 IO 等待时线程会释放 GIL，其他线程可同时运行。CPU 密集型（大数求平方根）：3 线程实际耗时约 0.27 秒，是单线程的 3 倍而非 1/3——GIL 强制线程串行执行，完全没有加速效果。
-2. NumPy 底层用 C 实现，计算在 C 层级执行，不受 Python GIL 管辖；4 线程跑 NumPy 加速比约 2.0，而纯 Python 4 线程加速比仅约 1.04。局限：只对数值计算有效，爬虫、业务逻辑等纯 Python 代码无法绕过 GIL。
-3. 高并发 IO 密集型（`wa` 高、QPS > 1000）应选 `asyncio` 协程；纯 Python CPU 密集型应选 `multiprocessing` 多进程，因为多进程每个进程有独立 GIL，才能真正并行计算。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — IO vs CPU Thread Benchmarks
+> 
+> IO 密集型（`time.sleep(1)`）：3 线程实际耗时约 1 秒，接近理想值——因为 IO 等待时线程会释放 GIL，其他线程可同时运行。CPU 密集型（大数求平方根）：3 线程实际耗时约 0.27 秒，是单线程的 3 倍而非 1/3——GIL 强制线程串行执行，完全没有加速效果。
+> 
+> #### Q2 — NumPy GIL Bypass Limits
+> 
+> NumPy 底层用 C 实现，计算在 C 层级执行，不受 Python GIL 管辖；4 线程跑 NumPy 加速比约 2.0，而纯 Python 4 线程加速比仅约 1.04。局限：只对数值计算有效，爬虫、业务逻辑等纯 Python 代码无法绕过 GIL。
+> 
+> #### Q3 — Choosing the Right Parallel Model
+> 
+> 高并发 IO 密集型（`wa` 高、QPS > 1000）应选 `asyncio` 协程；纯 Python CPU 密集型应选 `multiprocessing` 多进程，因为多进程每个进程有独立 GIL，才能真正并行计算。

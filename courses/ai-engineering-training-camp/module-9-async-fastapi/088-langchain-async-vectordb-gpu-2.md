@@ -268,11 +268,16 @@ def build_faiss_index(dimension: int):
 2. `RetryConfig` 中的 `use_jitter`（抖动）字段解决了什么具体问题？如果不加抖动，会发生什么场景？
 3. `build_faiss_index` 函数如何实现"优雅降级"？请描述它判断 GPU 是否可用的逻辑，以及回退 CPU 的条件。
 
-<details>
-<summary>答案指南</summary>
-
-1. `with_timeout` 装饰器从 `TIMEOUT_CONFIG` 按函数名查找超时时间，用 `asyncio.wait_for` 包裹异步函数调用，超时则抛出 `TimeoutError`。叠加顺序上，超时装饰器在内层确保每次重试都有独立的超时限制，若顺序颠倒则整体只有一个超时计数，无法保证单次尝试的时限。
-2. `use_jitter` 在每次延迟时间上叠加 0.8～1.2 倍的随机扰动，防止多个请求在同一时刻同时重试压垮服务器（即"惊群效应"）；若不加抖动，所有超时的客户端会在完全相同的时间点同步重发请求，造成瞬时流量峰值。
-3. `build_faiss_index` 先调用 `detect_gpu()` 执行 `nvidia-smi`，成功则通过 `faiss.get_num_gpus()` 获取 GPU 数量；若 GPU 数量大于 0，尝试用 `faiss.index_cpu_to_gpu` 构建 GPU 索引，若初始化失败则捕获异常并回退到已预先创建的 `IndexFlatIP` CPU 索引。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — with_timeout 装饰器与叠加顺序
+> 
+> `with_timeout` 装饰器从 `TIMEOUT_CONFIG` 按函数名查找超时时间，用 `asyncio.wait_for` 包裹异步函数调用，超时则抛出 `TimeoutError`。叠加顺序上，超时装饰器在内层确保每次重试都有独立的超时限制，若顺序颠倒则整体只有一个超时计数，无法保证单次尝试的时限。
+> 
+> #### Q2 — use_jitter 与惊群效应
+> 
+> `use_jitter` 在每次延迟时间上叠加 0.8～1.2 倍的随机扰动，防止多个请求在同一时刻同时重试压垮服务器（即"惊群效应"）；若不加抖动，所有超时的客户端会在完全相同的时间点同步重发请求，造成瞬时流量峰值。
+> 
+> #### Q3 — build_faiss_index GPU 优雅降级
+> 
+> `build_faiss_index` 先调用 `detect_gpu()` 执行 `nvidia-smi`，成功则通过 `faiss.get_num_gpus()` 获取 GPU 数量；若 GPU 数量大于 0，尝试用 `faiss.index_cpu_to_gpu` 构建 GPU 索引，若初始化失败则捕获异常并回退到已预先创建的 `IndexFlatIP` CPU 索引。

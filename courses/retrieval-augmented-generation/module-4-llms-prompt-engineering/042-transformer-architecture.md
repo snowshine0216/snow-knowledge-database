@@ -88,12 +88,16 @@ Three RAG-relevant lessons follow directly from this architecture. First, RAG *c
 2. Explain in your own words why multi-head attention produces richer contextual representations than single-head attention would. What is the relationship between the number of attention heads and model expressiveness?
 3. Why does the autoregressive generation process mean that RAG cannot guarantee the LLM will ground its answer in retrieved documents, even when those documents are directly present in the prompt?
 
-<details><summary>Answer guide</summary>
-
-**Q1.** Encoder-only models process an entire input sequence bidirectionally to produce dense semantic embeddings; they are used in the *retrieval* component of a RAG pipeline (e.g., to embed queries and documents for similarity search). Decoder-only models generate text autoregressively and are used in the *generation* step — they receive the augmented prompt (query + retrieved chunks) and produce the response.
-
-**Q2.** A single attention head captures one "perspective" on inter-token relationships at a time. Multiple heads run in parallel, each learning a distinct pattern of relationships from training data (e.g., one head may track modifier-noun connections, another subject-verb agreement, another coreference). Because each head independently weights token-to-token relevance from a different learned vantage point, the concatenated output of all heads provides a multi-dimensional, richer characterization of each token's meaning than any single head could. More heads generally means more distinct relational signals, increasing the model's ability to represent nuanced linguistic and factual dependencies.
-
-**Q3.** Generation is probabilistic: at each step the model samples from a probability distribution rather than always selecting the highest-probability token. Even if retrieved evidence strongly suggests a particular answer, there is always a non-zero probability of sampling a token inconsistent with that evidence — especially at higher temperature settings. Moreover, strongly memorized training patterns can compete with retrieved content in the distribution, sometimes winning out. This irreducible randomness means system designers must add explicit controls (e.g., low-temperature sampling, grounding instructions in the system prompt, post-generation verification) to reliably anchor outputs to retrieved information.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Encoder-only vs Decoder-only Models
+> 
+> Encoder-only models process an entire input sequence bidirectionally to produce dense semantic embeddings; they are used in the *retrieval* component of a RAG pipeline (e.g., to embed queries and documents for similarity search). Decoder-only models generate text autoregressively and are used in the *generation* step — they receive the augmented prompt (query + retrieved chunks) and produce the response.
+> 
+> #### Q2 — Multi-head Attention Expressiveness
+> 
+> A single attention head captures one "perspective" on inter-token relationships at a time. Multiple heads run in parallel, each learning a distinct pattern of relationships from training data (e.g., one head may track modifier-noun connections, another subject-verb agreement, another coreference). Because each head independently weights token-to-token relevance from a different learned vantage point, the concatenated output of all heads provides a multi-dimensional, richer characterization of each token's meaning than any single head could. More heads generally means more distinct relational signals, increasing the model's ability to represent nuanced linguistic and factual dependencies.
+> 
+> #### Q3 — Autoregressive Generation and Grounding
+> 
+> Generation is probabilistic: at each step the model samples from a probability distribution rather than always selecting the highest-probability token. Even if retrieved evidence strongly suggests a particular answer, there is always a non-zero probability of sampling a token inconsistent with that evidence — especially at higher temperature settings. Moreover, strongly memorized training patterns can compete with retrieved content in the distribution, sometimes winning out. This irreducible randomness means system designers must add explicit controls (e.g., low-temperature sampling, grounding instructions in the system prompt, post-generation verification) to reliably anchor outputs to retrieved information.

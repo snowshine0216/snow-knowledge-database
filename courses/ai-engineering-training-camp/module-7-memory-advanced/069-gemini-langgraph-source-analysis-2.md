@@ -401,11 +401,22 @@ Client → Nginx（负载均衡） → FastAPI + Uvicorn × N 台 → LangGraph 
 2. `evaluate_research` 条件边有三条分支路径，请逐一说明每条路径的触发条件以及它通向哪个节点，并解释为什么必须有"超过最大循环次数"这一路。
 3. 本课提出"RAG 不应放在主路径，而应作为旁路工具"。用自己的话解释这个观点的含义，并说明"主路径"和"旁路工具"这两种架构在实际使用方式上有何不同。
 
-<details>
-<summary>答案指南</summary>
-
-1. `utils.py` 是纯编程辅助工具（不参与 agent 内部），例如 `resolve_url()` 做短链映射、`extract_research_topic_from_messages()` 提取字符串；`tools_and_schemas.py` 是 agent 能调用的能力（Pydantic schema 约束结构化输出），例如 `SearchQueryList`、`Reflection`，未来的 `ERPQuery` 也放这里。两者的核心区分：是否作为 agent 内部工具被节点直接调用。
-2. 三条分支：① `is_sufficient == True` → 进入 `finalize_answer`（知识已足够）；② `research_loop_count >= max_research_loops` → 强制进入 `finalize_answer`（防止无限循环）；③ 两者都不满足 → 回到 `web_research` 用新的 `follow_up_queries` 继续搜索。必须有第二条是因为 LLM 的反思结果不一定可靠，需要硬性终止条件保证工作流必然结束。
-3. "主路径"指 query → RAG → answer 的固定流程，RAG 始终被调用；"旁路工具"指 RAG 只是 agent 工具箱里的一个选项，由 agent 根据问题决定是否调用，和 web search、知识图谱等并列。本课的核心观点是：RAG 只是目前最好的可白盒检索手段，不应成为强制执行的唯一主路径，agent 应该能自主选择最适合当前问题的检索方式。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — utils.py vs tools_and_schemas.py
+> 
+> `utils.py` 是纯编程辅助工具（不参与 agent 内部），例如 `resolve_url()` 做短链映射、`extract_research_topic_from_messages()` 提取字符串；`tools_and_schemas.py` 是 agent 能调用的能力（Pydantic schema 约束结构化输出），例如 `SearchQueryList`、`Reflection`，未来的 `ERPQuery` 也放这里。两者的核心区分：是否作为 agent 内部工具被节点直接调用。
+> 
+> #### Q2 — evaluate_research Three Branch Paths
+> 
+> 三条分支：
+> 
+> - ① `is_sufficient == True` → 进入 `finalize_answer`（知识已足够）
+> - ② `research_loop_count >= max_research_loops` → 强制进入 `finalize_answer`（防止无限循环）
+> - ③ 两者都不满足 → 回到 `web_research` 用新的 `follow_up_queries` 继续搜索
+> 
+> 必须有第二条是因为 LLM 的反思结果不一定可靠，需要硬性终止条件保证工作流必然结束。
+> 
+> #### Q3 — RAG as Bypass Tool Architecture
+> 
+> "主路径"指 query → RAG → answer 的固定流程，RAG 始终被调用；"旁路工具"指 RAG 只是 agent 工具箱里的一个选项，由 agent 根据问题决定是否调用，和 web search、知识图谱等并列。本课的核心观点是：RAG 只是目前最好的可白盒检索手段，不应成为强制执行的唯一主路径，agent 应该能自主选择最适合当前问题的检索方式。

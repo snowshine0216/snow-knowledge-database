@@ -368,11 +368,30 @@ langgraph dev  # 启动本地调试服务，自动打开浏览器
 2. 条件边如何实现"输入校验 + 自动重试"逻辑？请描述节点连接方式，以及如何防止无限循环。
 3. LangGraph Studio 当前的能力边界是什么？它能做哪些事、不能做哪些事？生产环境应配合什么工具使用？
 
-<details>
-<summary>答案指南</summary>
-
-1. `StateSnapshot` 包含：`config`（含 `thread_id` 和 `checkpoint_id`，用于定位快照）、`values`（当前状态变量值）、`next`（下一个待执行节点）、`metadata.step`（步骤编号）、`tasks`（含 `task_id` 和 `error`）。时间旅行需要用 `thread_id` + `checkpoint_id` 构造 `replay_config`，再调用 `graph.stream(snapshot_state.values, replay_config)` 从该点重放。
-2. 通过"循环边"实现重试：`validate_input` 节点接条件边，合法订单路由到 `handle_valid`，非法订单路由到 `handle_invalid`，`handle_invalid` 再连回 `validate_input` 形成循环。用 `Annotated[int, lambda x, y: x + y]` 累加 `retry_count`，当重试次数超过阈值（如 `> 2`）时条件边路由到 `END`，避免无限循环。
-3. LangGraph Studio 支持：图形化查看工作流结构、单步调试、查看每个节点的输入/输出；不支持：可视化编辑工作流、添加新节点或边。它是调试和监控工具，不是设计工具；生产环境建议配合 LangSmith 使用。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — StateSnapshot 关键字段与时间旅行
+> 
+> `StateSnapshot` 包含以下字段：
+> 
+> - `config`：含 `thread_id` 和 `checkpoint_id`，用于定位快照
+> - `values`：当前状态变量值
+> - `next`：下一个待执行节点
+> - `metadata.step`：步骤编号
+> - `tasks`：含 `task_id` 和 `error`
+> 
+> 时间旅行需要用 `thread_id` + `checkpoint_id` 构造 `replay_config`，再调用 `graph.stream(snapshot_state.values, replay_config)` 从该点重放。
+> 
+> #### Q2 — 条件边实现输入校验重试
+> 
+> 通过"循环边"实现重试：`validate_input` 节点接条件边，合法订单路由到 `handle_valid`，非法订单路由到 `handle_invalid`，`handle_invalid` 再连回 `validate_input` 形成循环。
+> 
+> 用 `Annotated[int, lambda x, y: x + y]` 累加 `retry_count`，当重试次数超过阈值（如 `> 2`）时条件边路由到 `END`，避免无限循环。
+> 
+> #### Q3 — LangGraph Studio 能力边界
+> 
+> **支持：** 图形化查看工作流结构、单步调试、查看每个节点的输入/输出。
+> 
+> **不支持：** 可视化编辑工作流、添加新节点或边。
+> 
+> 它是调试和监控工具，不是设计工具；生产环境建议配合 LangSmith 使用。

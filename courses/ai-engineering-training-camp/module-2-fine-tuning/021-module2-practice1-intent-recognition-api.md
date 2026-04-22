@@ -278,11 +278,16 @@ curl -X POST http://localhost:8000/predict \
 2. 本课中如何判断意图识别微调是否成功？LoRA 微调方案相比 Few-shot Prompt 方案有哪些优劣权衡？
 3. Swift、PEFT、LLaMA-Factory 三种工具各自适合什么场景？课程给出的核心选型结论是什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. `target_modules` 指定微调哪些注意力矩阵（如 `q_proj`、`v_proj`）；`lora_rank`（r）是分解矩阵的秩，越大模型容量越大但显存消耗越多；`lora_alpha` 是缩放系数，推荐设为 `2 * rank`（如 rank=8 则 alpha=16）。
-2. 判断标准：输入"我要退票"应返回 `{"intent": "退票请求"}` 而非自由回答；LoRA 微调的优势是推理快、输出格式固定，缺点是需要训练数据和训练时间，而 Few-shot Prompt 实现简单但上下文越长推理越慢。
-3. Swift 适合国内训练（命令行，依托魔搭社区）；PEFT 适合海外模型和 Hugging Face 数据集（Python 脚本）；LLaMA-Factory 适合希望可视化操作的场景；核心结论是三者参数体系大同小异，**理解参数含义比选工具更重要**。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LoRA 三参数含义与关系
+> 
+> `target_modules` 指定微调哪些注意力矩阵（如 `q_proj`、`v_proj`）；`lora_rank`（r）是分解矩阵的秩，越大模型容量越大但显存消耗越多；`lora_alpha` 是缩放系数，推荐设为 `2 * rank`（如 rank=8 则 alpha=16）。
+> 
+> #### Q2 — 微调效果判断与方案权衡
+> 
+> 判断标准：输入"我要退票"应返回 `{"intent": "退票请求"}` 而非自由回答；LoRA 微调的优势是推理快、输出格式固定，缺点是需要训练数据和训练时间，而 Few-shot Prompt 实现简单但上下文越长推理越慢。
+> 
+> #### Q3 — 三种工具选型结论
+> 
+> Swift 适合国内训练（命令行，依托魔搭社区）；PEFT 适合海外模型和 Hugging Face 数据集（Python 脚本）；LLaMA-Factory 适合希望可视化操作的场景；核心结论是三者参数体系大同小异，**理解参数含义比选工具更重要**。

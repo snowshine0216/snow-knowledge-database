@@ -302,13 +302,16 @@ reset时：
 2. 快捷指令的处理逻辑中，为什么推荐用 Python 字典映射替代 if-else？请用自己的话描述完整的处理流程。
 3. LangGraph 的 Thread ID 在多用户隔离中起什么作用？CheckPoint 的降级策略是怎么实现的，为什么这样设计？
 
-<details>
-<summary>答案指南</summary>
-
-1. Greeting 接口与 chat 接口分开，是为了防止欢迎语出问题时影响主对话流程；它返回欢迎语文本和快捷指令列表（如 `/help`、`/history`、`/reset`），并支持 `class_id` 参数使不同课程展示不同欢迎语。
-
-2. 当分支数量较多时，字典映射（key=命令名, value=函数对象）比多层 if-else 更清晰；处理流程为：去除首尾空白 → 判断是否以 `/` 开头 → 转小写 → 用字典查找对应 handler → 有则执行，无则返回"未知指令"提示。
-
-3. Thread ID 用 `session_id` 值传入 LangGraph 的 `config.configurable.thread_id`，使不同用户的图状态相互隔离（不是真正多线程，是模拟隔离）；降级策略优先尝试 SQLite CheckPoint，失败时自动回退到内存 MemorySaver，业务无感知但后台记录警告日志，生产环境推荐改用 PostgreSQL 或 MySQL。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Greeting 接口分离设计
+> 
+> Greeting 接口与 chat 接口分开，是为了防止欢迎语出问题时影响主对话流程；它返回欢迎语文本和快捷指令列表（如 `/help`、`/history`、`/reset`），并支持 `class_id` 参数使不同课程展示不同欢迎语。
+> 
+> #### Q2 — 字典映射替代 if-else
+> 
+> 当分支数量较多时，字典映射（key=命令名, value=函数对象）比多层 if-else 更清晰；处理流程为：去除首尾空白 → 判断是否以 `/` 开头 → 转小写 → 用字典查找对应 handler → 有则执行，无则返回"未知指令"提示。
+> 
+> #### Q3 — Thread ID 与 CheckPoint 降级
+> 
+> Thread ID 用 `session_id` 值传入 LangGraph 的 `config.configurable.thread_id`，使不同用户的图状态相互隔离（不是真正多线程，是模拟隔离）；降级策略优先尝试 SQLite CheckPoint，失败时自动回退到内存 MemorySaver，业务无感知但后台记录警告日志，生产环境推荐改用 PostgreSQL 或 MySQL。

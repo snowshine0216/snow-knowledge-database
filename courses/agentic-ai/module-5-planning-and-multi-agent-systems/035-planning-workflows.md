@@ -77,12 +77,16 @@ Despite these limitations, the trajectory is positive. As LLMs become more capab
 2. How does the plan-and-execute pattern pass information between steps during the execution phase?
 3. Why is the planning pattern currently more established in agentic coding systems than in other domains?
 
-<details><summary>Answer Guide</summary>
-
-1. The LLM plans to call: (1) get item descriptions to find round sunglasses, (2) check inventory to see which of those are in stock, and (3) get item price to filter for items priced under $100.
-
-2. The output of each step is appended to the context for the next step. When the system invokes the LLM to execute step N+1, the prompt includes the step N+1 instruction plus the accumulated outputs from all prior steps, allowing the model to build on previous results.
-
-3. The planning pattern is already well-established in agentic coding because those systems tolerate the inherent unpredictability of dynamic plans — developers can inspect and iterate on code outputs, and the domain is forgiving of variation. In other sectors, the inability to know at development time exactly what sequence of steps the agent will choose raises concerns about control and auditability, slowing adoption.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Tools Called for Sunglasses Query
+> 
+> The LLM plans to call: (1) get item descriptions to find round sunglasses, (2) check inventory to see which of those are in stock, and (3) get item price to filter for items priced under $100.
+> 
+> #### Q2 — Information Passing Between Steps
+> 
+> The output of each step is appended to the context for the next step. When the system invokes the LLM to execute step N+1, the prompt includes the step N+1 instruction plus the accumulated outputs from all prior steps, allowing the model to build on previous results.
+> 
+> #### Q3 — Planning Pattern in Coding Systems
+> 
+> The planning pattern is already well-established in agentic coding because those systems tolerate the inherent unpredictability of dynamic plans — developers can inspect and iterate on code outputs, and the domain is forgiving of variation. In other sectors, the inability to know at development time exactly what sequence of steps the agent will choose raises concerns about control and auditability, slowing adoption.

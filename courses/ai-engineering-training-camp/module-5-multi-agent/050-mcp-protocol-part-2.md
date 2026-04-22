@@ -303,11 +303,22 @@ When deploying MCP servers in production:
 2. 在物流 Agent 示例中，`MultiServerMCPClient` 支持哪两种传输模式？分别说明它们的工作方式和适用场景。
 3. 为什么说"工具描述"对 MCP 服务器至关重要？如果不设置 `operation_id` 和 `description`，会发生什么问题？
 
-<details>
-<summary>答案指南</summary>
-
-1. `fastapi-mcp` 适合已有 FastAPI 服务的场景：通过 `FastApiMCP(app).mount()` 在原有 REST API 之上叠加 MCP 层，原接口不受影响。`fastmcp` 适合从零开始的场景，代码量更少，用装饰器 `@mcp.tool()` 直接定义工具，是新项目的惯用选择。
-2. 两种传输模式：**`streamable_http`（SSE）** 通过 URL 连接远程 MCP 服务器；**`stdio`** 将本地 Python 脚本作为子进程启动，通过标准输入/输出通信。前者用于网络部署的服务，后者用于本地工具脚本。
-3. LLM 完全依靠 `operation_id`、`description` 和参数 `description` 来决定调用哪个工具。若不设置 `operation_id`，FastAPI 会自动生成如 `read_user__users__user_id__get` 这样难以理解的名称，导致 LLM 无法正确选择工具甚至完全不调用。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — fastapi-mcp vs fastmcp 适用场景
+> 
+> `fastapi-mcp` 适合已有 FastAPI 服务的场景：通过 `FastApiMCP(app).mount()` 在原有 REST API 之上叠加 MCP 层，原接口不受影响。
+> 
+> `fastmcp` 适合从零开始的场景，代码量更少，用装饰器 `@mcp.tool()` 直接定义工具，是新项目的惯用选择。
+> 
+> #### Q2 — MultiServerMCPClient 两种传输模式
+> 
+> **`streamable_http`（SSE）**：通过 URL 连接远程 MCP 服务器，用于网络部署的服务。
+> 
+> **`stdio`**：将本地 Python 脚本作为子进程启动，通过标准输入/输出通信，用于本地工具脚本。
+> 
+> #### Q3 — 工具描述对 MCP 的重要性
+> 
+> LLM 完全依靠 `operation_id`、`description` 和参数 `description` 来决定调用哪个工具。
+> 
+> 若不设置 `operation_id`，FastAPI 会自动生成如 `read_user__users__user_id__get` 这样难以理解的名称，导致 LLM 无法正确选择工具甚至完全不调用。

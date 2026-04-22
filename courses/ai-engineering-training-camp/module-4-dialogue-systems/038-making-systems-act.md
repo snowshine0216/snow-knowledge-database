@@ -298,11 +298,16 @@ def process_invoice(order_id: str) -> None:
 2. `@tool` 装饰器中的 docstring 起什么作用？如果 docstring 写得模糊或缺失，会对 Agent 行为产生什么影响？
 3. 在生产环境中，`AgentExecutor` 有哪两个参数是必须设置的安全兜底配置？分别解决了什么问题？
 
-<details>
-<summary>答案指南</summary>
-
-1. ReAct 是 Reasoning + Acting 的缩写，核心循环为：思考（Thought）→ 行动（Action）→ 观察（Observation），不断重复直到得出 Final Answer。它完全依赖提示词控制大模型的决策路径，无需在代码中硬编码工具调用顺序。
-2. `@tool` 装饰器会自动将函数的 docstring 提取为该工具的 `description`，大模型正是通过 description 判断何时、为何调用该工具；描述不准确会导致大模型选错工具或完全忽略该工具。
-3. 必须设置 `handle_parsing_errors=True`（工具出错时将错误信息反馈给大模型，避免其编造答案）和 `max_iterations=10`（防止 Agent 陷入无限循环，控制最大推理轮数）。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — ReAct 核心循环与提示词驱动
+> 
+> ReAct 是 Reasoning + Acting 的缩写，核心循环为：思考（Thought）→ 行动（Action）→ 观察（Observation），不断重复直到得出 Final Answer。它完全依赖提示词控制大模型的决策路径，无需在代码中硬编码工具调用顺序。
+> 
+> #### Q2 — @tool 装饰器 Docstring 作用
+> 
+> `@tool` 装饰器会自动将函数的 docstring 提取为该工具的 `description`，大模型正是通过 description 判断何时、为何调用该工具；描述不准确会导致大模型选错工具或完全忽略该工具。
+> 
+> #### Q3 — AgentExecutor 安全兜底配置
+> 
+> 必须设置 `handle_parsing_errors=True`（工具出错时将错误信息反馈给大模型，避免其编造答案）和 `max_iterations=10`（防止 Agent 陷入无限循环，控制最大推理轮数）。

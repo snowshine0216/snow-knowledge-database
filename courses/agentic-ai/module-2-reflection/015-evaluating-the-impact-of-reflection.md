@@ -69,15 +69,16 @@ Both styles of eval serve the same function: they create a systematic feedback l
 2. What is position bias in LLM-as-judge evaluations, and why does it undermine the pairwise comparison approach?
 3. Why does replacing a single 1–5 score with several binary rubric criteria yield more consistent LLM evaluations?
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Accuracy rates and eval value**
-Without reflection the system answered correctly 87% of the time; with reflection the rate rose to 95%. Beyond confirming that reflection helps, the eval harness is valuable because it lets you re-run the same benchmark whenever you modify the generation or reflection prompt, giving you a data-driven way to choose between prompt variants rather than relying on guesswork.
-
-**Q2 — Position bias**
-Position bias is the tendency for many LLMs to favor whichever option appears first in a pairwise comparison prompt, regardless of actual quality. This means that if you always put output A before output B, the judge will disproportionately call A the winner — a result that reflects prompt order rather than quality. Because this bias can dominate the signal, pairwise LLM comparison often correlates poorly with human expert judgment.
-
-**Q3 — Binary rubric criteria vs. continuous scale**
-LLMs are poorly calibrated on continuous scales like 1–5 — they tend to cluster scores in a narrow band or shift thresholds depending on wording. Binary (yes/no) questions anchor each judgment to a concrete, verifiable criterion, making it much harder for the model to hedge. Summing several binary scores produces a meaningful total while keeping each individual judgment precise and auditable.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Accuracy rates and eval harness value
+> 
+> Without reflection the system answered correctly 87% of the time; with reflection the rate rose to 95%. Beyond confirming that reflection helps, the eval harness is valuable because it lets you re-run the same benchmark whenever you modify the generation or reflection prompt, giving you a data-driven way to choose between prompt variants rather than relying on guesswork.
+> 
+> #### Q2 — Position bias in pairwise comparison
+> 
+> Position bias is the tendency for many LLMs to favor whichever option appears first in a pairwise comparison prompt, regardless of actual quality. This means that if you always put output A before output B, the judge will disproportionately call A the winner — a result that reflects prompt order rather than quality. Because this bias can dominate the signal, pairwise LLM comparison often correlates poorly with human expert judgment.
+> 
+> #### Q3 — Binary rubric vs. continuous scale
+> 
+> LLMs are poorly calibrated on continuous scales like 1–5 — they tend to cluster scores in a narrow band or shift thresholds depending on wording. Binary (yes/no) questions anchor each judgment to a concrete, verifiable criterion, making it much harder for the model to hedge. Summing several binary scores produces a meaningful total while keeping each individual judgment precise and auditable.

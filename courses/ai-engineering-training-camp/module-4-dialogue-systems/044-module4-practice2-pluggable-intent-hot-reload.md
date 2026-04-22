@@ -215,11 +215,27 @@ def describe_main_path(self):
 2. 请解释 `_hot_compile()` 的工作原理：它做了什么，为什么调用它之后新请求会走新图、而进行中的请求不会中断？
 3. `describe_main_path()` 方法的作用是什么？在动态图调试中，你应该在哪两个时机调用它，能验证什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. 四步骤依次为：① `register_node()` 注册节点函数；② `remove_edges_from()` 删除原有出边；③ `add_edge()` 添加新边连接；④ `_hot_compile()` 触发热编译使变更生效。最常见错误是完成前三步后忘记调用 `_hot_compile()`，导致新节点注册在数据结构中但实际图不变。
-2. `_hot_compile()` 重新实例化 `StateGraph`，将当前 `self.nodes` 和 `self.edges` 全部重新注册并调用 `.compile()` 生成新的可执行图赋值给 `self.app`。LangGraph 基于线程隔离模型，每个请求进入时绑定当时的图快照，替换 `self.app` 引用不影响已绑定旧图的进行中请求，因此不会中断。
-3. `describe_main_path()` 打印当前图的节点列表、边列表和入口节点，用于直观验证图结构。应在节点插入前后各调用一次，对比输出可确认新节点和新边是否已正确注册、旧边是否已被删除。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — 动态插入节点的四步骤
+> 
+> 四步骤依次为：
+> 
+> 1. `register_node()` 注册节点函数
+> 2. `remove_edges_from()` 删除原有出边
+> 3. `add_edge()` 添加新边连接
+> 4. `_hot_compile()` 触发热编译使变更生效
+> 
+> 最常见错误是完成前三步后忘记调用 `_hot_compile()`，导致新节点注册在数据结构中但实际图不变。
+> 
+> #### Q2 — `_hot_compile()` 工作原理
+> 
+> `_hot_compile()` 重新实例化 `StateGraph`，将当前 `self.nodes` 和 `self.edges` 全部重新注册并调用 `.compile()` 生成新的可执行图赋值给 `self.app`。
+> 
+> LangGraph 基于线程隔离模型，每个请求进入时绑定当时的图快照，替换 `self.app` 引用不影响已绑定旧图的进行中请求，因此不会中断。
+> 
+> #### Q3 — `describe_main_path()` 调试用途
+> 
+> `describe_main_path()` 打印当前图的节点列表、边列表和入口节点，用于直观验证图结构。
+> 
+> 应在节点插入**前后**各调用一次，对比输出可确认新节点和新边是否已正确注册、旧边是否已被删除。

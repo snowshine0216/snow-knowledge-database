@@ -59,12 +59,16 @@ The technique is still maturing. Outside of agentic software coding — where it
 2. How does prompting an LLM to write Python code give it access to a much larger effective "tool library" than providing explicit custom tools?
 3. What does the research evidence suggest about the relative performance of code-based planning versus JSON-based planning versus plain-text planning?
 
-<details><summary>Answer Guide</summary>
-
-**Q1.** The tool library is finite and predetermined by the developer, while the space of possible user queries is unbounded. Every unforeseen query type forces the developer to add a new tool, creating a brittle, ever-growing set of edge cases.
-
-**Q2.** Python libraries like pandas already expose hundreds to thousands of functions that the LLM has seen extensively in training data. By writing code, the LLM can compose from this pre-existing vocabulary of functions — `groupby`, `drop_duplicates`, `sort_values`, etc. — without the developer having to anticipate or implement each capability as a custom tool.
-
-**Q3.** Research shows "code as action" outperforms JSON-based planning, which in turn outperforms plain-text planning, consistently across multiple model families. Expressive executable representations give the LLM a richer medium for encoding and carrying out multi-step plans.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Fixed Tool Library Scalability Problem
+> 
+> The tool library is finite and predetermined by the developer, while the space of possible user queries is unbounded. Every unforeseen query type forces the developer to add a new tool, creating a brittle, ever-growing set of edge cases.
+> 
+> #### Q2 — Python Code as Expansive Tool Library
+> 
+> Python libraries like pandas already expose hundreds to thousands of functions that the LLM has seen extensively in training data. By writing code, the LLM can compose from this pre-existing vocabulary of functions — `groupby`, `drop_duplicates`, `sort_values`, etc. — without the developer having to anticipate or implement each capability as a custom tool.
+> 
+> #### Q3 — Code vs JSON vs Plain-Text Planning
+> 
+> Research shows "code as action" outperforms JSON-based planning, which in turn outperforms plain-text planning, consistently across multiple model families. Expressive executable representations give the LLM a richer medium for encoding and carrying out multi-step plans.

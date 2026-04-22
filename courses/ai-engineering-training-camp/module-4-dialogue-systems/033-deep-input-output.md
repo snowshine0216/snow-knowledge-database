@@ -316,11 +316,16 @@ class ProjectPasser(BaseOutputParser):
 2. `PersonInfo` 数据类中的 `@validator("age")` 装饰器和 `@property` 分别解决了什么问题？结合 `analysis_type` 的动态模板组合，说明这套设计如何做到"业务端只需传参、不改代码"？
 3. 自定义输出解析器 `ProjectPasser.parse()` 的核心逻辑是什么？课程说"微调模型才是根治方案"——这句话背后的逻辑是什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. `{% if %}` 语法简陋、关键字匹配容易失误，且逻辑嵌入模板字符串后难以测试和维护。正确做法是把条件判断提取到 Python 代码中（如 `PersonPromptTemplate.format()` 方法），让模板本身只做"纯字符串组装"。
-2. `@validator("age")` 在构造时自动校验字段范围（如 age 必须在 0–150），不合法时抛出 `ValidationError`；`@property` 把方法伪装成属性、隐藏复杂逻辑。`analysis_type` 有默认值且通过 Python 代码控制段落拼接，业务端只需传 `{"analysis_type": "career", ...}`，模板组合逻辑完全封装在后端。
-3. `parse()` 用正则 `re.search(r"\{.*\}", text, re.DOTALL)` 从模型输出中提取第一个 JSON 块，再用 `json.loads()` 解析，失败时抛出 `OutputParserException`。微调是根治方案，因为正则只是事后补救——若模型经过微调能直接输出合法 JSON，则解析器的兜底逻辑完全不需要存在。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — 避免模板条件逻辑的原因
+> 
+> `{% if %}` 语法简陋、关键字匹配容易失误，且逻辑嵌入模板字符串后难以测试和维护。正确做法是把条件判断提取到 Python 代码中（如 `PersonPromptTemplate.format()` 方法），让模板本身只做"纯字符串组装"。
+> 
+> #### Q2 — validator、property 与动态模板设计
+> 
+> `@validator("age")` 在构造时自动校验字段范围（如 age 必须在 0–150），不合法时抛出 `ValidationError`；`@property` 把方法伪装成属性、隐藏复杂逻辑。`analysis_type` 有默认值且通过 Python 代码控制段落拼接，业务端只需传 `{"analysis_type": "career", ...}`，模板组合逻辑完全封装在后端。
+> 
+> #### Q3 — 自定义解析器与微调根治方案
+> 
+> `parse()` 用正则 `re.search(r"\{.*\}", text, re.DOTALL)` 从模型输出中提取第一个 JSON 块，再用 `json.loads()` 解析，失败时抛出 `OutputParserException`。微调是根治方案，因为正则只是事后补救——若模型经过微调能直接输出合法 JSON，则解析器的兜底逻辑完全不需要存在。

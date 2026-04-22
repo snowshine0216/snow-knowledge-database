@@ -92,12 +92,16 @@ It is worth emphasizing that re-ranking interacts constructively with hybrid sea
 
 **Question 3.** What operational pattern (in terms of fetch count) should you use when adding a re-ranker to an existing RAG pipeline, and roughly how many documents should be passed to the LLM after re-ranking?
 
-<details><summary>Answer guide</summary>
-
-**Answer 1.** Re-ranking is a post-retrieval, pre-generation step. After the vector database returns its initial candidate set (e.g., top 20–100 documents), the re-ranker re-scores and reorders those candidates using a more capable model. Only the top-ranked subset from this new ordering is then included in the LLM's prompt context. It runs after the vector DB query completes and before the LLM receives any retrieved text.
-
-**Answer 2.** A cross-encoder takes a concatenated query-document pair and cannot pre-compute document representations offline. Every scoring operation must happen at query time, so cost scales linearly with corpus size. Applied to one million documents per query, latency would be prohibitive (minutes per query). Applied to a 50-document shortlist, only 50 forward passes are needed, adding milliseconds — an acceptable trade-off for the substantial relevance gain.
-
-**Answer 3.** The standard pattern is to *over-fetch* in the first stage: retrieve 15–25 (up to 100) candidate documents from the vector database, then re-rank all of them. From the re-ranked list, pass only the top 5–10 documents to the LLM. This ensures that genuinely relevant documents buried in the initial ranking are promoted before the LLM sees them.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Re-ranker Role and Execution Order
+> 
+> Re-ranking is a post-retrieval, pre-generation step. After the vector database returns its initial candidate set (e.g., top 20–100 documents), the re-ranker re-scores and reorders those candidates using a more capable model. Only the top-ranked subset from this new ordering is then included in the LLM's prompt context. It runs after the vector DB query completes and before the LLM receives any retrieved text.
+> 
+> #### Q2 — Cross-Encoder Scalability Limits
+> 
+> A cross-encoder takes a concatenated query-document pair and cannot pre-compute document representations offline. Every scoring operation must happen at query time, so cost scales linearly with corpus size. Applied to one million documents per query, latency would be prohibitive (minutes per query). Applied to a 50-document shortlist, only 50 forward passes are needed, adding milliseconds — an acceptable trade-off for the substantial relevance gain.
+> 
+> #### Q3 — Over-Fetch and Top-K Pattern
+> 
+> The standard pattern is to *over-fetch* in the first stage: retrieve 15–25 (up to 100) candidate documents from the vector database, then re-rank all of them. From the re-ranked list, pass only the top 5–10 documents to the LLM. This ensures that genuinely relevant documents buried in the initial ranking are promoted before the LLM sees them.

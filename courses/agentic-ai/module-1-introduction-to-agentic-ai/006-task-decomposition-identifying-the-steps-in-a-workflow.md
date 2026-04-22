@@ -124,15 +124,16 @@ The lesson explicitly connects this iterative improvement process to the topic o
 
 3. What is the iterative relationship between task decomposition and evaluation that the instructor establishes at the end of the lesson?
 
-<details><summary>Answer Guide</summary>
-
-**Post-test Answer 1:**
-The failure was that the essays felt disjointed — the beginning, middle, and end did not feel consistent with each other, as though the sections had been written in isolation. The structural fix was to further decompose step three ("write the essay") into three sub-steps: (1) write a first draft, (2) critique the draft to identify what needs revision, and (3) revise the draft based on that critique. By breaking one large generation step into a draft-then-revise loop, the model has the opportunity to catch and correct inconsistencies before producing the final output.
-
-**Post-test Answer 2:**
-Step 1: Extract key information from the email (who sent it, what they ordered, their order number) — carried out by an **LLM**, which is good at information extraction from unstructured text. Step 2: Query the customer database to retrieve the order record and shipping details — carried out by an **LLM equipped with a database query function** (a software tool), since the LLM generates the query and the tool executes it. Step 3: Write and send a reply to the customer — carried out by an **LLM with access to an email-sending API** (a software tool), since the LLM composes the response and the API delivers it.
-
-**Post-test Answer 3:**
-The instructor frames task decomposition and evaluation as complementary, iterative practices. Decomposition produces the initial workflow design, but the design is rarely correct on the first attempt. Evaluating the workflow's outputs reveals which steps are failing or underperforming. Those findings then drive further decomposition — breaking problematic steps into smaller, more implementable sub-steps. The cycle then repeats: implement the refined workflow, evaluate its outputs, identify remaining weaknesses, and decompose further. Evaluation is therefore the feedback mechanism that steers decomposition, and the two together form the improvement engine for agentic systems.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Research Essay Workflow Failure
+> 
+> The failure was that the essays felt disjointed — the beginning, middle, and end did not feel consistent with each other, as though the sections had been written in isolation. The structural fix was to further decompose step three ("write the essay") into three sub-steps: (1) write a first draft, (2) critique the draft to identify what needs revision, and (3) revise the draft based on that critique. By breaking one large generation step into a draft-then-revise loop, the model has the opportunity to catch and correct inconsistencies before producing the final output.
+> 
+> #### Q2 — Customer Email Three-Step Workflow
+> 
+> Step 1: Extract key information from the email (who sent it, what they ordered, their order number) — carried out by an **LLM**, which is good at information extraction from unstructured text. Step 2: Query the customer database to retrieve the order record and shipping details — carried out by an **LLM equipped with a database query function** (a software tool), since the LLM generates the query and the tool executes it. Step 3: Write and send a reply to the customer — carried out by an **LLM with access to an email-sending API** (a software tool), since the LLM composes the response and the API delivers it.
+> 
+> #### Q3 — Decomposition and Evaluation Relationship
+> 
+> The instructor frames task decomposition and evaluation as complementary, iterative practices. Decomposition produces the initial workflow design, but the design is rarely correct on the first attempt. Evaluating the workflow's outputs reveals which steps are failing or underperforming. Those findings then drive further decomposition — breaking problematic steps into smaller, more implementable sub-steps. The cycle then repeats: implement the refined workflow, evaluate its outputs, identify remaining weaknesses, and decompose further. Evaluation is therefore the feedback mechanism that steers decomposition, and the two together form the improvement engine for agentic systems.

@@ -73,14 +73,16 @@ Benchmarking — whether for latency or cost — is the foundational practice th
 2. Name two strategies the instructor recommends for reducing the latency of a step where an LLM call is the bottleneck.
 3. What are the two main pricing dimensions that most LLM API providers use to charge for usage?
 
-<details><summary>Answer Guide</summary>
-
-**Post-test Answers**
-
-1. Final essay generation was the largest single contributor to latency at approximately eighteen seconds on average, compared to seven seconds for search-term generation and other shorter steps earlier in the pipeline.
-
-2. Two strategies for reducing LLM-call latency: (a) switch to a smaller, faster model for that step if the task does not require a frontier model's full capability; (b) try a different LLM provider that offers faster inference through specialized hardware, even when serving the same underlying model.
-
-3. Most LLM API providers charge based on two dimensions: input token count and output token count, each billed at a per-token rate. Longer prompts and longer generated responses both increase cost independently.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Largest Latency Contributor
+> 
+> Final essay generation was the largest single contributor to latency at approximately eighteen seconds on average, compared to seven seconds for search-term generation and other shorter steps earlier in the pipeline.
+> 
+> #### Q2 — Strategies to Reduce LLM-Call Latency
+> 
+> Two strategies for reducing LLM-call latency: (a) switch to a smaller, faster model for that step if the task does not require a frontier model's full capability; (b) try a different LLM provider that offers faster inference through specialized hardware, even when serving the same underlying model.
+> 
+> #### Q3 — LLM API Pricing Dimensions
+> 
+> Most LLM API providers charge based on two dimensions: input token count and output token count, each billed at a per-token rate. Longer prompts and longer generated responses both increase cost independently.

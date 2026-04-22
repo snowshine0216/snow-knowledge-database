@@ -202,11 +202,24 @@ Rerank 模型的特点：
 2. Rerank 模型解决了什么具体问题？为什么代码和中文文档混合在同一分块时，单靠向量相似度排序会产生偏差？
 3. 本课的知识库是如何创建并持久化的？重启服务后，索引如何从磁盘恢复而无需重新建立？
 
-<details>
-<summary>答案指南</summary>
-
-1. 共六步：① 获取用户最新输入；② 处理临时上传文件（可选）；③ 从磁盘恢复持久化索引（`StorageContext.from_defaults`）；④ 粗排检索（`similarity_top_k=20`）；⑤ Rerank 精排（Cross-Encoder，`top_n=5`）；⑥ 构建提示词调用 LLM 流式生成回答。整体是管道过滤器（Pipeline Filter）模式。
-2. 代码片段会拉低整个分块的语义相似度得分，导致真正需要的中文说明文档被排到后面。Rerank 模型是专门训练的交叉编码器，DashScope rerank 对中文敏感、对代码不敏感，能重新识别出用户真正需要的片段；若不可用则降级为第一轮 top-k 结果。
-3. 调用 `VectorStoreIndex.from_documents()` 建立索引后，用 `index.storage_context.persist(persist_dir=./vector/{kb_name})` 将向量以 JSON 格式写入磁盘；重启后通过 `StorageContext.from_defaults(persist_dir=...)` 加上 `load_index_from_storage()` 即可从磁盘恢复，无需重新索引。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — RAG对话流程六步
+> 
+> 共六步：
+> ① 获取用户最新输入；
+> ② 处理临时上传文件（可选）；
+> ③ 从磁盘恢复持久化索引（`StorageContext.from_defaults`）；
+> ④ 粗排检索（`similarity_top_k=20`）；
+> ⑤ Rerank 精排（Cross-Encoder，`top_n=5`）；
+> ⑥ 构建提示词调用 LLM 流式生成回答。
+> 
+> 整体是管道过滤器（Pipeline Filter）模式。
+> 
+> #### Q2 — Rerank解决语义偏差
+> 
+> 代码片段会拉低整个分块的语义相似度得分，导致真正需要的中文说明文档被排到后面。Rerank 模型是专门训练的交叉编码器，DashScope rerank 对中文敏感、对代码不敏感，能重新识别出用户真正需要的片段；若不可用则降级为第一轮 top-k 结果。
+> 
+> #### Q3 — 索引创建与持久化恢复
+> 
+> 调用 `VectorStoreIndex.from_documents()` 建立索引后，用 `index.storage_context.persist(persist_dir=./vector/{kb_name})` 将向量以 JSON 格式写入磁盘；重启后通过 `StorageContext.from_defaults(persist_dir=...)` 加上 `load_index_from_storage()` 即可从磁盘恢复，无需重新索引。

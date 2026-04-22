@@ -60,12 +60,26 @@ The next video dives directly into defining what agentic workflows are, establis
 2. Name at least three application domains the instructor uses to illustrate real-world agentic deployments, and explain why each one requires a multi-step approach rather than a single LLM call.
 3. According to the lecture, what specific development practice most strongly predicts success when building agentic workflows, and what two activities does that practice combine?
 
-<details><summary>Answer Guide</summary>
-
-**Q1.** Ng says marketers attached "agentic" to almost every product indiscriminately, causing hype to skyrocket beyond the actual state of the technology. His bottom-line assessment is nonetheless positive: genuine, valuable agentic applications have also grown rapidly, and the course focuses on that real substance rather than the hype.
-
-**Q2.** The domains cited are: (a) customer support agents — require multi-turn reasoning and tool access to actually resolve a user's issue; (b) deep research and report generation — require search, retrieval, synthesis, and iterative refinement across many documents; (c) legal document analysis — requires parsing complex language, cross-referencing clauses, and applying domain knowledge across a lengthy document; (d) medical diagnosis suggestion — requires gathering patient history, mapping symptoms to differentials, and possibly querying medical knowledge bases. Each exceeds what a single prompt-response cycle can reliably do.
-
-**Q3.** The practice is running a disciplined development process centered on **evals and error analysis**. Evals provide structured, repeatable measurement of whether the system works; error analysis examines failures to locate which pipeline step caused them and why, enabling targeted fixes rather than undirected prompt tweaking.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Hype vs. Real Value of "Agentic"
+> 
+> Ng says marketers attached "agentic" to almost every product indiscriminately, causing hype to skyrocket beyond the actual state of the technology. His bottom-line assessment is nonetheless positive: genuine, valuable agentic applications have also grown rapidly, and the course focuses on that real substance rather than the hype.
+> 
+> #### Q2 — Real-World Agentic Application Domains
+> 
+> The domains cited are:
+> 
+> (a) **Customer support agents** — require multi-turn reasoning and tool access to actually resolve a user's issue;
+> 
+> (b) **Deep research and report generation** — require search, retrieval, synthesis, and iterative refinement across many documents;
+> 
+> (c) **Legal document analysis** — requires parsing complex language, cross-referencing clauses, and applying domain knowledge across a lengthy document;
+> 
+> (d) **Medical diagnosis suggestion** — requires gathering patient history, mapping symptoms to differentials, and possibly querying medical knowledge bases.
+> 
+> Each exceeds what a single prompt-response cycle can reliably do.
+> 
+> #### Q3 — Development Practice Predicting Success
+> 
+> The practice is running a disciplined development process centered on **evals and error analysis**. Evals provide structured, repeatable measurement of whether the system works; error analysis examines failures to locate which pipeline step caused them and why, enabling targeted fixes rather than undirected prompt tweaking.

@@ -121,12 +121,16 @@ Ultimately, sampling parameter tuning is an empirical discipline. Establish a re
 
 3. A RAG system generating customer support responses frequently repeats the same phrases within a single answer. Which parameter addresses this directly, and what is the recommended starting value?
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1.** Temperature divides the raw logits before the softmax is applied. A value below 1.0 amplifies differences between logits, sharpening the distribution so that the highest-probability tokens accumulate an even larger share of probability mass (the distribution becomes more "spiky"). A value above 1.0 compresses logit differences, flattening the distribution and redistributing probability mass more evenly across tokens, including low-probability ones. At temperature = 0, only the argmax token has non-zero probability (greedy decoding). At very high temperature, the distribution approaches uniform.
-
-**Post-test 2.** Top-k always restricts the draw to exactly k tokens regardless of the distribution shape — the pool size is fixed. Top-p defines a cumulative probability threshold: when the model is confident (a few tokens hold most of the mass), the nucleus is small; when the model is uncertain (mass is spread across many tokens), the nucleus expands. This makes top-p adaptive and generally better-suited to completions where confidence varies across different segments.
-
-**Post-test 3.** The **repetition penalty** parameter directly addresses repeated phrases. It works by decreasing the logits of tokens that have already appeared in the current completion before the draw occurs. A starting value of **1.2** is commonly recommended as a moderate penalty — strong enough to reduce repetition noticeably while remaining unlikely to degrade coherence.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Temperature and Logit Distribution Shape
+> 
+> Temperature divides the raw logits before the softmax is applied. A value below 1.0 amplifies differences between logits, sharpening the distribution so that the highest-probability tokens accumulate an even larger share of probability mass (the distribution becomes more "spiky"). A value above 1.0 compresses logit differences, flattening the distribution and redistributing probability mass more evenly across tokens, including low-probability ones. At temperature = 0, only the argmax token has non-zero probability (greedy decoding). At very high temperature, the distribution approaches uniform.
+> 
+> #### Q2 — Top-k vs Top-p Pool Size
+> 
+> Top-k always restricts the draw to exactly k tokens regardless of the distribution shape — the pool size is fixed. Top-p defines a cumulative probability threshold: when the model is confident (a few tokens hold most of the mass), the nucleus is small; when the model is uncertain (mass is spread across many tokens), the nucleus expands. This makes top-p adaptive and generally better-suited to completions where confidence varies across different segments.
+> 
+> #### Q3 — Repetition Penalty for Repeated Phrases
+> 
+> The **repetition penalty** parameter directly addresses repeated phrases. It works by decreasing the logits of tokens that have already appeared in the current completion before the draw occurs. A starting value of **1.2** is commonly recommended as a moderate penalty — strong enough to reduce repetition noticeably while remaining unlikely to degrade coherence.

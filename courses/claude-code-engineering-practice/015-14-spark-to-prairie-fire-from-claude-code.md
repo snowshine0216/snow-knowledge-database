@@ -136,11 +136,16 @@ source: https://time.geekbang.org/column/article/952321
 2. 文章用"烹饪书 vs 厨师"类比解释 Skills 与 SubAgents 的根本差异——请用这个类比解释：为什么 Skills 能出圈而 SubAgents 不能？这背后揭示了什么架构原理？
 3. Vercel 的实验结论是"AGENTS.md 优于 Skills"，但文章认为这个结论需要深层分析。请解释 Push 模型和 Pull 模型各自适合的场景，以及什么情况下 Pull 是"唯一可行选择"。
 
-<details>
-<summary>答案指南</summary>
-
-1. 声明式：Skills 是纯 Markdown 文件，任何能读 Markdown 的系统都能理解，无需特定运行时或编译步骤；自包含：一个 Skill 就是一个文件夹，不依赖外部注册中心，git clone 即安装；知识本位：价值在"怎么做某件事"的内容本身，与格式和运行时无关，知识在任何平台都有效。
-2. Skills 像烹饪书（知识），换厨房带上书就能做菜；SubAgents 像厨师（行为），技能绑定在特定系统上无法复制——深层原理是：越接近"纯知识"的机制越容易跨平台，越接近"运行时行为"的机制越绑定平台。
-3. Push 模型适合高频操作（如 Build/Lint/Test），每次都需要用到，放进 AGENTS.md 保证 Agent 始终可见；当需要 15 个不同领域 Skills 但每次只用 1-2 个时，全部 Push 会导致 120KB+ token 消耗，Pull 模型按需加载是唯一可行选择。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Skills 三大本质属性与可移植性
+> 
+> 声明式：Skills 是纯 Markdown 文件，任何能读 Markdown 的系统都能理解，无需特定运行时或编译步骤；自包含：一个 Skill 就是一个文件夹，不依赖外部注册中心，git clone 即安装；知识本位：价值在"怎么做某件事"的内容本身，与格式和运行时无关，知识在任何平台都有效。
+> 
+> #### Q2 — 烹饪书 vs 厨师类比原理
+> 
+> Skills 像烹饪书（知识），换厨房带上书就能做菜；SubAgents 像厨师（行为），技能绑定在特定系统上无法复制——深层原理是：越接近"纯知识"的机制越容易跨平台，越接近"运行时行为"的机制越绑定平台。
+> 
+> #### Q3 — Push 与 Pull 模型适用场景
+> 
+> Push 模型适合高频操作（如 Build/Lint/Test），每次都需要用到，放进 AGENTS.md 保证 Agent 始终可见；当需要 15 个不同领域 Skills 但每次只用 1-2 个时，全部 Push 会导致 120KB+ token 消耗，Pull 模型按需加载是唯一可行选择。

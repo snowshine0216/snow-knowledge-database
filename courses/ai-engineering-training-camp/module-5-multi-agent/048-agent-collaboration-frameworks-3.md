@@ -181,11 +181,25 @@ def handoff_tool(...) -> Command:
 2. 在航班+酒店预订的 MAS 实战中，`create_handoff_tool` 工厂函数的作用是什么？它返回什么类型，内部逻辑等同于什么操作？
 3. 结合框架对比表，解释为什么 LangGraph 比 CrewAI 代码量更多、上手更难，却仍在企业中广泛使用？学习这两个框架的核心目标是什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. State 是节点间传递的状态对象（消息驱动），Node 是执行逻辑单元且本身可以是子图，Edge 是节点间的连接路径。通过将顶层图的某个节点替换为一张完整的子图，即可实现 Supervisor 的多层嵌套（Hierarchical）结构。
-2. `create_handoff_tool` 是 LangGraph 预置的工厂函数，用于生成 Agent 间移交工具；它返回 `Command` 类型，其内部逻辑等同于 `goto` 跳转，将控制流转移到目标节点并携带消息更新。
-3. LangGraph 要求手动定义 State、Node、Edge，灵活性极高但上手难度大；企业使用它是因为公司制定了统一标准，而非因为它简洁。学习两个框架的核心目标是理解**设计模式**（如 Supervisor、Handoff），而非死记框架 API。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LangGraph State/Node/Edge 与嵌套子图
+> 
+> - **State**：节点间传递的状态对象（消息驱动）
+> - **Node**：执行逻辑单元，本身可以是子图
+> - **Edge**：节点间的连接路径
+> 
+> 通过将顶层图的某个节点替换为一张完整的子图，即可实现 Supervisor 的多层嵌套（Hierarchical）结构。
+> 
+> #### Q2 — create_handoff_tool 工厂函数
+> 
+> `create_handoff_tool` 是 LangGraph 预置的工厂函数，用于生成 Agent 间移交工具。
+> 
+> - **返回类型**：`Command`
+> - **内部逻辑**：等同于 `goto` 跳转，将控制流转移到目标节点并携带消息更新
+> 
+> #### Q3 — LangGraph vs CrewAI 企业取舍
+> 
+> LangGraph 要求手动定义 State、Node、Edge，灵活性极高但上手难度大；企业使用它是因为公司制定了统一标准，而非因为它简洁。
+> 
+> 学习两个框架的核心目标是理解**设计模式**（如 Supervisor、Handoff），而非死记框架 API。

@@ -205,11 +205,25 @@ LangChain 1.0 的最大变化：将回调机制标准化为**中间件**：
 2. 描述 LangChain 回调机制的4个核心回调点及各自触发时机，并说明如何将自定义回调挂载到链的执行中。
 3. LangChain 1.0 与 0.x 在版本选择策略上有何不同？什么场景该用 LangGraph，什么时候应该回退到 Classic 0.x？
 
-<details>
-<summary>答案指南</summary>
-
-1. 凡是实现了 `Runnable` 接口的组件，内部已自动支持异步；链的构建本身不涉及执行，只有调用处需要加 `async`/`await`，将 `invoke` 改为 `ainvoke`。
-2. 四个核心回调点：`on_chain_start`（链开始执行）、`on_chain_end`（链执行完成）、`on_llm_start`（大模型开始推理）、`on_llm_end`（大模型返回结果）；挂载方式为 `await chain.ainvoke(input, config={"callbacks": [callback]})`。
-3. 维护中的旧项目（0.1.x）不要升级；新项目直接用 LangChain 1.0；需要条件跳转/循环的复杂工作流用 LangGraph；LangGraph 解决不了的超复杂场景才回退到 Classic LangChain 0.x。
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — LCEL 链异步改造无需修改构建代码
+>
+> 凡是实现了 `Runnable` 接口的组件，内部已自动支持异步；链的构建本身不涉及执行，只有调用处需要加 `async`/`await`，将 `invoke` 改为 `ainvoke`。
+>
+> #### Q2 — 回调机制四个核心触发点
+>
+> 四个核心回调点：
+> - `on_chain_start`（链开始执行）
+> - `on_chain_end`（链执行完成）
+> - `on_llm_start`（大模型开始推理）
+> - `on_llm_end`（大模型返回结果）
+>
+> 挂载方式：`await chain.ainvoke(input, config={"callbacks": [callback]})`
+>
+> #### Q3 — 1.0 与 0.x 版本选择策略
+>
+> - 维护中的旧项目（0.1.x）不要升级
+> - 新项目直接用 LangChain 1.0
+> - 需要条件跳转/循环的复杂工作流用 LangGraph
+> - LangGraph 解决不了的超复杂场景才回退到 Classic LangChain 0.x

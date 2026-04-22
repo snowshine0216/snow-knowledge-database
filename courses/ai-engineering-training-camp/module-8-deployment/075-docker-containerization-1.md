@@ -276,11 +276,16 @@ settings = Settings()
 2. 课程用 Spring/Tomcat 类比 FastAPI/Uvicorn。请解释这个类比的含义——FastAPI 单独运行时为何是「阻塞的」，Uvicorn 具体做了什么？
 3. 将 LangGraph 封装成 FastAPI 服务时，课程推荐的模块拆分结构是怎样的？`if __name__ == "__main__"` 在这个架构中有什么具体作用？
 
-<details>
-<summary>答案指南</summary>
-
-1. Python 打包方案存在兼容性问题（PYC/PYT）或体积膨胀（PyInstaller 几百KB→几十MB）；Docker 能保证开发与测试环境一致、交付时处于加密状态、支持 FastAPI 与 LangGraph 分离部署，并天然融入 CI/CD 流程。
-2. FastAPI 本身是异步原生框架，但单独运行时只能同步处理请求（阻塞）；Uvicorn 是 ASGI 服务器，相当于 Tomcat 容器，负责接收并发连接并将请求分发给 FastAPI 的 async 函数，真正实现并发处理。
-3. 推荐拆分为 `main.py`（核心流程入口）、`workflow.py`（LangGraph 图定义）、`agent/`（Agent 封装）、`tools/`、`config.py`；`if __name__ == "__main__"` 确保直接运行 `python main.py` 时才启动服务，被其他模块 import 时不会意外触发 uvicorn 启动。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Docker 解决 LangGraph 交付问题
+> 
+> Python 打包方案存在兼容性问题（PYC/PYT）或体积膨胀（PyInstaller 几百KB→几十MB）；Docker 能保证开发与测试环境一致、交付时处于加密状态、支持 FastAPI 与 LangGraph 分离部署，并天然融入 CI/CD 流程。
+> 
+> #### Q2 — FastAPI 阻塞与 Uvicorn 并发
+> 
+> FastAPI 本身是异步原生框架，但单独运行时只能同步处理请求（阻塞）；Uvicorn 是 ASGI 服务器，相当于 Tomcat 容器，负责接收并发连接并将请求分发给 FastAPI 的 async 函数，真正实现并发处理。
+> 
+> #### Q3 — 模块拆分与入口控制
+> 
+> 推荐拆分为 `main.py`（核心流程入口）、`workflow.py`（LangGraph 图定义）、`agent/`（Agent 封装）、`tools/`、`config.py`；`if __name__ == "__main__"` 确保直接运行 `python main.py` 时才启动服务，被其他模块 import 时不会意外触发 uvicorn 启动。

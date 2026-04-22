@@ -107,12 +107,16 @@ These retriever-level optimizations are additive: you can apply both together. I
 2. A semantic cache is returning stale answers to users because the similarity threshold is too low. What is the correct direction to adjust the threshold, and what secondary metric should you track to confirm the adjustment is working?
 3. Describe a scenario in which removing a query-rewriting component from a RAG pipeline would be the wrong optimization choice even if it measurably reduces latency.
 
-<details><summary>Answer guide</summary>
-
-**Post-test Q1:** Start with the main generation LLM (1.9 s, the largest contributor) — try a smaller or quantized model, or a router to direct simple queries to a faster model. Next, evaluate the cross-encoder re-ranker (0.3 s) by measuring its incremental quality benefit; if the gain is small, consider removing it or replacing it with a lighter bi-encoder re-ranker. Address retrieval (0.2 s) last and only if the above changes are insufficient, since it is already the smallest share of latency. This ordering follows the heuristic: optimize transformers first, largest cost centre first.
-
-**Post-test Q2:** The threshold is too low (too permissive), causing semantically distant queries to be treated as matches. Raise the threshold to require higher similarity before serving a cached response. Track cache hit rate alongside answer correctness or user satisfaction — a higher threshold will reduce hit rate, so the goal is to find the point where hit rate is still meaningful but wrong-answer rate is negligible.
-
-**Post-test Q3:** If the user query distribution contains many ambiguous, misspelled, or semantically underspecified queries that rely on the rewriter to map them to well-formed retrieval strings, removing the rewriter will cause a significant drop in retrieval precision and answer quality. For example, a domain-specific knowledge base where users write informal shorthand (e.g., "how 2 fix err 503 prod svc") would produce poor embeddings without rewriting. In this scenario, the latency cost of the rewriter is justified by the quality it enables.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Optimize by Largest Latency First
+> 
+> Start with the main generation LLM (1.9 s, the largest contributor) — try a smaller or quantized model, or a router to direct simple queries to a faster model. Next, evaluate the cross-encoder re-ranker (0.3 s) by measuring its incremental quality benefit; if the gain is small, consider removing it or replacing it with a lighter bi-encoder re-ranker. Address retrieval (0.2 s) last and only if the above changes are insufficient, since it is already the smallest share of latency. This ordering follows the heuristic: optimize transformers first, largest cost centre first.
+> 
+> #### Q2 — Correcting Semantic Cache Threshold
+> 
+> The threshold is too low (too permissive), causing semantically distant queries to be treated as matches. Raise the threshold to require higher similarity before serving a cached response. Track cache hit rate alongside answer correctness or user satisfaction — a higher threshold will reduce hit rate, so the goal is to find the point where hit rate is still meaningful but wrong-answer rate is negligible.
+> 
+> #### Q3 — When Query Rewriting Stays Justified
+> 
+> If the user query distribution contains many ambiguous, misspelled, or semantically underspecified queries that rely on the rewriter to map them to well-formed retrieval strings, removing the rewriter will cause a significant drop in retrieval precision and answer quality. For example, a domain-specific knowledge base where users write informal shorthand (e.g., "how 2 fix err 503 prod svc") would produce poor embeddings without rewriting. In this scenario, the latency cost of the rewriter is justified by the quality it enables.

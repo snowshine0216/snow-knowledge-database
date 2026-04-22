@@ -72,14 +72,16 @@ Once error analysis has identified the highest-impact component, the next natura
 
 3. Why is it beneficial to run both end-to-end evaluations and component-level evaluations together when improving an agentic workflow?
 
-<details><summary>Answer Guide</summary>
-
-**Post-test Answer Guide**
-
-1. The LLM date-extraction step was responsible for the majority of errors, not the PDF-to-text converter. This implies engineering effort should focus on improving the LLM prompt or logic for extracting the due date, rather than tuning the PDF parser — which would have negligible impact on the observed failures.
-
-2. Focusing on failing examples concentrates attention on the signal that reveals what is going wrong. Reviewing successes alongside failures dilutes the analysis and wastes time; the goal is to identify failure modes, and those only appear in examples where the system failed.
-
-3. End-to-end evaluations confirm whether the full pipeline's output quality improves, providing the ultimate measure of success. Component-level evaluations allow faster iteration on the specific component that error analysis identified as the bottleneck — the developer can tune and test that component in isolation without waiting for the slower full-pipeline eval each time. Together they provide both speed and correctness assurance.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LLM Step Responsible for Errors
+> 
+> The LLM date-extraction step was responsible for the majority of errors, not the PDF-to-text converter. This implies engineering effort should focus on improving the LLM prompt or logic for extracting the due date, rather than tuning the PDF parser — which would have negligible impact on the observed failures.
+> 
+> #### Q2 — Reviewing Failing Examples Only
+> 
+> Focusing on failing examples concentrates attention on the signal that reveals what is going wrong. Reviewing successes alongside failures dilutes the analysis and wastes time; the goal is to identify failure modes, and those only appear in examples where the system failed.
+> 
+> #### Q3 — End-to-End and Component Evaluations
+> 
+> End-to-end evaluations confirm whether the full pipeline's output quality improves, providing the ultimate measure of success. Component-level evaluations allow faster iteration on the specific component that error analysis identified as the bottleneck — the developer can tune and test that component in isolation without waiting for the slower full-pipeline eval each time. Together they provide both speed and correctness assurance.

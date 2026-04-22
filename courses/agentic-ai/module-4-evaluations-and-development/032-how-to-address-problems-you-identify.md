@@ -80,12 +80,16 @@ The techniques for cost and latency optimization are distinct from quality optim
 
 3. Andrew Ng describes a pattern where larger frontier models outperform smaller ones on PII redaction. What general capability difference explains this, and why does it matter when selecting an LM for instruction-following tasks?
 
-<details><summary>Answer Guide</summary>
-
-**Post-test Q1:** You would increase the similarity threshold of the RAG retrieval component. A higher threshold means the system only returns chunks that are more closely matched to the query, reducing irrelevant results at the cost of potentially missing some relevant ones. Chunk size is a secondary lever — smaller chunks can also improve precision.
-
-**Post-test Q2:** Task decomposition. Instead of combining all three tasks — format validation, entity extraction, and summarization — into one prompt, you split the work into two or three sequential LM calls, each focused on a single well-defined subtask. This distributes the instruction load and gives each step a higher chance of being executed correctly.
-
-**Post-test Q3:** Larger frontier models are substantially better at instruction-following — adhering to output format specifications, honoring constraints, and executing multi-step instructions without omission or deviation. Smaller models tend to handle simple factual recall adequately but struggle when a prompt requires precise adherence to a complex set of behavioral rules. For instruction-sensitive tasks like PII redaction, where missing even one data element is a failure, this capability gap makes model size and family a critical selection criterion.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Adjust RAG Similarity Threshold
+> 
+> You would increase the similarity threshold of the RAG retrieval component. A higher threshold means the system only returns chunks that are more closely matched to the query, reducing irrelevant results at the cost of potentially missing some relevant ones. Chunk size is a secondary lever — smaller chunks can also improve precision.
+> 
+> #### Q2 — Task Decomposition for Multi-Task Prompts
+> 
+> Task decomposition. Instead of combining all three tasks — format validation, entity extraction, and summarization — into one prompt, you split the work into two or three sequential LM calls, each focused on a single well-defined subtask. This distributes the instruction load and gives each step a higher chance of being executed correctly.
+> 
+> #### Q3 — Frontier Model Instruction-Following Capability
+> 
+> Larger frontier models are substantially better at instruction-following — adhering to output format specifications, honoring constraints, and executing multi-step instructions without omission or deviation. Smaller models tend to handle simple factual recall adequately but struggle when a prompt requires precise adherence to a complex set of behavioral rules. For instruction-sensitive tasks like PII redaction, where missing even one data element is a failure, this capability gap makes model size and family a critical selection criterion.

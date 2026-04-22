@@ -66,15 +66,20 @@ Code execution is one of the most powerful tools an agent can have, and adding i
 2. What are the two primary mechanisms for executing LLM-generated code, and what is the key trade-off between them?
 3. What real-world incident was cited to illustrate the danger of running LLM-generated code without a sandbox, and what safeguard would have prevented the harm?
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — End-to-end code execution loop**
-The user's query is sent to the LLM with a prompt instructing it to produce Python code inside `<execute_python>` tags. The application extracts the code using a regular expression, runs it (via `exec` or a sandbox), captures the output, and passes that output back to the LLM. The LLM then writes a natural-language answer for the user based on the numerical result.
-
-**Q2 — Execution mechanisms and trade-offs**
-The two mechanisms are Python's built-in `exec` function and a sandbox environment (Docker, E2B, etc.). `exec` is simple and fast but runs with full host permissions, creating security risk. A sandbox isolates execution, limiting damage from bad or malicious code, but adds operational complexity.
-
-**Q3 — Real-world incident**
-An agentic coding assistant executed `rm -rf *.py`, deleting Python source files in a project directory. The harm was avoided only because the developer had a GitHub backup. A sandbox would have prevented the deletion from affecting the host filesystem, containing the damage within the isolated environment.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — End-to-end code execution loop
+> 
+> The user's query is sent to the LLM with a prompt instructing it to produce Python code inside `<execute_python>` tags. The application extracts the code using a regular expression, runs it (via `exec` or a sandbox), captures the output, and passes that output back to the LLM. The LLM then writes a natural-language answer for the user based on the numerical result.
+> 
+> ---
+> 
+> #### Q2 — Execution mechanisms and trade-offs
+> 
+> The two mechanisms are Python's built-in `exec` function and a sandbox environment (Docker, E2B, etc.). `exec` is simple and fast but runs with full host permissions, creating security risk. A sandbox isolates execution, limiting damage from bad or malicious code, but adds operational complexity.
+> 
+> ---
+> 
+> #### Q3 — Real-world dangerous code incident
+> 
+> An agentic coding assistant executed `rm -rf *.py`, deleting Python source files in a project directory. The harm was avoided only because the developer had a GitHub backup. A sandbox would have prevented the deletion from affecting the host filesystem, containing the damage within the isolated environment.

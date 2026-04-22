@@ -238,11 +238,16 @@ networks:
 2. 为什么不推荐直接阅读 Dify v1.9.2，而推荐先从 v0.2.1 入手？请用两个具体的代码层面差异来说明。
 3. 在 Dify 最新版中，如果你想定位 RAG 检索逻辑的具体实现，需要经过哪几个代码层级？请按顺序描述调用链路。
 
-<details>
-<summary>答案指南</summary>
-
-1. Nginx 监听 80/443 端口作为唯一对外入口：请求路径 `/` 转发到 Web 前端（5001），路径 `/-api` 或 `/-v1` 转发到 FastAPI 后端，插件请求转发到插件服务（5002）；所有内部服务（Redis、PostgreSQL、Celery 等）不对外暴露，仅通过 Docker 内部网络通信。
-2. v0.2.1 代码量小、结构扁平，RAG 核心逻辑直接在 `call/combination.py` 中可见，2–3 次跳转即可找到；v1.9.2 采用 Factory + Blueprint 模式，RAG 深层嵌套在 `api/core/rag/` 中，需要跳转 5–6 次，抽象层级复杂。
-3. 调用链路为：`api/app.py` → `app_factory.py (CreateApp)` → `register_blueprints` → `api/controllers/`（Blueprint Controller）→ `api/services/`（Service 层）→ `api/core/rag/`（RAG 核心），可在其中找到 `retrieval/`（检索逻辑）和 `splitter/`（文本分割）等具体实现。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Nginx Port Exposure Strategy
+> 
+> Nginx 监听 80/443 端口作为唯一对外入口：请求路径 `/` 转发到 Web 前端（5001），路径 `/-api` 或 `/-v1` 转发到 FastAPI 后端，插件请求转发到插件服务（5002）；所有内部服务（Redis、PostgreSQL、Celery 等）不对外暴露，仅通过 Docker 内部网络通信。
+> 
+> #### Q2 — Why Start with v0.2.1
+> 
+> v0.2.1 代码量小、结构扁平，RAG 核心逻辑直接在 `call/combination.py` 中可见，2–3 次跳转即可找到；v1.9.2 采用 Factory + Blueprint 模式，RAG 深层嵌套在 `api/core/rag/` 中，需要跳转 5–6 次，抽象层级复杂。
+> 
+> #### Q3 — RAG Retrieval Call Chain
+> 
+> 调用链路为：`api/app.py` → `app_factory.py (CreateApp)` → `register_blueprints` → `api/controllers/`（Blueprint Controller）→ `api/services/`（Service 层）→ `api/core/rag/`（RAG 核心），可在其中找到 `retrieval/`（检索逻辑）和 `splitter/`（文本分割）等具体实现。

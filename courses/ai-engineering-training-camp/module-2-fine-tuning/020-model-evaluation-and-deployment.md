@@ -290,11 +290,16 @@ POST /quantize  → 执行 BNB/AWQ 量化
 2. vLLM 的 KV Cache（键值缓存）和 Chunked Prefill（分块预填充）分别解决了什么问题？请各用一个类比说明。
 3. vLLM 原生不支持热更新，实际生产中如何通过 Nginx 实现蓝绿部署？请描述完整流程。
 
-<details>
-<summary>答案指南</summary>
-
-1. 剪枝容易破坏模型逻辑结构、导致 Bad case 增多；知识蒸馏训练周期长且输出是全新小模型，不适合 LoRA 场景。量化保留原始大模型能力，仅压缩参数精度，与 LoRA 合并后直接可用，是最实用的组合。
-2. KV Cache 将 System Prompt 和历史消息的 Token KV 值缓存，多轮对话中无需重复计算（类似 MySQL 前加 Redis）；Chunked Prefill 将超长 Prompt 自动分块处理，避免阻塞解码请求（类似 HTTP 分块传输）。
-3. 先启动新模型实例，等新实例通过 `/health` 健康检查后，由 Nginx 将流量切换到新实例，旧实例处理完当前请求后再下线——实现零停机切换。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LoRA + 量化为何优于剪枝蒸馏
+> 
+> 剪枝容易破坏模型逻辑结构、导致 Bad case 增多；知识蒸馏训练周期长且输出是全新小模型，不适合 LoRA 场景。量化保留原始大模型能力，仅压缩参数精度，与 LoRA 合并后直接可用，是最实用的组合。
+> 
+> #### Q2 — KV Cache 与 Chunked Prefill 类比
+> 
+> KV Cache 将 System Prompt 和历史消息的 Token KV 值缓存，多轮对话中无需重复计算（类似 MySQL 前加 Redis）；Chunked Prefill 将超长 Prompt 自动分块处理，避免阻塞解码请求（类似 HTTP 分块传输）。
+> 
+> #### Q3 — Nginx 蓝绿部署完整流程
+> 
+> 先启动新模型实例，等新实例通过 `/health` 健康检查后，由 Nginx 将流量切换到新实例，旧实例处理完当前请求后再下线——实现零停机切换。

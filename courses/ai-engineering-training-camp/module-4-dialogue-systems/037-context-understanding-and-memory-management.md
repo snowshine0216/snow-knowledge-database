@@ -197,11 +197,16 @@ memory.add(messages=..., user_id=session_id)
 2. 如何用 `RedisChatMessageHistory` 实现跨重启的会话持久化？生产环境中 `session_id` 应如何设计，才能同时区分不同用户和同一用户的不同会话时段？
 3. Mem0 的核心优势是什么？在多用户场景下，如何通过复合 key 策略弥补它"没有 session 概念"的局限？
 
-<details>
-<summary>答案指南</summary>
-
-1. `ConversationBufferWindowMemory` 只保留最近 `k` 轮对话，超出后丢弃最早的轮次，从而控制 token 成本；代价是早期对话内容（如用户姓名）会被遗忘，适用于早期历史不重要的场景。`ConversationBufferMemory` 保留全量历史，简单但会随对话增长最终超出 context window 限制。
-2. 将 `RedisChatMessageHistory` 传入 `ConversationBufferMemory` 的 `chat_memory` 参数即可替换内存缓冲，其余链式调用不变；生产中 `session_id` 通常用 `f"{user_id}:{timestamp}"` 组合，前缀保留用户身份，时间戳区分不同会话时段。
-3. Mem0 专为 AI agent 设计，通过 `user_id` 隔离不同用户的记忆空间，支持跨会话长期持久化，适合个性化助手积累用户画像；由于它本身没有 session 概念，工程上用时间戳与 user_id 拼接的复合 key 作为 `user_id` 参数传入，来模拟多会话隔离。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — ConversationBufferWindowMemory 滑动窗口机制
+> 
+> `ConversationBufferWindowMemory` 只保留最近 `k` 轮对话，超出后丢弃最早的轮次，从而控制 token 成本；代价是早期对话内容（如用户姓名）会被遗忘，适用于早期历史不重要的场景。`ConversationBufferMemory` 保留全量历史，简单但会随对话增长最终超出 context window 限制。
+> 
+> #### Q2 — Redis 跨重启持久化与 session_id 设计
+> 
+> 将 `RedisChatMessageHistory` 传入 `ConversationBufferMemory` 的 `chat_memory` 参数即可替换内存缓冲，其余链式调用不变；生产中 `session_id` 通常用 `f"{user_id}:{timestamp}"` 组合，前缀保留用户身份，时间戳区分不同会话时段。
+> 
+> #### Q3 — Mem0 核心优势与复合 Key 策略
+> 
+> Mem0 专为 AI agent 设计，通过 `user_id` 隔离不同用户的记忆空间，支持跨会话长期持久化，适合个性化助手积累用户画像；由于它本身没有 session 概念，工程上用时间戳与 user_id 拼接的复合 key 作为 `user_id` 参数传入，来模拟多会话隔离。

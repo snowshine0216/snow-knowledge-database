@@ -133,11 +133,16 @@ source: https://time.geekbang.org/column/article/945358
 2. "竞争假设"模式如何对抗单个 Agent 调查时的"锚定效应"？结合 ShopStream 电商项目的三个 bug 假设（JWT / Redis / 负载均衡器）说明其工程价值。
 3. 模块化开发（Module Ownership）模式中的"任务依赖"与"自动解锁"机制是如何协调多个 Teammate 之间的工作顺序的？
 
-<details>
-<summary>答案指南</summary>
-
-1. 子代理只能向主对话汇报，不能互相交流；Agent Teams 允许 Teammates 之间直接沟通、共享发现并互相挑战，实现真正的横向协作而非单纯的层级委派。
-2. 让多个 Teammate 各自持有不同假设（JWT / Redis / Sticky Session），并要求互相挑战对方理论，迫使每个假设经过辩论才能"存活"，从而避免单一调查者因找到一个合理解释就停止挖掘的锚定效应。
-3. 被阻塞的任务在声明所依赖的任务未完成前无法被认领；当依赖任务完成后，被阻塞的任务自动变为可认领状态，从而保证多模块并行开发时接口协调有序，避免上下文混淆。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Sub-Agents vs Agent Teams Limitation
+> 
+> 子代理只能向主对话汇报，不能互相交流；Agent Teams 允许 Teammates 之间直接沟通、共享发现并互相挑战，实现真正的横向协作而非单纯的层级委派。
+> 
+> #### Q2 — Competing Hypotheses vs Anchoring Bias
+> 
+> 让多个 Teammate 各自持有不同假设（JWT / Redis / Sticky Session），并要求互相挑战对方理论，迫使每个假设经过辩论才能"存活"，从而避免单一调查者因找到一个合理解释就停止挖掘的锚定效应。
+> 
+> #### Q3 — Task Dependencies and Auto-Unlock
+> 
+> 被阻塞的任务在声明所依赖的任务未完成前无法被认领；当依赖任务完成后，被阻塞的任务自动变为可认领状态，从而保证多模块并行开发时接口协调有序，避免上下文混淆。

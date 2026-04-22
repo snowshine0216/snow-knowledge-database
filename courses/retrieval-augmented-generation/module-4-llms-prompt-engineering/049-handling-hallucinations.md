@@ -108,24 +108,34 @@ Together, the three-layer strategy — grounding system prompt, automated source
 
 3. You run the ALCE benchmark on your RAG system before and after replacing the retriever. Fluency stays constant, correctness improves by 8 points, but citation quality drops by 15 points. How do you interpret this result, and what follow-up action would you take before deploying the new retriever to production?
 
-<details><summary>Answer guide</summary>
-
-**Pre-test answers**
-
-1. The error originated in the LLM generation stage, not retrieval. The retriever correctly returned information about senior and new-customer discounts. However, the LLM — instructed to be "helpful" and trained on patterns where student discounts commonly appear alongside other discount types — generated the most probable continuation for a helpful customer service response. LLMs hallucinate because they optimize for probable text sequences, not factual accuracy; they have no mechanism to distinguish between "this is in the context" and "this would fit the context."
-
-2. Self-consistency checking generates the same prompt multiple times and compares factual content across completions. The assumption is that hallucinated details are generated inconsistently (the model fabricates different numbers or names each time), while true facts from training data appear consistently. In practice it is impractical because (a) it multiplies inference cost by the number of runs (ten runs = ten times the latency/cost) and (b) a model can hallucinate the same false detail consistently if that false detail is well-represented in its training distribution. A knowledge-base grounding approach is almost always superior when a retrieval corpus is available.
-
-3. Simply prompting the LLM to "cite your sources" relies on the model generating citations itself, which can itself hallucinate — the model invents a plausible-sounding document title that does not exist. ContextCite is an external system that uses semantic similarity between each sentence in the response and the retrieved source documents to attribute claims; it does not trust the model's self-reported citations. Sentences without supporting source documents are labeled "no source," providing a grounded audit trail that cannot be fabricated by the LLM.
-
----
-
-**Post-test answers**
-
-1. Theoretical justification: hallucinated details arise from random sampling and are therefore inconsistent across runs, while factual content from training data is stable. Practical weaknesses: (a) ten inference calls per query is prohibitively expensive at scale; (b) a consistently hallucinated "fact" (one well-anchored in training data) will appear the same across all runs and will not be flagged. Recommendation: use self-consistency only in very high-stakes, low-volume scenarios where a knowledge base is genuinely unavailable; whenever a RAG knowledge base exists, grounding against it is faster, cheaper, and more reliable.
-
-2. Example revised instruction: "Answer only using information explicitly present in the provided context documents. If the context does not contain enough information to answer the question, respond with 'I don't have enough information to answer that based on the available documents.' Do not add details, estimates, or facts from outside the provided context." This reduces hallucinations by replacing the open-ended "be helpful" framing — which licenses the model to fill gaps — with a hard constraint that frames any invention as a violation of the task definition. The model's completion probability distribution shifts toward extraction over generation.
-
-3. Interpretation: the new retriever is returning more relevant documents (correctness up), but those documents are either harder for the model to cite correctly, or the retriever is returning more documents that contain the right answer but are formatted in a way that confuses citation matching. A 15-point drop in citation quality is a serious trust problem even if raw factual accuracy improved. Follow-up action: investigate whether the new retriever returns longer or more numerous documents that dilute citation clarity; consider adding an explicit citation instruction or running ContextCite-style attribution on the new configuration before deployment; re-run the benchmark with the citation instruction added and verify that correctness is preserved while citation quality recovers.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Pre-test Answers
+> 
+> #### Q1 — LLM Generation Stage Hallucination
+> 
+> The error originated in the LLM generation stage, not retrieval. The retriever correctly returned information about senior and new-customer discounts. However, the LLM — instructed to be "helpful" and trained on patterns where student discounts commonly appear alongside other discount types — generated the most probable continuation for a helpful customer service response. LLMs hallucinate because they optimize for probable text sequences, not factual accuracy; they have no mechanism to distinguish between "this is in the context" and "this would fit the context."
+> 
+> #### Q2 — Self-Consistency Checking Limitations
+> 
+> Self-consistency checking generates the same prompt multiple times and compares factual content across completions. The assumption is that hallucinated details are generated inconsistently (the model fabricates different numbers or names each time), while true facts from training data appear consistently. In practice it is impractical because (a) it multiplies inference cost by the number of runs (ten runs = ten times the latency/cost) and (b) a model can hallucinate the same false detail consistently if that false detail is well-represented in its training distribution. A knowledge-base grounding approach is almost always superior when a retrieval corpus is available.
+> 
+> #### Q3 — ContextCite vs Self-Reported Citations
+> 
+> Simply prompting the LLM to "cite your sources" relies on the model generating citations itself, which can itself hallucinate — the model invents a plausible-sounding document title that does not exist. ContextCite is an external system that uses semantic similarity between each sentence in the response and the retrieved source documents to attribute claims; it does not trust the model's self-reported citations. Sentences without supporting source documents are labeled "no source," providing a grounded audit trail that cannot be fabricated by the LLM.
+> 
+> ---
+> 
+> #### Post-test Answers
+> 
+> #### Q1 — Self-Consistency Theory and Weaknesses
+> 
+> Theoretical justification: hallucinated details arise from random sampling and are therefore inconsistent across runs, while factual content from training data is stable. Practical weaknesses: (a) ten inference calls per query is prohibitively expensive at scale; (b) a consistently hallucinated "fact" (one well-anchored in training data) will appear the same across all runs and will not be flagged. Recommendation: use self-consistency only in very high-stakes, low-volume scenarios where a knowledge base is genuinely unavailable; whenever a RAG knowledge base exists, grounding against it is faster, cheaper, and more reliable.
+> 
+> #### Q2 — Revised Grounding System Prompt
+> 
+> Example revised instruction: "Answer only using information explicitly present in the provided context documents. If the context does not contain enough information to answer the question, respond with 'I don't have enough information to answer that based on the available documents.' Do not add details, estimates, or facts from outside the provided context." This reduces hallucinations by replacing the open-ended "be helpful" framing — which licenses the model to fill gaps — with a hard constraint that frames any invention as a violation of the task definition. The model's completion probability distribution shifts toward extraction over generation.
+> 
+> #### Q3 — ALCE Benchmark Result Interpretation
+> 
+> Interpretation: the new retriever is returning more relevant documents (correctness up), but those documents are either harder for the model to cite correctly, or the retriever is returning more documents that contain the right answer but are formatted in a way that confuses citation matching. A 15-point drop in citation quality is a serious trust problem even if raw factual accuracy improved. Follow-up action: investigate whether the new retriever returns longer or more numerous documents that dilute citation clarity; consider adding an explicit citation instruction or running ContextCite-style attribution on the new configuration before deployment; re-run the benchmark with the citation instruction added and verify that correctness is preserved while citation quality recovers.

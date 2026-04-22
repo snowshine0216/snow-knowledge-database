@@ -149,11 +149,27 @@ LlamaIndex vs LangChain：
 2. Document 和 Node 在 LlamaIndex 中分别代表什么？为什么 Node 被设计为"通用容器抽象"？
 3. 如果要在 LlamaIndex 中把默认的 OpenAI LLM 和 Embedding 模型全部替换为国内模型（如通义千问 + text-embedding-v3），需要改动哪些地方？其余查询代码需要修改吗？
 
-<details>
-<summary>答案指南</summary>
-
-1. **离线阶段**：加载文档 → 切分为 Node → 建立向量索引（Embedding + 存储到向量库）；**在线阶段**：用户查询 → Query Engine 检索相关 Node → LLM 生成最终响应。两个阶段共同构成完整 RAG 流程。
-2. Document 是加载后的完整文档对象（含文本内容和文件名等元数据）；Node 是文档切分后的单个片段，也是底层存储单元。Node 既可描述整篇文档也可描述每个切片，因此被设计为通用容器抽象，统一了不同粒度的内容表示。
-3. 只需修改 `Settings` 配置：用 `OpenAILike` 适配器设置 `Settings.llm`，用 `DashScopeEmbedding` 设置 `Settings.embed_model`；其余加载、索引、查询代码**一字不用改动**，这正是 LlamaIndex 全局 Settings 设计的价值。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LlamaIndex RAG 离线/在线双流程
+> 
+> **离线阶段**：加载文档 → 切分为 Node → 建立向量索引（Embedding + 存储到向量库）
+> 
+> **在线阶段**：用户查询 → Query Engine 检索相关 Node → LLM 生成最终响应
+> 
+> 两个阶段共同构成完整 RAG 流程。
+> 
+> #### Q2 — Document 与 Node 抽象设计
+> 
+> **Document**：加载后的完整文档对象，含文本内容和文件名等元数据。
+> 
+> **Node**：文档切分后的单个片段，也是底层存储单元。Node 既可描述整篇文档也可描述每个切片，因此被设计为通用容器抽象，统一了不同粒度的内容表示。
+> 
+> #### Q3 — 替换 LLM 与 Embedding 模型
+> 
+> 只需修改 `Settings` 配置：
+> 
+> - 用 `OpenAILike` 适配器设置 `Settings.llm`（如通义千问）
+> - 用 `DashScopeEmbedding` 设置 `Settings.embed_model`（如 text-embedding-v3）
+> 
+> 其余加载、索引、查询代码**一字不用改动**，这正是 LlamaIndex 全局 Settings 设计的价值。

@@ -146,11 +146,16 @@ openclaw upgrade
 2. 安装完成后，如何用 OpenClaw CLI 验证安装是否成功？`openclaw health` 命令具体会检测哪些组件？
 3. 获取 Kimi API Key 时有哪个关键的安全操作必须立即完成？以及为什么 API Key 需要妥善保管？
 
-<details>
-<summary>答案指南</summary>
-
-1. curl 方式安装的是原生完整版，版本最新、功能最完整，推荐长期使用；而 Qcolo 图形化方式简单点击适合新手快速体验，但功能相对精简。
-2. 安装后依次运行 `openclaw --version`（确认版本）和 `openclaw health`（健康检查），后者会验证 Node（执行节点）、Gateway（网关）是否正常运行以及 Channel 连接状态，全部绿色表示安装成功。
-3. 创建完 Kimi API Key 后必须**立即复制保存**，因为 Key 只显示一次，关闭页面后无法再查看；同时需妥善保管，避免泄露，否则他人可消耗你的 API 额度。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — curl vs Qcolo 安装方式对比
+> 
+> curl 方式安装的是原生完整版，版本最新、功能最完整，推荐长期使用；而 Qcolo 图形化方式简单点击适合新手快速体验，但功能相对精简。
+> 
+> #### Q2 — CLI 验证安装与 health 检测项
+> 
+> 安装后依次运行 `openclaw --version`（确认版本）和 `openclaw health`（健康检查），后者会验证 Node（执行节点）、Gateway（网关）是否正常运行以及 Channel 连接状态，全部绿色表示安装成功。
+> 
+> #### Q3 — API Key 安全操作要点
+> 
+> 创建完 Kimi API Key 后必须**立即复制保存**，因为 Key 只显示一次，关闭页面后无法再查看；同时需妥善保管，避免泄露，否则他人可消耗你的 API 额度。

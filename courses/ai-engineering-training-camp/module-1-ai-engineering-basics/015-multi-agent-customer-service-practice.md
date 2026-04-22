@@ -237,11 +237,16 @@ except (RequestException, requests.exceptions.HTTPError) as e:
 2. 本课的指数退避重试装饰器中，`jitter`（随机抖动）是如何计算的？为什么不直接用固定的 `wait_time * 2` 而要加这个抖动？
 3. 课程现场排查到一个重试逻辑失效的 Bug——请描述它的现象、根本原因，以及修复方式。这个 Bug 给我们的调试习惯带来什么启示？
 
-<details>
-<summary>答案指南</summary>
-
-1. `GroupChat` 只是容器，持有所有 Agent 列表和消息历史；`GroupChatManager` 才是真正的调度者，它在每一轮对话后决定下一个发言的 Agent，开发者无需手动写路由逻辑。`max_round` 设置对话最大轮次上限，防止 Agent 陷入无限循环。
-2. 抖动计算为 `random.uniform(0, wait_time * 0.1)`，即在当前等待时间的 10% 范围内随机偏移，最终 `sleep_time = min(wait_time + jitter, max_wait)`。固定间隔会让多个 Agent 在同一时刻集体重试（惊群效应），随机抖动使各 Agent 的重试时间错开，避免瞬时流量洪峰打垮下游服务。
-3. 现象是物流查询失败时 HTTP 500 直接抛出、重试未触发；根因是装饰器只 `except RequestException`，而 `raise_for_status()` 抛出的 `HTTPError` 在某些版本下不被该捕获覆盖；修复方式是显式加上 `requests.exceptions.HTTPError`。启示：调试重试逻辑时必须追踪完整的异常继承链，不能假设父类 `except` 一定能捕获所有子类。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — GroupChatManager vs GroupChat Roles
+> 
+> `GroupChat` 只是容器，持有所有 Agent 列表和消息历史；`GroupChatManager` 才是真正的调度者，它在每一轮对话后决定下一个发言的 Agent，开发者无需手动写路由逻辑。`max_round` 设置对话最大轮次上限，防止 Agent 陷入无限循环。
+> 
+> #### Q2 — Jitter in Exponential Backoff
+> 
+> 抖动计算为 `random.uniform(0, wait_time * 0.1)`，即在当前等待时间的 10% 范围内随机偏移，最终 `sleep_time = min(wait_time + jitter, max_wait)`。固定间隔会让多个 Agent 在同一时刻集体重试（惊群效应），随机抖动使各 Agent 的重试时间错开，避免瞬时流量洪峰打垮下游服务。
+> 
+> #### Q3 — Retry Logic Bug Analysis
+> 
+> 现象是物流查询失败时 HTTP 500 直接抛出、重试未触发；根因是装饰器只 `except RequestException`，而 `raise_for_status()` 抛出的 `HTTPError` 在某些版本下不被该捕获覆盖；修复方式是显式加上 `requests.exceptions.HTTPError`。启示：调试重试逻辑时必须追踪完整的异常继承链，不能假设父类 `except` 一定能捕获所有子类。

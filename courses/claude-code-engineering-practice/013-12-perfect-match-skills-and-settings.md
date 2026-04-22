@@ -126,11 +126,16 @@ source: https://time.geekbang.org/column/article/947718
 2. 方向 A（SubAgent 包含 Skill）和方向 B（Skill 包含 SubAgent，context: fork）各自适用于什么场景？两者的角色关系（谁是老板、谁是执行者）有何不同？
 3. 在模式一中，为什么把独立 Skill 装进 SubAgent 后，Skill 的组件可以从 6 个精简为 3 个？
 
-<details>
-<summary>答案指南</summary>
-
-1. Skills 解决"怎么做"，本质是知识注入，像给员工发操作手册；SubAgents 解决"谁来做"，本质是任务委托，像把任务交给另一位同事。判断标准：这件事需要"另一个人"承担，还是只需要"多一本手册"指导？
-2. 方向 A 中 SubAgent 是老板、Skill 是工具书，适用于子代理需要特定领域知识、同一 Skill 被多角色复用的长期专家型 Agent；方向 B 中 Skill 是老板、SubAgent 是执行者，通过 context: fork 自动派遣，适用于研究型任务、批量生成文档等不需要主对话介入的独立完整任务。
-3. 因为 SubAgent 自身已有角色定义，Skill 只需提供工作流程和工具即可，角色相关的组件由 SubAgent 承担，无需在 Skill 中重复定义。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Skills vs SubAgents 本质区别
+> 
+> Skills 解决"怎么做"，本质是知识注入，像给员工发操作手册；SubAgents 解决"谁来做"，本质是任务委托，像把任务交给另一位同事。判断标准：这件事需要"另一个人"承担，还是只需要"多一本手册"指导？
+> 
+> #### Q2 — 方向 A 与方向 B 适用场景
+> 
+> 方向 A 中 SubAgent 是老板、Skill 是工具书，适用于子代理需要特定领域知识、同一 Skill 被多角色复用的长期专家型 Agent；方向 B 中 Skill 是老板、SubAgent 是执行者，通过 context: fork 自动派遣，适用于研究型任务、批量生成文档等不需要主对话介入的独立完整任务。
+> 
+> #### Q3 — Skill 组件精简原因
+> 
+> 因为 SubAgent 自身已有角色定义，Skill 只需提供工作流程和工具即可，角色相关的组件由 SubAgent 承担，无需在 Skill 中重复定义。

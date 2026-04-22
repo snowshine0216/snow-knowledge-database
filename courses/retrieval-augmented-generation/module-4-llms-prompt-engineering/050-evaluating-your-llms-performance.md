@@ -124,12 +124,27 @@ The lesson's recommendation is to combine both paradigms: use automated LLM-as-j
 
 3. **You are evaluating whether to switch from model A to model B in your production RAG system. You run Ragas metrics on a held-out test set and model B scores higher on response relevancy and faithfulness. Your manager asks whether you should immediately deploy model B. What additional evaluation step should you complete first, and what could Ragas metrics miss that this step would catch?**
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1:** Direct comparison of a response to a query is difficult because valid responses can differ substantially in form from the query — a query is typically a short natural-language question while a response is a longer, structured answer. Comparing them as text strings or even semantic vectors produces a low similarity score even for perfect responses, because the linguistic form is so different. The reverse-engineering approach sidesteps this by generating reconstructed questions in the same short-question form as the original, making the semantic comparison fair. If the response genuinely addressed the query, the reverse-engineering process should converge on questions semantically close to the original; if the response drifted, it will converge on different questions, lowering the score.
-
-**Post-test 2:** A faithfulness score of 0.4 means 60% of the LLM's factual claims are not supported by the retrieved context. Root cause 1: the LLM is "hallucinating" from its parametric memory — it has relevant pre-training knowledge about the topic and inserts it into the response rather than restricting itself to retrieved evidence. Fix: strengthen the system prompt to explicitly instruct the LLM to only state information present in the retrieved documents, and potentially lower temperature to reduce generative creativity. Root cause 2: the retriever is returning largely irrelevant documents, so the LLM has so little useful context that it is forced to generate from memory. Fix: diagnose and improve retrieval quality using metrics from [[023-evaluating-retrieval]] — improving recall and precision of the retriever will give the LLM better grounding material.
-
-**Post-test 3:** Before deploying model B in production, run a controlled A/B test with real users. Ragas metrics evaluate individual response quality on a held-out test set, but they can miss several real-world factors: (a) the test set may not be representative of the actual query distribution in production; (b) the LLM judge used by Ragas has its own biases and may systematically favour certain response styles that users dislike; (c) latency differences between models A and B are not captured by quality metrics but directly affect user satisfaction; (d) edge cases unique to the production environment — unusual queries, adversarial inputs, language diversity — may not appear in the test set. The A/B test subjects both models to the same real traffic and measures aggregate user satisfaction directly, providing the highest-validity signal before a full deployment decision.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Reverse-Engineering Query from Response
+> 
+> Direct comparison of a response to a query is difficult because valid responses can differ substantially in form from the query — a query is typically a short natural-language question while a response is a longer, structured answer. Comparing them as text strings or even semantic vectors produces a low similarity score even for perfect responses, because the linguistic form is so different. The reverse-engineering approach sidesteps this by generating reconstructed questions in the same short-question form as the original, making the semantic comparison fair. If the response genuinely addressed the query, the reverse-engineering process should converge on questions semantically close to the original; if the response drifted, it will converge on different questions, lowering the score.
+> 
+> #### Q2 — Root Causes of Low Faithfulness
+> 
+> A faithfulness score of 0.4 means 60% of the LLM's factual claims are not supported by the retrieved context.
+> 
+> **Root cause 1:** the LLM is "hallucinating" from its parametric memory — it has relevant pre-training knowledge about the topic and inserts it into the response rather than restricting itself to retrieved evidence. Fix: strengthen the system prompt to explicitly instruct the LLM to only state information present in the retrieved documents, and potentially lower temperature to reduce generative creativity.
+> 
+> **Root cause 2:** the retriever is returning largely irrelevant documents, so the LLM has so little useful context that it is forced to generate from memory. Fix: diagnose and improve retrieval quality using metrics from [[023-evaluating-retrieval]] — improving recall and precision of the retriever will give the LLM better grounding material.
+> 
+> #### Q3 — Validating Model Swap Beyond Ragas
+> 
+> Before deploying model B in production, run a controlled A/B test with real users. Ragas metrics evaluate individual response quality on a held-out test set, but they can miss several real-world factors:
+> 
+> - **(a)** the test set may not be representative of the actual query distribution in production;
+> - **(b)** the LLM judge used by Ragas has its own biases and may systematically favour certain response styles that users dislike;
+> - **(c)** latency differences between models A and B are not captured by quality metrics but directly affect user satisfaction;
+> - **(d)** edge cases unique to the production environment — unusual queries, adversarial inputs, language diversity — may not appear in the test set.
+> 
+> The A/B test subjects both models to the same real traffic and measures aggregate user satisfaction directly, providing the highest-validity signal before a full deployment decision.

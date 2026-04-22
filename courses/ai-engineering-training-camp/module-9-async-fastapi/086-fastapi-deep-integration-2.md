@@ -250,11 +250,16 @@ async def cached_llm_call(prompt: str) -> str:
 2. 请描述 Redis 精确匹配缓存的完整流程，以及用 `hashlib.md5` 生成缓存键的作用是什么？
 3. SQLAlchemy 异步引擎为什么推荐用 `async with` 管理连接，同时还要加 `try/finally`？两者各自保证什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. 连接阶段不捕获异常，连接失败直接暴露让人工介入，避免掩盖根本问题；业务执行阶段加 `try/except/finally`，捕获查询异常并抛出业务异常，`finally` 确保连接被释放。
-2. 先用 `hashlib.md5(prompt.encode()).hexdigest()` 将 prompt 转为固定长度的缓存键，查询 Redis 命中则直接返回；未命中则调用大模型，再用 `setex` 写入缓存并设置 TTL（1小时）。md5 的作用是将任意长度的 prompt 映射为固定的短键，适合做 Redis key。
-3. `async with` 保证正常退出时自动关闭连接；加 `try/finally` 是因为异常路径下 `async with` 不足以保证关闭，`finally` 确保任何情况（包括异常）下连接都能被释放。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Fail Fast 分阶段异常策略
+> 
+> 连接阶段不捕获异常，连接失败直接暴露让人工介入，避免掩盖根本问题；业务执行阶段加 `try/except/finally`，捕获查询异常并抛出业务异常，`finally` 确保连接被释放。
+> 
+> #### Q2 — Redis 缓存键生成流程
+> 
+> 先用 `hashlib.md5(prompt.encode()).hexdigest()` 将 prompt 转为固定长度的缓存键，查询 Redis 命中则直接返回；未命中则调用大模型，再用 `setex` 写入缓存并设置 TTL（1小时）。md5 的作用是将任意长度的 prompt 映射为固定的短键，适合做 Redis key。
+> 
+> #### Q3 — async with 与 try/finally 职责区分
+> 
+> `async with` 保证正常退出时自动关闭连接；加 `try/finally` 是因为异常路径下 `async with` 不足以保证关闭，`finally` 确保任何情况（包括异常）下连接都能被释放。

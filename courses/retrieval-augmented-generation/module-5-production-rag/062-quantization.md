@@ -120,15 +120,16 @@ This flexibility makes Matryoshka models especially well-suited to **dynamic pro
 2. Walk through the integer quantization procedure for a single dimension. If the observed minimum is -1.2 and the maximum is 2.4, what is the bucket width? Which bucket index would the value 0.6 map to?
 3. You have a Matryoshka embedding model with 1024 dimensions. Describe a production retrieval architecture that uses this model to minimize RAM cost while maintaining high final-answer quality.
 
-<details><summary>Answer guide</summary>
-
-**Post-test Q1 — 4-bit quantization trade-offs**
-4-bit quantization achieves a 4x reduction in vector size (vs. 8x for binary) but introduces more quantization error than 8-bit, potentially causing a noticeable Recall@K drop depending on the corpus and model. Better alternatives to discuss: (a) 8-bit integer quantization, which gives a 4x reduction with minimal quality loss; (b) a two-stage pipeline where 1-bit or 4-bit vectors are used for fast first-pass retrieval and full-precision vectors rescore the top-N candidates — this achieves the speed/memory benefits of aggressive quantization while preserving final ranking quality.
-
-**Post-test Q2 — Integer quantization arithmetic**
-Range = 2.4 − (−1.2) = 3.6. Bucket width = 3.6 / 256 ≈ 0.01406 per bucket. For value 0.6: offset from minimum = 0.6 − (−1.2) = 1.8. Bucket index = floor(1.8 / 0.01406) ≈ floor(128.0) = 128. (Exact result is 128, which maps to the midpoint of the range as expected for a symmetric distribution.)
-
-**Post-test Q3 — Matryoshka production architecture**
-Keep the first 128 dimensions (or another small prefix) in fast RAM as the "hot index." Keep the full 1024-dimension vectors in cheaper, slower storage (disk-backed memory map or a second-tier vector store). At query time: (1) embed the query and take only its first 128 dimensions; (2) run ANN search over the 128-dim hot index to retrieve the top-200 candidates; (3) load the full 1024-dim vectors for those 200 candidates from cold storage; (4) rescore by exact cosine similarity with the full query vector; (5) return the top-K reranked results. This minimizes the RAM footprint of the primary index while keeping retrieval quality close to full-precision.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — 4-bit Quantization Trade-offs
+> 
+> 4-bit quantization achieves a 4x reduction in vector size (vs. 8x for binary) but introduces more quantization error than 8-bit, potentially causing a noticeable Recall@K drop depending on the corpus and model. Better alternatives to discuss: (a) 8-bit integer quantization, which gives a 4x reduction with minimal quality loss; (b) a two-stage pipeline where 1-bit or 4-bit vectors are used for fast first-pass retrieval and full-precision vectors rescore the top-N candidates — this achieves the speed/memory benefits of aggressive quantization while preserving final ranking quality.
+> 
+> #### Q2 — Integer Quantization Arithmetic
+> 
+> Range = 2.4 − (−1.2) = 3.6. Bucket width = 3.6 / 256 ≈ 0.01406 per bucket. For value 0.6: offset from minimum = 0.6 − (−1.2) = 1.8. Bucket index = floor(1.8 / 0.01406) ≈ floor(128.0) = 128. (Exact result is 128, which maps to the midpoint of the range as expected for a symmetric distribution.)
+> 
+> #### Q3 — Matryoshka Production Architecture
+> 
+> Keep the first 128 dimensions (or another small prefix) in fast RAM as the "hot index." Keep the full 1024-dimension vectors in cheaper, slower storage (disk-backed memory map or a second-tier vector store). At query time: (1) embed the query and take only its first 128 dimensions; (2) run ANN search over the 128-dim hot index to retrieve the top-200 candidates; (3) load the full 1024-dim vectors for those 200 candidates from cold storage; (4) rescore by exact cosine similarity with the full query vector; (5) return the top-K reranked results. This minimizes the RAM footprint of the primary index while keeping retrieval quality close to full-precision.

@@ -141,11 +141,16 @@ MCP 如何让 Claude Code 从一个“只能操作本地文件”的工具，进
 2. MCP 的三种传输方式（Stdio、HTTP、SSE）分别适用于哪些场景？作者给出的选择原则是什么？
 3. 在 MCP 配置中，敏感凭证（如 API Token）应该放在哪个配置文件？如何用环境变量引用而不是硬编码？请说明两种 `${}` 语法的区别。
 
-<details>
-<summary>答案指南</summary>
-
-1. Claude Code 充当 MCP Client，负责发现和调用工具；MCP Server 暴露工具和资源作为外部服务代理，两者通过 JSON-RPC 2.0 通信。三种能力类型：Tools 让 Claude 能"做事情"，Resources 提供只读数据让 Claude 能"看到东西"，Prompts 是服务器预定义的场景交互模板。
-2. Stdio 适合本地工具和开发测试（零网络开销）；HTTP 适合远程服务器（支持 TLS 加密和 Bearer Token 认证）；SSE 适合实时监控和流式数据场景。选择原则：本地用 stdio，远程用 HTTP，实时用 SSE，两者覆盖 95% 场景。
-3. 敏感凭证应放在 `.claude/settings.local.json`（不提交 git，本地保存）。`${VAR_NAME}` 直接引用环境变量，变量不存在时报错；`${VAR_NAME:-default}` 在变量不存在时使用默认值。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — MCP Architecture and Capability Types
+> 
+> Claude Code 充当 MCP Client，负责发现和调用工具；MCP Server 暴露工具和资源作为外部服务代理，两者通过 JSON-RPC 2.0 通信。三种能力类型：Tools 让 Claude 能"做事情"，Resources 提供只读数据让 Claude 能"看到东西"，Prompts 是服务器预定义的场景交互模板。
+> 
+> #### Q2 — Transport Methods and Selection Principles
+> 
+> Stdio 适合本地工具和开发测试（零网络开销）；HTTP 适合远程服务器（支持 TLS 加密和 Bearer Token 认证）；SSE 适合实时监控和流式数据场景。选择原则：本地用 stdio，远程用 HTTP，实时用 SSE，两者覆盖 95% 场景。
+> 
+> #### Q3 — Credentials Storage and Variable Syntax
+> 
+> 敏感凭证应放在 `.claude/settings.local.json`（不提交 git，本地保存）。`${VAR_NAME}` 直接引用环境变量，变量不存在时报错；`${VAR_NAME:-default}` 在变量不存在时使用默认值。

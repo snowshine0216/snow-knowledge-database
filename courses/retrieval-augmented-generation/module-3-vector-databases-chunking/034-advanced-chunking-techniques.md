@@ -91,15 +91,16 @@ Context-aware chunking is the most broadly applicable enhancement: because it op
 
 3. A context-aware chunking system adds LLM-generated annotations to each chunk before vectorization. Identify the two distinct moments in the RAG pipeline where this annotation provides value, and explain the mechanism at each moment.
 
-<details><summary>Answer guide</summary>
-
-**Q1 — Semantic chunking threshold crossing:**
-Before the crossing, the algorithm is accumulating sentences into the current chunk because each successive sentence's vector is within the threshold distance of the chunk vector. At the moment the dissimilarity score exceeds the threshold, the algorithm finalizes the current chunk (closing it) and resets: the next sentence that caused the threshold breach becomes the first sentence of a brand-new chunk, and the process begins again from that point.
-
-**Q2 — LLM-based chunking as a black box:**
-The LLM makes its splitting decisions through internal computations that are not exposed as interpretable parameters. Unlike semantic chunking — where you can inspect the dissimilarity curve and adjust a threshold — there is no tunable knob that maps directly to "why did the model split here rather than there." The operational risk is auditability: when retrieval quality degrades (e.g., a chunk boundary is placed incorrectly), there is no clear diagnostic path to identify or fix the root cause. This makes the system harder to maintain, harder to audit in regulated contexts, and harder to improve incrementally.
-
-**Q3 — Context-aware chunking: two moments of value:**
-At *indexing time*, the annotation enriches the chunk's embedding. A bare chunk (e.g., a list of contributor names) embeds near unrelated content; an annotated chunk embeds near semantically appropriate content (acknowledgments, collaboration), improving search precision and recall. At *retrieval time*, the annotation accompanies the raw chunk text when it is passed to the generation LLM. The model now has framing context — it knows what role the chunk plays in the broader document — reducing the risk of misinterpretation and hallucination during answer synthesis.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Semantic Chunking Threshold Crossing
+> 
+> Before the crossing, the algorithm is accumulating sentences into the current chunk because each successive sentence's vector is within the threshold distance of the chunk vector. At the moment the dissimilarity score exceeds the threshold, the algorithm finalizes the current chunk (closing it) and resets: the next sentence that caused the threshold breach becomes the first sentence of a brand-new chunk, and the process begins again from that point.
+> 
+> #### Q2 — LLM Chunking Black Box Risk
+> 
+> The LLM makes its splitting decisions through internal computations that are not exposed as interpretable parameters. Unlike semantic chunking — where you can inspect the dissimilarity curve and adjust a threshold — there is no tunable knob that maps directly to "why did the model split here rather than there." The operational risk is auditability: when retrieval quality degrades (e.g., a chunk boundary is placed incorrectly), there is no clear diagnostic path to identify or fix the root cause. This makes the system harder to maintain, harder to audit in regulated contexts, and harder to improve incrementally.
+> 
+> #### Q3 — Context-Aware Chunking Two Moments
+> 
+> At *indexing time*, the annotation enriches the chunk's embedding. A bare chunk (e.g., a list of contributor names) embeds near unrelated content; an annotated chunk embeds near semantically appropriate content (acknowledgments, collaboration), improving search precision and recall. At *retrieval time*, the annotation accompanies the raw chunk text when it is passed to the generation LLM. The model now has framing context — it knows what role the chunk plays in the broader document — reducing the risk of misinterpretation and hallucination during answer synthesis.

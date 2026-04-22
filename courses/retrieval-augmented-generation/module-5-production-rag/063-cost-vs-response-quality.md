@@ -120,17 +120,18 @@ Multi-tenancy thus transforms a binary "keep everything hot or keep everything c
 
 3. In a multi-tenant vector database serving 5,000 user accounts, why is it wasteful to keep all HNSW indexes loaded in RAM simultaneously? Describe a strategy that maintains good query latency for active users while minimizing RAM usage.
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1 — Reducing costs without new infrastructure:**
-- *Reduce top_k from 10 to 5*: Halves the number of retrieved chunks per query, cutting prompt token count by roughly 2,500 tokens per request. Risk: if relevant information is sometimes only in chunks ranked 6–10, recall drops and answer completeness suffers. Mitigate by running offline evaluation against a held-out QA set.
-- *Add a system prompt instruction for concise answers / set max_tokens*: Reduces output token count. Risk: for queries that genuinely require long explanations, truncating the response degrades quality or leaves answers incomplete. Mitigate by setting max_tokens generously (e.g. 512) rather than very tight (e.g. 128), and monitoring user satisfaction signals.
-- Other valid answers: switch to a smaller model, apply prompt compression, reduce chunk size.
-
-**Post-test 2 — Managed vs. dedicated endpoints:**
-Per-token pricing scales linearly with usage; hourly GPU pricing is fixed regardless of request volume. At low traffic, managed endpoints are cheaper because you are not paying for idle capacity. As requests-per-hour grows, the hourly rate divided by requests per hour drops, and eventually falls below the per-token managed endpoint price. The crossover is typically in the range of tens of thousands of requests per day for mid-size models (depends heavily on model size and GPU tier). Operational burden: you must manage model serving infrastructure, capacity planning, model updates, and hardware monitoring — none of which are needed with managed endpoints.
-
-**Post-test 3 — Multi-tenancy and RAM efficiency:**
-If all 5,000 HNSW indexes are loaded simultaneously but typical concurrent active users at any moment is, say, 50, then 99% of the RAM allocated to HNSW indexes is serving idle tenants. With multi-tenancy, implement lazy loading: when a user initiates a session, load their HNSW index from disk into RAM; when the session ends (or after a configurable idle timeout), evict the index back to disk. Active tenants experience normal low-latency vector search; inactive tenants pay no RAM cost. For known high-traffic periods (e.g. business hours by region), you can pre-warm indexes preemptively to avoid cold-start latency on first query.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Reducing Costs Without New Infrastructure
+> 
+> - **Reduce top_k from 10 to 5**: Halves the number of retrieved chunks per query, cutting prompt token count by roughly 2,500 tokens per request. Risk: if relevant information is sometimes only in chunks ranked 6–10, recall drops and answer completeness suffers. Mitigate by running offline evaluation against a held-out QA set.
+> - **Add a system prompt instruction for concise answers / set max_tokens**: Reduces output token count. Risk: for queries that genuinely require long explanations, truncating the response degrades quality or leaves answers incomplete. Mitigate by setting max_tokens generously (e.g. 512) rather than very tight (e.g. 128), and monitoring user satisfaction signals.
+> - Other valid answers: switch to a smaller model, apply prompt compression, reduce chunk size.
+> 
+> #### Q2 — Managed vs. Dedicated Endpoint Economics
+> 
+> Per-token pricing scales linearly with usage; hourly GPU pricing is fixed regardless of request volume. At low traffic, managed endpoints are cheaper because you are not paying for idle capacity. As requests-per-hour grows, the hourly rate divided by requests per hour drops, and eventually falls below the per-token managed endpoint price. The crossover is typically in the range of tens of thousands of requests per day for mid-size models (depends heavily on model size and GPU tier). Operational burden: you must manage model serving infrastructure, capacity planning, model updates, and hardware monitoring — none of which are needed with managed endpoints.
+> 
+> #### Q3 — Multi-Tenant HNSW RAM Efficiency
+> 
+> If all 5,000 HNSW indexes are loaded simultaneously but typical concurrent active users at any moment is, say, 50, then 99% of the RAM allocated to HNSW indexes is serving idle tenants. With multi-tenancy, implement lazy loading: when a user initiates a session, load their HNSW index from disk into RAM; when the session ends (or after a configurable idle timeout), evict the index back to disk. Active tenants experience normal low-latency vector search; inactive tenants pay no RAM cost. For known high-traffic periods (e.g. business hours by region), you can pre-warm indexes preemptively to avoid cold-start latency on first query.

@@ -107,15 +107,16 @@ For a production system, security considerations interact directly with the reli
 2. Your RAG system uses a hosted LLM API. A compliance officer determines that no proprietary document content may leave the corporate network. What is the minimum architectural change required, and what operational trade-offs does it introduce?
 3. An attacker gains read access to your vector database's storage layer. You have encrypted all document chunks at rest. Why might the attacker still be able to recover information about the original documents, and what research-stage mitigations exist?
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1.**
-The risk is that metadata filters are an unreliable security boundary: they can be misconfigured, bypassed under adversarial prompting, or applied incorrectly by the ANN engine before candidate filtering. The recommended change is to move to multi-tenancy — partition the vector database into at least three separate tenant namespaces (HR, engineering, sales), and route each query to only the tenant(s) the user's role is authorized to access. Metadata filters remain appropriate for personalization (e.g., surfacing a user's own past documents first) but should not be the sole mechanism enforcing access control.
-
-**Post-test 2.**
-The minimum change is to replace the hosted LLM API call with a self-hosted (on-premises) open-weight model running on infrastructure inside the corporate network. The augmented prompt — which contains retrieved chunks — would then never leave the network perimeter. Trade-offs include: hardware acquisition and provisioning costs, ongoing model maintenance and update cycles, potentially lower model capability compared to frontier cloud models, and additional engineering complexity for model serving infrastructure (load balancing, GPU memory management, autoscaling).
-
-**Post-test 3.**
-Dense embedding vectors must remain unencrypted in memory to support approximate nearest-neighbor search. Recent research has demonstrated that the geometric structure of embedding vectors encodes enough semantic information that it is possible, under experimental conditions, to reconstruct approximations of the original source text from the vectors alone — even when the text payload is encrypted. Research-stage mitigations include: (a) adding calibrated noise to stored vectors (differential-privacy-style obfuscation), (b) applying non-invertible transformations to the vector space that preserve distance rankings but degrade reconstruction accuracy, and (c) dimensionality reduction that retains retrieval utility while removing fine-grained semantic signal. Each technique trades some retrieval precision for reduced reconstruction risk.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Metadata Filter Access Control Risk
+> 
+> The risk is that metadata filters are an unreliable security boundary: they can be misconfigured, bypassed under adversarial prompting, or applied incorrectly by the ANN engine before candidate filtering. The recommended change is to move to multi-tenancy — partition the vector database into at least three separate tenant namespaces (HR, engineering, sales), and route each query to only the tenant(s) the user's role is authorized to access. Metadata filters remain appropriate for personalization (e.g., surfacing a user's own past documents first) but should not be the sole mechanism enforcing access control.
+> 
+> #### Q2 — On-Premises LLM for Data Compliance
+> 
+> The minimum change is to replace the hosted LLM API call with a self-hosted (on-premises) open-weight model running on infrastructure inside the corporate network. The augmented prompt — which contains retrieved chunks — would then never leave the network perimeter. Trade-offs include: hardware acquisition and provisioning costs, ongoing model maintenance and update cycles, potentially lower model capability compared to frontier cloud models, and additional engineering complexity for model serving infrastructure (load balancing, GPU memory management, autoscaling).
+> 
+> #### Q3 — Embedding Vector Reconstruction Risk
+> 
+> Dense embedding vectors must remain unencrypted in memory to support approximate nearest-neighbor search. Recent research has demonstrated that the geometric structure of embedding vectors encodes enough semantic information that it is possible, under experimental conditions, to reconstruct approximations of the original source text from the vectors alone — even when the text payload is encrypted. Research-stage mitigations include: (a) adding calibrated noise to stored vectors (differential-privacy-style obfuscation), (b) applying non-invertible transformations to the vector space that preserve distance rankings but degrade reconstruction accuracy, and (c) dimensionality reduction that retains retrieval utility while removing fine-grained semantic signal. Each technique trades some retrieval precision for reduced reconstruction risk.

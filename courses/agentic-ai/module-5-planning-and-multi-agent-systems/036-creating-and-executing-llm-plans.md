@@ -60,12 +60,16 @@ This approach unlocks a qualitatively different level of plan complexity. A JSON
 2. Rank the four plan-formatting options from most to least reliable for programmatic parsing, and briefly explain what makes the top two preferable.
 3. What fundamental limitation of JSON/XML plan lists does using code as a plan representation overcome, and why does this matter for complex agentic tasks?
 
-<details><summary>Answer Guide</summary>
-
-**Q1.** A step object in a JSON plan typically contains: a step index (indicating order), a description (human-readable summary of the step's purpose), a tool name (the identifier of the tool to invoke), and an arguments object (key-value pairs passed to that tool). Together these four fields give the execution engine everything it needs to dispatch the call without any natural-language interpretation.
-
-**Q2.** From most to least reliable: (1) JSON — explicit schema with unambiguous delimiters; (2) XML — explicit tags that parsers handle cleanly; (3) Markdown — loose syntax that requires more defensive handling; (4) Plain text — no formal schema, highest risk of parse failure. JSON and XML are preferred because their syntax is formally specified and parsers for both are mature, making model output variations less likely to cause failures.
-
-**Q3.** JSON and XML plans are essentially flat ordered lists; the execution engine must implement all branching and looping logic itself, which limits how dynamic the plan can be. Code overcomes this by embedding control flow directly in the plan: conditionals, loops, and parallel calls are native language constructs. This matters for complex agentic tasks where the next step depends on the result of a prior step, making the full plan structure unknowable until runtime.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Keys in a JSON Plan Step
+> 
+> A step object in a JSON plan typically contains: a step index (indicating order), a description (human-readable summary of the step's purpose), a tool name (the identifier of the tool to invoke), and an arguments object (key-value pairs passed to that tool). Together these four fields give the execution engine everything it needs to dispatch the call without any natural-language interpretation.
+> 
+> #### Q2 — Ranking Plan Formatting Options
+> 
+> From most to least reliable: (1) JSON — explicit schema with unambiguous delimiters; (2) XML — explicit tags that parsers handle cleanly; (3) Markdown — loose syntax that requires more defensive handling; (4) Plain text — no formal schema, highest risk of parse failure. JSON and XML are preferred because their syntax is formally specified and parsers for both are mature, making model output variations less likely to cause failures.
+> 
+> #### Q3 — Code Plans vs Flat Lists
+> 
+> JSON and XML plans are essentially flat ordered lists; the execution engine must implement all branching and looping logic itself, which limits how dynamic the plan can be. Code overcomes this by embedding control flow directly in the plan: conditionals, loops, and parallel calls are native language constructs. This matters for complex agentic tasks where the next step depends on the result of a prior step, making the full plan structure unknowable until runtime.

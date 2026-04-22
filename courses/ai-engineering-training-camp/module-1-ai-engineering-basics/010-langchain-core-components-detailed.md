@@ -266,11 +266,16 @@ LangChain（工具箱）
 2. Callback 模块的"构造器回调"和"请求回调"分别适用于什么场景？为什么说 Callback 是 LangChain 中最难被替代的模块？
 3. 用自己的话描述 LangGraph 和 LangChain 的协作分工：在一个多步骤 AI 工作流中，哪一层负责规划，哪一层负责执行，LangSmith 在哪个环节介入？
 
-<details>
-<summary>答案指南</summary>
-
-1. Storage（Memory）模块保存对话历史：每次请求先从 Memory **读取**历史记录，将历史与当前输入一起交给 LLM，LLM 输出后再将本次对话**写入** Memory，形成两次 Memory 交互。
-2. 构造器回调作用于全生命周期（适合日志记录、全局监控），请求回调仅作用于单次请求（适合流式输出到 WebSocket）；Callback 实现了控制反转（IoC），其工程化能力（日志、监控、流式）在不使用 LangChain 时最难手写替代。
-3. LangGraph 负责规划层——定义节点（Node）和边（Edge），设计有状态、有循环的整体工作流；LangChain 在每个节点内部实现具体逻辑（LLM 调用、RAG、工具调用等）；LangSmith 通过 LCEL 自动追踪整条调用链，出问题时定位到具体节点。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Storage Memory 两次交互
+> 
+> Storage（Memory）模块保存对话历史：每次请求先从 Memory **读取**历史记录，将历史与当前输入一起交给 LLM，LLM 输出后再将本次对话**写入** Memory，形成两次 Memory 交互。
+> 
+> #### Q2 — Callback 构造器与请求回调
+> 
+> 构造器回调作用于全生命周期（适合日志记录、全局监控），请求回调仅作用于单次请求（适合流式输出到 WebSocket）；Callback 实现了控制反转（IoC），其工程化能力（日志、监控、流式）在不使用 LangChain 时最难手写替代。
+> 
+> #### Q3 — LangGraph LangChain 协作分工
+> 
+> LangGraph 负责规划层——定义节点（Node）和边（Edge），设计有状态、有循环的整体工作流；LangChain 在每个节点内部实现具体逻辑（LLM 调用、RAG、工具调用等）；LangSmith 通过 LCEL 自动追踪整条调用链，出问题时定位到具体节点。

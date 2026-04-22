@@ -96,15 +96,16 @@ A consistent theme across all four patterns is the importance of evaluation. Bec
 
 ---
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Reflection:**
-At its simplest, reflection feeds the model's own output back into a new prompt that asks the model to critique it (inputs: original task + generated output; outputs: critique, then revised output). Adding code execution extends this by providing external, ground-truth signals — actual error messages or test failures — that are more objective than pure self-critique, enabling multiple iterative rounds toward a more correct solution.
-
-**Q2 — Planning / HuggingGPT:**
-The example task was: generate an image of a girl reading a book in the same pose as a boy in a reference image, then describe the resulting image aloud. This illustrates dynamic sequencing because the correct pipeline — pose estimation → conditioned image generation → image captioning → text-to-speech — is not known at design time; it depends on the nature of the input. The LLM constructs the plan at runtime rather than executing a fixed set of developer-specified steps.
-
-**Q3 — Trade-offs and evals:**
-Both planning and multi-agent collaboration make system behavior harder to predict and control: the LLM (or ensemble of LLMs) makes decisions that the developer did not hard-code, so unexpected paths and compounding errors become possible. The instructor recommends evaluation tooling because, without a way to measure end-to-end outcomes objectively, you cannot tell whether a design choice is genuinely improving performance or just shifting failure modes. Evals provide the feedback signal needed to iterate productively.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Reflection Pattern Inputs and Outputs
+> 
+> At its simplest, reflection feeds the model's own output back into a new prompt that asks the model to critique it (inputs: original task + generated output; outputs: critique, then revised output). Adding code execution extends this by providing external, ground-truth signals — actual error messages or test failures — that are more objective than pure self-critique, enabling multiple iterative rounds toward a more correct solution.
+> 
+> #### Q2 — HuggingGPT Dynamic Step Sequencing
+> 
+> The example task was: generate an image of a girl reading a book in the same pose as a boy in a reference image, then describe the resulting image aloud. This illustrates dynamic sequencing because the correct pipeline — pose estimation → conditioned image generation → image captioning → text-to-speech — is not known at design time; it depends on the nature of the input. The LLM constructs the plan at runtime rather than executing a fixed set of developer-specified steps.
+> 
+> #### Q3 — Trade-offs and Evaluation Tooling
+> 
+> Both planning and multi-agent collaboration make system behavior harder to predict and control: the LLM (or ensemble of LLMs) makes decisions that the developer did not hard-code, so unexpected paths and compounding errors become possible. The instructor recommends evaluation tooling because, without a way to measure end-to-end outcomes objectively, you cannot tell whether a design choice is genuinely improving performance or just shifting failure modes. Evals provide the feedback signal needed to iterate productively.

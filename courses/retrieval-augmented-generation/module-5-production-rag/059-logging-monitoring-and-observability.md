@@ -128,15 +128,16 @@ Custom datasets accumulated over time become a strategic asset. They encode inst
 2. Explain why a production RAG system would need both an LLM observability platform (like Phoenix) and a classical monitoring tool (like Datadog or Grafana). What gap does each one fill?
 3. What is the improvement flywheel, and what role do custom datasets built from production traffic play in sustaining it?
 
-<details><summary>Answer guide</summary>
-
-**Q1 — Tracing a failure to its source:**
-Retrieve the trace for the failing query. Check the retrieved chunks: were they relevant to the query? If not, the retriever is the source — inspect the query sent to the retriever (was it rewritten poorly?) and the similarity scores returned. If the chunks were relevant, check the re-ranker output: did re-ranking surface a misleading passage? If retrieval looks correct, examine the assembled prompt sent to the LLM and the final response: did the model ignore the context, hallucinate, or misattribute a claim? Latency measurements at each stage can also point to a bottleneck. The trace makes each hypothesis directly testable without reproducing the failure from scratch.
-
-**Q2 — Complementary monitoring layers:**
-LLM observability platforms handle quality and evaluation metrics: retrieval relevancy, hallucination rate, citation accuracy, A/B experiment results — metrics that require understanding RAG pipeline semantics. Classical tools like Datadog/Grafana handle infrastructure metrics: vector database memory and CPU usage, GPU occupancy on inference servers, disk I/O, and network throughput. The LLM platform cannot monitor infrastructure health; the classical platform cannot score answer faithfulness. A production system needs both layers for complete coverage.
-
-**Q3 — Improvement flywheel and custom datasets:**
-The improvement flywheel is the iterative cycle where production traces reveal failures, engineers diagnose and fix root causes, the fix is validated through A/B testing on live traffic, and improved quality raises the baseline for the next iteration. Custom datasets built from logged production queries make regression testing meaningful: they represent the real distribution of user behavior — including rare edge cases — rather than a synthetic benchmark. Re-running a curated set of real queries through a modified pipeline lets engineers verify that a change improved failing cases without degrading previously passing ones.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Tracing a Failure to Its Source
+> 
+> Retrieve the trace for the failing query. Check the retrieved chunks: were they relevant to the query? If not, the retriever is the source — inspect the query sent to the retriever (was it rewritten poorly?) and the similarity scores returned. If the chunks were relevant, check the re-ranker output: did re-ranking surface a misleading passage? If retrieval looks correct, examine the assembled prompt sent to the LLM and the final response: did the model ignore the context, hallucinate, or misattribute a claim? Latency measurements at each stage can also point to a bottleneck. The trace makes each hypothesis directly testable without reproducing the failure from scratch.
+> 
+> #### Q2 — Complementary Monitoring Layers
+> 
+> LLM observability platforms handle quality and evaluation metrics: retrieval relevancy, hallucination rate, citation accuracy, A/B experiment results — metrics that require understanding RAG pipeline semantics. Classical tools like Datadog/Grafana handle infrastructure metrics: vector database memory and CPU usage, GPU occupancy on inference servers, disk I/O, and network throughput. The LLM platform cannot monitor infrastructure health; the classical platform cannot score answer faithfulness. A production system needs both layers for complete coverage.
+> 
+> #### Q3 — Improvement Flywheel and Custom Datasets
+> 
+> The improvement flywheel is the iterative cycle where production traces reveal failures, engineers diagnose and fix root causes, the fix is validated through A/B testing on live traffic, and improved quality raises the baseline for the next iteration. Custom datasets built from logged production queries make regression testing meaningful: they represent the real distribution of user behavior — including rare edge cases — rather than a synthetic benchmark. Re-running a curated set of real queries through a modified pipeline lets engineers verify that a change improved failing cases without degrading previously passing ones.

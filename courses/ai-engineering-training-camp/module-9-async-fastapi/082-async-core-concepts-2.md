@@ -261,11 +261,16 @@ CONCURRENT = 4      # 并行度 4
 2. 手动驱动协程执行时，你会如何用 `next()` 模拟事件循环的行为？这揭示了 `asyncio.run()` 的本质是什么？
 3. 根据本课的基准测试结论，IO 密集、CPU 密集、混合场景分别应选择哪种并发方案？请说明理由。
 
-<details>
-<summary>答案指南</summary>
-
-1. 自定义类须实现 `__await__` 魔术方法并返回一个迭代器；方法内的 `yield` 是交出控制权的关键点，等价于 IO 等待时将执行权让回给事件循环，事件循环再通过 `next()` 恢复执行。
-2. 手动执行时，先调用协程的 `__await__()` 得到迭代器，再反复调用 `next()` 推进执行，直到抛出 `StopIteration` 表示协程完成；这正是 `asyncio.run()` 的本质——不断调用 `next()` 驱动协程前进。
-3. IO 密集＋高并发选 `asyncio`（协程上下文切换开销约为线程的 1/4）；IO 密集＋低并发选 `threading`（代码更简单）；CPU 密集选 `multiprocessing`（绕过 GIL）；混合场景则用进程池内跑协程（`ProcessPool` + `asyncio`）。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Awaitable 协议与 `__await__` 方法
+> 
+> 自定义类须实现 `__await__` 魔术方法并返回一个迭代器；方法内的 `yield` 是交出控制权的关键点，等价于 IO 等待时将执行权让回给事件循环，事件循环再通过 `next()` 恢复执行。
+> 
+> #### Q2 — 手动驱动协程与事件循环本质
+> 
+> 手动执行时，先调用协程的 `__await__()` 得到迭代器，再反复调用 `next()` 推进执行，直到抛出 `StopIteration` 表示协程完成；这正是 `asyncio.run()` 的本质——不断调用 `next()` 驱动协程前进。
+> 
+> #### Q3 — IO/CPU/混合场景并发选型
+> 
+> IO 密集＋高并发选 `asyncio`（协程上下文切换开销约为线程的 1/4）；IO 密集＋低并发选 `threading`（代码更简单）；CPU 密集选 `multiprocessing`（绕过 GIL）；混合场景则用进程池内跑协程（`ProcessPool` + `asyncio`）。

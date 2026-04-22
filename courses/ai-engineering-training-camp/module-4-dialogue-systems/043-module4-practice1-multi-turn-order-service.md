@@ -260,11 +260,16 @@ LangChain 0.x → 1.0 / LangGraph 0.3 → 1.0 迁移要点：
 2. 本项目为什么推荐用 HTTP POST 方式封装 ASR/OCR 调用，而不是直接使用 `dashscope` SDK？请用自己的话说出至少两个理由。
 3. 什么是"Mock 驱动的渐进式开发策略"？在多模块集成时为什么要先用 mock 占位，而不是直接接入真实 API？
 
-<details>
-<summary>答案指南</summary>
-
-1. `thread_id` 标识一次对话会话，相同 `thread_id` 的请求共享对话历史；`MemorySaver` 将状态存在进程内存中，仅适合开发/测试；`SqliteSaver` 将对话历史持久化到 SQLite 数据库，重启后不丢失，适合生产环境。
-2. 使用 HTTP 方式可以避免引入额外的 `dashscope` SDK 依赖、可将其封装为 MCP 工具供其他 agent 复用，同时避免不同 SDK 版本之间的兼容性问题。
-3. Mock 驱动策略是先用固定返回值的占位函数代替真实 API 调用，确认整体工作流逻辑正确后再逐步替换为真实实现；这样做的目的是隔离变量——多模块集成失败时，原因可能来自工作流逻辑、RAG 召回质量、ASR 识别或 API key 等多处，先 mock 可以快速定位问题来源。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — thread_id 与 MemorySaver vs SqliteSaver
+> 
+> `thread_id` 标识一次对话会话，相同 `thread_id` 的请求共享对话历史；`MemorySaver` 将状态存在进程内存中，仅适合开发/测试；`SqliteSaver` 将对话历史持久化到 SQLite 数据库，重启后不丢失，适合生产环境。
+> 
+> #### Q2 — HTTP 封装 ASR/OCR 的理由
+> 
+> 使用 HTTP 方式可以避免引入额外的 `dashscope` SDK 依赖、可将其封装为 MCP 工具供其他 agent 复用，同时避免不同 SDK 版本之间的兼容性问题。
+> 
+> #### Q3 — Mock 驱动渐进式开发策略
+> 
+> Mock 驱动策略是先用固定返回值的占位函数代替真实 API 调用，确认整体工作流逻辑正确后再逐步替换为真实实现；这样做的目的是隔离变量——多模块集成失败时，原因可能来自工作流逻辑、RAG 召回质量、ASR 识别或 API key 等多处，先 mock 可以快速定位问题来源。

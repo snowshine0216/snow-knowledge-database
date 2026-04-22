@@ -104,11 +104,16 @@ source: https://time.geekbang.org/column/article/945359
 2. 在电商支付超时的完整案例中，四个阶段分别运用了哪种子代理模式？为什么只有第四阶段的 Fixer 拥有写权限？
 3. 第三阶段引入 Agent Teams 的原因是什么？如果只用 Sub-Agents 处理这一阶段，会出现哪些具体风险？
 
-<details>
-<summary>答案指南</summary>
-
-1. Sub-Agents 属于"结构化分工"层，解决的是"单脑如何安全分工"的工程控制问题；Agent Teams 属于"协作型认知"层，支持多代理之间的协作与相互感知，而不仅仅是并行执行。
-2. 四个阶段依次运用了：并行+只读（Phase 1）、高噪声处理（Phase 2）、Agent Teams 假设竞争（Phase 3）、流水线修复（Phase 4）。只有 Phase 4 的 Fixer 有写权限，体现了"最小权限原则"——其他阶段只需读取信息，赋予写权限会带来不必要的风险。
-3. 第三阶段使用 Agent Teams，是因为若只用 Sub-Agents，每个子代理仅向主对话汇报，彼此隔离，无法发现跨子代理的关联问题，例如 infra 连接池问题与 N+1 查询之间可能存在的级联关系。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Sub-Agents vs Agent Teams 两层划分
+> 
+> Sub-Agents 属于"结构化分工"层，解决的是"单脑如何安全分工"的工程控制问题；Agent Teams 属于"协作型认知"层，支持多代理之间的协作与相互感知，而不仅仅是并行执行。
+> 
+> #### Q2 — 四阶段子代理模式与最小权限
+> 
+> 四个阶段依次运用了：并行+只读（Phase 1）、高噪声处理（Phase 2）、Agent Teams 假设竞争（Phase 3）、流水线修复（Phase 4）。只有 Phase 4 的 Fixer 有写权限，体现了"最小权限原则"——其他阶段只需读取信息，赋予写权限会带来不必要的风险。
+> 
+> #### Q3 — 第三阶段引入 Agent Teams 原因
+> 
+> 第三阶段使用 Agent Teams，是因为若只用 Sub-Agents，每个子代理仅向主对话汇报，彼此隔离，无法发现跨子代理的关联问题，例如 infra 连接池问题与 N+1 查询之间可能存在的级联关系。

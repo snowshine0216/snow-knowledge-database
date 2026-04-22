@@ -354,11 +354,16 @@ def chat_endpoint(req: ChatRequest):
 2. 在 FastAPI 封装对话链时，为什么把 chain 放进类里后必须写成 `self.chain`？为什么大模型需要显式存储对话历史，而不能自己"记住"上轮内容？
 3. `OutputParser` 有哪三种职责？`CommaSeparatedListOutputParser` 具体是如何处理模型输出的？
 
-<details>
-<summary>答案指南</summary>
-
-1. LCEL 的 `|` 将 PromptTemplate、ChatModel、OutputParser 串成一条链，调用 `chain.invoke()` 时自动完成"格式化提示词 → 调用模型 → 解析输出"的全流程，并在组件间自动做类型转换（如 BaseMessage 自动适配下游 parser），无需手动管理中间变量；额外红利包括读写清晰、原生支持并行/流式/缓存、内置 LangSmith 调试。
-2. 将 Chain 构建在类的 `__init__` 中后它成为实例属性，必须通过 `self.chain` 引用，否则方法内找不到该变量；大模型每次调用都是无状态的，必须把每轮 human/ai 消息显式追加到 history 列表并以 session_id 为键存入 dict，下次对话时才能恢复上下文。
-3. OutputParser 的三种职责为：格式化输出（BaseMessage → str/dict/list）、类型转换（Python 原生类型）、校验与重试（解析失败自动重试而非抛异常）；`CommaSeparatedListOutputParser` 将模型返回的逗号分隔字符串（如 `"苹果,香蕉,橙子"`）直接拆分为 Python 列表 `["苹果", "香蕉", "橙子"]`。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LCEL Pipe Operator Mechanics
+> 
+> LCEL 的 `|` 将 PromptTemplate、ChatModel、OutputParser 串成一条链，调用 `chain.invoke()` 时自动完成"格式化提示词 → 调用模型 → 解析输出"的全流程，并在组件间自动做类型转换（如 BaseMessage 自动适配下游 parser），无需手动管理中间变量；额外红利包括读写清晰、原生支持并行/流式/缓存、内置 LangSmith 调试。
+> 
+> #### Q2 — self.chain and Conversation History
+> 
+> 将 Chain 构建在类的 `__init__` 中后它成为实例属性，必须通过 `self.chain` 引用，否则方法内找不到该变量；大模型每次调用都是无状态的，必须把每轮 human/ai 消息显式追加到 history 列表并以 session_id 为键存入 dict，下次对话时才能恢复上下文。
+> 
+> #### Q3 — OutputParser Roles and CSV Parser
+> 
+> OutputParser 的三种职责为：格式化输出（BaseMessage → str/dict/list）、类型转换（Python 原生类型）、校验与重试（解析失败自动重试而非抛异常）；`CommaSeparatedListOutputParser` 将模型返回的逗号分隔字符串（如 `"苹果,香蕉,橙子"`）直接拆分为 Python 列表 `["苹果", "香蕉", "橙子"]`。

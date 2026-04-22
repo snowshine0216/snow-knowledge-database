@@ -154,13 +154,16 @@ def get_current_time(timezone: str) -> str:
 2. LangChain 和 LangGraph 分别比作"工具箱"和"流程引擎"——用这个比喻说明两者的分工，并举例说明什么场景该选哪个。
 3. LangChain 的三大核心组件（Tools、Agents、Memory）各自负责什么？ReAct Agent 和 Plan-and-Execute Agent 的执行方式有何不同？
 
-<details>
-<summary>答案指南</summary>
-
-1. 两个问题：①手动拼 JSON Schema 易出错，格式稍有偏差就调用失败；②工具能否被调用取决于用户 Prompt 质量，工程上不可控。LangChain 将 Function Calling 封装成声明式 Tool 对象，使调用路径可靠、可预期，不再依赖 Prompt 写法。
-
-2. LangChain 是"工具箱"，关注怎么调用模型、怎么执行工具（线性管道）；LangGraph 是"流程引擎"，关注谁先执行、条件分支、并行与重试（复杂控制流）。选型规则：需要编排工作流或 Multi-Agent 协同→选 LangGraph；只需要组合工具底层→用 LangChain 组件。
-
-3. Tools 将 Function Calling 封装为声明式对象；Agents 内置 ReAct（思考→行动循环，边执行边评估）和 Plan-and-Execute（先规划全部步骤再执行）两种模式；Memory 分短期记忆（当前会话上下文，保持多轮连贯）和长期记忆（持久化用户偏好或历史数据）。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Function Calling 两个核心问题
+> 
+> 两个问题：①手动拼 JSON Schema 易出错，格式稍有偏差就调用失败；②工具能否被调用取决于用户 Prompt 质量，工程上不可控。LangChain 将 Function Calling 封装成声明式 Tool 对象，使调用路径可靠、可预期，不再依赖 Prompt 写法。
+> 
+> #### Q2 — 工具箱与流程引擎分工
+> 
+> LangChain 是"工具箱"，关注怎么调用模型、怎么执行工具（线性管道）；LangGraph 是"流程引擎"，关注谁先执行、条件分支、并行与重试（复杂控制流）。选型规则：需要编排工作流或 Multi-Agent 协同→选 LangGraph；只需要组合工具底层→用 LangChain 组件。
+> 
+> #### Q3 — 三大组件与 Agent 执行模式
+> 
+> Tools 将 Function Calling 封装为声明式对象；Agents 内置 ReAct（思考→行动循环，边执行边评估）和 Plan-and-Execute（先规划全部步骤再执行）两种模式；Memory 分短期记忆（当前会话上下文，保持多轮连贯）和长期记忆（持久化用户偏好或历史数据）。

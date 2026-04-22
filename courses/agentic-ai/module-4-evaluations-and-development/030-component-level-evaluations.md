@@ -58,20 +58,21 @@ Once the component has been tuned using its dedicated metric, a final end-to-end
 2. Describe, step by step, how you would construct a gold standard dataset and an F1-based eval for a web search component.
 3. After iterating on a component using a component-level eval and achieving improved scores, what final step should always be performed, and why?
 
-<details><summary>Answer Guide</summary>
-
-**1. Two problems with relying solely on end-to-end evals:**
-- They are expensive: every change to one component requires re-running the entire workflow.
-- They introduce measurement noise: variance from other components in the pipeline can mask small improvements to the component being tuned, making it hard to detect genuine gains.
-
-**2. Constructing a gold standard and F1-based eval for web search:**
-- Select a representative set of queries that the system is expected to handle.
-- Have a domain expert review each query and compile a list of the most authoritative, correct web pages that a good search should return — this is the gold standard.
-- For each query, run the web search component and collect its returned results.
-- Compute the overlap between the returned results and the gold standard list using precision (fraction of returned results that are in the gold standard), recall (fraction of gold standard results that were returned), and the F1 score (harmonic mean of precision and recall).
-- Aggregate F1 scores across all queries to produce a single component-level quality metric.
-
-**3. Final step after component-level tuning:**
-- Run a full end-to-end eval on the complete system. This is necessary because a component-level metric only confirms improvement within that component's scope. The end-to-end eval verifies that the component improvement actually translates into better overall system output, catching any cases where the component change inadvertently interacts poorly with other parts of the pipeline.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Two Problems with End-to-End Evals
+> 
+> - They are expensive: every change to one component requires re-running the entire workflow.
+> - They introduce measurement noise: variance from other components in the pipeline can mask small improvements to the component being tuned, making it hard to detect genuine gains.
+> 
+> #### Q2 — Constructing Gold Standard and F1 Eval
+> 
+> - Select a representative set of queries that the system is expected to handle.
+> - Have a domain expert review each query and compile a list of the most authoritative, correct web pages that a good search should return — this is the gold standard.
+> - For each query, run the web search component and collect its returned results.
+> - Compute the overlap between the returned results and the gold standard list using precision (fraction of returned results that are in the gold standard), recall (fraction of gold standard results that were returned), and the F1 score (harmonic mean of precision and recall).
+> - Aggregate F1 scores across all queries to produce a single component-level quality metric.
+> 
+> #### Q3 — Final Step After Component Tuning
+> 
+> - Run a full end-to-end eval on the complete system. This is necessary because a component-level metric only confirms improvement within that component's scope. The end-to-end eval verifies that the component improvement actually translates into better overall system output, catching any cases where the component change inadvertently interacts poorly with other parts of the pipeline.

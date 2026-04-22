@@ -94,15 +94,16 @@ Enabling tool use places a meaningful responsibility on developers. They must th
 2. How does the LLM decide whether to call any of the available tools for a given user query, and what happens when none of the tools are relevant?
 3. Walk through the calendar assistant example: which tools are available, in what order are they called, and which tool is available but never invoked — and why?
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Tool execution sequence:**
-(1) User prompt arrives. (2) LLM reviews the available tool(s) — here, `getCurrentTime`. (3) LLM decides to call `getCurrentTime`. (4) The system executes the function; it returns the current time (e.g., `3:20 PM`). (5) The return value is inserted into the conversational history / context. (6) The LLM reads the result and generates its final answer ("It is 3:20 PM").
-
-**Q2 — LLM discretion:**
-The LLM uses its own judgment to evaluate whether any available tool is relevant to the query. If the question can be answered from training knowledge alone (e.g., "how much caffeine is in green tea?"), the model skips all tools and responds directly. No tool call is hard-coded; the model's decision is context-sensitive at inference time.
-
-**Q3 — Calendar assistant:**
-Three tools are available: `checkCalendar`, `makeAppointment`, and `deleteAppointment`. The LLM first calls `checkCalendar` to identify free Thursday slots, then calls `makeAppointment` with the chosen time (3:00 PM) and Alice as the invitee, and finally reports the confirmation to the user. `deleteAppointment` is never called because no existing appointment needs to be cancelled — it was available but not needed for this particular request.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Tool execution sequence steps
+> 
+> (1) User prompt arrives. (2) LLM reviews the available tool(s) — here, `getCurrentTime`. (3) LLM decides to call `getCurrentTime`. (4) The system executes the function; it returns the current time (e.g., `3:20 PM`). (5) The return value is inserted into the conversational history / context. (6) The LLM reads the result and generates its final answer ("It is 3:20 PM").
+> 
+> #### Q2 — LLM discretion over tools
+> 
+> The LLM uses its own judgment to evaluate whether any available tool is relevant to the query. If the question can be answered from training knowledge alone (e.g., "how much caffeine is in green tea?"), the model skips all tools and responds directly. No tool call is hard-coded; the model's decision is context-sensitive at inference time.
+> 
+> #### Q3 — Calendar assistant tool calls
+> 
+> Three tools are available: `checkCalendar`, `makeAppointment`, and `deleteAppointment`. The LLM first calls `checkCalendar` to identify free Thursday slots, then calls `makeAppointment` with the chosen time (3:00 PM) and Alice as the invitee, and finally reports the confirmation to the user. `deleteAppointment` is never called because no existing appointment needs to be cancelled — it was available but not needed for this particular request.

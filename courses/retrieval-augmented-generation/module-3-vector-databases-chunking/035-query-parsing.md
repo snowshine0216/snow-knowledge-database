@@ -91,12 +91,16 @@ This empirical, measure-first approach to query parsing is consistent with the b
 
 3. Named entity recognition can inform two distinct stages of the retrieval pipeline. Name both stages and explain what the extracted entities contribute to each.
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1.** Conversational prompts contain biographical context, emotional framing, filler narrative, and colloquial language that carry no semantic signal relevant to the knowledge base. The embedding of such text is pulled in the direction of the irrelevant content, reducing cosine similarity to the most relevant documents. The mismatch arises because conversational language is optimized for human communication, not for semantic proximity to expert-domain documents.
-
-**Post-test 2.** HyDE addresses the distributional mismatch between interrogative question text and declarative document text in embedding space. It generates a hypothetical "ideal answer" document using an LLM, then embeds that document rather than the raw question. Because the hypothetical document is stylistically and lexically similar to real knowledge-base documents, the embedding comparison becomes apples-to-apples rather than apples-to-oranges, improving semantic alignment. The cost is an additional LLM generation call per query, adding latency and compute expense.
-
-**Post-test 3.** First, extracted entities can be passed to the **vector search** stage to augment or guide the query — for example, including a recognized medical term as an additional search signal. Second, entities can be used for **metadata filtering** — for example, using an extracted date to constrain the search to documents within a specific time range, or using a recognized person's name to filter by author or subject tag. Each benefit is distinct: the first enriches the semantic query; the second narrows the candidate set using structured attributes.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Why Raw Prompts Fail Vector Search
+> 
+> Conversational prompts contain biographical context, emotional framing, filler narrative, and colloquial language that carry no semantic signal relevant to the knowledge base. The embedding of such text is pulled in the direction of the irrelevant content, reducing cosine similarity to the most relevant documents. The mismatch arises because conversational language is optimized for human communication, not for semantic proximity to expert-domain documents.
+> 
+> #### Q2 — HyDE Mechanism and Distributional Fix
+> 
+> HyDE addresses the distributional mismatch between interrogative question text and declarative document text in embedding space. It generates a hypothetical "ideal answer" document using an LLM, then embeds that document rather than the raw question. Because the hypothetical document is stylistically and lexically similar to real knowledge-base documents, the embedding comparison becomes apples-to-apples rather than apples-to-oranges, improving semantic alignment. The cost is an additional LLM generation call per query, adding latency and compute expense.
+> 
+> #### Q3 — NER in Two Pipeline Stages
+> 
+> First, extracted entities can be passed to the **vector search** stage to augment or guide the query — for example, including a recognized medical term as an additional search signal. Second, entities can be used for **metadata filtering** — for example, using an extracted date to constrain the search to documents within a specific time range, or using a recognized person's name to filter by author or subject tag. Each benefit is distinct: the first enriches the semantic query; the second narrows the candidate set using structured attributes.

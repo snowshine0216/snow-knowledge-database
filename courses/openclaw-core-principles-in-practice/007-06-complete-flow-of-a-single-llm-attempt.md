@@ -112,11 +112,16 @@ source: https://time.geekbang.org/column/article/957339
 2. `createOpenClawCodingTools()` 工厂函数的集中注册模式带来了哪两个具体好处？请举例说明"只读模式"下这种设计如何发挥作用。
 3. OpenClaw 的七级策略过滤管道采用了什么设计模式？前置过滤阶段会处理哪些场景（至少说出三种），它与七级管道的关系是什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. OpenClaw 通过 `resolveUserPath()` 解析工作目录，将 Agent 的文件系统访问范围限制在指定目录内，无法访问系统敏感路径。这相当于给 Agent 划定"活动范围"，是注册工具之前必须完成的安全边界建立步骤。
-2. 集中注册带来两个好处：一是所有工具定义集中管理，便于维护和审计；二是支持动态调整工具集，例如在"只读模式"下自动排除所有写入类工具，无需逐一配置。
-3. 策略管道采用责任链模式，工具须依次通过七级关卡全部审核才能进入可用列表。前置过滤发生在七级管道之前，处理语音通道禁用 TTS 工具、模型内置能力冲突去重、Owner-Only 权限标记检查，以及不同 Provider 的 JSON Schema 格式归一化等场景。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Sandbox Security Boundary via resolveUserPath
+> 
+> OpenClaw 通过 `resolveUserPath()` 解析工作目录，将 Agent 的文件系统访问范围限制在指定目录内，无法访问系统敏感路径。这相当于给 Agent 划定"活动范围"，是注册工具之前必须完成的安全边界建立步骤。
+> 
+> #### Q2 — Benefits of Centralized Tool Registration
+> 
+> 集中注册带来两个好处：一是所有工具定义集中管理，便于维护和审计；二是支持动态调整工具集，例如在"只读模式"下自动排除所有写入类工具，无需逐一配置。
+> 
+> #### Q3 — Seven-Stage Pipeline Design Pattern
+> 
+> 策略管道采用责任链模式，工具须依次通过七级关卡全部审核才能进入可用列表。前置过滤发生在七级管道之前，处理语音通道禁用 TTS 工具、模型内置能力冲突去重、Owner-Only 权限标记检查，以及不同 Provider 的 JSON Schema 格式归一化等场景。

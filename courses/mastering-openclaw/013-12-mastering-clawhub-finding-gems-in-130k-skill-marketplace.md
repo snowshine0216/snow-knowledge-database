@@ -116,11 +116,16 @@ ClawHub 的搜索引擎基于技术标签体系——开发者用技术术语描
 2. ClawHub 上 1.3 万个 Skills 的质量分布是怎样的？为什么说"不能无脑安装"？
 3. 在筛选 Skill 时，Stars 和 Downloads 这两个指标分别代表什么？课程给出的经验法则是什么？
 
-<details>
-<summary>答案指南</summary>
-
-1. ClawHub 的搜索基于开发者的技术标签体系，用户需要将业务需求"翻译"成技术术语，例如"帮我配图"应搜索 `image generation`，"抓取社交媒体"应搜索 `scraper`，英文效果更好。
-2. 约 20% 为功能明确、维护活跃的优质 Skills，60% 以上是重复发布的低质 Skill，少量存在恶意或垃圾内容，因此需要主动筛选而非随意安装。
-3. Stars 代表社区认可度，Downloads 代表实际使用量；经验法则为"Stars + Downloads 双高优先考虑，两项都低则谨慎安装"。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — 业务语言翻译为技术搜索词
+> 
+> ClawHub 的搜索基于开发者的技术标签体系，用户需要将业务需求"翻译"成技术术语，例如"帮我配图"应搜索 `image generation`，"抓取社交媒体"应搜索 `scraper`，英文效果更好。
+> 
+> #### Q2 — ClawHub Skills 质量分布
+> 
+> 约 20% 为功能明确、维护活跃的优质 Skills，60% 以上是重复发布的低质 Skill，少量存在恶意或垃圾内容，因此需要主动筛选而非随意安装。
+> 
+> #### Q3 — Stars 与 Downloads 筛选指标
+> 
+> Stars 代表社区认可度，Downloads 代表实际使用量；经验法则为"Stars + Downloads 双高优先考虑，两项都低则谨慎安装"。

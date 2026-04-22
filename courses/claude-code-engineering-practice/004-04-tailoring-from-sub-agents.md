@@ -134,11 +134,16 @@ source: https://time.geekbang.org/column/article/943942
 2. Skills 模式和 Sub-Agent 模式在上下文隔离、并行能力、用户交互路径三个维度上有何本质区别？请逐一对比。
 3. Handoffs 模式中，Agent 之间切换控制权的机制是什么？它与 Router 模式在执行方式上有什么根本不同？
 
-<details>
-<summary>答案指南</summary>
-
-1. dumb zone 是指 Agent 的上下文窗口接近满载时，模型在任务完成上的表现显著下降的状态；这是触发多 Agent 升级的"信号一：上下文管理挑战"的核心依据——当专业知识无法舒适塞进单一 prompt 时，需要策略性分发上下文。
-2. Skills 模式由单一 Agent 负责全部推理，技能共享同一上下文窗口（隔离弱），顺序执行（无并行），用户始终与同一 Agent 交互（路径最短）；Sub-Agent 模式每个 Sub-Agent 拥有独立上下文窗口（隔离强），支持并行执行（吞吐高），用户通过 Supervisor 间接沟通（多一层）。
-3. Handoffs 模式通过 Agent 调用 `handoff()` 工具将控制权和上下文显式传递给下一个 Agent，采用严格顺序执行；Router 模式则由 Router 先对请求进行语义分类和分解，再将子查询**并行**分发给多个专业 Agent，最后合成结果返回——两者的根本区别在于顺序交接 vs 并行分发。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Dumb Zone 上下文管理信号
+> 
+> dumb zone 是指 Agent 的上下文窗口接近满载时，模型在任务完成上的表现显著下降的状态；这是触发多 Agent 升级的"信号一：上下文管理挑战"的核心依据——当专业知识无法舒适塞进单一 prompt 时，需要策略性分发上下文。
+> 
+> #### Q2 — Skills vs Sub-Agent 三维对比
+> 
+> Skills 模式由单一 Agent 负责全部推理，技能共享同一上下文窗口（隔离弱），顺序执行（无并行），用户始终与同一 Agent 交互（路径最短）；Sub-Agent 模式每个 Sub-Agent 拥有独立上下文窗口（隔离强），支持并行执行（吞吐高），用户通过 Supervisor 间接沟通（多一层）。
+> 
+> #### Q3 — Handoffs vs Router 执行机制
+> 
+> Handoffs 模式通过 Agent 调用 `handoff()` 工具将控制权和上下文显式传递给下一个 Agent，采用严格顺序执行；Router 模式则由 Router 先对请求进行语义分类和分解，再将子查询**并行**分发给多个专业 Agent，最后合成结果返回——两者的根本区别在于顺序交接 vs 并行分发。

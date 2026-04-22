@@ -147,24 +147,16 @@ Fine-tuning is a deep discipline with its own best practices around dataset cons
    - C) Heavy fine-tuning of the 1B router is justified because its single-task scope makes negative transfer irrelevant
    - D) RAG should be applied to the 1B router so it can look up routing rules dynamically
 
-<details><summary>Answer guide</summary>
-
-**Pre-test answers**
-
-1. **B** — Fine-tuning updates the model's internal parameters via supervised training on a labeled domain-specific dataset. Options A and C describe RAG; D describes tokenizer modification, not fine-tuning.
-
-2. **C** — The current consensus is that RAG is best at knowledge injection (supplying new information at inference time) and fine-tuning is best at domain adaptation (shaping how the model behaves in a specialized context). Options A and B invert this.
-
-3. **B** — When a model has a single, well-defined discrete task, heavy fine-tuning is the most appropriate choice. The model will never need to perform other tasks, so negative transfer on unrelated domains is not a concern. RAG would be unnecessary overhead for a routing classifier.
-
----
-
-**Post-test answers**
-
-1. **B** — Product catalog and order data change daily, making fine-tuning impractical as a freshness mechanism. RAG injects current information at inference time, which is exactly the right tool for dynamic, frequently updated knowledge. Monthly redeployment (A) cannot keep pace with daily changes.
-
-2. **B** — This is negative transfer: the gradient updates that improved legal summarization also modified weights that were useful for coding. Fine-tuning optimizes only for the target domain, and those optimizations can reduce performance elsewhere. This is a known trade-off, acceptable only when the model's deployment scope is limited to the fine-tuned domain.
-
-3. **C** — Because the 1B model's only job is routing (a single, discrete task), there is no other domain to regress on. Heavy fine-tuning is not only acceptable but recommended: a small, heavily fine-tuned router is efficient, fast, and more reliable for its specific job than a large general-purpose model. Options A and D add unnecessary complexity; B is incorrect because small models can be reliably fine-tuned for narrow tasks.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — RAG vs Fine-Tuning for Fresh Data
+> 
+> **B** — Product catalog and order data change daily, making fine-tuning impractical as a freshness mechanism. RAG injects current information at inference time, which is exactly the right tool for dynamic, frequently updated knowledge. Monthly redeployment (A) cannot keep pace with daily changes.
+> 
+> #### Q2 — Negative Transfer After Fine-Tuning
+> 
+> **B** — This is negative transfer: the gradient updates that improved legal summarization also modified weights that were useful for coding. Fine-tuning optimizes only for the target domain, and those optimizations can reduce performance elsewhere. This is a known trade-off, acceptable only when the model's deployment scope is limited to the fine-tuned domain.
+> 
+> #### Q3 — Fine-Tuning Small Routing Models
+> 
+> **C** — Because the 1B model's only job is routing (a single, discrete task), there is no other domain to regress on. Heavy fine-tuning is not only acceptable but recommended: a small, heavily fine-tuned router is efficient, fast, and more reliable for its specific job than a large general-purpose model. Options A and D add unnecessary complexity; B is incorrect because small models can be reliably fine-tuned for narrow tasks.

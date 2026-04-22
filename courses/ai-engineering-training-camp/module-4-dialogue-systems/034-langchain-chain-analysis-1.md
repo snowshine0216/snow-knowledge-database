@@ -296,11 +296,20 @@ chain_with_meta = chain.with_config(
 2. `RunnableParallel` 和直接把多个步骤串联在一条链里有什么本质区别？举例说明什么场景适合用 `RunnableParallel`。
 3. LangChain 中 `with_config(tags=...)` 和 `with_config(metadata=...)` 有什么区别？课程用了哪两个类比来帮助区分二者，你能复述并解释这两个类比吗？
 
-<details>
-<summary>答案指南</summary>
-
-1. 当左侧对象（普通函数）未定义 `__or__` 时，Python 会自动尝试右侧对象的 `__ror__`（reverse or）；LangChain 的 `Runnable` 实现了 `__ror__`，因此普通函数无需任何改造就能作为链头连接，数据流依然从左向右执行。
-2. `RunnableSequence`（普通链）是顺序执行，前一步输出才是下一步输入；`RunnableParallel` 是同时触发多条独立链，各链结果以字典形式汇总返回——适合对同一输入同时做摘要、关键词提取、情感分析等互不依赖的任务。
-3. 标签（`tags`）仅对开发者可见，不混入业务数据，类似给书加书签；元数据（`metadata`）会混入业务数据的 metadata 层，业务系统可见，类似在目录页备注——课程建议优先使用标签，避免污染原始数据。
-
-</details>
+> [!example]- Answer Guide
+>
+> #### Q1 — LCEL `|` Operator `__ror__` Mechanism
+>
+> 当左侧对象（普通函数）未定义 `__or__` 时，Python 会自动尝试右侧对象的 `__ror__`（reverse or）；LangChain 的 `Runnable` 实现了 `__ror__`，因此普通函数无需任何改造就能作为链头连接，数据流依然从左向右执行。
+>
+> ---
+>
+> #### Q2 — RunnableParallel vs Sequential Chains
+>
+> `RunnableSequence`（普通链）是顺序执行，前一步输出才是下一步输入；`RunnableParallel` 是同时触发多条独立链，各链结果以字典形式汇总返回——适合对同一输入同时做摘要、关键词提取、情感分析等互不依赖的任务。
+>
+> ---
+>
+> #### Q3 — `tags` vs `metadata` in `with_config`
+>
+> 标签（`tags`）仅对开发者可见，不混入业务数据，类似给书加书签；元数据（`metadata`）会混入业务数据的 metadata 层，业务系统可见，类似在目录页备注——课程建议优先使用标签，避免污染原始数据。

@@ -69,15 +69,16 @@ Among all the tools that can be given to an LLM, code execution occupies a uniqu
 2. Explain in your own words why the docstring of a tool function is "load-bearing" for model behavior in AI Suite — what breaks if the docstring is missing or vague?
 3. If an agentic loop has `max_turns=5` and the model requests a tool call on every turn, how many times will the tool actually execute, and what happens after the limit is reached?
 
-<details><summary>Answer Guide</summary>
-
-**Q1 — Three schema pieces:**
-The schema contains (a) the **function name**, taken directly from the Python function's `__name__`; (b) a **description**, extracted from the function's docstring; and (c) a **parameters** block, constructed from the function's argument names, type annotations, and per-parameter docstring descriptions.
-
-**Q2 — Load-bearing docstrings:**
-AI Suite uses the docstring as the primary source for the `description` field in the JSON schema. The model reads this description to decide *whether* and *when* to invoke the tool. If the docstring is absent or vague, the schema description is empty or unhelpful, so the model may invoke the tool at the wrong time, pass incorrect argument values, or ignore the tool entirely when it should be used. The docstring is therefore not optional documentation — it is functional input to the model's decision process.
-
-**Q3 — max_turns arithmetic:**
-With `max_turns=5` and a tool call on every turn, the tool executes up to 5 times (one per turn). After the fifth turn the loop exits and returns whatever response state exists at that point, regardless of whether the model intended to call more tools. In practice this limit is almost never reached in normal usage.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Three JSON schema pieces
+> 
+> The schema contains (a) the **function name**, taken directly from the Python function's `__name__`; (b) a **description**, extracted from the function's docstring; and (c) a **parameters** block, constructed from the function's argument names, type annotations, and per-parameter docstring descriptions.
+> 
+> #### Q2 — Load-bearing docstrings
+> 
+> AI Suite uses the docstring as the primary source for the `description` field in the JSON schema. The model reads this description to decide *whether* and *when* to invoke the tool. If the docstring is absent or vague, the schema description is empty or unhelpful, so the model may invoke the tool at the wrong time, pass incorrect argument values, or ignore the tool entirely when it should be used. The docstring is therefore not optional documentation — it is functional input to the model's decision process.
+> 
+> #### Q3 — max_turns arithmetic
+> 
+> With `max_turns=5` and a tool call on every turn, the tool executes up to 5 times (one per turn). After the fifth turn the loop exits and returns whatever response state exists at that point, regardless of whether the model intended to call more tools. In practice this limit is almost never reached in normal usage.

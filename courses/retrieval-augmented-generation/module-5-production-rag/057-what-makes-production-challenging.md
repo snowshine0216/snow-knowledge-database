@@ -106,12 +106,24 @@ These cases point toward a unified requirement: production RAG systems need infr
 2. A user submits the query "what is the limit?" to an enterprise RAG system. The retrieved chunks discuss rate limits, spending caps, and contract liability clauses — all plausibly relevant. What does this scenario illustrate about production query diversity, and what retrieval technique would most directly address it?
 3. An internal knowledge base RAG system is deployed with role-based document access. An engineer proposes simply filtering the vector search results post-retrieval to remove unauthorized documents before sending context to the model. What security risk does this approach fail to close, and what alternative design would close it?
 
-<details><summary>Answer guide</summary>
-
-**Post-test 1:** The two most likely bottleneck layers are (a) language model inference and (b) the vector search index. LLM inference is GPU-bound: each concurrent request occupies GPU memory proportional to the context window, so doubling concurrent users can exhaust GPU capacity and force requests to queue. Vector search is I/O-bound: approximate nearest-neighbor indices (HNSW, IVF) are held in memory and searched with O(log n) or O(n) scans; under high concurrency the index can become a contention point. Both latency and cost increase as a result.
-
-**Post-test 2:** The scenario illustrates the out-of-distribution ambiguity problem: a short, polysemous query maps to multiple valid semantic neighborhoods, so the retriever returns topically diverse but context-inconsistent chunks. The most direct technique is query rewriting or query expansion: before embedding the query, a preprocessing step either asks the user for clarification, generates multiple sub-queries covering each plausible interpretation, or uses an LLM to rewrite the ambiguous query into a more specific form. See [[055-query-rewriting]] for implementation details.
-
-**Post-test 3:** Post-retrieval filtering fails to close the document-existence leakage risk: by retrieving unauthorized documents and then filtering them out, the system has already read those documents into process memory, and a sufficiently crafted prompt could potentially extract information before filtering occurs. The more secure design is pre-retrieval filtering: the vector search query itself is augmented with a metadata predicate that restricts the candidate set to documents the requesting user is authorized to see, so unauthorized documents are never retrieved into the context at all. This requires the authorization metadata to be stored alongside each vector in the index.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — LLM and Vector Index Bottlenecks
+> 
+> The two most likely bottleneck layers are (a) language model inference and (b) the vector search index.
+> 
+> LLM inference is GPU-bound: each concurrent request occupies GPU memory proportional to the context window, so doubling concurrent users can exhaust GPU capacity and force requests to queue.
+> 
+> Vector search is I/O-bound: approximate nearest-neighbor indices (HNSW, IVF) are held in memory and searched with O(log n) or O(n) scans; under high concurrency the index can become a contention point. Both latency and cost increase as a result.
+> 
+> #### Q2 — Ambiguous Query and Rewriting
+> 
+> The scenario illustrates the out-of-distribution ambiguity problem: a short, polysemous query maps to multiple valid semantic neighborhoods, so the retriever returns topically diverse but context-inconsistent chunks.
+> 
+> The most direct technique is query rewriting or query expansion: before embedding the query, a preprocessing step either asks the user for clarification, generates multiple sub-queries covering each plausible interpretation, or uses an LLM to rewrite the ambiguous query into a more specific form. See [[055-query-rewriting]] for implementation details.
+> 
+> #### Q3 — Pre-retrieval Authorization Filtering
+> 
+> Post-retrieval filtering fails to close the document-existence leakage risk: by retrieving unauthorized documents and then filtering them out, the system has already read those documents into process memory, and a sufficiently crafted prompt could potentially extract information before filtering occurs.
+> 
+> The more secure design is pre-retrieval filtering: the vector search query itself is augmented with a metadata predicate that restricts the candidate set to documents the requesting user is authorized to see, so unauthorized documents are never retrieved into the context at all. This requires the authorization metadata to be stored alongside each vector in the index.

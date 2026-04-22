@@ -94,22 +94,16 @@ The broader trajectory is clear: as information retrieval increasingly demands r
 2. Compare the semantic-segmentation approach to PDF chunking with the fixed-grid (PDF RAG) approach: what problem does each solve, what failure mode does each introduce, and when might you prefer one over the other?
 3. Explain why storing images in a multimodal vector database requires the same embedding model at both index time and query time, and what would break if you used different multimodal models for each step.
 
-<details><summary>Answer guide</summary>
-
-**Pre-test answers**
-
-1. A multimodal embedding model maps multiple input types (text and images) into the same continuous vector space, preserving the property that semantically similar items land near each other regardless of modality. A text-only model maps only strings; it cannot produce a vector for an image at all. The critical property the multimodal model must preserve is cross-modal semantic proximity: an image of a concept and a textual description of that same concept should have geometrically close vectors.
-
-2. The PDF RAG approach divides each page into a regular grid of equal-sized squares without any semantic segmentation, then embeds each square independently. Retrieval scoring mirrors ColBERT's late-interaction mechanism: each query token finds its best-matching grid square on a candidate page, and these best-match scores are summed to rank the page. This avoids the error-prone classification step required by semantic segmentation approaches.
-
-3. Treating slides and PDFs as image files means any file that can be rendered visually — regardless of its internal encoding — can be ingested without a custom parser for each format. The challenge is that individual pages are information-dense, so the image must be chunked (either semantically or via fixed grid) to produce vectors that are specific enough for precise retrieval.
-
-**Post-test answers**
-
-1. The PDF is converted to per-page images at ingestion time. Each page is chunked (e.g., by fixed grid or segmentation) and each chunk is passed through a multimodal embedding model to produce a dense vector stored in the vector database. At query time the user's text question is embedded by the same multimodal model. Vector search finds the top-k image chunks whose vectors are nearest to the query vector — ideally including squares from page 34 that cover the bar chart. The retrieved image patches plus the original query are passed as a combined prompt to a language vision model, which tokenizes the image patches into patch tokens, concatenates them with the text tokens, runs them through a transformer, and generates a text answer referencing the chart's data.
-
-2. Semantic segmentation attempts to detect and classify each logical element on a page (text block, chart, image, table), embedding each element as a distinct unit. It produces semantically meaningful chunks but is error-prone — misclassification and ambiguous boundaries are common failure modes. Fixed-grid splitting divides every page into uniform squares without classification, which is robust and fast but may cut across logical elements, mixing parts of a chart with parts of adjacent text in a single square. Semantic segmentation is preferable when layout is structured and predictable (e.g., templated corporate reports); fixed-grid is preferable when documents are diverse, poorly structured, or when operational simplicity and retrieval robustness outweigh chunk purity.
-
-3. A vector space is defined by the model that produces it — two different models, even if both described as "multimodal," project inputs into different latent spaces with different geometric relationships. If index-time vectors are produced by model A and query-time vectors by model B, the cosine similarity between a query vector and a document vector is meaningless because the two vectors live in incompatible spaces. Retrieval would return effectively random results. Using the same model end-to-end guarantees that the distance metric is consistent across the full pipeline.
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — Multimodal RAG End-to-End Flow
+> 
+> The PDF is converted to per-page images at ingestion time. Each page is chunked (e.g., by fixed grid or segmentation) and each chunk is passed through a multimodal embedding model to produce a dense vector stored in the vector database. At query time the user's text question is embedded by the same multimodal model. Vector search finds the top-k image chunks whose vectors are nearest to the query vector — ideally including squares from page 34 that cover the bar chart. The retrieved image patches plus the original query are passed as a combined prompt to a language vision model, which tokenizes the image patches into patch tokens, concatenates them with the text tokens, runs them through a transformer, and generates a text answer referencing the chart's data.
+> 
+> #### Q2 — Semantic Segmentation vs Fixed-Grid Chunking
+> 
+> Semantic segmentation attempts to detect and classify each logical element on a page (text block, chart, image, table), embedding each element as a distinct unit. It produces semantically meaningful chunks but is error-prone — misclassification and ambiguous boundaries are common failure modes. Fixed-grid splitting divides every page into uniform squares without classification, which is robust and fast but may cut across logical elements, mixing parts of a chart with parts of adjacent text in a single square. Semantic segmentation is preferable when layout is structured and predictable (e.g., templated corporate reports); fixed-grid is preferable when documents are diverse, poorly structured, or when operational simplicity and retrieval robustness outweigh chunk purity.
+> 
+> #### Q3 — Same Embedding Model at Index and Query
+> 
+> A vector space is defined by the model that produces it — two different models, even if both described as "multimodal," project inputs into different latent spaces with different geometric relationships. If index-time vectors are produced by model A and query-time vectors by model B, the cosine similarity between a query vector and a document vector is meaningless because the two vectors live in incompatible spaces. Retrieval would return effectively random results. Using the same model end-to-end guarantees that the distance metric is consistent across the full pipeline.

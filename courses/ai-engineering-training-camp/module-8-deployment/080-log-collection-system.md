@@ -229,11 +229,16 @@ Fluentd 是另一种日志采集方案，与 ELK 有不同的定位：
 2. Python 应用向 Logstash 推送日志时，为什么要加"重试三次"和"序号"两个机制？去掉其中一个会有什么后果？
 3. 什么情况下应该选 Fluentd 而不是 Logstash？请用一个具体场景说明两者的核心区别。
 
-<details>
-<summary>答案指南</summary>
-
-1. 日志从 Python 应用通过 TCP Socket 以 JSON 格式推送到 Logstash（端口 5044），Logstash 将其转发到 Elasticsearch（端口 9200）建立索引（如 `elk-YYYY.MM.dd`），Kibana（端口 5601）再从 Elasticsearch 读取数据并渲染为可视化图表。
-2. 重试三次是为了应对网络抖动导致的连接失败，防止日志丢失；序号是为了验证日志是否乱序或缺失，方便问题排查。缺少重试会丢日志，缺少序号则难以发现日志顺序错乱的问题。
-3. 当应用代码不可修改、只能通过已有日志文件进行采集时，选 Fluentd——它通过插件监听文件变化进行二次采集；而 Logstash 适合可在代码中嵌入 handler、能主动将日志推送到 TCP 端口的场景（如 FastAPI/AI 服务）。
-
-</details>
+> [!example]- Answer Guide
+> 
+> #### Q1 — ELK 完整数据流路径
+> 
+> 日志从 Python 应用通过 TCP Socket 以 JSON 格式推送到 Logstash（端口 5044），Logstash 将其转发到 Elasticsearch（端口 9200）建立索引（如 `elk-YYYY.MM.dd`），Kibana（端口 5601）再从 Elasticsearch 读取数据并渲染为可视化图表。
+> 
+> #### Q2 — 重试与序号机制作用
+> 
+> 重试三次是为了应对网络抖动导致的连接失败，防止日志丢失；序号是为了验证日志是否乱序或缺失，方便问题排查。缺少重试会丢日志，缺少序号则难以发现日志顺序错乱的问题。
+> 
+> #### Q3 — Fluentd vs Logstash 选择场景
+> 
+> 当应用代码不可修改、只能通过已有日志文件进行采集时，选 Fluentd——它通过插件监听文件变化进行二次采集；而 Logstash 适合可在代码中嵌入 handler、能主动将日志推送到 TCP 端口的场景（如 FastAPI/AI 服务）。
