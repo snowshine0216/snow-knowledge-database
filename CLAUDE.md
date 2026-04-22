@@ -199,3 +199,57 @@ Tie-breaker rules:
 - When in genuine doubt between two folders, prefer the smaller one (keeps distribution balanced).
 
 `./scripts/compile.sh` defaults to `ai-engineering` when no category is given — override with the second arg (e.g. `./scripts/compile.sh raw/foo.md claude`). Summarizer skills MUST pass the classified topic explicitly so raw output and wiki output match.
+
+## Obsidian Callout Block Patterns for Course Content
+
+Course materials (especially in `courses/`) should use Obsidian callout blocks for structured, collapsible content. Standard patterns:
+
+### Explanation Block (expanded by default)
+```markdown
+> [!info]+ 💡 Explanation - [Topic Name]
+> 
+> [Detailed explanation, philosophy, deep dive]
+```
+- Use `> [!info]+` for expanded state (user sees content immediately)
+- Ideal for supplementary explanations, philosophical context, detailed breakdowns
+- Single block per section
+
+### Interview Questions Block (collapsed by default)
+```markdown
+> [!question]- 📋 面试题 (Interview Follow-up)
+> 
+> **题目 1：** [Question 1]
+> **题目 2：** [Question 2]
+> **题目 3：** [Question 3]
+```
+- Use `> [!question]-` for collapsed state (user expands to see questions)
+- Keep questions concise and numbered
+- Separate from answer block below
+
+### Answer Guide Block (collapsed by default)
+```markdown
+> [!example]- 💡 答案指南 (Answer Guide)
+> 
+> **题目 1 - 引导答案思路：**
+> [Answer guidance for question 1]
+> 
+> ---
+> 
+> **题目 2 - 引导答案思路：**
+> [Answer guidance for question 2]
+```
+- Use `> [!example]-` for collapsed answer guide
+- Use `---` to separate answers visually
+- Include "引导答案思路" (guided answer thinking) section per question
+- Always pair with Interview Questions block above
+
+### Other Common Callout Types
+- `> [!note]` — general information
+- `> [!warning]` — important caveats or risks
+- `> [!success]` — completed concepts or achieved milestones
+- `> [!abstract]` — summaries and overviews
+
+**Syntax reminder:**
+- `+` after title = expanded by default
+- `-` after title = collapsed by default
+- Omit `+/-` to use default state for that type
