@@ -1,4 +1,6 @@
 ---
+name: encrypted-video-capture
+description: Use when a user provides a DRM-protected or browser-only video course URL, such as Geektime, and wants per-lecture notes generated from captured playback audio.
 tags: [video-capture, asr, geektime, drm, lecture-notes]
 source: internal
 ---

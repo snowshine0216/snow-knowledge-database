@@ -3,7 +3,14 @@ tags: [fine-tuning, data-engineering, docker, dvc, tokenizer, environment-manage
 source: https://u.geekbang.org/lesson/818?article=927433
 wiki: wiki/concepts/016-engineering-prep-and-data-engineering.md
 ---
+## Pre-test
 
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+
+1. 微调（Fine-tuning）、量化（Quantization）、蒸馏（Distillation）三者的本质操作分别是什么？你能用一句话区分它们吗？
+2. 在多人协作的 AI 工程项目中，"我本机能跑，但同事/生产环境跑不通"是哪类问题？你认为最常见的根因是什么？
+3. GPT 系列模型使用 BPE 分词，BERT 系列使用 WordPiece 分词。如果训练时用了其中一种，推理时换成另一种，你预测会发生什么？
+---
 # 016: 工程准备与数据工程基础（模块二）
 
 **Source:** [AI 工程化训练营 模块二 1 工程准备与数据工程基础](https://u.geekbang.org/lesson/818?article=927433)
@@ -98,10 +105,10 @@ docker run --gpus all finetune-project
 
 **常见陷阱**：
 
-| 模型系列 | Tokenizer 类型 | 误用后果 |
-|---------|---------------|---------|
-| GPT 系列（GPT-2/3/4） | **BPE**（Byte Pair Encoding）| 用了 WordPiece → Token 数量暴增，成本飙升 |
-| BERT 系列 | **WordPiece** | 用了 BPE → 语义切分不同，模型表现异常 |
+| 模型系列              | Tokenizer 类型                | 误用后果                               |
+| ----------------- | --------------------------- | ---------------------------------- |
+| GPT 系列（GPT-2/3/4） | **BPE**（Byte Pair Encoding） | 用了 SentencePiece → Token 数量暴增，成本飙升 |
+| BERT 系列           | **SentencePiece**           | 用了 BPE → 语义切分不同，模型表现异常             |
 
 **验证脚本**：
 
@@ -258,15 +265,6 @@ Git 版本化（代码 + 数据引用）
 
 ---
 
-## Pre-test
-
-> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
-
-1. 微调（Fine-tuning）、量化（Quantization）、蒸馏（Distillation）三者的本质操作分别是什么？你能用一句话区分它们吗？
-2. 在多人协作的 AI 工程项目中，"我本机能跑，但同事/生产环境跑不通"是哪类问题？你认为最常见的根因是什么？
-3. GPT 系列模型使用 BPE 分词，BERT 系列使用 WordPiece 分词。如果训练时用了其中一种，推理时换成另一种，你预测会发生什么？
-
----
 
 ## Post-test
 
