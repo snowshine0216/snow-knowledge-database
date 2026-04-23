@@ -55,6 +55,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Karpathy on Code Agents and the Loopy Era](ai-engineering/karpathy-loopy-era-ai.md) | ai-agents, code-agents, andrej-karpathy, llm, multi-agent | Workflow shift from writing code to orchestrating agents: parallelism, memory, jagged capabilities, AutoResearch |
 | [Vision Agent with Segmentation Tool](ai-engineering/vision-agent-with-segmentation-tool.md) | vlm, agent, image-segmentation, grounding, vision-agent, object-detection, multimodal | Pattern for pairing a VLM (planner + reasoner) with a small segmentation model (grounding tool) in a bounded agentic loop to fix counting/localization failures |
 | [Caveman Token Saver](ai-engineering/caveman-token-saver.md) | claude-code, token-optimization, caveman, codex, prompt-compression | Output token compression plugin (22–87% savings) via terse response style for Claude Code/Codex |
+| [AI Engineering — Chip Huyen (O'Reilly 2025)](ai-engineering/chip-huyen-ai-engineering-book.md) | ai-engineering, llm, foundation-models, rag, agents, finetuning, evaluation, prompt-engineering, inference-optimization, chip-huyen | 10-chapter systematic guide to building production apps on foundation models: evaluation, RAG, agents, finetuning, and inference optimization |
 
 ## RAG and Knowledge
 
@@ -77,6 +78,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [MetaClaw](dev-tools/metaclaw.md) | ai-agents, meta-learning, continual-learning, openclaw | Proxy-based meta-learning middleware that evolves agent skills through session summaries and RL |
 | [Last30Days Skill](dev-tools/last30days-skill.md) | claude-code, research-skill, trend-analysis, recency | Research skill aggregating 30-day social/web discussions into citation-backed outputs |
 | [AI Tools Roundup](dev-tools/ai-tools-roundup.md) | ai-tools, google-ai-studio, replicate, voice-writing | Reference overview of Google AI Studio, Replicate, and Rhyme.ink |
+| [Context Mode — MCP Context Window Optimizer](dev-tools/context-mode-mksglu.md) | mcp, context-window, context-optimization, claude-code, ai-tools, coding-agents, session-continuity | MCP server sandboxing tool output (98% reduction) + SQLite session continuity across 12 AI coding platforms |
 
 ## Learning and Business
 
