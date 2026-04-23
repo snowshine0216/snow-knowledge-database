@@ -92,8 +92,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Nvidia New Moat Strategy](learning-and-business/nvidia-new-moat-strategy.md) | strategy, nvidia, ai-hardware, moat, open-source | Nvidia's shift from chip vendor to AI operating layer via open-source agent platform (NemoClaw/OpenClaw) |
 | [Top 10 Claude Code Frontend Design Skills, Plugins & CLIs](learning-and-business/top-10-claude-code-frontend-design-skills-plugins-clis.md) | claude-code, frontend, design, skills, tools, cli, plugins, ui-ux | 10 tools (Impeccable, SkillUI, Stitch, 21st.dev, Playwright CLI, etc.) to fix Claude Code's AI-slop design weakness |
 | [戴锦华：拥抱不确定性，情绪的商品化与"输得起"的人生哲学](learning-and-business/dai-jinhua-peking-university-embrace-uncertainty.md) | dai-jinhua, peking-university, emotions, relationships, ai-companions, mental-health, chinese-culture, interview | 北大戴锦华论"爱你老几明天见"的解脱哲学：搁置≠压抑，感情计算化折射安全感匮乏，AI伴侣是自恋镜像，临床数据显示虚拟关系越深精神激患越高 |
-| [程乐松：如何不做人生的"精神渣男"](learning-and-business/peking-university-philosophy-opening-ceremony-speech-cheng-lesong-on-avoiding-being-a-bad.md) | philosophy, life-wisdom, education, peking-university, lying-flat, uncertainty, attention, solitude, chinese-philosophy | 北大程乐松深度访谈：躺平是负责任的心灵态度；风险意识与兴趣成反比；慰藉之学的目标不是竞争优势而是自觉投身当下；所有被仰望的伟大都是副产品 |
-
+| [程乐松：如何不做人生的"精神渣男"](learning-and-business/peking-university-philosophy-opening-ceremony-speech-cheng-lesong-on-avoiding-being-a-bad.md) | philosophy, life-wisdom, education, peking-university, lying-flat, uncertainty, attention, solitude, chinese-philosophy | 北大程乐松深度访谈：躺平是负责任的心灵态度；风险意识与兴趣成反比；慰藉之学的目标不是竞争优势而是自觉投身当下；所有被仰望的伟大都是副产品 || [读书究竟让人越读越聪明，还是越读越傲慢？｜罗翔x刘震云x刘旸教主](learning-and-business/xx2026_BV1hkoHBpENz.md) | 读书, 文学, 哲学, 幽默, 喜剧, 脱口秀, 刘震云, 罗翔, 刘旸教主, 2026读书日, interview | 罗翔x刘震云x刘旸教主80分钟对谈：幽默五层级（语言→人物结构道理）、「想明白了千万别写」的写作悖论、优旃以玩笑阻止秦二世荒唐旨意、爱比克泰德可控/不可控哲学 |
 ## Courses
 
 ### AI Engineering Training Camp (selected livestreams + modules)
