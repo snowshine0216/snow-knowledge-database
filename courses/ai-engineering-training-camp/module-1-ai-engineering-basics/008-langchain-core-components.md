@@ -3,7 +3,7 @@ tags: [langchain, langgraph, autogen, multi-agent, tools, memory, function-calli
 source: https://u.geekbang.org/lesson/818?article=927425
 wiki: wiki/concepts/008-langchain-core-components.md
 ---
-
+j g
 ## Pre-test
 
 > *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
