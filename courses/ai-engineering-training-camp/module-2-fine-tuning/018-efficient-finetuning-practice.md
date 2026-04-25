@@ -100,7 +100,7 @@ BERT 等现代模型使用**可学习位置编码**（Learnable Positional Encod
 
 **QKV 注意力机制**：每个输入 Token 被映射为 Query、Key、Value 三个向量，通过 Softmax 计算注意力分布矩阵。微调实践中最重要的是 Q 和 V。
 
-**残差连接（Residual Connection）**的意义：
+**残差连接（Residual Connection)** 的意义：
 
 - 在反向传播时，梯度经过多层叠加会发生指数级衰减，导致底层参数几乎不更新（**梯度消失**问题）。
 - 残差路径相当于"电梯"，计算 `output = x + F(x)`，使梯度始终保留一条直通通道（至少保证梯度 ≥ 1），从而缓解梯度消失。
