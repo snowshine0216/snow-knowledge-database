@@ -493,10 +493,25 @@ POST /quantize  → 执行 BNB/AWQ 量化
 
 ---
 
+## Deep Dive
+
+→ [[020-deepdive-cache-hash-testing|Deep Dive: 缓存命中率检测 · Hash 校验 · 自动化测试工程化]]
+
+本节深入探讨 **可观测性（Observability）与回归测试（Regression Testing）** 的交叉地带，涵盖：
+
+- vLLM/API 层的缓存命中率检测方法（Prometheus 指标 + API `usage` 字段解析）
+- 分块哈希（Block-based Hashing）防护不变模块的工程实现
+- 三层自动化测试套件（Hash 稳定性 / 缓存命中回归 / TTFT 性能基准）
+- LangChain 封装 vs 手写拼接逻辑在缓存稳定性上的核心差异
+- 动态 Prompt 生成场景下的缓存失效排查与治理方案
+
+---
+
 ## Connections
 - → [[model-compression-and-deployment]]
 - → [[lora-fine-tuning]]
 - → [[vllm-inference-serving]]
+- → [[020-deepdive-cache-hash-testing]]
 
 
 ---
