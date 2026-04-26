@@ -193,6 +193,68 @@ swift infer \
 
 **生产环境推荐方案**：`Nginx → FastAPI 包装层 → vLLM`
 
+> [!info]+ 💡 Explanation - vLLM 深度解析：PagedAttention 与 Ollama 的本质区别
+
+> ### 一、什么是 vLLM？
+> 
+> **vLLM** 是专为生产环境高吞吐量设计的 LLM 推理与服务库，Ollama 则是为本地开发极致便利而生。两者定位从根本上不同。
+> 
+> #### 核心技术：PagedAttention
+> 
+> 这是 vLLM 的成名绝技。传统框架为每个请求**预分配连续显存**，导致严重的显存碎片（类似早期操作系统内存管理）。vLLM 借鉴虚拟内存分页思想，将 KV Cache 存储在**非连续的物理块**中：
+> 
+> - **几乎零浪费：** 显存利用率接近 100%
+> - **高并发：** 省下的显存可同时服务更多请求
+> - **吞吐量：** 多用户并发场景下通常比原生 HuggingFace 实现高 **10-20 倍**
+> 
+> ---
+> 
+> ### 二、vLLM vs. Ollama 深度对比
+> 
+> #### 技术架构差异
+> 
+> | 维度 | vLLM | Ollama |
+> | :--- | :--- | :--- |
+> | **底层实现** | Python / CUDA，直接与 GPU 通信，围绕 PagedAttention 展开 | C/C++（llama.cpp），跨平台，支持 CPU / Apple Silicon 统一内存 |
+> | **硬件支持** | 主要 NVIDIA GPU（扩展中：AMD / Ascend） | 全平台：CPU、Mac M1/M2、NVIDIA、AMD |
+> | **部署难度** | 中（需配置 Python 环境、CUDA 驱动） | **极低（一键安装包，类似 Docker）** |
+> | **并发性能** | **极高，专为高并发高吞吐设计** | 一般，适合单人或小团队使用 |
+> | **显存管理** | PagedAttention（动态分配，极致高效） | 静态分配（llama.cpp 机制） |
+> | **API 兼容性** | 标准 OpenAI API 格式 | 自有 API + 兼容 OpenAI API |
+> | **模型格式** | 原生 SafeTensors / 有限 GGUF 支持 | 专有 ModelFile（基于 GGUF） |
+> 
+> #### 核心场景定位
+> 
+> - **vLLM → 生产级后端：** 支持数百人同时访问的 AI 助手、Kubernetes 集群部署
+> - **Ollama → 开发者本地工具：** MacBook 上快速跑 Llama 3、给本地 IDE 配私有模型
+> 
+> ---
+> 
+> ### 三、为什么生产环境选 vLLM？三大不可替代优势
+> 
+> **1. Prefix Caching（前缀缓存）**
+> - **场景：** System Prompt 很长（复杂 Agent 规则）或用户多轮对话
+> - **机制：** vLLM 检测到 Prompt 前缀相同，直接复用 KV Cache，跳过重复计算
+> - **效果：** 长文本对话首字延迟（TTFT）大幅降低
+> 
+> **2. Chunked Prefill（分块预填充）**
+> - **场景：** 用户 A 发送 10k 字长文档（Prefill 阶段），用户 B 正在生成第 50 个字（Decode 阶段）
+> - **机制：** 将长文档切块穿插在生成请求中交替处理
+> - **效果：** 避免长 Prefill 阻塞 Decode，服务不卡顿
+> 
+> **3. 动态连续批处理（Continuous Batching）**
+> - **机制：** 不等所有请求结束才开始下一波；一个请求完成，新请求立即插入空位
+> - **效果：** GPU 永不空转，利用率最大化
+> 
+> ---
+> 
+> ### 四、选型建议
+> 
+> | 场景 | 推荐工具 | 理由 |
+> | :--- | :--- | :--- |
+> | 本地调优 / 个人使用 | **Ollama** | 简单轻量，`OLLAMA_NUM_PARALLEL` 应付轻量并发 |
+> | AI 应用开发 / 集群部署 | **vLLM** | 省显存，高负载下保持极快响应，生产首选 |
+
 ---
 
 ## vLLM 核心优化参数
@@ -219,6 +281,123 @@ python -m vllm.entrypoints.openai.api_server \
 ```bash
 --enable-prefix-caching
 ```
+
+> [!info]+ 💡 Explanation - KV Cache 深度解析：从原理到 Anthropic 事故复盘
+> 
+> KV Cache 是从"实验室原型"走向"工业化部署"的第一道分水岭。Anthropic 2026 年 4 月关于 Claude Code 质量下降的事故报告，则是一堂关于"缓存失效"的惨痛教训课。
+> 
+> #### 一、为什么需要 KV Cache？
+> 
+> 在 Transformer 架构中，生成第 $N$ 个 Token 需要与前 $N-1$ 个 Token 计算注意力：
+> 
+> - **无缓存：** 每次都重新计算所有前置 Token 的 K/V 向量，复杂度 $O(N^2)$
+> - **有缓存：** 将前 $N-1$ 个 Token 的 K/V 向量存入显存，新 Token 只需计算自身，复杂度降为 $O(N)$
+> 
+> **显存代价：** 对于 $L$ 层、隐藏维度 $H$ 的 FP16 模型，缓存单个 Token 约占：
+> $$2 \times 2 \times L \times H \text{ bytes}$$
+> 超长上下文场景下，KV Cache 往往超过模型参数本身的显存占用。
+> 
+> #### 二、Anthropic 事故复盘：`clear_thinking` Bug
+> 
+> **什么是 Harness？** 在 AI 领域，Agent Harness 是包裹模型的"操作系统"，负责拼接 System Prompt、管理历史对话、调用工具、控制 Token 限制。
+> 
+> **事故经过：** Anthropic 引入 `clear_thinking_20251015` 协议，本意是只在特定节点清理冗长思维链（CoT），节省 Token。但逻辑 Bug 导致 Harness 在**每一轮**都触发 `keep:1` 操作（只保留最后一个 Block）。
+> 
+> **双重后果：**
+> - **模型变笨：** 历史记忆被物理抹除，Claude 陷入逻辑循环
+> - **缓存全毁：** 每轮截断后发送的 Token 序列与上轮完全不匹配，缓存 100% 未命中
+> 
+> #### 三、缓存失效的根本原因：Exact Match（精确匹配）
+> 
+> 无论 vLLM 的 Prefix Caching 还是 Anthropic 的 API 级缓存，核心机制都是 **SHA 哈希**：
+> 
+> - 对 Prompt 前缀计算哈希，命中则复用，未命中则全量重算
+> - **一个空格、一个换行、一个 Metadata Header 的改动 → 哈希彻底改变 → 缓存全失效**
+> - Anthropic 案例中，Harness 错误修剪历史导致每轮序列都是全新的，必须重新进行昂贵的 Prefill
+> 
+> #### 四、如何避免缓存失效
+> 
+> | 策略 | 做法 |
+> | :--- | :--- |
+> | **前缀稳定性** | 最稳定内容（System Prompt、静态规则）放最前；最易变内容（时间戳、用户输入）放最后 |
+> | **规范化** | Harness 层强制 `strip()`，统一 UTF-8 编码，消除不可见字符差异 |
+> | **分层管理** | 参考 PagedAttention 分块思想：只有最后一块变了，前 $N-1$ 块依然可复用 |
+> 
+> **一句话总结：** KV Cache 是用空间换时间，而 Harness 的微小改动（如多了一个空格或触发了错误的修剪逻辑）会让这种交换彻底破产，导致性能和效果的"双重雪崩"。
+
+> [!question]- 📋 面试题 - KV Cache 失效检测与工程化防护
+> 
+> **题目 1：** vLLM 的 Prefix Caching 依赖什么机制判断缓存命中？Harness 层的哪类改动最容易触发缓存失效？
+> 
+> **题目 2：** 如何通过可观测指标（Observability）自动发现生产环境中的缓存失效？请列出关键指标和检测逻辑。
+> 
+> **题目 3：** 设计一套自动化测试方案，要求能在 CI/CD 流程中提前捕获"Harness 修改导致 Prompt 前缀悄悄变化"这类隐性 Bug。
+
+> [!example]- 💡 答案指南 - KV Cache 失效检测与工程化防护
+> 
+> **题目 1 - 引导答案思路：**
+> 
+> vLLM Prefix Caching 对 Prompt 前缀做 **SHA 哈希**，相同哈希直接复用 KV Block，不同则重新计算。最危险的改动类型：
+> - **不可见字符变化：** 多一个空格、`\n` 变 `\r\n`、全角半角混用
+> - **顺序变化：** 将 Tool 定义从 System Prompt 前移到后，哈希彻底改变
+> - **动态字段侵入静态区：** 把时间戳、请求 ID 拼入 System Prompt（常见于模板 bug）
+> - **修剪逻辑 Bug（如 Anthropic 案例）：** 每轮截断历史导致前缀序列永远不同
+> 
+> ---
+> 
+> **题目 2 - 引导答案思路：**
+> 
+> 三层可观测指标：
+> 
+> **服务端（vLLM Prometheus）：**
+> - `vllm:num_cached_tokens` — 当前缓存总量
+> - `vllm:gpu_cache_usage_gauge` — 缓存占用率
+> - 通过日志的 `prefix_hit` 字段计算命中率
+> 
+> **客户端（API Usage 字段）：**
+> ```json
+> "usage": {
+>   "prompt_tokens": 1000,
+>   "prompt_cache_hit_tokens": 800,
+>   "prompt_cache_miss_tokens": 200
+> }
+> ```
+> $$\text{Cache Hit Rate} = \frac{\text{prompt\_cache\_hit\_tokens}}{\text{prompt\_tokens}}$$
+> 
+> **哨兵指标（首字延迟 TTFT）：**
+> - 正常命中缓存：TTFT ≈ 100ms（$O(1)$ 读取）
+> - 缓存全失效：TTFT ≈ 2000ms（$O(N)$ 重算 Prefill）
+> - **自动化策略：** TTFT 突增 10x 时自动截获 Raw Prompt 并输出哈希对比报告
+> 
+> ---
+> 
+> **题目 3 - 引导答案思路：**
+> 
+> 三层测试套件：
+> 
+> **A. 单元测试：Hash 稳定性（最关键）**
+> ```python
+> def test_prompt_template_hash_consistency():
+>     harness = PromptHarness()
+>     payload1 = harness.build_payload(system_prompt, user_input="Hello")
+>     payload2 = harness.build_payload(system_prompt, user_input="Hi")
+>     # System Block 不受 user_input 影响，哈希必须相同
+>     assert harness.get_block_hash(payload1, "system") == \
+>            harness.get_block_hash(payload2, "system"), \
+>            "System Prompt 发生了不可见的变更，将导致缓存失效！"
+> ```
+> 
+> **B. 集成测试：缓存命中回归**
+> - 请求 A 预热缓存 → 请求 B 复用相同前缀 → 断言 `prompt_cache_hit_tokens > 0`
+> - 边界值：对话长度超 `max-model-len` 时，验证 Prefix Cache 是否仍能部分命中（滑动窗口）
+> 
+> **C. 性能基准测试（Pytest-Benchmark + TTFT）**
+> - 建立 TTFT 基线；CI 中若 TTFT 相较基线劣化 >50%，自动生成 Raw Prompt Hash 对比报告并阻断合并
+> 
+> **工具链推荐：**
+> - LangSmith / W&B：追踪每个请求的 Trace，记录每阶段 Hash 和 Cache Hit 状态
+> - Prompt Invariant Proxy：发送前对重复前缀做 Hash 校验，Hash 抖动时报警
+> - Pytest-Benchmark：建立 TTFT 性能基线，防止代码合入导致缓存机制退化
 
 ### 4. 并发配置（Ollama）
 ```bash
