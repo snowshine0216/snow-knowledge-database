@@ -83,7 +83,7 @@ wiki: wiki/concepts/model-compression-and-deployment.md
 ### 量化效果
 - 轻微精度下降（类似 32 位色降至 8 位色，肉眼几乎不可见）
 - 显存大幅降低：7B 模型 FP16 约 14GB → INT4 约 4.7GB
-- 推理速度显著提升
+- 推理速度` 显著提升
 
 ### 量化类型（以 Ollama 目录为参考）
 | 类型 | 说明 |
