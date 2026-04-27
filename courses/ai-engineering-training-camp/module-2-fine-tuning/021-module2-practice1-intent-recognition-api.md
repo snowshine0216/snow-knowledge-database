@@ -60,17 +60,17 @@ wiki: wiki/concepts/intent-recognition-lora-fine-tuning.md
 
 理解参数背后的 Transformer 结构，才能有效调参：
 
-| 参数 | 含义 |
-|------|------|
-| `target_modules` | 微调哪些矩阵，如 `q_proj`, `v_proj`（注意力头）|
-| `lora_rank` (r) | LoRA 分解矩阵的秩，越大容量越大，显存越多 |
-| `lora_alpha` | LoRA 缩放系数，通常设为 `2 * rank` |
-| `lora_dropout` | 防止过拟合的 Dropout 层 |
-| `learning_rate` | 学习率，LoRA 通常比全量微调大（如 1e-4）|
-| `num_train_epochs` | 训练轮数（Epoch） |
-| `per_device_train_batch_size` | 每张 GPU 的批次大小 |
-| `gradient_accumulation_steps` | 梯度累积步数，等效增大批次 |
-| `save_steps` | 每多少步保存一次 checkpoint |
+| 参数                            | 含义                                |
+| ----------------------------- | --------------------------------- |
+| `target_modules`              | 微调哪些矩阵，如 `q_proj`, `v_proj`（注意力头） |
+| `lora_rank` (r)               | LoRA 分解矩阵的秩，越大容量越大，显存越多           |
+| `lora_alpha`                  | LoRA 缩放系数，通常设为 `2 * rank`         |
+| `lora_dropout`                | 防止过拟合的 Dropout 层                  |
+| `learning_rate`               | 学习率，LoRA 通常比全量微调大（如 1e-4）         |
+| `num_train_epochs`            | 训练轮数（Epoch）                       |
+| `per_device_train_batch_size` | 每张 GPU 的批次大小                      |
+| `gradient_accumulation_steps` | 梯度累积步数，等效增大批次                     |
+| `save_steps`                  | 每多少步保存一次 checkpoint               |
 
 ---
 
