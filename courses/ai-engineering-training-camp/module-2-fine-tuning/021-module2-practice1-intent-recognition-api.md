@@ -232,6 +232,100 @@ model.print_trainable_parameters()
 # 未设置早停（Early Stopping），按 epoch 自动结束
 ```
 
+> [!info]+ 💡 Explanation - Tokenizer 保存与类别不平衡处理
+>
+> 在训练脚本末尾通常会同时保存模型和 tokenizer：
+>
+> ```python
+> model.save_pretrained(OUTPUT_DIR)
+> tokenizer.save_pretrained(OUTPUT_DIR)
+> ```
+>
+> 保存 tokenizer 的核心原因是：**推理时必须使用完全相同的 tokenizer 配置**。
+>
+> 1. **特殊 token 映射**：例如代码中如果设置过 `tokenizer.pad_token = tokenizer.eos_token`，这个修改需要持久化。否则重新加载后 `pad_token_id` 可能仍是 `None`，推理或 batch padding 时会报错。
+> 2. **词表文件**：`vocab.json`、`merges.txt`、`tokenizer.json` 等文件决定文本到 token ID 的映射。训练和推理必须使用同一套映射，否则相同文本会被切成不同 token。
+> 3. **配置参数**：特殊 token 定义、截断与 padding 侧、`model_max_length` 等配置会写入 `tokenizer_config.json` 或相关配置文件。
+> 4. **版本一致性**：Hugging Face 上的模型与 tokenizer 可能更新。保存本地 tokenizer 可以锁定训练时使用的版本，避免未来因远端版本变化导致结果不可复现。
+>
+> 如果只保存模型不保存 tokenizer，部署时就需要重新从 `Qwen/Qwen3-8B` 或对应基座模型下载 tokenizer，并手动重新应用所有配置修改。这既容易遗漏，也依赖网络访问。保存后直接使用 `from_pretrained(OUTPUT_DIR)`，即可从同一个目录加载模型和 tokenizer。
+>
+> `class_weights` 则用于**缓解类别不平衡**，让模型对少数类别“更上心”。
+>
+> 假设意图数据集分布不均：
+>
+> - “查询天气”：1000 条
+> - “设置闹钟”：100 条
+> - “播放音乐”：50 条
+>
+> 如果不处理，模型只要把大多数样本都预测为“查询天气”，就能获得很高的 accuracy，但它并没有真正学会稀有意图。`class_weights` 会给每个类别分配权重，样本越少的类别权重越大：
+>
+> $$w_i = \frac{\text{总样本数}}{N_{\text{classes}} \times \text{第}i\text{类样本数}}$$
+>
+> 少数类权重大，意味着预测错少数类时 loss 更大，反向传播时梯度更新也更强，模型会被迫更认真地学习这些类别。
+>
+> 在分类式训练脚本中通常分三步使用：
+>
+> ```python
+> # 1. 计算权重
+> class_weights = torch.tensor(
+>     compute_class_weights(dataset["train"]["labels"], num_labels),
+>     dtype=torch.float32
+> )
+>
+> # 2. 传入自定义 Trainer
+> trainer = WeightedLossTrainer(
+>     ...,
+>     class_weights=class_weights
+> )
+> ```
+>
+> ```python
+> # 3. 在 compute_loss 中使用
+> loss_fct = torch.nn.CrossEntropyLoss(
+>     weight=self.class_weights.to(logits.device)
+> )
+> ```
+>
+> `CrossEntropyLoss` 原生支持 `weight` 参数。加权后，少数类样本的 loss 贡献更大，模型自然更重视它们。这也是为什么意图识别应优先用 `macro_f1` 而不是只看 `accuracy` 来选择最优模型：`class_weights` 负责训练阶段拉高少数类梯度，`macro_f1` 负责评估阶段不给多数类“刷分”。
+
+> [!question]- 📋 面试题 (Interview Follow-up)
+>
+> **题目 1：** 为什么微调后不仅要保存模型权重，还要保存 tokenizer？如果只保存模型，部署时可能出现哪些问题？
+>
+> **题目 2：** `tokenizer.pad_token = tokenizer.eos_token` 这类运行时修改为什么必须持久化？它和 batch 推理有什么关系？
+>
+> **题目 3：** 类别不平衡时，为什么 accuracy 可能看起来很高但业务效果很差？
+>
+> **题目 4：** `class_weights` 如何改变 `CrossEntropyLoss` 的训练信号？为什么少数类会得到更多关注？
+>
+> **题目 5：** 为什么在类别不平衡的意图识别任务中，通常要用 `macro_f1` 而不是只用 `accuracy` 选择最佳模型？
+
+> [!example]- 💡 答案指南 (Answer Guide)
+>
+> **题目 1 - 引导答案思路：**
+> tokenizer 决定文本如何被切成 token ID，模型权重只知道 token ID，不知道原始文本。训练和推理如果 tokenizer 不一致，相同输入可能变成不同 ID 序列，结果就不可复现。只保存模型时，部署端还要重新下载 tokenizer 并手动补齐特殊 token、截断、padding 等配置，容易遗漏，也依赖网络。
+>
+> ---
+>
+> **题目 2 - 引导答案思路：**
+> 很多 Causal LM 默认没有 `pad_token`。如果训练时把 `pad_token` 设为 `eos_token`，但没有保存 tokenizer，推理加载后 `pad_token_id` 可能还是 `None`。一旦 batch 推理需要 padding，不同长度样本无法对齐，tokenizer 或模型前向过程就可能报错。
+>
+> ---
+>
+> **题目 3 - 引导答案思路：**
+> accuracy 按样本数平均，多数类样本占比越高，模型越容易靠预测多数类拿到高分。例如 85% 样本都是“查询天气”，模型总预测“查询天气”也可能有很高 accuracy，但对“设置闹钟”“播放音乐”等少数意图几乎不可用。
+>
+> ---
+>
+> **题目 4 - 引导答案思路：**
+> `class_weights` 会传给 `CrossEntropyLoss(weight=...)`。权重越大的类别，预测错误时 loss 放大越多，对应梯度也更强。少数类因为样本少而权重大，所以每次出错都会产生更强的更新信号，模型不能轻易忽略它们。
+>
+> ---
+>
+> **题目 5 - 引导答案思路：**
+> `macro_f1` 会先分别计算每个类别的 F1，再对类别做平均，因此每个类别权重相同。它能暴露模型是否牺牲少数类来换取整体 accuracy。`class_weights` 在训练时修正梯度，`macro_f1` 在评估时修正选择标准，两者配合才能保障稀有意图也被正确识别。
+
 ---
 
 ## 数据集准备与预处理

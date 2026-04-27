@@ -152,7 +152,7 @@ Course materials (especially in `courses/`) should use Obsidian callout blocks f
 <claude-mem-context>
 # Memory Context
 
-# [snow-knowledge-database] recent context, 2026-04-27 4:49pm GMT+8
+# [snow-knowledge-database] recent context, 2026-04-27 5:50pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
