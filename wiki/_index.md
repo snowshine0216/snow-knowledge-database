@@ -57,6 +57,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Vision Agent with Segmentation Tool](ai-engineering/vision-agent-with-segmentation-tool.md) | vlm, agent, image-segmentation, grounding, vision-agent, object-detection, multimodal | Pattern for pairing a VLM (planner + reasoner) with a small segmentation model (grounding tool) in a bounded agentic loop to fix counting/localization failures |
 | [Caveman Token Saver](ai-engineering/caveman-token-saver.md) | claude-code, token-optimization, caveman, codex, prompt-compression | Output token compression plugin (22–87% savings) via terse response style for Claude Code/Codex |
 | [AI Engineering — Chip Huyen (O'Reilly 2025)](ai-engineering/chip-huyen-ai-engineering-book.md) | ai-engineering, llm, foundation-models, rag, agents, finetuning, evaluation, prompt-engineering, inference-optimization, chip-huyen | 10-chapter systematic guide to building production apps on foundation models: evaluation, RAG, agents, finetuning, and inference optimization |
+| [Anthropic / OpenAI 前沿智能体行为监测](ai-engineering/anthropic-openai-frontier-agent-monitoring.md) | anthropic, openai, alignment, agent-monitoring, reward-hacking, model-cards, ai-engineering | Anthropic builds Clio/Petri/Bloom/AuditBench-style audit infrastructure; OpenAI pushes CoT monitorability, Confessions, and self-report to turn hidden intent into observable signals |
 
 ## RAG and Knowledge
 
