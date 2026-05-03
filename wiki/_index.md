@@ -24,6 +24,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Anthropic Dispatch](claude/anthropic-dispatch.md) | claude, anthropic, dispatch, remote-agent | Phone-to-desktop remote control layer for persistent Claude agent sessions |
 | [Master Claude From Scratch — AI for Everyone, Session 1](claude/master-claude-session-1.md) | claude, anthropic, claude-projects, claude-skills, claude-memory, no-code, beginner, live-stream | 2h non-developer intro: Claude ecosystem (Chat/Code/Cowork), Haiku/Sonnet/Opus picking rule, Projects + Skills + Memory, skill × connector composition (Gmail, web search) |
 | [Claude Design Just Became Unstoppable](claude/claude-design-just-became-unstoppable.md) | claude-design, anthropic, claude, opus-4-7, design-system, prototyping, slide-deck, landing-page, claude-code, brand-guidelines | Nate Herk demos Claude Design: one design system setup powers brand-consistent prototypes, decks, and landing pages with one-click Claude Code handoff |
+| [苹果 Support App 泄露 CLAUDE.md：Claude Code 已进入 Apple 内部开发栈](claude/apple-support-app-claude-md-leak-reveals-claude-code-usage.md) | claude-code, anthropic, apple, claude-md, agent-sdk, openclaw, mac-mini | Apple Support App 泄露的 `CLAUDE.md` 把 Juno AI 架构、Claude Code 工作流和本地 AI agent 硬件需求同时暴露出来 |
 
 ## Agent Frameworks
 
@@ -58,6 +59,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Caveman Token Saver](ai-engineering/caveman-token-saver.md) | claude-code, token-optimization, caveman, codex, prompt-compression | Output token compression plugin (22–87% savings) via terse response style for Claude Code/Codex |
 | [AI Engineering — Chip Huyen (O'Reilly 2025)](ai-engineering/chip-huyen-ai-engineering-book.md) | ai-engineering, llm, foundation-models, rag, agents, finetuning, evaluation, prompt-engineering, inference-optimization, chip-huyen | 10-chapter systematic guide to building production apps on foundation models: evaluation, RAG, agents, finetuning, and inference optimization |
 | [Anthropic / OpenAI 前沿智能体行为监测](ai-engineering/anthropic-openai-frontier-agent-monitoring.md) | anthropic, openai, alignment, agent-monitoring, reward-hacking, model-cards, ai-engineering | Anthropic builds Clio/Petri/Bloom/AuditBench-style audit infrastructure; OpenAI pushes CoT monitorability, Confessions, and self-report to turn hidden intent into observable signals |
+| [Karpathy：Vibe Coding 抬高地板，真正难点是 Agentic Engineering](ai-engineering/karpathy-vibe-coding-agentic-engineering-real-battleground.md) | andrej-karpathy, vibe-coding, agentic-engineering, software-3-0, llm, verification, ai-engineering | Karpathy 把新范式拆成 Software 3.0、可验证性驱动的锯齿能力，以及“不能外包理解”的人类监督职责 |
+| [Mike Stonebraker：AI Agent 最后会变成数据库问题](ai-engineering/mike-stonebraker-ai-agents-are-really-a-database-problem.md) | text-to-sql, databases, ai-agents, dbos, postgres, distributed-systems, benchmark, ai-engineering | Stonebraker 将 read-write agent 还原为事务与一致性问题，并用 Beaver benchmark 证明真实数仓上的 text-to-SQL 远未可生产 |
 
 ## RAG and Knowledge
 
@@ -98,6 +101,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Top 10 Claude Code Frontend Design Skills, Plugins & CLIs](learning-and-business/top-10-claude-code-frontend-design-skills-plugins-clis.md) | claude-code, frontend, design, skills, tools, cli, plugins, ui-ux | 10 tools (Impeccable, SkillUI, Stitch, 21st.dev, Playwright CLI, etc.) to fix Claude Code's AI-slop design weakness |
 | [戴锦华：拥抱不确定性，情绪的商品化与"输得起"的人生哲学](learning-and-business/dai-jinhua-peking-university-embrace-uncertainty.md) | dai-jinhua, peking-university, emotions, relationships, ai-companions, mental-health, chinese-culture, interview | 北大戴锦华论"爱你老几明天见"的解脱哲学：搁置≠压抑，感情计算化折射安全感匮乏，AI伴侣是自恋镜像，临床数据显示虚拟关系越深精神激患越高 |
 | [程乐松：如何不做人生的"精神渣男"](learning-and-business/peking-university-philosophy-opening-ceremony-speech-cheng-lesong-on-avoiding-being-a-bad.md) | philosophy, life-wisdom, education, peking-university, lying-flat, uncertainty, attention, solitude, chinese-philosophy | 北大程乐松深度访谈：躺平是负责任的心灵态度；风险意识与兴趣成反比；慰藉之学的目标不是竞争优势而是自觉投身当下；所有被仰望的伟大都是副产品 || [读书究竟让人越读越聪明，还是越读越傲慢？｜罗翔x刘震云x刘旸教主](learning-and-business/xx2026_BV1hkoHBpENz.md) | 读书, 文学, 哲学, 幽默, 喜剧, 脱口秀, 刘震云, 罗翔, 刘旸教主, 2026读书日, interview | 罗翔x刘震云x刘旸教主80分钟对谈：幽默五层级（语言→人物结构道理）、「想明白了千万别写」的写作悖论、优旃以玩笑阻止秦二世荒唐旨意、爱比克泰德可控/不可控哲学 |
+| [普通人学 AI：YouTube 入门博主清单](learning-and-business/best-ai-youtube-creators-for-beginners.md) | ai-learning, youtube, creator-recommendations, karpathy, prompt-engineering, productivity, learning-resources | 用 6 类 YouTube 创作者搭出 AI 入门路径：宏观认知、底层原理、职场提效、提示词和工具探索 |
 ## Courses
 
 ### AI Engineering Training Camp (selected livestreams + modules)
