@@ -27,6 +27,12 @@ Stonebraker 还给了两个非常硬的现实锚点。第一，DBOS 的逻辑并
 > 
 > 但对大多数中早期团队来说，真正需要的往往不是单项性能冠军，而是一个事务可靠、SQL 成熟、生态完备、运维成本可控的默认底座。这就是 Stonebraker 给 Postgres 的现实定位：如果你还没到百万 TPS、PB 级数仓或极端向量检索规模，先用 Postgres 把系统做起来通常是更稳妥的工程选择。等真实瓶颈稳定出现，再引入 ClickHouse、Pinecone 或其他专用系统；过早拆成多种数据库，很多时候先遇到的是复杂度，而不是性能红利。
 
+> [!info]+ 💡 Explanation - Hadoop vs Spanner
+> 
+> 这里的“Hadoop”更准确地说，是业界用来代称 Google 当年 MapReduce / GFS 那条大数据路线的说法。它擅长的是离线批处理：把大数据集切分到很多机器上，本地 map，再经过网络 shuffle 和 reduce 聚合结果。对日志分析、ETL、索引构建这类“慢慢算一个大结果”的任务很有用，但不适合承担库存、订单、账户余额这类高一致性的在线数据库职责。
+> 
+> Stonebraker 反感的是，业界一度把这种批处理思路和 eventual consistency 一起包装成通用答案。eventual consistency 允许多个副本暂时不一致，之后再异步收敛；这在少数容忍短时误差的系统里成立，但一碰到强约束业务状态，就会出现“东西海岸同时卖出最后一件库存”这类事故。Google 后来做 Spanner，等于承认高价值分布式系统终究还是要把强一致性、事务和提交顺序认真做回来。Hadoop 代表的是离线算大数据，Spanner 代表的是全球分布式下仍要保证数据库语义。
+
 ## Key Concepts
 
 - **Postgres as the default low-end answer**：Stonebraker 仍承认，如果你只是先把东西做起来，不追求每秒百万事务或 PB 级仓库，Postgres 依然是最稳妥起点。
