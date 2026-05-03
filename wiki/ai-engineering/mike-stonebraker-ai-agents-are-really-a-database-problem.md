@@ -19,6 +19,14 @@ Stonebraker 还给了两个非常硬的现实锚点。第一，DBOS 的逻辑并
 > 
 > 从这个角度看，Stonebraker 和 [[demis-hassabis-agents-agi-virtual-cells]] 其实讨论的是同一系统的两半。Hassabis 关心的是 Agent 还缺长期记忆、持续学习和推理纠错，所以“大脑”还不够成熟；Stonebraker 关心的是即使模型已经足够会想，系统仍然需要事务、一致性和故障恢复这套“后端骨架”。真正高价值的 Agent，必须同时补上这两层。
 
+> [!info]+ 💡 Explanation - One Size Fits None vs Postgres as the Default Start
+> 
+> Stonebraker 这里区分的是“性能最优解”和“工程默认起点”。`One size fits none` 的意思不是通用数据库没用，而是不同 workload 在底层根本不是同一种问题：交易系统关心事务、一致性和小读写；分析系统关心列存、压缩和大扫描；向量检索关心近似最近邻索引；流处理关心持续事件和窗口计算。通用数据库能覆盖很多事，但通常不会在每一种负载上都最优。
+> 
+> StreamBase、Vertica、ClickHouse、Pinecone 这些例子之所以重要，是因为它们不是“更高级的数据库”，而是“按特定负载定制的数据系统”。StreamBase 这类系统为流式事件设计；Vertica 和 ClickHouse 为分析型查询和列存执行设计；Pinecone 为向量召回设计。场景一旦匹配，数据布局、索引结构和执行模型的差别，就可能直接带来 10 倍级的性能差距。
+> 
+> 但对大多数中早期团队来说，真正需要的往往不是单项性能冠军，而是一个事务可靠、SQL 成熟、生态完备、运维成本可控的默认底座。这就是 Stonebraker 给 Postgres 的现实定位：如果你还没到百万 TPS、PB 级数仓或极端向量检索规模，先用 Postgres 把系统做起来通常是更稳妥的工程选择。等真实瓶颈稳定出现，再引入 ClickHouse、Pinecone 或其他专用系统；过早拆成多种数据库，很多时候先遇到的是复杂度，而不是性能红利。
+
 ## Key Concepts
 
 - **Postgres as the default low-end answer**：Stonebraker 仍承认，如果你只是先把东西做起来，不追求每秒百万事务或 PB 级仓库，Postgres 依然是最稳妥起点。
