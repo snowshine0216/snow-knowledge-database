@@ -152,13 +152,13 @@ Course materials (especially in `courses/`) should use Obsidian callout blocks f
 <claude-mem-context>
 # Memory Context
 
-# [snow-knowledge-database] recent context, 2026-04-27 5:50pm GMT+8
+# [snow-knowledge-database] recent context, 2026-05-03 9:55am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (20,597t read) | 517,327t work | 96% savings
+Stats: 50 obs (21,053t read) | 525,565t work | 96% savings
 
 ### Apr 18, 2026
 S58 Extend yt-video-summarizer skill with Playwright automation to extract video URLs from course pages and process them systematically with progress tracking (Apr 18 at 7:52 PM)
@@ -168,10 +168,7 @@ S74 RAG Course Transcription Progress Monitoring and Documentation Creation (Apr
 S75 RAG Course Audio Download and Parallel Transcription Pipeline Deployment (Apr 18 at 9:54 PM)
 S97 Add quantization deep-dive explanation to AI engineering course fine-tuning module — fourth identical edit attempt observed (Apr 18 at 10:06 PM)
 ### Apr 19, 2026
-1108 1:48p ✅ enhance-answer-guides.py Script Triggered for Full Run
-1109 " 🔵 enhance-answer-guides.py Actively Processing Multiple Course Directories
-1110 1:49p ✅ Attention Mechanism Answer Guide Migrated from HTML details to Obsidian Callout
-1111 " ✅ Zero-to-Hero Answer Guide Migrated to Obsidian Callout Format (Backprop Efficiency Section)
+1111 1:49p ✅ Zero-to-Hero Answer Guide Migrated to Obsidian Callout Format (Backprop Efficiency Section)
 1112 1:50p ✅ GPT Forward Pass Answer Guide Migrated from HTML details to Obsidian Callout
 1114 " ✅ Zero-to-Hero Answer Guide Migrated to Obsidian Callout: Autoregressive Generation &amp; Loss
 1115 1:51p ✅ Backpropagation Answer Guide Migrated to Obsidian Callout Format
@@ -223,14 +220,10 @@ S94 Add quantization deep-dive explanation to AI engineering course fine-tuning 
 S95 Add quantization deep-dive explanation to AI engineering course fine-tuning module — completed (duplicate edit confirmed same result) (Apr 26 at 2:01 PM)
 S96 Add quantization deep-dive explanation to AI engineering course fine-tuning module — third identical edit execution observed (Apr 26 at 2:01 PM)
 S98 Add quantization deep-dive explanation as Obsidian callout to AI engineering fine-tuning course notes (Apr 26 at 2:10 PM)
-**Investigated**: The target insertion point in courses/ai-engineering-training-camp/module-2-fine-tuning/020-model-evaluation-and-deployment.md was identified as after the 量化类型 reference table within the 量化详解 section, before the 压缩方法对比 section heading.
+### May 3, 2026
+1414 9:54a 🔵 WeChat Article Summarizer Skill — Full Workflow Loaded
+1415 9:55a 🔵 gstack browse binary resolved at ~/.claude/skills/gstack/browse/dist/browse
+1416 " 🔵 content-summarizer Skill — Full Workflow and Wiki Post-Hook Loaded
 
-**Learned**: The snow-knowledge-database uses Obsidian-flavored markdown with [!info]+ collapsible callouts for supplementary deep-dive content embedded inline. The edit tool has been retrying the same operation repeatedly (4+ times at ~3-minute intervals) with identical parameters and outcomes, suggesting a user-confirmation loop in the primary session rather than a content or logic issue.
-
-**Completed**: The quantization explanation callout content is fully defined and has been applied via edit tool: a [!info]+ block covering (1) structural integrity vs pruning, (2) over-parameterization robustness, (3) linear mapping formula Q=round(V/S)+Z, (4) outlier protection via AWQ/GPTQ, and (5) QLoRA vs Pruning+LoRA vs Distillation+LoRA comparison table. The trailing conversational question from the source was intentionally omitted.
-
-**Next Steps**: Retry loop appears to be resolving or has resolved. Session may continue with additional course content additions to other modules or files in the AI Engineering Training Camp materials.
-
-
-Access 517k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 526k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
