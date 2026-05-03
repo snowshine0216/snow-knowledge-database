@@ -7,6 +7,14 @@ source: https://mp.weixin.qq.com/s/-yelssGDGS_MQIB7vBMOHA
 
 Demis Hassabis 的判断可以压缩成一句话：现有大模型路线没有走错，但 AGI 还缺持续学习、长程推理、有效记忆和真正创造性；Agent 是通向 AGI 的系统形态，但今天仍停留在早期产品化阶段。文章从 DeepMind 的 Atari、AlphaGo、AlphaFold 和 Gemini 路线展开，把 Agent、强化学习、多模态、端侧小模型和 AI 科学发现放进同一张图里：智能系统最终不只是聊天，而要能持续理解上下文、调用专业工具、解决现实世界与科学问题。Hassabis 的时间线是 AGI 约在 2030 年到来，因此他给创业者的建议也很直接：十年深科技项目必须假设 AGI 会在旅程中途出现。
 
+> [!info]+ 💡 Explanation - Agent Intelligence vs Agent Reliability
+> 
+> Hassabis 这里讲的是 Agent 的“大脑”为什么还不够成熟：持续学习不足、长期记忆缺位、上下文适应能力弱，所以很多系统还停留在能演示但不够可靠的阶段。一个很好的互补视角来自 [[mike-stonebraker-ai-agents-are-really-a-database-problem]]：一旦 Agent 从只读助手升级成会真正修改世界状态的系统，主问题就不再只是推理质量，而会变成事务、一致性、回滚、并发控制和故障恢复。
+> 
+> 这也是 Ingres 历史的现实提醒。Stonebraker 早年做的 Ingres 是早期关系数据库系统，不是今天网络语境里的 ingress。它在学术界很成功，但当 Arizona State University 想把它用于管理 4 万名学生时，系统仍因缺少企业级操作系统、COBOL 业务生态和支持体系而失败。这个教训放到今天仍成立：核心技术正确，不等于整套生产系统已经成立。
+> 
+> 对现代 Agent 来说，区别就在于 read-only 和 read-write。read-only Agent 失败，通常是回答偏了、总结错了、建议需要人复核；read-write Agent 失败，则可能变成重复退款、库存错乱、CRM 脏数据或外部系统误操作。所以生产级 Agent 不只要更聪明，还要有数据库式纪律：显式状态机、持久化检查点、幂等键、补偿机制、权限门禁、结构化工具契约和完整审计。Hassabis 关注的是智能缺口，Stonebraker 关注的是系统缺口；真正可生产的 Agent 必须同时补上这两层。
+
 ## Key Concepts
 
 - **Agent 是主动解决问题的系统，不只是自动化 UI**：Hassabis 把 DeepMind 的 Atari、AlphaGo、AlphaStar 都看作 Agent 系统的早期版本，只是当时被限制在游戏环境里。Gemini 的长期方向，是把这种目标驱动、规划和决策能力迁移到语言、工具和世界模型中。

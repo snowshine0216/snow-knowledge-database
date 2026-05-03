@@ -9,6 +9,16 @@ source: https://mp.weixin.qq.com/s/sR7X6domCisQ-fsrQkD4rA
 
 Stonebraker 还给了两个非常硬的现实锚点。第一，DBOS 的逻辑并不玄学：Databricks 在调度上百万 Spark 任务时，最后让 Postgres 参与调度决策，这启发了“把 Linux 上半部分换成数据库”的研究与公司化路线。第二，公开 text-to-SQL 榜单的高分并不等于可生产。Spider / Bird 上 80% 到 85% 的成绩，在他们基于 4 个真实生产数仓做出来的 Beaver benchmark 上掉到 0%；加 RAG 只有 10%，把 `from` 和 join 条件直接喂给模型也只有 35%，而熟练工程师在澄清歧义后能到 90% 以上。原因也非常系统化：真实 SQL 经常 100 行起步，schema 充满物化视图、缩写列名和本地业务概念，这和干净 benchmark 完全不是一个问题。对做 AI agent、workflow 平台、企业数据问答的人来说，这篇访谈最实用的提醒是：别把 read-write agent 当成“更强的大模型应用”，它更像一个重新包装过的分布式数据库问题。
 
+> [!info]+ 💡 Explanation - Why Read-Write Agents Need Transaction Semantics
+> 
+> Stonebraker 这篇最值得展开的一点，是他把 Agent 的难题从“模型能力”翻译成了“事务语义”。read-only Agent 出错，通常只是总结偏了、判断错了、建议需要人工复核；read-write Agent 出错，则会直接变成重复退款、库存为负、订单状态冲突、CRM 脏数据或跨系统副作用失控。问题的重心因此从 prompt quality 转移到了 state management。
+> 
+> 一个自动退款 Agent 就很典型。模型也许只负责理解用户意图、抽取订单号和退款原因，但真正执行时，系统还要检查订单是否满足政策、生成唯一请求 ID、调用支付渠道、更新账务和订单状态、最后再发通知。只要其中任何一步和其他步骤脱节，就会出现“钱已经退了，但内部状态没更新”或“内部标记已退款，但外部渠道其实失败了”这种半完成状态。这已经不是聊天机器人问题，而是分布式事务问题。
+> 
+> 所以生产级 Agent 至少要补上数据库世界早就重视的几层纪律：显式状态机与持久化检查点，用来回答“现在做到哪一步”；幂等键和去重逻辑，用来处理重试与超时；并发控制，用来避免两个 Agent 或一个人加一个 Agent 同时改同一条记录；补偿或回滚机制，用来处理跨多个系统的部分成功；以及审计日志和人工接管能力，用来回答“是谁在什么上下文下做了这次修改”。这些能力不让 Agent 更聪明，但决定了它能不能进生产。
+> 
+> 从这个角度看，Stonebraker 和 [[demis-hassabis-agents-agi-virtual-cells]] 其实讨论的是同一系统的两半。Hassabis 关心的是 Agent 还缺长期记忆、持续学习和推理纠错，所以“大脑”还不够成熟；Stonebraker 关心的是即使模型已经足够会想，系统仍然需要事务、一致性和故障恢复这套“后端骨架”。真正高价值的 Agent，必须同时补上这两层。
+
 ## Key Concepts
 
 - **Postgres as the default low-end answer**：Stonebraker 仍承认，如果你只是先把东西做起来，不追求每秒百万事务或 PB 级仓库，Postgres 依然是最稳妥起点。
