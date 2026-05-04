@@ -131,6 +131,8 @@ go-tiny-claw/
 - **Harness 的核心是控制反转（IoC）**：任务路径的决定权从 Go/Python 代码转移到大模型推理，但 runtime 仍牢牢掌握工具注册、Guardrails、Budget、Fallback、Termination 等边界控制。
 - **Main Loop = 无限循环 + Middleware**，比 DAG 更可靠：这是计算机科学中最古老的结构——操作系统调度循环；Middleware 是唯一的安全关卡，集中防止危险操作和 Token 爆炸。
 - **Harness 不是"无约束自治"**：模型负责决定“下一步做什么”，代码负责决定“最多能做什么、失败后怎么收场、何时必须停下来”。目标不是绝不失控，而是让错误可观测、可中断、可恢复。
+- **go-tiny-claw 的四层切分不是普通模块分层**：它实质上在隔离意图入口、任务决策、上下文治理和副作用执行，避免 Main Loop 直接与工具细节或记忆细节耦合。
+- **Framework vs Harness 的本质差别是控制流形状**：前者是预先画好的静态图，后者是“感知状态 → 决策下一步 → 执行动作 → 回写状态”的动态闭环。
 - **状态透明原则**：Harness 只依赖一个数据结构——累加的 Context 消息列表；进度持久化到 `TODO.md` 文件，而非内部变量，崩溃重启后状态可完整恢复。
 - **Context 压缩 = OS 的内存管理**：当 Token 水位接近 128k 上限时，阶梯压缩器触发（摘要 → 删除冗余 → Swap 到磁盘），防止因 API 超限导致 Agent 完全失忆崩溃。
 - **go-tiny-claw 目录结构遵循 Standard Go Project Layout**：`internal/engine`（心脏）、`internal/provider`（大脑接口）、`internal/context`（内存）、`internal/tools`（手脚），高内聚低耦合，每层职责单一。
@@ -224,6 +226,87 @@ go-tiny-claw/
 > - **Human-in-the-loop**：高风险动作必须经过人类确认。
 >
 > 因此，工程目标不是“绝不失控”，而是把错误从“隐蔽、不可恢复、破坏性强”转化为“**可观测、可中断、可恢复、损失可控**”。
+>
+> ### 5. 为什么 go-tiny-claw 必须切成四层，而不是简单的“模型层 + 工具层”
+>
+> 表面看，Agent 好像只需要两部分：大模型负责思考，工具负责执行。但一旦进入真实工程，这种二分法很快失效，因为还存在两类独立复杂度：
+>
+> - **上下文治理复杂度**：Prompt 动态组装、Token 水位监控、记忆回写、事件提醒注入、压缩与 Swap。
+> - **运行时控制复杂度**：风险拦截、审批、Fallback、预算、审计、异常终止。
+>
+> 如果把这些逻辑直接塞进 Main Loop，核心引擎会很快变成一个巨大 God Object；如果把它们塞进工具层，又会把本来应该独立治理的上下文工程与副作用执行混在一起。
+>
+> 所以 go-tiny-claw 的四层切法，本质上是在隔离四种不同责任：
+>
+> - **Entry & UI Layer**：负责接收世界的输入，也负责把系统状态暴露给人。
+> - **Core Engine Layer**：只维护 ReAct 主循环，不承担具体工具细节。
+> - **Context Engineering Layer**：专职做记忆、压缩、Prompt 组装和状态治理。
+> - **Tool Execution Layer**：专职做能力暴露、风险拦截和真实副作用执行。
+>
+> #### 单轮请求如何穿过这四层
+>
+> ```text
+> 用户问题 / 外部事件
+>          ↓
+> Entry & UI Layer
+> (CLI / 飞书 / Human-in-the-loop)
+>          ↓
+> Core Engine Layer
+> Main Loop 启动一次推理循环
+>          ↓
+> Context Engineering Layer
+> - 读取 AGENTS.md / TODO / 记忆文件
+> - 组装 system prompt + history + tools
+> - 检查 token 水位，必要时压缩
+>          ↓
+> Provider 推理
+> 模型产出：回答 or 工具调用意图
+>          ↓
+> Tool Execution Layer
+> - Middleware 校验动作是否合法
+> - 限制参数 / 命令 / 路径 / 风险级别
+> - 失败时执行 retry / fallback / ask-human
+>          ↓
+> 真实工具执行
+> read / edit / bash / search / API
+>          ↓
+> 执行结果回写 Context / Memory
+>          ↓
+> Main Loop 判断：继续下一步 or 终止
+> ```
+>
+> 这个流转图说明了一个关键点：**四层不是部署层，而是责任层**。一次请求会在这些层之间往返流动，直到任务完成或被终止。
+>
+> ### 6. Framework vs Harness 控制流对照图
+>
+> ```text
+> Framework / DAG / Hidden State Machine          Harness / Main Loop / Middleware
+>
+> 用户任务                                        用户任务
+>   ↓                                             ↓
+> Node A: Analyze                                 Main Loop 启动
+>   ↓                                             ↓
+> Node B: Search                                  Context + tools + memory
+>   ↓                                             ↓
+> Node C: Summarize                               模型决定下一步动作
+>   ↓                                             ↓
+> Node D: Write                                   Middleware 校验动作
+>   ↓                                             ↓
+> 完成                                            执行工具 / 生成回答
+>
+> 若 Node B 超时：                                若工具超时：
+> - 框架内部状态机决定跳转                         - 结果回写 context
+> - 可能重试，也可能直接报错                       - 模型可基于新状态重规划
+> - 人通常看不见真实跳转规则                       - runtime 可 retry / fallback / terminate
+> - 很容易变成黑盒                                - 人可观察并随时介入
+> ```
+>
+> 这里最本质的区别不是“谁更先进”，而是**谁在运行时保有重规划能力**：
+>
+> - Framework 更像把任务提前翻译成一张流程图。
+> - Harness 更像保持一个持续运行的操作系统循环，每一轮都重新根据当前状态做局部最优决策。
+>
+> 也正因为如此，Harness 对模型能力要求更高，但一旦模型具备足够强的规划能力，Harness 在复杂开放任务上的弹性通常明显优于静态图。
 
 ---
 
@@ -240,6 +323,12 @@ go-tiny-claw/
 > **题目 4：** `guardrails` 和 `fallback` 分别解决什么问题？为什么只提这两个词还不足以完整解释 Harness 的稳定性来源？
 >
 > **题目 5：** 为什么说 Harness 的目标不是“保证绝不失控”，而是“让错误可观测、可中断、可恢复”？请给出一个具体例子。
+>
+> **题目 6：** 为什么 go-tiny-claw 不能只分成“模型层 + 工具层”？为什么 `Context Engineering` 必须被单独抽成一层？
+>
+> **题目 7：** 请按顺序描述一个用户请求如何穿过 go-tiny-claw 的四层架构，并解释工具执行结果为什么必须回写到 Context。
+>
+> **题目 8：** 结合控制流对照图，解释 Framework 和 Harness 在“工具超时 / 节点失败”场景下的恢复路径有什么本质差异。
 
 > [!example]- 💡 答案指南 (Answer Guide)
 >
@@ -270,6 +359,24 @@ go-tiny-claw/
 > **题目 5 - 引导答案思路：**
 >
 > 工程上几乎不可能保证 Agent 永不出错，因此更现实的目标是：出错时能被及时发现、能被人打断、能保留状态并恢复。比如模型连续三次调用同一个搜索工具都失败，runtime 不该继续无限循环，而应触发超步数终止、保存当前 Context / TODO、请求人工介入。这就把“失控”变成了可审计、可恢复的异常流程。
+>
+> ---
+>
+> **题目 6 - 引导答案思路：**
+>
+> 因为除了“思考”和“执行”，Agent 还要处理一整套独立复杂度很高的上下文治理问题：Prompt 动态组装、记忆回写、Token 监控、压缩和 Swap。如果这些逻辑塞进模型层，Main Loop 会迅速膨胀成 God Object；如果塞进工具层，又会把上下文治理和副作用执行耦合在一起。因此 `Context Engineering` 必须独立成层。
+>
+> ---
+>
+> **题目 7 - 引导答案思路：**
+>
+> 请求先由 Entry & UI Layer 接收，再进入 Core Engine 的 Main Loop；随后 Context Engineering 层读取 AGENTS、记忆和历史消息，拼出本轮 Prompt，并检查 Token 水位；模型据此输出回答或工具调用意图；Tool Layer 通过 Middleware 做风险校验后执行真实工具；结果再回写到 Context / Memory，供下一轮推理使用。回写是必须的，因为 Harness 的状态核心就是“不断累加并被治理的 Context”。没有回写，模型下一轮就失去刚刚获得的新事实。
+>
+> ---
+>
+> **题目 8 - 引导答案思路：**
+>
+> Framework 的失败恢复通常依赖预先写死的节点跳转或框架内部状态机；失败后往哪走，往往由隐藏规则决定，人不容易观察和干预。Harness 则把失败结果显式写回 Context，让模型和 runtime 在下一轮重新基于当前状态做判断：可以重试、降级、回退、请求人工，或者直接终止。前者更像沿既定轨道找备用线，后者更像每一轮都重新导航。
 
 ---
 
