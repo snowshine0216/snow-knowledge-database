@@ -138,7 +138,7 @@ if m, ok := toolDef.InputSchema.(map[string]interface{}); ok {
 
 **Q: Claude Adapter 的 InputSchema 翻译——与 OpenAI 的关键差异**
 
-Anthropic SDK 的 `ToolInputSchemaParam` 将 `properties` 和 `required` 做了严格的结构体抽离，不接受整个 JSON blob：
+Anthropic SDK 的 [[tool-input-schema-param|ToolInputSchemaParam]] 将 `properties` 和 `required` 做了严格的结构体抽离，不接受整个 JSON blob：
 
 ```go
 // Claude Adapter：必须手动提取 properties 和 required
@@ -206,14 +206,14 @@ anthropic.NewClient(
 
 ---
 
-**Q: Adaptive Reasoning（自适应推理）策略的判断标准**
+**Q: [[adaptive-reasoning|Adaptive Reasoning]]（自适应推理）策略的判断标准**
 
 | 任务类型 | EnableThinking 建议 | 理由 |
 |---------|---------------------|------|
 | 查天气、列目录、简单检索 | `false` | 路径明确，无需规划，慢思考造成 Token Waste |
 | 分析 10 个文件依赖关系、重构缓存层 | `true` | 路径复杂，需要规划防止盲目行动，用算力换准确性 |
 
-这是 **Adaptive Reasoning** 的工程化实现：不用"杀鸡用牛刀"，动态分配算力。
+这是 **[[adaptive-reasoning|Adaptive Reasoning]]** 的工程化实现：不用"杀鸡用牛刀"，动态分配算力。
 
 ---
 
@@ -223,11 +223,11 @@ anthropic.NewClient(
 
 1. **Provider 是同声传译员**：通过 `LLMProvider` 接口的单一方法 `Generate`，将 Main Loop 与底层 SDK 协议完全解耦。OpenAI 和 Claude 的消息格式差异（尤其是 Tool Result 的位置和 System 消息的处理方式）全部收敛在适配器内部。
 
-2. **三大翻译难点**：Tool Result 在 Claude 中是 User 消息中的 `ToolResultBlock`，在 OpenAI 中是独立的 `ToolMessage`；Claude 的 InputSchema 需要逐字段拆解 `properties` 和 `required`；OpenAI V3 的 ToolCall 回放 `OfFunction` 字段是指针类型。
+2. **三大翻译难点**：Tool Result 在 Claude 中是 User 消息中的 `ToolResultBlock`，在 OpenAI 中是独立的 `ToolMessage`；Claude 的 InputSchema 需要逐字段拆解 `properties` 和 `required`；[[openai-go-sdk-v3-breaking-change|OpenAI V3]] 的 ToolCall 回放 `OfFunction` 字段是指针类型。
 
 3. **智谱双协议兼容**：仅替换 `BaseURL` 即可用官方 SDK 接入国内算力，零修改核心逻辑。
 
-4. **Adaptive Reasoning**：`EnableThinking` 硬开关是算力自适应分配的工程化体现——简单任务关闭慢思考，复杂任务开启，避免系统性 Token Waste。
+4. **[[adaptive-reasoning|Adaptive Reasoning]]**：`EnableThinking` 硬开关是算力自适应分配的工程化体现——简单任务关闭慢思考，复杂任务开启，避免系统性 Token Waste。
 
 ---
 
@@ -237,9 +237,9 @@ anthropic.NewClient(
 
 2. **Claude vs OpenAI Tool Result 位置差异**：OpenAI 的 tool result 是独立的 `role=tool` 消息；Claude 的 tool result 必须包裹在 `role=user` 消息中，作为 `ToolResultBlock`——这是最易踩坑的差异。
 
-3. **OpenAI V3 破坏性变更**：`ToolMessage` 参数顺序从旧版 `(toolCallID, content)` 改为 `(content, toolCallID)`，且 `OfFunction` 字段为指针类型，编译错误即提示，但语义错误无提示。
+3. **[[openai-go-sdk-v3-breaking-change|OpenAI V3 破坏性变更]]**：`ToolMessage` 参数顺序从旧版 `(toolCallID, content)` 改为 `(content, toolCallID)`，且 `OfFunction` 字段为指针类型，编译错误即提示，但语义错误无提示。
 
-4. **Claude InputSchema 严格结构化**：Anthropic SDK 的 `ToolInputSchemaParam` 要求单独填充 `Properties` 和 `Required`，不能整体传入 JSON map——比 OpenAI 更严格。
+4. **Claude InputSchema 严格结构化**：Anthropic SDK 的 [[tool-input-schema-param|ToolInputSchemaParam]] 要求单独填充 `Properties` 和 `Required`，不能整体传入 JSON map——比 OpenAI 更严格。
 
 5. **即插即用的工程价值**：`NewZhipuOpenAIProvider` 与 `NewZhipuClaudeProvider` 可在 `main.go` 中任意切换，效果完全一致——这验证了抽象层的正确性。
 
@@ -249,16 +249,16 @@ anthropic.NewClient(
 
 ### 1. 本讲核心节点
 
-- LLMProvider Interface — Go interface，单方法 `Generate(ctx, messages, tools)`，将 Main Loop 与厂商 SDK 完全解耦
-- OpenAIProvider — 实现 LLMProvider Interface 的 OpenAI 适配器，使用 `openai-go/v3` SDK
-- ClaudeProvider — 实现 LLMProvider Interface 的 Anthropic 适配器，使用 `anthropic-sdk-go`
+- [[llm-provider-interface|LLMProvider Interface]] — Go interface，单方法 `Generate(ctx, messages, tools)`，将 Main Loop 与厂商 SDK 完全解耦
+- [[openai-provider|OpenAIProvider]] — 实现 LLMProvider Interface 的 OpenAI 适配器，使用 `openai-go/v3` SDK
+- [[claude-provider|ClaudeProvider]] — 实现 LLMProvider Interface 的 Anthropic 适配器，使用 `anthropic-sdk-go`
 - [[adapter-pattern|Adapter Pattern]] — 将不兼容的厂商协议统一到内部 `schema` 类型，零侵入 Main Loop
-- Tool Result Format Difference — OpenAI 用独立 `role=tool` 消息，Claude 将 ToolResultBlock 包裹在 `role=user` 消息中
-- ToolInputSchemaParam — Claude SDK 要求逐字段填充 `properties` 与 `required`，不接受整体 JSON map
-- Adaptive Reasoning — 通过 `EnableThinking` 开关动态分配慢思考算力，避免简单任务的 Token Waste
-- Pseudo Tool Call — 模型在无工具环境下自发生成 XML 格式伪调用，是 Adaptive Reasoning 存在的实验依据
+- [[tool-result-format-difference|Tool Result Format Difference]] — OpenAI 用独立 `role=tool` 消息，Claude 将 ToolResultBlock 包裹在 `role=user` 消息中
+- [[tool-input-schema-param|ToolInputSchemaParam]] — Claude SDK 要求逐字段填充 `properties` 与 `required`，不接受整体 JSON map
+- [[adaptive-reasoning|Adaptive Reasoning]] — 通过 `EnableThinking` 开关动态分配慢思考算力，避免简单任务的 Token Waste
+- [[pseudo-tool-call|Pseudo Tool Call]] — 模型在无工具环境下自发生成 XML 格式伪调用，是 Adaptive Reasoning 存在的实验依据
 - Zhipu GLM Dual Protocol — 智谱 GLM 同时兼容 OpenAI 协议与 Anthropic 协议，仅需替换 BaseURL
-- OpenAI Go SDK V3 Breaking Change — V3 版 `ToolMessage` 参数顺序由 `(id, content)` 改为 `(content, id)`，`OfFunction` 字段改为指针类型
+- [[openai-go-sdk-v3-breaking-change|OpenAI Go SDK V3 Breaking Change]] — V3 版 `ToolMessage` 参数顺序由 `(id, content)` 改为 `(content, id)`，`OfFunction` 字段改为指针类型
 
 ### 2. 课程内导航链接
 
@@ -274,27 +274,27 @@ anthropic.NewClient(
 - Go interface — Go 的隐式接口机制是 Provider 抽象层零侵入 Main Loop 的语言基础
 - [[llm-api-statelessness|LLM API Statelessness]] — Provider 每次都只消费当轮 replay 的 `messages`，自身不应持有隐藏会话状态
 - [[context-engineering|Context Engineering]] — `messages + availableTools` 的组织质量直接决定 Provider 的调用效果
-- Token optimization — Adaptive Reasoning 的核心动机：对简单任务关闭慢思考以节省 Token
+- Token optimization — [[adaptive-reasoning|Adaptive Reasoning]] 的核心动机：对简单任务关闭慢思考以节省 Token
 - OpenAI-compatible API — 智谱 GLM 的双协议兼容是这一生态的典型案例
 
 ### 4. 推荐关系边
 
-- AgentEngine → 调用 → LLMProvider Interface
-- LLMProvider Interface → 实现为 → OpenAIProvider
-- LLMProvider Interface → 实现为 → ClaudeProvider
-- OpenAIProvider → 依赖 → OpenAI Go SDK V3 Breaking Change
-- ClaudeProvider → 依赖 → ToolInputSchemaParam
-- Tool Result Format Difference → 区分 → OpenAIProvider 与 ClaudeProvider
-- Adaptive Reasoning → 由证据 → Pseudo Tool Call 驱动
+- AgentEngine → 调用 → [[llm-provider-interface|LLMProvider Interface]]
+- [[llm-provider-interface|LLMProvider Interface]] → 实现为 → [[openai-provider|OpenAIProvider]]
+- [[llm-provider-interface|LLMProvider Interface]] → 实现为 → [[claude-provider|ClaudeProvider]]
+- [[openai-provider|OpenAIProvider]] → 依赖 → [[openai-go-sdk-v3-breaking-change|OpenAI Go SDK V3 Breaking Change]]
+- [[claude-provider|ClaudeProvider]] → 依赖 → [[tool-input-schema-param|ToolInputSchemaParam]]
+- [[tool-result-format-difference|Tool Result Format Difference]] → 区分 → [[openai-provider|OpenAIProvider]] 与 [[claude-provider|ClaudeProvider]]
+- [[adaptive-reasoning|Adaptive Reasoning]] → 由证据 → [[pseudo-tool-call|Pseudo Tool Call]] 驱动
 - Zhipu GLM Dual Protocol → 验证了 → [[adapter-pattern|Adapter Pattern]] 的即插即用价值
 - [[adapter-pattern|Adapter Pattern]] → 消除了 → Main Loop 内的厂商耦合
 
 ### 5. 后续值得沉淀成卡片的主题
 
 - **ToolResult 位置差异卡片** — OpenAI vs Claude 的 Tool Result 消息结构对比，含代码示例
-- **OpenAI V3 破坏性变更备忘** — `ToolMessage` 参数顺序、`OfFunction` 指针类型，防踩坑速查
-- **Claude ToolInputSchemaParam 拆解模式** — 从 `interface{}` 提取 `properties` + `required` 的标准模板
-- **Adaptive Reasoning 决策矩阵** — 任务类型 × EnableThinking 的收益/代价表，可复用于其他 harness 设计
+- [[openai-go-sdk-v3-breaking-change|OpenAI V3 破坏性变更备忘]] — `ToolMessage` 参数顺序、`OfFunction` 指针类型，防踩坑速查
+- [[tool-input-schema-param|Claude ToolInputSchemaParam 拆解模式]] — 从 `interface{}` 提取 `properties` + `required` 的标准模板
+- [[adaptive-reasoning|Adaptive Reasoning 决策矩阵]] — 任务类型 × EnableThinking 的收益/代价表，可复用于其他 harness 设计
 - **BaseURL 替换接入国内模型** — 以智谱为例的通用"OpenAI Compatible 快速接入"模式卡片
 
 ---
@@ -320,7 +320,7 @@ anthropic.NewClient(
 >
 > ---
 >
-> **坑 3：Claude `ToolInputSchemaParam` 不接受整体 map**
+> **坑 3：Claude [[tool-input-schema-param|ToolInputSchemaParam]] 不接受整体 map**
 > - 必须手动从 `InputSchema.(map[string]interface{})` 中提取 `properties` 和 `required`
 > - 如果 `required` 字段是 `[]interface{}` 而非 `[]string`，类型断言会静默失败 → 工具 Schema 残缺
 

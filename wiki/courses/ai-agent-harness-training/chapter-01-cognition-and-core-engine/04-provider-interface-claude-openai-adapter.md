@@ -13,7 +13,7 @@ source: https://time.geekbang.org/column/article/967860
 
 ## Key Concepts
 
-### 1. `LLMProvider` 接口契约
+### 1. `[[llm-provider-interface|LLMProvider]]` 接口契约
 
 ```go
 // internal/provider/interface.go
@@ -30,21 +30,21 @@ type LLMProvider interface {
 
 ---
 
-### 2. OpenAI Adapter 关键翻译点（`openai-go/v3`）
+### 2. [[openai-provider|OpenAI Adapter]] 关键翻译点（`openai-go/v3`）
 
-- **Tool Result**：`openai.ToolMessage(content, toolCallID)` — V3 中参数顺序为 `(content, toolCallID)`，与旧版相反
+- **Tool Result**：`openai.ToolMessage(content, toolCallID)` — [[openai-go-sdk-v3-breaking-change|V3 中参数顺序]] 为 `(content, toolCallID)`，与旧版相反
 - **ToolCall 历史回放**：`ChatCompletionMessageToolCallUnionParam{OfFunction: &...}` — `OfFunction` 为指针类型
 - **InputSchema**：先尝试类型断言为 `map[string]interface{}` 转 `shared.FunctionParameters`，失败则 JSON 往返序列化（双保险策略）
 - **慢思考支撑**：`if len(openaiTools) > 0 { params.Tools = openaiTools }` — 空工具列表不挂载 Tools 字段
 
 ---
 
-### 3. Claude Adapter 关键翻译点（`anthropic-sdk-go`）
+### 3. [[claude-provider|Claude Adapter]] 关键翻译点（`anthropic-sdk-go`）
 
 - **System 消息**：从消息数组中单独提取，作为 `params.System = []anthropic.TextBlockParam{{Text: ...}}`，而非放入 `Messages` 数组
 - **Tool Result**：`anthropic.NewUserMessage(anthropic.NewToolResultBlock(toolCallID, content, false))` — 必须包装在 User 消息中，这是与 OpenAI 最大的结构差异
 - **ToolCall 历史回放**：`ContentBlockParamUnion{OfToolUse: &anthropic.ToolUseBlockParam{ID, Name, Input}}` — `Input` 类型为 `map[string]interface{}`，需 `json.Unmarshal` 从 `[]byte` 得到
-- **InputSchema 严格结构化**：必须从 `InputSchema.(map[string]interface{})` 手动提取 `properties` 和 `required` 字段分别填充 `ToolInputSchemaParam`，不接受整体 JSON map
+- **InputSchema 严格结构化**：必须从 `InputSchema.(map[string]interface{})` 手动提取 `properties` 和 `required` 字段分别填充 [[tool-input-schema-param|ToolInputSchemaParam]]，不接受整体 JSON map
 
 ---
 
@@ -54,14 +54,14 @@ type LLMProvider interface {
 
 ---
 
-### 5. Adaptive Reasoning（自适应推理）
+### 5. [[adaptive-reasoning|Adaptive Reasoning]]（自适应推理）
 
 | 任务类型 | `EnableThinking` | 效果 |
 |---------|-----------------|------|
 | 简单检索（查天气、列目录） | `false` | 跳过 Phase 1，直接行动，极低 Token 消耗 |
 | 复杂重构（多文件依赖分析） | `true` | Phase 1 强制规划，防止盲目行动，用算力换准确性 |
 
-实验证明：`EnableThinking=true` 时，模型在 Phase 1 会自发生成 XML 格式伪工具调用（如 `<invoke name="getWeather">`），这是算力浪费的直接证据——简单任务不需要"系统 2"推理。
+实验证明：`EnableThinking=true` 时，模型在 Phase 1 会自发生成 [[pseudo-tool-call|XML 格式伪工具调用]]（如 `<invoke name="getWeather">`），这是算力浪费的直接证据——简单任务不需要"系统 2"推理。
 
 ---
 
@@ -80,3 +80,11 @@ type LLMProvider interface {
 - [[05-tool-registry-and-dispatch]] — Ch.05：真实 Tool Registry 与 Bash 原语
 - [[01-architecture-evolution-from-framework-to-harness]] — go-tiny-claw 整体架构概览
 - [[adapter-pattern]]
+- [[llm-provider-interface]]
+- [[openai-provider]]
+- [[claude-provider]]
+- [[tool-result-format-difference]]
+- [[tool-input-schema-param]]
+- [[openai-go-sdk-v3-breaking-change]]
+- [[adaptive-reasoning]]
+- [[pseudo-tool-call]]
