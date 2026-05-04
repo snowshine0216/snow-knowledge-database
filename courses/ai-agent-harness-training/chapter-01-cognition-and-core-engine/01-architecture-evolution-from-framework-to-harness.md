@@ -1,7 +1,7 @@
 ---
 tags: [ai-agent, harness-engineering, agent-architecture, go, framework-vs-harness, react-loop, context-engineering, llm]
 source: https://time.geekbang.org/column/article/967047
-wiki: wiki/courses/ai-agent-harness-training/chapter-01-architecture-evolution/01-architecture-evolution-from-framework-to-harness.md
+wiki: wiki/courses/ai-agent-harness-training/chapter-01-cognition-and-core-engine/01-architecture-evolution-from-framework-to-harness.md
 ---
 
 ## Pre-test

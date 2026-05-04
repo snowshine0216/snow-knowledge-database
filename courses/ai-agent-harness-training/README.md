@@ -4,4 +4,4 @@
 - Chapters: 1
 
 ## Chapters
-- [01｜架构演进：从 Framework 到 Harness，Agent 到底需要怎样的底层支撑？](001-01-架构演进-从-Framewor.md)
+- [06｜大道至简：解密 OpenClaw 最简工具集法则与 YOLO 执行哲学](001-06-大道至简-解密-OpenCla.md)

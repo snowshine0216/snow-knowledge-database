@@ -448,6 +448,18 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 ### AI Agent Harness Training (Tony Bai — 从0开始构建 Agent Harness)
 
+**Chapter 1 — 认知与核心引擎**
+
 | File | Tags | One-line summary |
 |------|------|-----------------|
-| [Chapter 01: 架构演进 — 从 Framework 到 Harness](courses/ai-agent-harness-training/chapter-01-architecture-evolution/01-architecture-evolution-from-framework-to-harness.md) | ai-agent, harness-engineering, agent-architecture, go, framework-vs-harness, react-loop, context-engineering | DAG/Chain 框架的静态陷阱 vs Harness 的控制反转 + Main Loop 范式，go-tiny-claw 四层蓝图 |
+| [01: 架构演进 — 从 Framework 到 Harness](courses/ai-agent-harness-training/chapter-01-cognition-and-core-engine/01-architecture-evolution-from-framework-to-harness.md) | ai-agent, harness-engineering, agent-architecture, go, framework-vs-harness, react-loop, context-engineering | DAG/Chain 框架的静态陷阱 vs Harness 的控制反转 + Main Loop 范式，go-tiny-claw 四层蓝图 |
+| [02: 核心心脏 — 手写 Main Loop](courses/ai-agent-harness-training/chapter-01-cognition-and-core-engine/02-main-loop-react-cycle.md) | ai-agent, harness-engineering, go, react-loop, main-loop, agent-engine | ReAct 范式实现：AgentEngine.Run() for{} 循环驱动 Reason→Act→Observe，schema/provider/tools/engine 四模块解耦，WorkDir 物理边界设计 |
+| [03: 慢思考与自省 — Thinking 阶段](courses/ai-agent-harness-training/chapter-01-cognition-and-core-engine/03-thinking-stage-slow-reasoning.md) | ai-agent, harness-engineering, go, thinking, slow-reasoning, react-loop, two-stage-react | Two-Stage ReAct 通过 Generate(ctx, msgs, nil) 物理剥离 Thinking 阶段，利用自回归特性引导精准行动 |
+| [04: 大脑接入 — Provider 适配器](courses/ai-agent-harness-training/chapter-01-cognition-and-core-engine/04-provider-interface-claude-openai-adapter.md) | ai-agent, harness-engineering, go, provider, claude, openai, adapter-pattern, llm-interface | LLMProvider 同声传译层隔离 OpenAI V3 与 Anthropic SDK 协议差异，智谱 GLM 双协议兼容，Adaptive Reasoning 算力自适应分配 |
+
+**Chapter 2 — 极简工具与物理交互**
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [05: 动作延伸 — Tool Registry 与分发机制](courses/ai-agent-harness-training/chapter-02-minimal-tools-and-physical-interaction/05-tool-registry-and-dispatch.md) | ai-agent, harness-engineering, go, tool-registry, dispatch, function-calling | BaseTool 接口 + map[string]BaseTool 实现 O(1) 路由分发，read_file 工具展示防御底线思维：workDir 边界、参数延迟解析、8000 字节截断防 Context OOM |
+| [06: 大道至简 — 最简工具集与 YOLO 哲学](courses/ai-agent-harness-training/chapter-02-minimal-tools-and-physical-interaction/06-minimal-toolset-yolo-philosophy.md) | ai-agent, harness-engineering, go, minimal-tools, yolo, openclaw | Context Bloat 三大致命后果，read/write/edit/bash 四原语图灵完备，YOLO = 放弃安全剧场改用 Git 回滚 + 4 条物理底线（超时、工作区约束、错误回传、截断） |
