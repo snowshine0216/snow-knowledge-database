@@ -73,6 +73,6 @@ type registryImpl struct {
 
 ## See Also
 
-- [[wiki/courses/ai-agent-harness-training/chapter-04-provider-adapter/04-provider-adapter-and-adaptive-reasoning]] — Provider 适配层，为 Registry 提供 LLM 大脑
-- [[wiki/courses/ai-agent-harness-training/chapter-06-minimal-toolset/06-minimal-toolset-and-yolo-mode]] — 极简工具集法则与 YOLO 模式，讨论工具数量哲学
-- [[agent-frameworks/go-tiny-claw-harness-architecture]] — go-tiny-claw 整体架构概览
+- [[04-provider-interface-claude-openai-adapter]] — Provider 适配层，为 Registry 提供 LLM 大脑
+- [[06-minimal-toolset-yolo-philosophy]] — 极简工具集法则与 YOLO 模式，讨论工具数量哲学
+- [[01-architecture-evolution-from-framework-to-harness]] — go-tiny-claw 整体架构概览

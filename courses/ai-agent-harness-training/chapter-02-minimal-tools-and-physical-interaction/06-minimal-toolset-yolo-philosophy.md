@@ -189,13 +189,13 @@ YOLO 哲学的本质不是"不管安全"，而是"不做安全剧场"——在�
 
 - [[context-bloat-and-attention-dilution|Context Bloat]] — 工具描述 JSON Schema 随工具数量线性增长，导致每次 API 请求的前置 token 指数级膨胀；GitHub MCP 单例可消耗 20,000+ token
 - [[context-bloat-and-attention-dilution|Attention Dilution]] — Context Bloat 的直接后果：LLM Attention 机制被海量工具描述稀释，模型在相似工具间选错目标，幻觉率上升
-- [[YOLO Execution Philosophy]] — 本地开发环境下的默认全信任策略：不设命令黑名单，依赖 [[Git]] 作为回滚兜底，而非依赖静态拦截规则
-- [[Security Theater]] — 形式安全而非实质安全：正则黑名单可被变量拼接或写 Python 脚本绕过，给出安全幻觉但不降低真实风险
-- [[Turing Complete Toolset]] — `read + write + edit + bash` 四原语的组合在理论上覆盖所有可计算操作，等价于图灵完备的操作系统访问接口
+- [[yolo-execution-philosophy|YOLO Execution Philosophy]] — 本地开发环境下的默认全信任策略：不设命令黑名单，依赖 Git 作为回滚兜底，而非依赖静态拦截规则
+- [[security-theater|Security Theater]] — 形式安全而非实质安全：正则黑名单可被变量拼接或写 Python 脚本绕过，给出安全幻觉但不降低真实风险
+- [[turing-complete-toolset|Turing Complete Toolset]] — `read + write + edit + bash` 四原语的组合在理论上覆盖所有可计算操作，等价于图灵完备的操作系统访问接口
 - [[agentic-loop-self-correction|Self-Correction Loop]] — bash 工具执行失败时返回 `(errorString, nil)` 而非 `("", error)`，将错误信息透传给模型，使其能自主分析报错并重试
-- [[Bash Tool Physical Bottom Lines]] — bash.go 的四条物理兜底：30s 超时追加警告字符串、`cmd.Dir = workDir` 工作区约束、错误原样回传、8000 字节截断
-- [[WorkDir Constraint]] — 所有文件操作路径通过 `filepath.Join(workDir, input.Path)` 约束，防止模型写入工作区范围外的系统文件
-- [[Atomic File Overwrite]] — `write_file.go` 全量覆盖语义：无行级补丁，适合新建文件；配合 `os.MkdirAll` 自动创建缺失父目录
+- [[bash-tool-physical-bottom-lines|Bash Tool Physical Bottom Lines]] — bash.go 的四条物理兜底：30s 超时追加警告字符串、`cmd.Dir = workDir` 工作区约束、错误原样回传、8000 字节截断
+- [[workdir-constraint|WorkDir Constraint]] — 所有文件操作路径通过 `filepath.Join(workDir, input.Path)` 约束，防止模型写入工作区范围外的系统文件
+- [[atomic-file-overwrite|Atomic File Overwrite]] — `write_file.go` 全量覆盖语义：无行级补丁，适合新建文件；配合 `os.MkdirAll` 自动创建缺失父目录
 - [[human-in-the-loop|Human-in-the-Loop]] — YOLO 的对立架构选型：远端线上运维场景（第 16 讲）在 Registry Middleware 层引入人工审批门控
 
 ### 2. 课程内导航链接
@@ -210,32 +210,32 @@ YOLO 哲学的本质不是"不管安全"，而是"不做安全剧场"——在�
 
 - [[agentic-loop-self-correction|Agentic Loop]] — 多轮工具调用的自主执行循环；Context Bloat 是规模化工具集下的系统性瓶颈
 - Token optimization — 减少无效 token 消耗的工程策略；极简工具集是从工具描述侧进行 token 优化的结构性手段
-- Defense in Depth — 纵深防御安全模型；本讲论证黑名单属于单层防御的安全剧场，物理兜底才是更有效的防线
-- ReAct Pattern — Reason + Act 交替执行的 Agent 推理范式；bash 工具作为 Act 层的终极原语，直接承接行动阶段
+- [[defense-in-depth|Defense in Depth]] — 纵深防御安全模型；本讲论证黑名单属于单层防御的安全剧场，物理兜底才是更有效的防线
+- [[react-paradigm|ReAct Pattern]] — Reason + Act 交替执行的 Agent 推理范式；bash 工具作为 Act 层的终极原语，直接承接行动阶段
 - [[context-compaction|Context Compaction]] — 8000 字节截断保护和工具数量控制，本质上都服务于上下文窗口治理
-- OS Abstraction Layer — bash 将操作系统 CLI 能力平铺为单一工具接口，是对操作系统抽象层的“终极降维”
+- [[os-abstraction-layer|OS Abstraction Layer]] — bash 将操作系统 CLI 能力平铺为单一工具接口，是对操作系统抽象层的“终极降维”
 
 ### 4. 推荐关系边
 
-[[Context Bloat]] → causes → [[Attention Dilution]]
+[[context-bloat-and-attention-dilution|Context Bloat]] → causes → [[context-bloat-and-attention-dilution|Attention Dilution]]
 
-[[Context Bloat]] → causes → [[Token Optimization]] pressure
+[[context-bloat-and-attention-dilution|Context Bloat]] → causes → Token optimization pressure
 
-[[YOLO Execution Philosophy]] → replaces → [[Security Theater]]
+[[yolo-execution-philosophy|YOLO Execution Philosophy]] → replaces → [[security-theater|Security Theater]]
 
-[[YOLO Execution Philosophy]] → depends on → [[Git]] as rollback net
+[[yolo-execution-philosophy|YOLO Execution Philosophy]] → depends on → Git as rollback net
 
-[[YOLO Execution Philosophy]] → contrasts with → [[Human-in-the-loop]]
+[[yolo-execution-philosophy|YOLO Execution Philosophy]] → contrasts with → [[human-in-the-loop|Human-in-the-Loop]]
 
-[[Bash Tool Physical Bottom Lines]] → enables → [[Self-Correction Loop]]
+[[bash-tool-physical-bottom-lines|Bash Tool Physical Bottom Lines]] → enables → [[agentic-loop-self-correction|Self-Correction Loop]]
 
-[[Self-Correction Loop]] → sustains → [[Agentic Loop]]
+[[agentic-loop-self-correction|Self-Correction Loop]] → sustains → [[agentic-loop-self-correction|Agentic Loop]]
 
-[[Turing Complete Toolset]] → composed of → [[WorkDir Constraint]]
+[[turing-complete-toolset|Turing Complete Toolset]] → composed of → [[workdir-constraint|WorkDir Constraint]]
 
-[[Turing Complete Toolset]] → composed of → [[Atomic File Overwrite]]
+[[turing-complete-toolset|Turing Complete Toolset]] → composed of → [[atomic-file-overwrite|Atomic File Overwrite]]
 
-[[WorkDir Constraint]] → implements → [[Defense in Depth]]
+[[workdir-constraint|WorkDir Constraint]] → implements → [[defense-in-depth|Defense in Depth]]
 
 ### 5. 后续值得沉淀成卡片的主题
 

@@ -76,7 +76,7 @@ type LLMProvider interface {
 
 ## See Also
 
-- [[03-two-phase-thinking-react-loop]] — Ch.03：慢思考两阶段架构，Provider 抽象所服务的 Main Loop
-- [[05-tool-registry-bash-primitive]] — Ch.05：真实 Tool Registry 与 Bash 原语
-- [[agent-frameworks/go-tiny-claw]] — go-tiny-claw 整体架构概览
-- [[ai-engineering/adapter-pattern-llm]] — Adapter Pattern 在 LLM 工程中的通用应用
+- [[03-thinking-stage-slow-reasoning]] — Ch.03：慢思考两阶段架构，Provider 抽象所服务的 Main Loop
+- [[05-tool-registry-and-dispatch]] — Ch.05：真实 Tool Registry 与 Bash 原语
+- [[01-architecture-evolution-from-framework-to-harness]] — go-tiny-claw 整体架构概览
+- [[adapter-pattern]]

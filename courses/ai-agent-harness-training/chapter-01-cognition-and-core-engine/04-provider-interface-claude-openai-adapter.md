@@ -249,16 +249,16 @@ anthropic.NewClient(
 
 ### 1. 本讲核心节点
 
-- [[LLMProvider Interface]] — Go interface，单方法 `Generate(ctx, messages, tools)`，将 Main Loop 与厂商 SDK 完全解耦
-- [[OpenAIProvider]] — 实现 [[LLMProvider Interface]] 的 OpenAI 适配器，使用 `openai-go/v3` SDK
-- [[ClaudeProvider]] — 实现 [[LLMProvider Interface]] 的 Anthropic 适配器，使用 `anthropic-sdk-go`
-- [[Adapter Pattern]] — 将不兼容的厂商协议统一到内部 `schema` 类型，零侵入 Main Loop
-- [[Tool Result Format Difference]] — OpenAI 用独立 `role=tool` 消息，Claude 将 ToolResultBlock 包裹在 `role=user` 消息中
-- [[ToolInputSchemaParam]] — Claude SDK 要求逐字段填充 `properties` 与 `required`，不接受整体 JSON map
-- [[Adaptive Reasoning]] — 通过 `EnableThinking` 开关动态分配慢思考算力，避免简单任务的 Token Waste
-- [[Pseudo Tool Call]] — 模型在无工具环境下自发生成 XML 格式伪调用，是 Adaptive Reasoning 存在的实验依据
-- [[Zhipu GLM Dual Protocol]] — 智谱 GLM 同时兼容 OpenAI 协议与 Anthropic 协议，仅需替换 BaseURL
-- [[OpenAI Go SDK V3 Breaking Change]] — V3 版 `ToolMessage` 参数顺序由 `(id, content)` 改为 `(content, id)`，`OfFunction` 字段改为指针类型
+- LLMProvider Interface — Go interface，单方法 `Generate(ctx, messages, tools)`，将 Main Loop 与厂商 SDK 完全解耦
+- OpenAIProvider — 实现 LLMProvider Interface 的 OpenAI 适配器，使用 `openai-go/v3` SDK
+- ClaudeProvider — 实现 LLMProvider Interface 的 Anthropic 适配器，使用 `anthropic-sdk-go`
+- [[adapter-pattern|Adapter Pattern]] — 将不兼容的厂商协议统一到内部 `schema` 类型，零侵入 Main Loop
+- Tool Result Format Difference — OpenAI 用独立 `role=tool` 消息，Claude 将 ToolResultBlock 包裹在 `role=user` 消息中
+- ToolInputSchemaParam — Claude SDK 要求逐字段填充 `properties` 与 `required`，不接受整体 JSON map
+- Adaptive Reasoning — 通过 `EnableThinking` 开关动态分配慢思考算力，避免简单任务的 Token Waste
+- Pseudo Tool Call — 模型在无工具环境下自发生成 XML 格式伪调用，是 Adaptive Reasoning 存在的实验依据
+- Zhipu GLM Dual Protocol — 智谱 GLM 同时兼容 OpenAI 协议与 Anthropic 协议，仅需替换 BaseURL
+- OpenAI Go SDK V3 Breaking Change — V3 版 `ToolMessage` 参数顺序由 `(id, content)` 改为 `(content, id)`，`OfFunction` 字段改为指针类型
 
 ### 2. 课程内导航链接
 
@@ -270,7 +270,7 @@ anthropic.NewClient(
 
 ### 3. 课程外与通用概念关联
 
-- Adapter Pattern — 经典 GoF 设计模式，本讲是其在 LLM 多厂商场景的典型工程化实践
+- [[adapter-pattern|Adapter Pattern]] — 经典 GoF 设计模式，本讲是其在 LLM 多厂商场景的典型工程化实践
 - Go interface — Go 的隐式接口机制是 Provider 抽象层零侵入 Main Loop 的语言基础
 - [[llm-api-statelessness|LLM API Statelessness]] — Provider 每次都只消费当轮 replay 的 `messages`，自身不应持有隐藏会话状态
 - [[context-engineering|Context Engineering]] — `messages + availableTools` 的组织质量直接决定 Provider 的调用效果
@@ -279,15 +279,15 @@ anthropic.NewClient(
 
 ### 4. 推荐关系边
 
-- [[AgentEngine]] → 调用 → [[LLMProvider Interface]]
-- [[LLMProvider Interface]] → 实现为 → [[OpenAIProvider]]
-- [[LLMProvider Interface]] → 实现为 → [[ClaudeProvider]]
-- [[OpenAIProvider]] → 依赖 → [[OpenAI Go SDK V3 Breaking Change]]
-- [[ClaudeProvider]] → 依赖 → [[ToolInputSchemaParam]]
-- [[Tool Result Format Difference]] → 区分 → [[OpenAIProvider]] 与 [[ClaudeProvider]]
-- [[Adaptive Reasoning]] → 由证据 → [[Pseudo Tool Call]] 驱动
-- [[Zhipu GLM Dual Protocol]] → 验证了 → [[Adapter Pattern]] 的即插即用价值
-- [[Adapter Pattern]] → 消除了 → Main Loop 内的厂商耦合
+- AgentEngine → 调用 → LLMProvider Interface
+- LLMProvider Interface → 实现为 → OpenAIProvider
+- LLMProvider Interface → 实现为 → ClaudeProvider
+- OpenAIProvider → 依赖 → OpenAI Go SDK V3 Breaking Change
+- ClaudeProvider → 依赖 → ToolInputSchemaParam
+- Tool Result Format Difference → 区分 → OpenAIProvider 与 ClaudeProvider
+- Adaptive Reasoning → 由证据 → Pseudo Tool Call 驱动
+- Zhipu GLM Dual Protocol → 验证了 → [[adapter-pattern|Adapter Pattern]] 的即插即用价值
+- [[adapter-pattern|Adapter Pattern]] → 消除了 → Main Loop 内的厂商耦合
 
 ### 5. 后续值得沉淀成卡片的主题
 

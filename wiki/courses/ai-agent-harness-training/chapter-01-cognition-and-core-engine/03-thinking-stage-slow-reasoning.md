@@ -38,7 +38,7 @@ When frontier LLMs are connected to a basic ReAct loop with tools like `bash` an
 
 ## See Also
 
-- [[architecture-evolution-from-framework-to-harness]]
+- [[01-architecture-evolution-from-framework-to-harness]]
 - [[harness-engineering]]
-- [[go-tiny-claw-main-loop]]
-- [[react-agent-loop]]
+- [[02-main-loop-react-cycle]]
+- [[main-loop-vs-dag]]

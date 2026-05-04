@@ -27,7 +27,7 @@ Chapter 02 of the AI Agent Harness Training course implements the beating heart 
 - Serial tool execution is the current design; parallel execution via Goroutine + WaitGroup is the Chapter 08 topic.
 
 ## See Also
-- [[architecture-evolution-from-framework-to-harness]]
+- [[01-architecture-evolution-from-framework-to-harness]]
 - [[harness-engineering]]
-- [[agent-engine-design-patterns]]
-- [[react-paradigm-synergizing-reasoning-acting]]
+- [[main-loop-vs-dag]]
+- [[react-paradigm]]

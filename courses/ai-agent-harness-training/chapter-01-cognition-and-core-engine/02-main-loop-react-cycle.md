@@ -144,16 +144,16 @@ Chapter 02 从 ReAct 论文出发，将"思考—行动—观察"三步骤直接
 ## Knowledge Graph Seeds（知识图谱种子）
 
 ### 1. 本讲核心节点
-- [[ReAct Loop]]：本讲总纲，Reason → Act → Observe 三步闭环，直接映射到 [[AgentEngine]] 的 `for {}` 循环
-- [[AgentEngine]]：Harness 的核心引擎结构体，持有 [[LLMProvider]] 与 [[Registry]] 两个接口，通过 [[Main Loop]] 驱动任务执行
-- [[Main Loop]]：`AgentEngine.Run()` 中的无限 `for {}` 循环，与 [[ReAct Loop]]、[[Agentic Loop]] 属同一类控制结构
-- [[contextHistory]]：Agent 的唯一记忆载体，滚雪球式累积每轮的 Thought / Action / Observation，由 `[]schema.Message` 实现
-- [[LLMProvider]]：抽象接口，接收 contextHistory 和工具列表，返回模型推理结果，使引擎不耦合任何具体 LLM SDK
-- [[Registry]]：工具注册与分发接口，`Execute()` 接收 [[schema.ToolCall]]，返回 [[schema.ToolResult]]
-- [[schema.Message]]：统一血液数据结构，携带 Role、Content、ToolCalls 和 [[ToolCallID]]，贯穿整个 [[contextHistory]]
-- [[ToolCallID]]：将 Observation 消息与对应 ToolCall 绑定的唯一标识，维系 LLM 推理链的逻辑一致性
-- [[json.RawMessage]]：延迟解析策略，[[AgentEngine]] 不解析工具参数，直接转发给工具自己处理，体现极致解耦
-- [[WorkDir]]：Agent 的物理边界字段，借鉴 OpenClaw 设计，将 Agent 行为限定在指定项目目录内
+- [[react-paradigm|ReAct Loop]]：本讲总纲，Reason → Act → Observe 三步闭环，直接映射到 AgentEngine 的 `for {}` 循环
+- AgentEngine：Harness 的核心引擎结构体，持有 LLMProvider 与 Registry 两个接口，通过 [[main-loop-vs-dag|Main Loop]] 驱动任务执行
+- [[main-loop-vs-dag|Main Loop]]：`AgentEngine.Run()` 中的无限 `for {}` 循环，与 [[react-paradigm|ReAct Loop]]、[[agentic-loop-self-correction|Agentic Loop]] 属同一类控制结构
+- contextHistory：Agent 的唯一记忆载体，滚雪球式累积每轮的 Thought / Action / Observation，由 `[]schema.Message` 实现
+- LLMProvider：抽象接口，接收 contextHistory 和工具列表，返回模型推理结果，使引擎不耦合任何具体 LLM SDK
+- Registry：工具注册与分发接口，`Execute()` 接收 `schema.ToolCall`，返回 `schema.ToolResult`
+- schema.Message：统一血液数据结构，携带 Role、Content、ToolCalls 和 ToolCallID，贯穿整个 contextHistory
+- ToolCallID：将 Observation 消息与对应 ToolCall 绑定的唯一标识，维系 LLM 推理链的逻辑一致性
+- json.RawMessage：延迟解析策略，AgentEngine 不解析工具参数，直接转发给工具自己处理，体现极致解耦
+- WorkDir：Agent 的物理边界字段，借鉴 OpenClaw 设计，将 Agent 行为限定在指定项目目录内
 - [[context-compaction|Context Compaction]]：替代 max_turns 硬限制的工业级机制，与 [[System Reminders]] 共同防止死循环
 
 ### 2. 课程内导航链接
@@ -165,34 +165,34 @@ Chapter 02 从 ReAct 论文出发，将"思考—行动—观察"三步骤直接
 
 ### 3. 课程外与通用概念关联
 - [[harness-engineering|Harness Engineering]]：本讲 [[AgentEngine]] 是 Harness 理念的第一个具体实现，印证了"边界由 Harness 守，路径交给模型"的核心原则
-- ReAct Paradigm：Shunyu Yao 等人 ICLR 2023 论文提出的 Reason + Act 范式，是本讲 [[ReAct Loop]] 的学术来源
-- Inversion of Control：[[AgentEngine]] 将任务路径决策权交给 [[LLMProvider]]，自身只维护边界和退出条件，是 IoC 在 Agent 领域的具体体现
+- [[react-paradigm|ReAct Paradigm]]：Shunyu Yao 等人 ICLR 2023 论文提出的 Reason + Act 范式，是本讲 ReAct Loop 的学术来源
+- 控制反转（IoC）：AgentEngine 将任务路径决策权交给 LLMProvider，自身只维护边界和退出条件，是 IoC 在 Agent 领域的具体体现
 - [[context-compaction|Context Compaction]]：`contextHistory` 无限追加最终会触及上下文窗口上限，压缩与治理是工业级应对机制
-- Interface-Driven Design：[[LLMProvider]] 和 [[Registry]] 均为接口，使 Mock 测试与真实实现可无缝替换
+- Interface-Driven Design：LLMProvider 和 Registry 均为接口，使 Mock 测试与真实实现可无缝替换
 
 ### 4. 推荐关系边（可直接扩成独立卡片）
-- [[AgentEngine]] → implements → [[ReAct Loop]]
-- [[AgentEngine]] → holds → [[LLMProvider]]
-- [[AgentEngine]] → holds → [[Registry]]
-- [[AgentEngine]] → maintains → [[contextHistory]]
-- [[AgentEngine]] → governed-by → [[WorkDir]]
-- [[LLMProvider]] → consumes → [[contextHistory]]
-- [[LLMProvider]] → produces → [[schema.Message]]
-- [[Registry]] → executes → [[schema.ToolCall]]
-- [[Registry]] → produces → [[schema.ToolResult]]
-- [[schema.Message]] → composed-of → [[ToolCallID]]
-- [[schema.Message]] → composed-of → [[schema.ToolCall]]
-- [[schema.ToolCall]] → carries → [[json.RawMessage]]
+- AgentEngine → implements → [[react-paradigm|ReAct Loop]]
+- AgentEngine → holds → LLMProvider
+- AgentEngine → holds → Registry
+- AgentEngine → maintains → contextHistory
+- AgentEngine → governed-by → WorkDir
+- LLMProvider → consumes → contextHistory
+- LLMProvider → produces → schema.Message
+- Registry → executes → schema.ToolCall
+- Registry → produces → schema.ToolResult
+- schema.Message → composed-of → ToolCallID
+- schema.Message → composed-of → schema.ToolCall
+- schema.ToolCall → carries → json.RawMessage
 - [[context-compaction|Context Compaction]] → replaces → max_turns hardcap
-- [[System Reminders]] → protects → [[Main Loop]] from infinite loops
-- [[ReAct Loop]] → maps-to → `for {}` loop in [[AgentEngine]]
+- System Reminders → protects → [[main-loop-vs-dag|Main Loop]] from infinite loops
+- [[react-paradigm|ReAct Loop]] → maps-to → `for {}` loop in AgentEngine
 
 ### 5. 后续值得沉淀成卡片的主题
 - [[context-compaction|Context Compaction]]：内存压缩的具体触发条件与实现机制（后续章节展开）
-- [[System Reminders]]：系统级防死循环干预的注入时机与内容格式
-- [[Parallel Tool Execution]]：用 Goroutine + WaitGroup 改造串行工具调用为并行，并有序组装结果（第 08 讲）
-- [[Dynamic Prompt Assembly]]：用 AGENTS.md 动态替换 `Run()` 中硬编码系统提示词的机制
-- [[Error Self-Healing]]：`ToolResult.IsError` 字段预留的错误自愈能力，具体实现章节待确认
+- System Reminders：系统级防死循环干预的注入时机与内容格式
+- Parallel Tool Execution：用 Goroutine + WaitGroup 改造串行工具调用为并行，并有序组装结果（第 08 讲）
+- Dynamic Prompt Assembly：用 AGENTS.md 动态替换 `Run()` 中硬编码系统提示词的机制
+- Error Self-Healing：`ToolResult.IsError` 字段预留的错误自愈能力，具体实现章节待确认
 
 ---
 

@@ -492,14 +492,14 @@ go-tiny-claw/
 ### 1. 本讲核心节点
 
 - [[harness-engineering|Harness Engineering]]：本讲总纲，作为 [[Framework vs Harness]] 这条主轴上的新范式
-- [[Inversion of Control in Agent]]：任务路径交给模型，边界与终止条件保留在 [[Runtime Boundary Control]]
-- [[Main Loop]]：Harness 的持续导航器，与 [[ReAct Loop]]、[[Agentic Loop]] 属同一类控制结构
-- [[Middleware]]：所有风险控制、审批、预算与恢复逻辑的统一关口
-- [[Context Engineering]]：负责 [[Prompt Assembly]]、[[Memory Persistence]]、[[Token Compactor]] 与上下文治理
-- [[State Transparency]]：Harness 相比隐式状态机的核心优势之一
-- [[Filesystem as Memory]]：把计划、摘要、检查点外显为可恢复状态
-- [[Guardrails]] 与 [[Fallback]]：分别对应“能不能做”和“失败后怎么办”
-- [[go-tiny-claw]]：本讲用来承载架构蓝图的实现项目
+- 控制反转（Agent 场景）：任务路径交给模型，边界与终止条件保留在 [[runtime-boundary-control|Runtime Boundary Control]]
+- [[main-loop-vs-dag|Main Loop]]：Harness 的持续导航器，与 [[react-paradigm|ReAct Loop]]、[[agentic-loop-self-correction|Agentic Loop]] 属同一类控制结构
+- Middleware：所有风险控制、审批、预算与恢复逻辑的统一关口
+- [[context-engineering|Context Engineering]]：负责 Prompt Assembly、Memory Persistence、[[context-compaction|Token Compactor]] 与上下文治理
+- [[state-transparency|State Transparency]]：Harness 相比隐式状态机的核心优势之一
+- [[filesystem-as-memory|Filesystem as Memory]]：把计划、摘要、检查点外显为可恢复状态
+- [[runtime-boundary-control|Guardrails / Runtime Boundary Control]] 与 [[crash-recovery-in-agent-harness|Fallback / Recovery]]：分别对应“能不能做”和“失败后怎么办”
+- go-tiny-claw：本讲用来承载架构蓝图的实现项目
 
 ### 2. 课程内导航链接
 
@@ -515,34 +515,34 @@ go-tiny-claw/
 - [[long-running-agent-harness|Long-Running Agent Harness]]：与本讲的长任务恢复、外部状态持久化直接关联
 - [[openclaw-architecture|OpenClaw Architecture]]：理解 go-tiny-claw / OpenClaw 一类项目的总体形态
 - [[llm-api-statelessness|LLM API Statelessness]]：解释为什么 Harness 必须显式重放 Context，并把状态外置到消息列表或文件系统
-- [[react-paradigm-synergizing-reasoning-acting|ReAct Paradigm]]：本讲 Main Loop 背后的通用认知框架
-- [[Agentic Loop]]：与工具调用、自纠错、循环推进相关的上位概念
-- [[Human-in-the-loop]]：与 [[YOLO Mode]] 形成部署风险上的对照轴
+- [[react-paradigm|ReAct Paradigm]]：本讲 Main Loop 背后的通用认知框架
+- [[agentic-loop-self-correction|Agentic Loop]]：与工具调用、自纠错、循环推进相关的上位概念
+- [[human-in-the-loop|Human-in-the-Loop]]：与 [[yolo-execution-philosophy|YOLO Mode]] 形成部署风险上的对照轴
 
 ### 4. 推荐关系边（可直接扩成独立卡片）
 
-- [[harness-engineering|Harness Engineering]] → replaces → [[DAG-based Framework]]
-- [[harness-engineering|Harness Engineering]] → centers-on → [[Runtime Boundary Control]]
-- [[harness-engineering|Harness Engineering]] → emphasizes → [[State Transparency]]
-- [[Inversion of Control in Agent]] → shifts-control-from → [[Static Control Flow]]
-- [[Inversion of Control in Agent]] → shifts-control-to → [[Model Planning]]
-- [[Main Loop]] → protected-by → [[Middleware]]
-- [[Middleware]] → enforces → [[Guardrails]]
-- [[Middleware]] → triggers → [[Fallback]]
-- [[Context Engineering]] → manages → [[Context Window]]
-- [[Context Engineering]] → includes → [[Token Compactor]]
-- [[Filesystem as Memory]] → enables → [[Crash Recovery]]
-- [[go-tiny-claw]] → composed-of → [[Entry & UI Layer]], [[Core Engine Layer]], [[Context Engineering]], [[Tool Execution Layer]]
-- [[go-tiny-claw]] → inspired-by → [[openclaw-architecture|OpenClaw Architecture]]
+- [[harness-engineering|Harness Engineering]] → replaces → DAG-based Framework
+- [[harness-engineering|Harness Engineering]] → centers-on → [[runtime-boundary-control|Runtime Boundary Control]]
+- [[harness-engineering|Harness Engineering]] → emphasizes → [[state-transparency|State Transparency]]
+- 控制反转（Agent 场景） → shifts-control-from → 静态控制流
+- 控制反转（Agent 场景） → shifts-control-to → 模型规划
+- [[main-loop-vs-dag|Main Loop]] → protected-by → Middleware
+- Middleware → enforces → [[runtime-boundary-control|Guardrails]]
+- Middleware → triggers → [[crash-recovery-in-agent-harness|Fallback]]
+- [[context-engineering|Context Engineering]] → manages → Context Window
+- [[context-engineering|Context Engineering]] → includes → [[context-compaction|Token Compactor]]
+- [[filesystem-as-memory|Filesystem as Memory]] → enables → [[crash-recovery-in-agent-harness|Crash Recovery]]
+- go-tiny-claw → composed-of → Entry & UI Layer, Core Engine Layer, [[context-engineering|Context Engineering]], Tool Execution Layer
+- go-tiny-claw → inspired-by → [[openclaw-architecture|OpenClaw Architecture]]
 
 ### 5. 后续值得沉淀成卡片的主题
 
-- [[Runtime Boundary Control]]
-- [[State Transparency]]
-- [[Filesystem as Memory]]
-- [[Main Loop vs DAG]]
-- [[Crash Recovery in Agent Harness]]
-- [[Context Compression Strategy]]
+- [[runtime-boundary-control|Runtime Boundary Control]]
+- [[state-transparency|State Transparency]]
+- [[filesystem-as-memory|Filesystem as Memory]]
+- [[main-loop-vs-dag|Main Loop vs DAG]]
+- [[crash-recovery-in-agent-harness|Crash Recovery in Agent Harness]]
+- [[context-compaction|Context Compression Strategy]]
 
 ---
 
