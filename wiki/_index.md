@@ -445,3 +445,9 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [064: Latency vs Response Quality](wiki/courses/retrieval-augmented-generation/module-5-production-rag/064-latency-vs-response-quality.md) | rag, latency, optimization, production, deeplearning-ai, course | Latency budget, transformer inference bottleneck, router LLMs, semantic caching, binary quantization, sharding |
 | [065: Security](wiki/courses/retrieval-augmented-generation/module-5-production-rag/065-security.md) | rag, security, prompt-injection, pii, deeplearning-ai, course | Prompt injection, PII handling, access control, output validation, RAG-specific security threat model |
 | [066: Multimodal RAG](wiki/courses/retrieval-augmented-generation/module-5-production-rag/066-multimodal-rag.md) | rag, multimodal, vision, embeddings, deeplearning-ai, course | Multimodal embeddings, language vision models, PDF grid-chunking (PDF RAG), ColBERT-style scoring for images |
+
+### AI Agent Harness Training (Tony Bai — 从0开始构建 Agent Harness)
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [Chapter 01: 架构演进 — 从 Framework 到 Harness](courses/ai-agent-harness-training/chapter-01-architecture-evolution/01-architecture-evolution-from-framework-to-harness.md) | ai-agent, harness-engineering, agent-architecture, go, framework-vs-harness, react-loop, context-engineering | DAG/Chain 框架的静态陷阱 vs Harness 的控制反转 + Main Loop 范式，go-tiny-claw 四层蓝图 |
