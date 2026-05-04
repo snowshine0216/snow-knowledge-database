@@ -1,4 +1,5 @@
 ---
+aliases: [LLM API Statelessness]
 tags: [llm, api, stateless, context-window, prompt-engineering, context-engineering, chat-apps]
 source: https://www.youtube.com/watch?v=qs8BzCdqZhY
 ---

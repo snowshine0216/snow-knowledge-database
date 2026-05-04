@@ -185,12 +185,65 @@ YOLO 哲学的本质不是"不管安全"，而是"不做安全剧场"——在�
 
 ## Knowledge Graph Seeds（知识图谱种子）
 
-- **Context Bloat** → 与 [[Attention Dilution]]、[[Token Optimization]] 关联
-- **YOLO 模式** → 与 [[Human-in-the-loop]]（第 16 讲远端运维）对比
-- **4 原语工具集** → 与 [[Tool Registry]]（第 05 讲）、[[Fuzzy Edit]]（第 07 讲）关联
-- **bash 工具的自纠错回传** → 与 [[Self-Correction Loop]]、[[Agentic Loop]] 关联
-- **安全剧场** → 与 [[Security Theater]]、[[Defense in Depth]] 概念对比
-- **图灵完备** → bash 作为通用计算接口，与 [[Universal Turing Machine]] 类比
+### 1. 本讲核心节点
+
+- [[context-bloat-and-attention-dilution|Context Bloat]] — 工具描述 JSON Schema 随工具数量线性增长，导致每次 API 请求的前置 token 指数级膨胀；GitHub MCP 单例可消耗 20,000+ token
+- [[context-bloat-and-attention-dilution|Attention Dilution]] — Context Bloat 的直接后果：LLM Attention 机制被海量工具描述稀释，模型在相似工具间选错目标，幻觉率上升
+- [[YOLO Execution Philosophy]] — 本地开发环境下的默认全信任策略：不设命令黑名单，依赖 [[Git]] 作为回滚兜底，而非依赖静态拦截规则
+- [[Security Theater]] — 形式安全而非实质安全：正则黑名单可被变量拼接或写 Python 脚本绕过，给出安全幻觉但不降低真实风险
+- [[Turing Complete Toolset]] — `read + write + edit + bash` 四原语的组合在理论上覆盖所有可计算操作，等价于图灵完备的操作系统访问接口
+- [[agentic-loop-self-correction|Self-Correction Loop]] — bash 工具执行失败时返回 `(errorString, nil)` 而非 `("", error)`，将错误信息透传给模型，使其能自主分析报错并重试
+- [[Bash Tool Physical Bottom Lines]] — bash.go 的四条物理兜底：30s 超时追加警告字符串、`cmd.Dir = workDir` 工作区约束、错误原样回传、8000 字节截断
+- [[WorkDir Constraint]] — 所有文件操作路径通过 `filepath.Join(workDir, input.Path)` 约束，防止模型写入工作区范围外的系统文件
+- [[Atomic File Overwrite]] — `write_file.go` 全量覆盖语义：无行级补丁，适合新建文件；配合 `os.MkdirAll` 自动创建缺失父目录
+- [[human-in-the-loop|Human-in-the-Loop]] — YOLO 的对立架构选型：远端线上运维场景（第 16 讲）在 Registry Middleware 层引入人工审批门控
+
+### 2. 课程内导航链接
+
+- [[01-architecture-evolution-from-framework-to-harness|第 01 讲 架构演进]] — 从框架到 Harness 的架构演进背景，理解为何极简工具集是 Harness 设计的自然结论
+- [[02-main-loop-react-cycle|第 02 讲 Main Loop]] — ReAct 循环的核心机制；bash 工具的自纠错回传正是 Main Loop 自愈能力的底层支撑
+- [[03-thinking-stage-slow-reasoning|第 03 讲 Thinking Stage]] — 慢思考阶段；本讲演示关闭 `EnableThinking` 对简单机械任务的延迟优化
+- [[04-provider-interface-claude-openai-adapter|第 04 讲 Provider 适配器]] — LLM Provider 抽象层；工具调用的序列化/反序列化与本讲 bash 工具的结果回传格式直接对接
+- [[05-tool-registry-and-dispatch|第 05 讲 Tool Registry]] — 工具注册与分发机制；本讲的 `write_file` 和 `bash` 工具均挂载于此 Registry
+
+### 3. 课程外与通用概念关联
+
+- [[agentic-loop-self-correction|Agentic Loop]] — 多轮工具调用的自主执行循环；Context Bloat 是规模化工具集下的系统性瓶颈
+- Token optimization — 减少无效 token 消耗的工程策略；极简工具集是从工具描述侧进行 token 优化的结构性手段
+- Defense in Depth — 纵深防御安全模型；本讲论证黑名单属于单层防御的安全剧场，物理兜底才是更有效的防线
+- ReAct Pattern — Reason + Act 交替执行的 Agent 推理范式；bash 工具作为 Act 层的终极原语，直接承接行动阶段
+- [[context-compaction|Context Compaction]] — 8000 字节截断保护和工具数量控制，本质上都服务于上下文窗口治理
+- OS Abstraction Layer — bash 将操作系统 CLI 能力平铺为单一工具接口，是对操作系统抽象层的“终极降维”
+
+### 4. 推荐关系边
+
+[[Context Bloat]] → causes → [[Attention Dilution]]
+
+[[Context Bloat]] → causes → [[Token Optimization]] pressure
+
+[[YOLO Execution Philosophy]] → replaces → [[Security Theater]]
+
+[[YOLO Execution Philosophy]] → depends on → [[Git]] as rollback net
+
+[[YOLO Execution Philosophy]] → contrasts with → [[Human-in-the-loop]]
+
+[[Bash Tool Physical Bottom Lines]] → enables → [[Self-Correction Loop]]
+
+[[Self-Correction Loop]] → sustains → [[Agentic Loop]]
+
+[[Turing Complete Toolset]] → composed of → [[WorkDir Constraint]]
+
+[[Turing Complete Toolset]] → composed of → [[Atomic File Overwrite]]
+
+[[WorkDir Constraint]] → implements → [[Defense in Depth]]
+
+### 5. 后续值得沉淀成卡片的主题
+
+- **bash 工具的 `CombinedOutput` vs `Output` 取舍** — 合并 stdout+stderr 让模型同时看到正常输出和错误信息，是自纠错能力的数据基础
+- **超时后追加警告字符串而非静默 kill** — 超时时在返回值末尾追加 `[警告: 命令执行超时(30s)]`，引导模型建议使用 `nohup &` 后台模式
+- **`exec.CommandContext` + `bash -c` 的 Shell 特性** — 支持管道、`&&`、环境变量展开；直接 `exec.Command` 执行单一二进制则不具备这些特性
+- **write vs edit 的语义边界** — write 全量覆盖（适合新建）vs edit 局部外科替换（适合修改已有代码）；混用会导致巨量 token 消耗和幻觉风险
+- **后台守护进程扩展模式** — `start_background_task / get_task_log / stop_task` 三工具组合，解决常驻进程（如 `npm run dev`）阻塞 Main Loop 的问题
 
 ---
 

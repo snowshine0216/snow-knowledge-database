@@ -159,17 +159,62 @@ Chapter 03 diagnoses a fundamental behavioral flaw in naive ReAct loops: LLMs ar
 ---
 
 ## Knowledge Graph Seeds
-**Entities:** `AgentEngine`, `LLMProvider`, `EnableThinking`, `Two-Stage ReAct`, `Thinking Phase`, `Action Phase`, `contextHistory`, `mockProvider`, `schema.ToolDefinition`, `Chain-of-Thought`, `Kahneman System 1/System 2`, `autoregression`, `Harness Engineering`, `go-tiny-claw`
 
-**Relations:**
-- `AgentEngine` --has-field--> `EnableThinking bool`
-- `AgentEngine.Run` --calls--> `LLMProvider.Generate` (twice per turn when EnableThinking=true)
-- `Phase 1 Generate` --passes--> `nil tools` → forces text output
-- `Phase 2 Generate` --passes--> `availableTools` → enables tool calls
-- `Thinking Trace` --appended-to--> `contextHistory` --shapes--> `Phase 2 tool call`
-- `Two-Stage ReAct` --supersedes--> `Basic ReAct` (from Chapter 02)
-- `EnableThinking=static` --limitation--> `Plan Mode` (Chapter 13)
-- `mockProvider.Generate` --discriminates-phase-by--> `len(tools)==0`
+### 1. 本讲核心节点
+
+- [[Two-Stage ReAct]] — 将 ReAct 循环拆分为独立 Thinking Phase 与 Action Phase 的双阶段架构，物理隔离规划与执行
+- [[Thinking Phase]] — Phase 1：以 `nil` tools 调用 `Generate`，强制 LLM 输出纯文本推理规划，不允许工具调用
+- [[Action Phase]] — Phase 2：携带完整 `availableTools` 调用 `Generate`，由 Phase 1 的规划迹引导工具选择
+- [[AgentEngine]] — Agent 核心执行引擎结构体，新增 `EnableThinking bool` 字段控制双阶段行为
+- [[EnableThinking]] — `AgentEngine` 上的静态布尔开关，决定是否启用 Thinking Phase；当前为全局生效，不支持按 turn 动态调整
+- [[contextHistory]] — 跨 Phase 传递的消息历史切片；Thinking Trace 以 `RoleAssistant` 纯文本消息追加其中，成为 Phase 2 的先验上下文
+- [[LLMProvider]] — 定义 `Generate(ctx, msgs, tools)` 的纯函数接口；`tools` 传 `nil` 即触发无工具文本生成模式
+- [[autoregression]] — LLM 自回归生成机制；Phase 1 写入 contextHistory 的规划文本会以极高概率引导 Phase 2 产出与之一致的工具调用
+- [[Impulsive Model Problem]] — 工具 Schema 出现在上下文时，LLM next-token 概率向工具调用 JSON 坍塌，表现为跳过规划直接行动的结构性缺陷
+- [[Mechanism over Prompt]] — 「机制决定行为」原则：通过物理剥离工具（`nil` 参数）而非提示词约束来改变模型行为
+- [[mockProvider]] — 测试用虚拟 Provider，以 `len(tools)==0` 区分 Thinking/Action 两阶段，返回不同类型的响应
+
+### 2. 课程内导航链接
+
+- [[01-architecture-evolution-from-framework-to-harness|第 01 讲 架构演进]] — Agent Harness 与传统 Framework 的架构差异
+- [[02-main-loop-react-cycle|第 02 讲 Main Loop]] — Basic ReAct 循环实现，是本讲 Two-Stage 升级的基础
+- [[04-provider-interface-claude-openai-adapter|第 04 讲 Provider 适配器]] — LLMProvider 接口的真实后端实现，Thinking Phase 依赖该接口的 `nil` tools 语义
+- [[05-tool-registry-and-dispatch|第 05 讲 Tool Registry]] — `availableTools` 的注册与分发机制，Action Phase 的工具来源
+- [[06-minimal-toolset-yolo-philosophy|第 06 讲 最简工具集]] — YOLO 哲学下最小化工具集的设计，影响 Phase 2 可用 Schema 的范围
+
+### 3. 课程外与通用概念关联
+
+- Chain-of-Thought — 提示词层面的逐步推理技术；本讲指出在 function-calling 场景中 CoT 会被工具 Schema 吸引子压制
+- Kahneman System 1 / System 2 — 快思考/慢思考认知模型；本讲借此解释为什么需要 Thinking Phase
+- ReAct — Reason + Act 交织的 Agent 范式；Two-Stage ReAct 是对原始 ReAct 的结构化拆分升级
+- Plan Mode — 动态按需慢思考的进阶机制，解决 `EnableThinking` 静态开关的局限性，在第 13 讲展开
+- function calling — LLM 工具调用协议；工具 Schema 以 JSON 注入请求上下文，是「工具饥饿」现象的根因
+- [[harness-engineering|Harness Engineering]] — 以工程机制（而非 Prompt 美德）约束 AI 行为的设计哲学，本讲是其核心实践案例
+
+### 4. 推荐关系边
+
+- [[AgentEngine]] → contains-field → [[EnableThinking]]
+- [[AgentEngine]] → executes → [[Two-Stage ReAct]]
+- [[Two-Stage ReAct]] → phase-1-is → [[Thinking Phase]]
+- [[Two-Stage ReAct]] → phase-2-is → [[Action Phase]]
+- [[Thinking Phase]] → writes-trace-to → [[contextHistory]]
+- [[contextHistory]] → conditions → [[Action Phase]]
+- [[Action Phase]] → leverages → [[autoregression]]
+- [[Two-Stage ReAct]] → supersedes → [[ReAct]]
+- [[Two-Stage ReAct]] → instantiates → [[Mechanism over Prompt]]
+- [[Mechanism over Prompt]] → contrasts-with → [[Chain-of-Thought]]
+- [[EnableThinking]] → static-limitation-foreshadows → [[Plan Mode]]
+- [[LLMProvider]] → nil-tools-enables → [[Thinking Phase]]
+- [[mockProvider]] → discriminates-phase-via → [[LLMProvider]]
+- [[Impulsive Model Problem]] → root-cause-is → [[autoregression]]
+- [[Impulsive Model Problem]] → solved-by → [[Two-Stage ReAct]]
+
+### 5. 后续值得沉淀成卡片的主题
+
+- **Critic Phase 微循环** — 在 Thinking Phase 与 Action Phase 之间插入第三次 `Generate` 调用，对 Phase 1 计划进行自我审计，可作为独立设计模式卡片
+- **Thinking Trace 过滤策略** — 是否在 UI 层过滤掉内部推理消息、以何种形式暴露给用户/reviewer，属于 Agent 可观测性设计话题
+- **动态 EnableThinking 触发条件** — 按任务复杂度、turn 序号或工具风险等级动态决定是否启用 Thinking Phase，比静态布尔开关更精细
+- **失败经验沉淀机制** — 将「方案 A 失败原因」提炼成 Critic Phase 记忆或 Few-shot 示例，形成 Agent 长期学习资产
 
 ---
 

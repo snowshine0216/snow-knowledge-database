@@ -202,16 +202,56 @@ Registry 在 Main Loop 与具体工具之间扮演绝缘层角色。Main Loop �
 
 ## Knowledge Graph Seeds
 
-- `BaseTool` 接口 → implements → `ReadFileTool`
-- `registryImpl.tools` → `map[string]BaseTool` → O(1) dispatch
-- `Registry.Execute` → receives `schema.ToolCall` → returns `schema.ToolResult`
-- `ToolResult.IsError = true` → triggers → Model Self-Correction in next Turn
-- `ReadFileTool.workDir` → constrains → physical I/O boundary
-- Hard Truncation (8000 bytes) → prevents → Context explosion / Token OOM
-- Tool Call Offloading → industrial upgrade → Hard Truncation
-- Context Compaction → Chapter 12 → global-level OOM defense
-- `json.RawMessage` args → deferred deserialization → each tool owns its type contract
-- Tool Registry → decouples → Main Loop from concrete tool implementations
+### 1. 本讲核心节点
+
+- [[Tool Registry]] — Harness 中间件层，充当 Hub + Router，将 [[Main Loop]] 与具体工具实现完全隔离
+- [[BaseTool 接口]] — 统一工具契约，定义 `Name()`、`Description()`、`InputSchema()`、`Execute()` 四方法
+- [[registryImpl]] — `BaseTool` 接口的私有实现，内部以 `map[string]BaseTool` 实现 O(1) 路由分发
+- [[ReadFileTool]] — 本讲第一个真实工具，实现 4 步防御链：参数解析 → 路径边界 → 物理 I/O → 硬截断
+- [[json.RawMessage 延迟反序列化]] — 每个工具自持参数类型契约，Registry 传原始字节流，解耦引擎与工具参数结构
+- [[ToolResult.IsError]] — bool 语义标志，触发模型 Self-Correction 而非 Go 程序崩溃；跨边界错误语义传递
+- [[workDir 注入]] — 工具级别物理边界限制，防止模型越权读取 workDir 之外的系统文件
+- [[8000 字节硬截断]] — Context OOM 防线，防止大文件撑爆 Token 窗口；局限是模型永远看不到截断后内容
+- [[Tool Call Offloading]] — 硬截断的工业级替代方案：超阈值时写磁盘临时目录，向模型返回摘要 + 路径引用
+- [[依赖倒置原则]] — `NewRegistry()` 返回 `Registry` 接口而非 `*registryImpl`，调用方仅依赖行为契约
+
+### 2. 课程内导航链接
+
+- [[01-architecture-evolution-from-framework-to-harness|第 01 讲 架构演进]] — Harness 整体理念，Tool Registry 是其中间件层的具体落地
+- [[02-main-loop-react-cycle|第 02 讲 Main Loop]] — "瞎子 Main Loop" 模式：只调用 `registry.Execute`，不感知工具细节
+- [[03-thinking-stage-slow-reasoning|第 03 讲 Thinking Stage]] — 慢推理阶段，为 Registry 路由决策提供更精准的 ToolCall 请求
+- [[04-provider-interface-claude-openai-adapter|第 04 讲 Provider 适配器]] — `schema.ToolCall` / `ToolResult` 数据结构在本讲被 Registry 直接消费
+- [[06-minimal-toolset-yolo-philosophy|第 06 讲 最简工具集]] — 在本讲 Registry 基础上继续扩充工具，讨论极简工具集选择哲学
+
+### 3. 课程外与通用概念关联
+
+- function calling — LLM 原生能力，Registry 是其 Go 侧执行层的标准化封装
+- Interface-Oriented Design — Go 语言最佳实践，`BaseTool` 接口 + `Registry` 接口均体现此原则
+- [[context-bloat-and-attention-dilution|Context Bloat / Attention Dilution]] — Token 成本与 OOM 风险的结构性来源，硬截断和压缩都在对抗它
+- [[agentic-loop-self-correction|Agentic Loop Self-Correction]] — `IsError: true` 利用模型 in-context 自纠能力，避免硬崩溃
+- Path Traversal — `workDir` 注入防线对应的安全威胁，工业环境需加 `filepath.Clean` 检测
+- [[context-compaction|Context Compaction]] — 第 12 讲全局级 OOM 防线，与本讲工具级硬截断形成多层防御体系
+
+### 4. 推荐关系边
+
+- [[BaseTool 接口]] → 约束实现 → [[ReadFileTool]]
+- [[registryImpl]] → 存储并路由 → [[BaseTool 接口]]
+- [[Tool Registry]] → 解耦 → [[Main Loop]]
+- [[json.RawMessage 延迟反序列化]] → 赋予 → [[BaseTool 接口]]
+- [[ToolResult.IsError]] → 触发 → [[agentic-loop-self-correction|Agentic Loop Self-Correction]]
+- [[workDir 注入]] → 限定边界 → [[ReadFileTool]]
+- [[8000 字节硬截断]] → 防止 → [[Context Window 管理]]
+- [[Tool Call Offloading]] → 工业升级替代 → [[8000 字节硬截断]]
+- [[context-compaction|Context Compaction]] → 全局级升级替代 → [[8000 字节硬截断]]
+- [[依赖倒置原则]] → 指导设计 → [[registryImpl]]
+
+### 5. 后续值得沉淀成卡片的主题
+
+- **多工具并发注册冲突检测**：`Register` 目前仅打 Warning 后覆盖，工业环境应返回 error 或 panic-on-duplicate
+- **Self-Correction 无限重试风险**：`IsError: true` 触发自纠后若模型持续产生相同错误，需重试计数器兜底（第 14–15 讲）
+- **路径穿越防护模式**：`filepath.Join` + `filepath.Clean` + `strings.HasPrefix` 三件套，防御 `../../etc/passwd` 注入
+- **Tool Call Offloading 实现模式**：超阈值 → 写临时文件 → 返回"头尾预览 + 路径引用"摘要的完整实现模板
+- **`json.RawMessage` vs `map[string]interface{}` 权衡**：强类型参数结构体带来编译期检查，代价是每工具多一个私有 struct
 
 ---
 

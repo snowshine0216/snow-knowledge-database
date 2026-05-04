@@ -1,4 +1,5 @@
 ---
+aliases: [OpenClaw Architecture, OpenClaw]
 tags: [openclaw, ai-agents, architecture, system-design, fault-tolerance, agent-loop]
 source: https://time.geekbang.org/column/article/954978
 ---

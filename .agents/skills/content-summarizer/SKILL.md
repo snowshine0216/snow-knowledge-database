@@ -229,6 +229,33 @@ This applies to every `content_type` written to `courses/`: `lecture-video`, `le
 
 ---
 
+### Knowledge Graph Seeds rules (course files only)
+
+The `## Knowledge Graph Seeds` section must use the **5-subsection structure** below. See `references/template-geektime-article.md` for the full template.
+
+**Non-negotiable format rules:**
+
+1. **All entity/concept names use `[[wikilinks]]`** — never backtick code spans (`` `AgentEngine` ``), never plain text. Backtick spans are for inline code in Notes columns, not for graph nodes.
+
+2. **Section 1 — 本讲核心节点**: list the 6–12 key concepts introduced or central to THIS chapter. Each entry: `- [[Concept]]：one-line description, linking to [[related]] inline where natural.`
+
+3. **Section 2 — 课程内导航链接**: one entry per OTHER chapter in the same course. Format: `- [[NNN-slug|第 NN 讲 Title]]：one sentence on the conceptual bridge.` This section is **always required** for course content — never omit it.
+
+4. **Section 3 — 课程外与通用概念关联**: link to existing `wiki/` cards or well-known named concepts. Use the wiki file slug when known (e.g. `[[harness-engineering]]`, `[[openclaw-architecture]]`).
+
+5. **Section 4 — 推荐关系边**: explicit typed triples only. Format: `- [[A]] → verb → [[B]]`. Use **semantic English verbs** — `replaces`, `centers-on`, `implements`, `enables`, `protects`, `extends`, `composed-of`, `governed-by`, `inspired-by`, `specializes`, `constrains`, `prevents`. **Never** use code-style arrows (`--holds-->`) or ASCII tree diagrams.
+
+6. **Section 5 — 后续值得沉淀成卡片的主题**: list concepts from this chapter that are new and wiki-card-worthy. Format: `- [[ConceptX]]`.
+
+**Failure modes to avoid** (seen in prior generated files):
+- ❌ `` **Entities:** `AgentEngine`, `schema.Message` `` — flat backtick entity list, no wikilinks
+- ❌ ASCII tree diagram inside the Knowledge Graph section
+- ❌ `--holds-->` or `--calls-->` code-style arrows in relations
+- ❌ Omitting Section 2 (course navigation) entirely
+- ✅ `[[AgentEngine]]：go-tiny-claw 的核心控制器，持有 [[LLMProvider]] 和 [[Registry]] 接口`
+
+---
+
 ## Rules
 
 - All output files **must** have frontmatter with `tags` and `source` fields.

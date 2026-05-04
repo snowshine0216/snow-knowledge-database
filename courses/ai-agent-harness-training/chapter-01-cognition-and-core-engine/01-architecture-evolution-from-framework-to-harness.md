@@ -307,6 +307,89 @@ go-tiny-claw/
 > - Harness 更像保持一个持续运行的操作系统循环，每一轮都重新根据当前状态做局部最优决策。
 >
 > 也正因为如此，Harness 对模型能力要求更高，但一旦模型具备足够强的规划能力，Harness 在复杂开放任务上的弹性通常明显优于静态图。
+>
+> ### 7. 为什么 Main Loop + Middleware 是 Harness 的最小稳定内核
+>
+> 如果说 DAG 的思路是“预先画出正常路径”，那 Main Loop 的思路就是“每一轮都先看当前状态，再决定下一步”。这使它天然更适合开放世界任务，因为系统不需要假设自己一开始就知道完整路径。
+>
+> 从工程角度看，Harness 可以不断扩展很多东西，但真正不可再删减的稳定内核只有两个：
+>
+> - **Main Loop**：负责维持 `观察状态 → 生成意图 → 执行动作 → 回写结果` 的循环。
+> - **Middleware**：负责把所有危险性、合规性、预算性和失败恢复问题集中到一个统一入口。
+>
+> 这也是为什么 Middleware 在 Harness 里不是“附加装饰”，而是**系统唯一可信的 choke point**。只要动作最终要落到工具上，Middleware 就应该成为必经关口。
+>
+> #### 单轮 Main Loop 的最小闭环
+>
+> ```text
+> 当前 Context / Memory
+>          ↓
+> 模型推理：下一步做什么？
+>          ↓
+> 产出回答 or 工具调用意图
+>          ↓
+> Middleware 检查
+> - allow
+> - rewrite / constrain
+> - retry / fallback
+> - ask human
+> - terminate
+>          ↓
+> 工具执行 / 最终回答
+>          ↓
+> 结果回写 Context
+>          ↺ 进入下一轮
+> ```
+>
+> 这个结构看起来朴素，但恰恰因为它朴素，才有几个很难被 DAG 替代的优点：
+>
+> - **每轮都可观察**：系统当前知道什么、准备做什么，都会体现在 Context 和动作记录里。
+> - **每轮都可干预**：人或策略都能在 Middleware 这一层插手，而不必修改整张业务图。
+> - **每轮都可重规划**：失败并不必然意味着跳某条固定边，而是可以基于新状态重新思考。
+>
+> 换句话说，DAG 更像“预设路线”，而 Main Loop 更像“持续导航”。
+>
+> ### 8. 为什么“文件系统即内存”比隐藏进程内状态更适合长任务
+>
+> 文章里一句很重要的话是：**不使用内部变量存储进度，直接写本地 `TODO.md`。** 这背后不只是极简偏好，而是一种很强的工程取舍。
+>
+> 对长任务 Agent 来说，最可怕的不是某一步失败，而是**失败后系统失忆**。如果任务进度、计划、关键结论都只存在于进程内存里，一旦崩溃、重启、升级、上下文溢出，这些状态就很容易直接丢失。
+>
+> 把状态外显到文件系统后，会发生三个关键变化：
+>
+> - **可恢复**：进程挂掉后可以重新读取 `TODO.md`、checkpoint、摘要文件继续跑。
+> - **可检查**：人可以直接打开文件看 Agent 当前计划和已完成步骤。
+> - **可接管**：必要时人可以手动修改状态文件，帮助系统脱离坏局面。
+>
+> #### 隐藏内存状态 vs 文件系统状态
+>
+> ```text
+> 方案 A：隐藏进程内状态
+>
+> in-memory variables / hidden state machine
+>                 ↓
+>         process crash / context overflow
+>                 ↓
+>              state lost
+>
+> 方案 B：文件系统即内存
+>
+> TODO.md / plan.md / checkpoint / summary files
+>                 ↓
+>         process crash / restart / upgrade
+>                 ↓
+>            reload from filesystem
+>                 ↓
+>              continue task
+> ```
+>
+> 当然，这种设计也不是零代价。它会带来：
+>
+> - **一致性成本**：内存状态和文件状态必须保持同步。
+> - **污染风险**：如果状态文件写得太噪，反而会把坏上下文再次喂回模型。
+> - **治理要求**：需要明确哪些信息写文件、什么时候压缩、什么时候丢弃。
+>
+> 所以更准确地说，文件系统不是“万能记忆”，而是**最便于恢复和人类协作的外部状态载体**。这与 Harness 强调的状态透明原则是完全一致的。
 
 ---
 
@@ -329,6 +412,12 @@ go-tiny-claw/
 > **题目 7：** 请按顺序描述一个用户请求如何穿过 go-tiny-claw 的四层架构，并解释工具执行结果为什么必须回写到 Context。
 >
 > **题目 8：** 结合控制流对照图，解释 Framework 和 Harness 在“工具超时 / 节点失败”场景下的恢复路径有什么本质差异。
+>
+> **题目 9：** 为什么说 `Main Loop + Middleware` 是 Harness 的最小稳定内核？如果少了其中一个，会分别失去什么能力？
+>
+> **题目 10：** 请描述一次 Main Loop 的最小闭环，并解释为什么它更像“持续导航”而不是“预设路线图”。
+>
+> **题目 11：** 为什么“文件系统即内存”比隐藏进程内状态更适合长任务 Agent？它带来了哪些好处，又引入了哪些工程代价？
 
 > [!example]- 💡 答案指南 (Answer Guide)
 >
@@ -377,35 +466,83 @@ go-tiny-claw/
 > **题目 8 - 引导答案思路：**
 >
 > Framework 的失败恢复通常依赖预先写死的节点跳转或框架内部状态机；失败后往哪走，往往由隐藏规则决定，人不容易观察和干预。Harness 则把失败结果显式写回 Context，让模型和 runtime 在下一轮重新基于当前状态做判断：可以重试、降级、回退、请求人工，或者直接终止。前者更像沿既定轨道找备用线，后者更像每一轮都重新导航。
+>
+> ---
+>
+> **题目 9 - 引导答案思路：**
+>
+> `Main Loop` 负责维持“看状态、做决策、执行动作、回写结果”的持续闭环；没有它，系统就退回成一次性流程或静态图。`Middleware` 负责把安全、预算、审批、Fallback 和终止机制集中到统一入口；没有它，模型虽然还能调用工具，但系统会失去统一的边界控制。两者一起才构成 Harness 的最小稳定内核。
+>
+> ---
+>
+> **题目 10 - 引导答案思路：**
+>
+> 一轮最小闭环是：读取当前 Context / Memory → 模型推理下一步 → 产出回答或工具调用意图 → Middleware 检查并决定放行、约束、重试、Fallback、审批或终止 → 执行工具 → 把结果写回 Context → 再进入下一轮。它像持续导航，是因为每一轮都基于最新状态重新做局部决策，而不是沿着预先画好的静态路线机械前进。
+>
+> ---
+>
+> **题目 11 - 引导答案思路：**
+>
+> 长任务最怕的是“崩溃后失忆”。把计划、摘要、检查点写入文件系统后，系统即使崩溃也能从 `TODO.md` 或 checkpoint 恢复，而且人能直接查看和修改这些状态，这是隐藏进程内状态做不到的。代价则包括状态同步成本、噪声污染风险，以及需要额外设计压缩和治理策略。它不是免费的，但换来的是可恢复性和可协作性。
 
 ---
 
-## Knowledge Graph Seeds
+## Knowledge Graph Seeds（知识图谱种子）
 
-**Entities:**
-- (Course: AI Agent工程化训练营)
-- (Chapter: 架构演进——从 Framework 到 Harness)
-- (Author: Tony Bai)
-- (Project: go-tiny-claw)
-- (Concept: Harness Engineering / 驾驭工程)
-- (Concept: ReAct Loop / Main Loop)
-- (Concept: Context Engineering)
-- (Concept: Inversion of Control in Agent)
-- (Concept: Token Compactor)
-- (Tool: Middleware)
-- (Framework: LangChain)
-- (Framework: AutoGen)
-- (Engine: OpenClaw)
+### 1. 本讲核心节点
 
-**Relations:**
-- (Course: AI Agent工程化训练营) -> contains -> (Chapter: 架构演进)
-- (Chapter: 架构演进) -> introduces -> (Project: go-tiny-claw)
-- (Chapter: 架构演进) -> contrasts -> (Framework: LangChain)
-- (Concept: Harness Engineering) -> replaces -> (Concept: DAG-based Framework)
-- (Concept: Harness Engineering) -> uses -> (Concept: ReAct Loop)
-- (Concept: ReAct Loop) -> protected-by -> (Tool: Middleware)
-- (Concept: Context Engineering) -> includes -> (Concept: Token Compactor)
-- (Project: go-tiny-claw) -> inspired-by -> (Engine: OpenClaw)
+- [[harness-engineering|Harness Engineering]]：本讲总纲，作为 [[Framework vs Harness]] 这条主轴上的新范式
+- [[Inversion of Control in Agent]]：任务路径交给模型，边界与终止条件保留在 [[Runtime Boundary Control]]
+- [[Main Loop]]：Harness 的持续导航器，与 [[ReAct Loop]]、[[Agentic Loop]] 属同一类控制结构
+- [[Middleware]]：所有风险控制、审批、预算与恢复逻辑的统一关口
+- [[Context Engineering]]：负责 [[Prompt Assembly]]、[[Memory Persistence]]、[[Token Compactor]] 与上下文治理
+- [[State Transparency]]：Harness 相比隐式状态机的核心优势之一
+- [[Filesystem as Memory]]：把计划、摘要、检查点外显为可恢复状态
+- [[Guardrails]] 与 [[Fallback]]：分别对应“能不能做”和“失败后怎么办”
+- [[go-tiny-claw]]：本讲用来承载架构蓝图的实现项目
+
+### 2. 课程内导航链接
+
+- [[02-main-loop-react-cycle|第 02 讲 Main Loop / ReAct 循环]]：把本讲提出的 [[Main Loop]] 进一步展开成逐轮执行机制
+- [[03-thinking-stage-slow-reasoning|第 03 讲 Thinking Stage / Slow Reasoning]]：解释慢思考如何嵌入 Harness 的主循环
+- [[04-provider-interface-claude-openai-adapter|第 04 讲 Provider Adapter]]：承接本讲的“大脑接口”抽象
+- [[05-tool-registry-and-dispatch|第 05 讲 Tool Registry]]：对应四层架构中的工具执行层
+- [[06-minimal-toolset-yolo-philosophy|第 06 讲 Minimal Toolset / YOLO]]：解释为什么工具层最终收敛为极简原语集合
+
+### 3. 课程外与通用概念关联
+
+- [[harness-engineering|Harness Engineering]]：可作为本讲的总索引概念卡片
+- [[long-running-agent-harness|Long-Running Agent Harness]]：与本讲的长任务恢复、外部状态持久化直接关联
+- [[openclaw-architecture|OpenClaw Architecture]]：理解 go-tiny-claw / OpenClaw 一类项目的总体形态
+- [[llm-api-statelessness|LLM API Statelessness]]：解释为什么 Harness 必须显式重放 Context，并把状态外置到消息列表或文件系统
+- [[react-paradigm-synergizing-reasoning-acting|ReAct Paradigm]]：本讲 Main Loop 背后的通用认知框架
+- [[Agentic Loop]]：与工具调用、自纠错、循环推进相关的上位概念
+- [[Human-in-the-loop]]：与 [[YOLO Mode]] 形成部署风险上的对照轴
+
+### 4. 推荐关系边（可直接扩成独立卡片）
+
+- [[harness-engineering|Harness Engineering]] → replaces → [[DAG-based Framework]]
+- [[harness-engineering|Harness Engineering]] → centers-on → [[Runtime Boundary Control]]
+- [[harness-engineering|Harness Engineering]] → emphasizes → [[State Transparency]]
+- [[Inversion of Control in Agent]] → shifts-control-from → [[Static Control Flow]]
+- [[Inversion of Control in Agent]] → shifts-control-to → [[Model Planning]]
+- [[Main Loop]] → protected-by → [[Middleware]]
+- [[Middleware]] → enforces → [[Guardrails]]
+- [[Middleware]] → triggers → [[Fallback]]
+- [[Context Engineering]] → manages → [[Context Window]]
+- [[Context Engineering]] → includes → [[Token Compactor]]
+- [[Filesystem as Memory]] → enables → [[Crash Recovery]]
+- [[go-tiny-claw]] → composed-of → [[Entry & UI Layer]], [[Core Engine Layer]], [[Context Engineering]], [[Tool Execution Layer]]
+- [[go-tiny-claw]] → inspired-by → [[openclaw-architecture|OpenClaw Architecture]]
+
+### 5. 后续值得沉淀成卡片的主题
+
+- [[Runtime Boundary Control]]
+- [[State Transparency]]
+- [[Filesystem as Memory]]
+- [[Main Loop vs DAG]]
+- [[Crash Recovery in Agent Harness]]
+- [[Context Compression Strategy]]
 
 ---
 
@@ -416,6 +553,19 @@ go-tiny-claw/
 - 飞书集成的 Human-in-the-loop 异步回调机制（入口交互层）将在后续讲次实现，需关注回调超时处理
 - Thinking 模块（强制慢思考）与 provider 层的关系待后续讲次细化
 
+## One-Minute Recap
+
+> [!info]+ 💡 Explanation - 一分钟速记框架
+>
+> 如果要用最短的话把这一讲讲给别人听，可以按下面这 6 句来复述：
+>
+> 1. **Framework 时代的问题不只是工具不够多，而是控制流被写死成了静态图。**
+> 2. **Harness 的变化不是取消控制，而是把任务决策权交给模型，把边界控制权留给 runtime。**
+> 3. **Main Loop 是持续导航器：每一轮都根据最新状态重新决定下一步。**
+> 4. **Middleware 是唯一可信的关口：风险、预算、审批、Fallback 都必须在这里收口。**
+> 5. **Context Engineering 是内存管理器：负责 Prompt 组装、记忆回写、压缩和状态治理。**
+> 6. **文件系统即内存是为了抗失忆：崩溃后还能从 `TODO.md`、checkpoint、summary 继续任务。**
+
 ---
 
 ## Post-test
@@ -423,8 +573,13 @@ go-tiny-claw/
 > *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
 
 1. 解释传统 DAG/Chain 框架为什么无法应对真实生产环境的动态异常？举出具体失败场景。
-2. 什么是 Harness 中的"控制反转（IoC）"？代码的角色从什么变成了什么？
-3. go-tiny-claw 的"阶梯压缩器"类比 OS 的哪个机制？当 Context Window 接近上限时它应该做什么？
+2. 什么是 Harness 中的"控制反转（IoC）"？它与 Harness 出现之前在 Web 框架 / DI / 事件系统中的 IoC 有什么连续性，又有什么关键差别？
+3. 为什么传统软件里的 IoC 往往提升工程质量，但早期 Agent Framework 的 IoC 却容易演变成隐式状态机灾难？
+4. 按顺序描述一个用户请求如何穿过 go-tiny-claw 的四层架构，并说明每层各自负责什么。
+5. 结合控制流对照图，解释 Framework 与 Harness 在“工具超时 / 节点失败”时的恢复路径有什么本质差异。
+6. 为什么说 `Main Loop + Middleware` 是 Harness 的最小稳定内核？如果少了其中一个，各会丢掉什么能力？
+7. 为什么“文件系统即内存”比隐藏进程内状态更适合长任务 Agent？它带来了哪些收益，又引入了哪些代价？
+8. go-tiny-claw 的“阶梯压缩器”类比 OS 的哪个机制？当 Context Window 接近上限时，它应该按什么顺序响应？
 
 > [!example]- 💡 答案指南 (Answer Guide)
 >
@@ -434,8 +589,28 @@ go-tiny-claw/
 >
 > #### Q2 — Harness 中的控制反转
 >
-> 控制反转指任务路径的执行顺序不再由 Go/Python 代码写死，而是主要交由大模型实时推理和规划；但 runtime 仍保留工具注册、Guardrails、Budget、Fallback、Termination 等边界控制。代码的角色因此从“业务逻辑编排者”收缩成“运行时环境与物理定律提供者”，向模型暴露文件读写、bash 执行、沙箱等原子能力。
+> Harness 里的控制反转，仍然延续了传统软件工程里的 IoC 思想：代码提供规则和能力，由外部调度者决定执行顺序。连续性在于它和 Web 框架、DI 容器、事件系统一样，都是把调用时机从业务代码手里拿走；关键差别在于 Harness 里接管“下一步做什么”的不再是固定框架生命周期，而是大模型的实时推理。与此同时，runtime 仍保留工具注册、Guardrails、Budget、Fallback、Termination 等边界控制。
 >
-> #### Q3 — 阶梯压缩器对应的 OS 机制
+> #### Q3 — 为什么早期 Agent Framework 的 IoC 容易失控
 >
-> 阶梯压缩器可以类比操作系统的内存回收器，也就是 GC 与 Swap 的组合。Context Window 接近上限时，它应分级响应：先摘要早期对话、再删除冗余轮次、再把历史 Swap 到本地文件，避免 Agent 因 API 超限而彻底失忆。
+> 因为传统 IoC 管理的是有限、可预测的生命周期，而早期 Agent Framework 处理的却是开放世界任务。把这类任务固化进 DAG / Chain / 隐式状态机后，重试、回退、终止、跳转都会被埋进框架内部，人只能看到节点图，看不见真实控制流；一旦任务偏离预设路径，系统就容易卡死、黑盒化、难以人工介入。
+>
+> #### Q4 — 四层架构的请求流转
+>
+> 请求先从 Entry & UI Layer 进入系统；Core Engine Layer 启动 Main Loop；Context Engineering Layer 读取 AGENTS、历史、记忆和状态文件，拼出本轮 Prompt，并检查 Token 水位；模型产生回答或工具调用意图后，Tool Execution Layer 通过 Middleware 做风险校验与动作约束，再执行真实工具；执行结果最终回写 Context / Memory，供下一轮循环使用。
+>
+> #### Q5 — Framework 与 Harness 的失败恢复差异
+>
+> Framework 的恢复路径通常依赖预先写死的节点跳转或隐藏状态机，因此失败后往哪走，多半由内部规则决定。Harness 则把失败结果显式写回 Context，让模型与 runtime 在下一轮重新决定：重试、Fallback、回退、请求人工或直接终止。前者像沿固定轨道找备用线，后者像拿着最新路况重新导航。
+>
+> #### Q6 — 为什么 Main Loop + Middleware 是最小稳定内核
+>
+> 没有 Main Loop，系统就无法形成“观察状态 → 决策下一步 → 执行动作 → 回写结果”的持续闭环，会退回一次性流程或静态图。没有 Middleware，工具调用虽然还存在，但风险控制、预算、审批、Fallback 和终止条件会分散到系统各处，最终失去统一边界。两者组合，才让 Harness 同时具备自主性和可控性。
+>
+> #### Q7 — 为什么文件系统即内存更适合长任务
+>
+> 因为长任务最怕的是进程崩溃或上下文溢出后直接失忆。把计划、摘要、检查点写到文件系统里后，系统可以在重启后继续读取这些状态，人也能直接查看或接管任务。收益是可恢复、可检查、可协作；代价是一致性维护成本、噪声污染风险，以及需要设计好压缩和治理策略。
+>
+> #### Q8 — 阶梯压缩器对应的 OS 机制
+>
+> 阶梯压缩器可以类比操作系统的内存回收器，也就是 GC 与 Swap 的组合。Context Window 接近上限时，它应分级响应：先摘要早期对话、再删除冗余轮次、再把历史 Swap 到本地文件，保留最近几轮高价值上下文和 System Prompt，必要时优雅终止并保存检查点，避免 Agent 因 API 超限而彻底失忆。

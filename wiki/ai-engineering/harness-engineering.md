@@ -1,4 +1,5 @@
 ---
+aliases: [Harness Engineering]
 tags: [harness-engineering, prompt-engineering, context-engineering, agent, ai-engineering]
 source: https://www.youtube.com/watch?v=3DlXq9nsQOE
 ---
