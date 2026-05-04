@@ -46,7 +46,7 @@ wiki: wiki/courses/ai-agent-harness-training/chapter-01-cognition-and-core-engin
 这种架构的两大致命问题：
 1. **静态 + 过度干预**：DAG 图无法应对真实世界的突发情况（如 NodeA 执行时网络超时、返回意外 JSON），直接抛异常崩溃，缺乏弹性回退机制。
 2. **隐式状态机**：框架底层维护人类难以阅读的复杂状态机来实现节点跳转，一旦发生死循环，开发者无法插手干预。
-![[file-20260504123027989.png]]
+![[file-20260504123027989.png|309]]
 
 #### Harness 的革命性转变
 

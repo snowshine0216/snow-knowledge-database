@@ -193,7 +193,7 @@ Registry 在 Main Loop 与具体工具之间扮演绝缘层角色。Main Loop �
 **关键设计决策：**
 - `BaseTool.Execute` 接收 `json.RawMessage` 而非 `map[string]interface{}`：各工具可定义强类型参数结构体，Go 编译器帮你检查字段，而不是在运行时 panic
 - `ToolResult.IsError` 是 bool 而非 error interface：跨越 Go 边界向模型传递错误语义，让模型在下一 Turn 自纠，而不是让 Go 程序崩溃
-- [[workdir-constraint|workDir 注入]]给 `ReadFileTool`：工具级别的物理边界限制，不依赖操作系统权限，避免模型越权读取系统文件
+- [[workdir-constraint|workDir 注入]] 给 `ReadFileTool`：工具级别的物理边界限制，不依赖操作系统权限，避免模型越权读取系统文件
 
 **驾驭工程底线思维：**
 大模型是"冲动且无知"的——它不知道文件有多大，也不关心 Token 成本。所有可能导致 OOM 或超支的风险，**必须在工具执行层被死死按住**，不能依赖模型的"理智"。
@@ -204,15 +204,15 @@ Registry 在 Main Loop 与具体工具之间扮演绝缘层角色。Main Loop �
 
 ### 1. 本讲核心节点
 
-- Tool Registry — Harness 中间件层，充当 Hub + Router，将 Main Loop 与具体工具实现完全隔离
-- BaseTool 接口 — 统一工具契约，定义 `Name()`、`Description()`、`InputSchema()`、`Execute()` 四方法
+- [[tool-registry|Tool Registry]] — Harness 中间件层，充当 Hub + Router，将 Main Loop 与具体工具实现完全隔离
+- [[basetool-interface|BaseTool 接口]] — 统一工具契约，定义 `Name()`、`Description()`、`InputSchema()`、`Execute()` 四方法
 - registryImpl — `BaseTool` 接口的私有实现，内部以 `map[string]BaseTool` 实现 O(1) 路由分发
-- ReadFileTool — 本讲第一个真实工具，实现 4 步防御链：参数解析 → 路径边界 → 物理 I/O → 硬截断
+- [[read-file-tool|ReadFileTool]] — 本讲第一个真实工具，实现 4 步防御链：参数解析 → 路径边界 → 物理 I/O → 硬截断
 - json.RawMessage 延迟反序列化 — 每个工具自持参数类型契约，Registry 传原始字节流，解耦引擎与工具参数结构
 - ToolResult.IsError — bool 语义标志，触发模型 Self-Correction 而非 Go 程序崩溃；跨边界错误语义传递
 - [[workdir-constraint|workDir 注入]] — 工具级别物理边界限制，防止模型越权读取 workDir 之外的系统文件
 - 8000 字节硬截断 — Context OOM 防线，防止大文件撑爆 Token 窗口；局限是模型永远看不到截断后内容
-- Tool Call Offloading — 硬截断的工业级替代方案：超阈值时写磁盘临时目录，向模型返回摘要 + 路径引用
+- [[tool-call-offloading|Tool Call Offloading]] — 硬截断的工业级替代方案：超阈值时写磁盘临时目录，向模型返回摘要 + 路径引用
 - 依赖倒置原则 — `NewRegistry()` 返回 `Registry` 接口而非 `*registryImpl`，调用方仅依赖行为契约
 
 ### 2. 课程内导航链接
@@ -234,14 +234,14 @@ Registry 在 Main Loop 与具体工具之间扮演绝缘层角色。Main Loop �
 
 ### 4. 推荐关系边
 
-- BaseTool 接口 → 约束实现 → ReadFileTool
-- registryImpl → 存储并路由 → BaseTool 接口
-- Tool Registry → 解耦 → Main Loop
-- json.RawMessage 延迟反序列化 → 赋予 → BaseTool 接口
+- [[basetool-interface|BaseTool 接口]] → 约束实现 → [[read-file-tool|ReadFileTool]]
+- registryImpl → 存储并路由 → [[basetool-interface|BaseTool 接口]]
+- [[tool-registry|Tool Registry]] → 解耦 → [[main-loop-vs-dag|Main Loop]]
+- json.RawMessage 延迟反序列化 → 赋予 → [[basetool-interface|BaseTool 接口]]
 - ToolResult.IsError → 触发 → [[agentic-loop-self-correction|Agentic Loop Self-Correction]]
-- [[workdir-constraint|workDir 注入]] → 限定边界 → ReadFileTool
+- [[workdir-constraint|workDir 注入]] → 限定边界 → [[read-file-tool|ReadFileTool]]
 - 8000 字节硬截断 → 防止 → Context Window 管理
-- Tool Call Offloading → 工业升级替代 → 8000 字节硬截断
+- [[tool-call-offloading|Tool Call Offloading]] → 工业升级替代 → 8000 字节硬截断
 - [[context-compaction|Context Compaction]] → 全局级升级替代 → 8000 字节硬截断
 - 依赖倒置原则 → 指导设计 → registryImpl
 

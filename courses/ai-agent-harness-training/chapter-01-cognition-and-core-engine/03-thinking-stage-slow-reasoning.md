@@ -162,7 +162,7 @@ Chapter 03 diagnoses a fundamental behavioral flaw in naive ReAct loops: LLMs ar
 
 ### 1. 本讲核心节点
 
-- Two-Stage ReAct — 将 ReAct 循环拆分为独立 Thinking Phase 与 Action Phase 的双阶段架构，物理隔离规划与执行
+- Two-Stage ReAct — 将 [[react-paradigm|ReAct 循环]] 拆分为独立 Thinking Phase 与 Action Phase 的双阶段架构，物理隔离规划与执行
 - Thinking Phase — Phase 1：以 `nil` tools 调用 `Generate`，强制 LLM 输出纯文本推理规划，不允许工具调用
 - Action Phase — Phase 2：携带完整 `availableTools` 调用 `Generate`，由 Phase 1 的规划迹引导工具选择
 - AgentEngine — Agent 核心执行引擎结构体，新增 `EnableThinking bool` 字段控制双阶段行为
@@ -177,10 +177,10 @@ Chapter 03 diagnoses a fundamental behavioral flaw in naive ReAct loops: LLMs ar
 ### 2. 课程内导航链接
 
 - [[01-architecture-evolution-from-framework-to-harness|第 01 讲 架构演进]] — Agent Harness 与传统 Framework 的架构差异
-- [[02-main-loop-react-cycle|第 02 讲 Main Loop]] — Basic ReAct 循环实现，是本讲 Two-Stage 升级的基础
+- [[02-main-loop-react-cycle|第 02 讲 Main Loop]] — [[react-paradigm|Basic ReAct]] 循环实现，是本讲 Two-Stage 升级的基础
 - [[04-provider-interface-claude-openai-adapter|第 04 讲 Provider 适配器]] — LLMProvider 接口的真实后端实现，Thinking Phase 依赖该接口的 `nil` tools 语义
 - [[05-tool-registry-and-dispatch|第 05 讲 Tool Registry]] — `availableTools` 的注册与分发机制，Action Phase 的工具来源
-- [[06-minimal-toolset-yolo-philosophy|第 06 讲 最简工具集]] — YOLO 哲学下最小化工具集的设计，影响 Phase 2 可用 Schema 的范围
+- [[06-minimal-toolset-yolo-philosophy|第 06 讲 最简工具集]] — [[yolo-execution-philosophy|YOLO 哲学]] 下最小化工具集的设计，影响 Phase 2 可用 Schema 的范围
 
 ### 3. 课程外与通用概念关联
 

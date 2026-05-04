@@ -76,3 +76,7 @@ type registryImpl struct {
 - [[04-provider-interface-claude-openai-adapter]] — Provider 适配层，为 Registry 提供 LLM 大脑
 - [[06-minimal-toolset-yolo-philosophy]] — 极简工具集法则与 YOLO 模式，讨论工具数量哲学
 - [[01-architecture-evolution-from-framework-to-harness]] — go-tiny-claw 整体架构概览
+- [[tool-registry]] — 工具注册、schema 暴露与执行分发的统一中间件抽象
+- [[basetool-interface]] — 工具挂载到 Registry 前必须满足的统一契约
+- [[read-file-tool]] — 第一个真实物理工具的边界设计与四步防御链
+- [[tool-call-offloading]] — 大工具输出不直接塞回上下文时的工业级处理模式
