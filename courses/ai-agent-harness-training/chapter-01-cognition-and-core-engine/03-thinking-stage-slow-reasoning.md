@@ -5,7 +5,7 @@ wiki: wiki/courses/ai-agent-harness-training/chapter-01-cognition-and-core-engin
 ---
 
 ## Pre-test
-*阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
 1. 为什么在 Agent 中"让我们一步步思考"这类提示词工程对工具调用场景失效？
 2. Two-Stage ReAct 与普通 ReAct 的核心区别是什么？具体在代码层面如何实现？
 3. `AgentEngine` 的 `EnableThinking` 字段是静态开关还是动态开关？它有什么局限性？
@@ -260,8 +260,6 @@ Chapter 03 diagnoses a fundamental behavioral flaw in naive ReAct loops: LLMs ar
 
 ---
 
-## Suggested Answer
-
 > [!example]- 💡 答案指南 (Answer Guide)
 >
 > **题目 1 - 引导答案思路：**
@@ -290,7 +288,7 @@ Chapter 03 diagnoses a fundamental behavioral flaw in naive ReAct loops: LLMs ar
 ---
 
 ## Post-test
-*关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
 1. 用一句话解释为什么在有工具 Schema 的 API 请求中，提示词层面的 "先思考再行动" 指令会失效。
 2. Two-Stage ReAct 的 Phase 1 在 Go 代码层面，与 Phase 2 的唯一区别是什么？写出具体的 `Generate` 调用差异。
 3. 当前实现的 `EnableThinking` 有什么局限性，预计在哪一讲得到解决？

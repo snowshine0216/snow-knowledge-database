@@ -194,18 +194,30 @@ This applies to every `content_type` written to `courses/`: `lecture-video`, `le
 2. [retrieval question]
 3. [retrieval question]
 
-<details>
-<summary>[Answer Guide / 答案指南]</summary>
-
-1. [brief answer]
-2. [brief answer]
-3. [brief answer]
-
-</details>
+> [!example]- 💡 答案指南（做完再看 / Answer Guide — reveal after answering）
+>
+> **题目 1 - 引导答案思路：**
+> [answer]
+>
+> ---
+>
+> **题目 2 - 引导答案思路：**
+> [answer]
+>
+> ---
+>
+> **题目 3 - 引导答案思路：**
+> [answer]
 ```
 
-- **English files**: `*Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*`
-- **Chinese files**: `*关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*`
+- **English files**: `*Close this file. Write or say your answers aloud from memory before revealing the guide. If you stumble mid-sentence, you have found a gap (Feynman test).*`  
+  Answer Guide heading: `> [!example]- 💡 Answer Guide (reveal after answering)`  
+  Answer labels: `**1.** / **2.** / **3.**`
+- **Chinese files**: `*关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*`  
+  Answer Guide heading: `> [!example]- 💡 答案指南（做完再看）`  
+  Answer labels: `**题目 N - 引导答案思路：**`
+
+**Never use `<details>` / `<summary>` HTML.** Obsidian does not render raw HTML callouts — use `> [!example]-` exclusively.
 
 ### Question generation rules
 

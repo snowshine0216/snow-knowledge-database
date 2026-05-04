@@ -19,6 +19,14 @@ When frontier LLMs are connected to a basic ReAct loop with tools like `bash` an
 - **Harness Engineering principle — mechanism over prompt**: *机制决定行为* — architectural constraints enforced at the code layer are more reliable than natural-language instructions in the prompt.
 - **Static switch limitation**: `EnableThinking=true` applies unconditionally to all turns. For complex opening tasks it adds value; for simple mid-task steps it wastes tokens and adds latency. Dynamic activation is addressed in Chapter 13 (Plan Mode).
 
+## Practical Implications
+
+- **Why tools feel irresistible to the model**: Tool schemas are not just extra text; they are highly structured continuations sitting directly in the next-token search space. Combined with alignment that rewards fast, assistant-like action, they create a strong bias toward immediate execution rather than reflective planning.
+- **Why user-written plans do not fully replace Thinking Phase**: Even when a user already supplies a step-by-step plan, Phase 1 can still normalize that human-language plan into the model's own internal execution trace. The tradeoff is cost: repeated planning can create token waste, anchoring, and over-commitment to an early plan, which is why a static global switch is only a transitional design.
+- **Why this may evolve from shackle to guardrail**: If future models gain stronger native deliberation, a mandatory two-stage split on every turn may become excessive. But the boundary between "think" and "act" still has engineering value because it creates a physical interception point for approval, audit, and high-risk-tool control.
+- **Why QE-style transparency matters**: Thinking traces function like a white-box execution log. They let reviewers inspect whether the agent chose a sound path, catch dangerous intent before action, and distinguish real understanding from lucky output. In practice, the right pattern is summarized reasoning in the main review flow plus collapsible raw traces for audit, not dumping the full inner monologue into every PR.
+- **Why failed attempts can be assets**: A strong agent is not one that never tries a bad path, but one that can explain why path A failed and pivot to path B. Harnesses can turn those failed branches into reusable experience via critic loops, failure libraries, or compacted memory, converting extra token spend into lower future review cost and fewer repeated mistakes.
+
 ## Key Takeaways
 
 - The single code change enabling Two-Stage ReAct is passing `nil` as the third argument to `LLMProvider.Generate` during Phase 1 — no new types, interfaces, or message roles needed.
@@ -26,6 +34,7 @@ When frontier LLMs are connected to a basic ReAct loop with tools like `bash` an
 - Mock providers should discriminate Phase 1 vs Phase 2 via `len(tools) == 0`: return pure-text content for Phase 1, return `ToolCalls` for Phase 2.
 - The Phase 1 thinking trace should be appended to `contextHistory` as a `RoleAssistant` message before Phase 2 is called.
 - The 思考题 (reflection exercise) asks whether a "self-audit micro-loop" can be inserted between Phase 1 and Phase 2 to validate or critique the generated plan before acting on it.
+- The long-term direction is not "always force slow thinking," but dynamic reasoning: cheap tasks stay fast, while complex or dangerous tasks pay for explicit planning and review boundaries.
 
 ## See Also
 

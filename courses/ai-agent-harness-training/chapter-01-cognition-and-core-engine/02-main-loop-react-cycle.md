@@ -5,7 +5,7 @@ wiki: wiki/courses/ai-agent-harness-training/chapter-01-cognition-and-core-engin
 ---
 
 ## Pre-test
-*阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
+> *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
 1. ReAct 范式中的三个步骤是什么？它们如何构成一个闭环？
 2. 在 go-tiny-claw 中，`AgentEngine.Run()` 的退出条件是什么？
 3. 为什么 `ToolCall.Arguments` 使用 `json.RawMessage` 而不是具体的结构体类型？
@@ -167,18 +167,21 @@ Chapter 02 从 ReAct 论文出发，将"思考—行动—观察"三步骤直接
 ---
 
 ## Post-test
-*关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
+> *关闭文件，凭记忆写出或大声说出你的答案，再对照答案指南（费曼检验：无法简单解释，说明仍有理解空白）。*
 1. `AgentEngine.Run()` 的 `for {}` 循环什么情况下才会 break？完整说出判断条件和代码逻辑。
 2. Observation 消息为什么必须携带 `ToolCallID`？如果缺少这个字段会发生什么？
 3. 为什么 `ToolCall.Arguments` 使用 `json.RawMessage` 而不是 `map[string]interface{}`？这个选择体现了什么设计原则？
 
-<details>
-<summary>答案指南</summary>
-
-1. 当 `e.provider.Generate()` 返回的 `responseMsg` 中 `len(responseMsg.ToolCalls) == 0` 时，循环 break。具体逻辑：每个 Turn 先调用 `provider.Generate` 获取 `responseMsg`，将其 append 到 `contextHistory`，然后检查 `responseMsg.ToolCalls` 是否为空——为空说明模型输出了纯文本（任务完成信号），执行 `break`；非空则串行执行每个 ToolCall 并追加 Observation，然后进入下一轮循环。
-
-2. `ToolCallID` 是将 Observation 消息与对应的 ToolCall 请求关联起来的唯一标识。大模型在处理上下文时，需要知道哪条 Observation 是对哪个 ToolCall 的回应，才能正确维系推理链。缺少 `ToolCallID` 会导致模型无法正确对应 Action 和 Observation，推理链断裂，产生混乱或幻觉。
-
-3. `json.RawMessage` 是 `[]byte` 类型，存储原始 JSON 字节，不做立即解析。选择它意味着 `loop.go`（Main Loop）完全不关心任何工具的参数格式——它只是原封不动地把 `Arguments` 字节传给 `registry.Execute`，由具体工具（如 bash 工具）自己解析成 `struct{Command string}`。这体现了"职责单一"和"解耦"原则：引擎不应知道任何工具的内部参数结构，避免了引擎与工具之间的紧耦合。
-
-</details>
+> [!example]- 💡 答案指南 (Answer Guide)
+>
+> #### Q1 — Main Loop 何时退出
+>
+> 当 `e.provider.Generate()` 返回的 `responseMsg` 满足 `len(responseMsg.ToolCalls) == 0` 时，循环就会 break。完整逻辑是：每个 turn 先调用 `provider.Generate` 得到 `responseMsg`，把它 append 到 `contextHistory`，再检查是否仍有工具请求；若没有，就把这次纯文本响应视为任务完成信号。
+>
+> #### Q2 — 为什么 Observation 必须带 `ToolCallID`
+>
+> `ToolCallID` 是把 Observation 与对应 ToolCall 绑定起来的唯一标识。模型只有知道“这条工具输出到底是回应哪一次调用”，才能维系完整推理链；如果缺少这个字段，Action 和 Observation 会错位，模型容易产生混乱甚至幻觉。
+>
+> #### Q3 — 为什么使用 `json.RawMessage`
+>
+> `json.RawMessage` 本质上是原始 JSON 字节，不会在 Main Loop 中被提前解析。这样 `loop.go` 只负责转发参数，而把具体结构解释留给各工具自己完成，体现的正是职责单一和解耦原则：引擎不应知道任何具体工具的内部参数格式。
