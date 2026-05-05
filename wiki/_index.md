@@ -25,6 +25,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Master Claude From Scratch — AI for Everyone, Session 1](claude/master-claude-session-1.md) | claude, anthropic, claude-projects, claude-skills, claude-memory, no-code, beginner, live-stream | 2h non-developer intro: Claude ecosystem (Chat/Code/Cowork), Haiku/Sonnet/Opus picking rule, Projects + Skills + Memory, skill × connector composition (Gmail, web search) |
 | [Claude Design Just Became Unstoppable](claude/claude-design-just-became-unstoppable.md) | claude-design, anthropic, claude, opus-4-7, design-system, prototyping, slide-deck, landing-page, claude-code, brand-guidelines | Nate Herk demos Claude Design: one design system setup powers brand-consistent prototypes, decks, and landing pages with one-click Claude Code handoff |
 | [苹果 Support App 泄露 CLAUDE.md：Claude Code 已进入 Apple 内部开发栈](claude/apple-support-app-claude-md-leak-reveals-claude-code-usage.md) | claude-code, anthropic, apple, claude-md, agent-sdk, openclaw, mac-mini | Apple Support App 泄露的 `CLAUDE.md` 把 Juno AI 架构、Claude Code 工作流和本地 AI agent 硬件需求同时暴露出来 |
+| [Claude Code创始人：编程已经解决了，Harness重要性持续降低](claude/claude-code-founder-programming-solved-harness-decline.md) | claude-code, anthropic, boris-cherny, harness, loop, routines, agentic-workflow, swe-automation | Boris Cherny：零手写代码每天150个PR，Loop成工作流核心，harness将收缩到100行，切换成本↓网络效应不变，创业公司将×10 |
 
 ## Agent Frameworks
 
