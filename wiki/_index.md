@@ -104,6 +104,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Anthropic / OpenAI 前沿智能体行为监测](ai-engineering/anthropic-openai-frontier-agent-monitoring.md) | anthropic, openai, alignment, agent-monitoring, reward-hacking, model-cards, ai-engineering | Anthropic builds Clio/Petri/Bloom/AuditBench-style audit infrastructure; OpenAI pushes CoT monitorability, Confessions, and self-report to turn hidden intent into observable signals |
 | [Karpathy：Vibe Coding 抬高地板，真正难点是 Agentic Engineering](ai-engineering/karpathy-vibe-coding-agentic-engineering-real-battleground.md) | andrej-karpathy, vibe-coding, agentic-engineering, software-3-0, llm, verification, ai-engineering | Karpathy 把新范式拆成 Software 3.0、可验证性驱动的锯齿能力，以及“不能外包理解”的人类监督职责 |
 | [Mike Stonebraker：AI Agent 最后会变成数据库问题](ai-engineering/mike-stonebraker-ai-agents-are-really-a-database-problem.md) | text-to-sql, databases, ai-agents, dbos, postgres, distributed-systems, benchmark, ai-engineering | Stonebraker 将 read-write agent 还原为事务与一致性问题，并用 Beaver benchmark 证明真实数仓上的 text-to-SQL 远未可生产 |
+| [Kubernetes 被 AI 打回"半成品"](ai-engineering/kubernetes-beaten-back-by-ai-founders-warning.md) | kubernetes, ai-engineering, code-review, llm-ops, cloud-native, gpu-scheduling, engineering-management | K8s 联合创始人 Burns：AI 逼 Kubernetes 补 GPU 调度/gang scheduling/checkpoint 课；code review 成全员基线；先做原型再申请资源 |
 
 ## RAG and Knowledge
 
