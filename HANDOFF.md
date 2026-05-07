@@ -1,5 +1,105 @@
 # Handoff Document
-*Last updated: April 19, 2026, 12:18 PM GMT+8*
+*Last updated: 2026-05-07 12:17:20 CST*
+
+---
+
+## Session: May 7 — Investment Research Copilot Planning + Repo Analysis
+
+### Goal
+Design a new investment-research project for a beginner finance user who wants a thorough, explainable system for gold plus domestic/international fund and ETF allocation analysis. The system should combine data, research, scoring, and multi-factor reasoning, not rely only on autoregressive price forecasts.
+
+### Current Progress
+- Used the `repo-analysis` skill to analyze 9 repositories and saved structured markdown reports:
+  - `ai-engineering/kronos.md`
+  - `claude/financial-services.md`
+  - `rag-and-knowledge/local-deep-research.md`
+  - `agent-frameworks/dexter.md`
+  - `agent-frameworks/tradingagents.md`
+  - `dev-tools/insforge.md`
+  - `dev-tools/ladybird.md`
+  - `dev-tools/scrapling.md`
+  - `dev-tools/openbb.md`
+- Verified all 9 reports include required frontmatter and the fixed section structure: Repo Snapshot, Primary Use Cases, When To Use, Benefits, Limitations and Risks, Practical Insights.
+- Ran `git diff --check`; no whitespace errors.
+- Began `superpowers:brainstorming` for the actual project design. The hard gate from that skill is active: do not scaffold or implement until the design is approved and written as a spec.
+- Decided the investment project should be a separate repo, not a subfolder of `snow-knowledge-database`.
+- Approved project-start approach: **Option 1, minimal research system**.
+- Approved first design section, Project Boundary:
+  - New repo name: `investment-research-copilot`.
+  - First version focuses on gold plus domestic/international funds and ETFs.
+  - No auto-trading, no broker integration, no high-frequency trading, no dashboard at first.
+  - First outputs are Markdown reports plus CSV/JSON data.
+
+### User Decisions Captured
+- MVP scope: **A — gold plus domestic/international fund allocation analysis**.
+- Investable universe: **B — Mainland China products plus HK/US ETFs**.
+- Decision cadence: **D — long-term allocation as core, medium-term rotation as support, no high-frequency short-term trading**.
+- Risk profile: **B — steady, accepts roughly 10%-20% max drawdown**.
+- Input mode: **C — analyze real holdings and maintain a watchlist/candidate pool**.
+- Holding privacy: **C — anonymized holdings; normalize total assets to 100 or 1,000,000**.
+- Interface path: **D — start with Markdown reports and CSV/JSON, later upgrade to dashboard**.
+- Data-source assumption: **D — free/public data first, pluggable paid/data-vendor sources later**.
+
+### What Worked
+- GitHub CLI (`gh repo view`, `gh api`) worked well for repository metadata, README, and selected key docs.
+- Repo classification used the knowledge database's six-topic rule; OpenBB stayed under `dev-tools`, Kronos under `ai-engineering`, TradingAgents/Dexter under `agent-frameworks`, Local Deep Research under `rag-and-knowledge`, and Anthropic financial-services under `claude`.
+- The most useful architecture mapping from repo analysis:
+  - OpenBB = primary financial data layer.
+  - Scrapling = missing public web/fund factsheet collector.
+  - Local Deep Research = cited research and knowledge-memory layer.
+  - Kronos = auxiliary market-sequence signal generator, not final decision maker.
+  - TradingAgents = multi-role decision chamber for technical, macro, news, risk, and portfolio views.
+  - Dexter = interactive financial research agent pattern, useful later for stock/tool orchestration.
+  - Anthropic financial-services = process templates for idea generation, thesis tracking, catalyst calendar, and portfolio rebalance.
+  - InsForge = possible later backend platform, not first MVP.
+  - Ladybird = no near-term role for investment analysis.
+
+### What Didn't Work
+- `gh repo view --json readme` failed because this GitHub CLI version does not expose `readme` as a JSON field. The working fallback was `gh api repos/<owner>/<repo>/readme -H 'Accept: application/vnd.github.raw'`.
+- `qgithub.com/shiyu-coder/Kronos` is not a normal GitHub URL; analysis used the intended repo `https://github.com/shiyu-coder/Kronos`.
+- Starting with dashboard or database platform was ruled out as too heavy before validating the finance logic.
+- Using Kronos or any autoregressive model as the final buy/sell engine was explicitly ruled out.
+- Putting the runnable project inside this knowledge database was ruled out because this repo is mainly an Obsidian/content system.
+
+### Next Steps
+1. Continue `superpowers:brainstorming` from **Design Section 2**. Present the next section for approval, likely:
+   - data model and input files (`portfolio.csv`, `watchlist.csv`, `risk-profile.yaml`)
+   - asset classes and required fields
+   - free/public source strategy
+2. Then present and approve later design sections:
+   - scoring framework
+   - report/memo format
+   - system architecture and data flow
+   - error handling and data-quality rules
+   - testing approach
+   - future dashboard path
+3. After all design sections are approved, write the spec to:
+   - `docs/superpowers/specs/2026-05-07-investment-research-copilot-design.md`
+4. Self-review the spec for placeholders, contradictions, scope creep, and ambiguity.
+5. Ask user to review the written spec before moving to implementation planning.
+6. Only after user approval, invoke `superpowers:writing-plans` and create the implementation plan. Do not scaffold the new repo before this approval.
+
+### Key Files & Locations
+| File | Purpose |
+| :--- | :--- |
+| `ai-engineering/kronos.md` | Repo analysis for financial K-line foundation model |
+| `claude/financial-services.md` | Repo analysis for Claude financial-services workflows and skills |
+| `rag-and-knowledge/local-deep-research.md` | Repo analysis for research and knowledge-memory layer |
+| `agent-frameworks/dexter.md` | Repo analysis for autonomous financial research agent |
+| `agent-frameworks/tradingagents.md` | Repo analysis for multi-agent trading/research framework |
+| `dev-tools/openbb.md` | Repo analysis for financial data platform; updated existing file |
+| `dev-tools/scrapling.md` | Repo analysis for scraping/data extraction layer |
+| `dev-tools/insforge.md` | Repo analysis for possible later backend platform |
+| `dev-tools/ladybird.md` | Repo analysis; concluded no first-version role |
+| `HANDOFF.md` | This handoff file |
+
+### Context & Notes
+- Current workspace: `/Users/snow/Documents/Repository/snow-knowledge-database`.
+- At handoff time, `git status --short --untracked-files=all` returned clean.
+- The user prefers Chinese explanations for the investment-project discussion.
+- The user has explicitly chosen a cautious MVP. Keep scope focused on an explainable weekly/monthly research system for gold and funds/ETFs.
+- Avoid implying financial advice. The product should output research memos and recommendations for human review, not automatic trade execution.
+- The design should preserve future extension points for individual-stock analysis, Kronos, TradingAgents, InsForge, and dashboard UI, but these should not dominate the first implementation.
 
 ---
 
