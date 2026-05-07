@@ -3,7 +3,7 @@ tags: [agent-harness, edit-tool, fuzzy-matching, go, llm-hallucination, tool-des
 source: https://time.geekbang.org/column/article/970299
 wiki: wiki/courses/ai-agent-harness-training/chapter-02-minimal-tools-and-physical-interaction/07-fault-tolerance-art-fuzzy-matching-edit-tool.md
 ---
-
+h h h
 ## Pre-test
 
 *阅读前尝试回答以下问题。答错完全正常——预测试能让大脑在接触正确答案时编码得更深。*
