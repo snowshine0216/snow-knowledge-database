@@ -180,9 +180,17 @@ func lineByLineReplace(content, oldText, newText string) (string, error) {
 >
 > 但在当前主流 Agent 工作流中，只要还在大量使用字符串匹配式编辑工具，**Harness 的容错层就不是可选优化，而是可靠性的必要组成部分。**
 
+> **8. 为什么一些框架从 unified diff 转向 search-replace blocks**
+>
+> Aider 发布过专门 benchmark，结论不是 patch 没价值，而是 **unified diff 作为 LLM 的直接输出格式过于脆弱**。问题不只在“改错内容”，更在“补丁语法本身就很容易非法”。常见失败包括：hunk 头行数与正文不一致、上下文行丢失前导空格、行号 off-by-one、context 空白不精确、尾换行标记遗漏，以及 CRLF/LF 混用。这类错误会导致 `git apply` 在真正执行编辑前就直接拒绝补丁。
+>
+> 这说明 unified diff 给模型额外增加了一层“结构性元数据维护”负担：它不仅要表达改动意图，还要同时正确维护 hunk 行号、行数、前导空格、换行标记等低语义高约束格式。对人类或工具自动生成来说这些约束不是问题，但对 LLM 来说却是高频失败源。相比之下，search-replace blocks 让模型只负责输出“找什么、换成什么”，把定位、模糊匹配、唯一性校验、缩进修复和最终验证重新交还给 Harness。这与本讲的核心原则是一致的：**不要让模型维护本应由工具自动维护的结构性元数据；让模型表达最小必要意图，让工具层负责把事情做稳。**
+>
+> 因此，更合理的工程分层通常是：LLM 主输出格式优先选择 search-replace blocks；Patch/Unified diff 更适合作为内部中间表示、人类审阅产物，或在模型外由工具自动生成；而真正的可靠性，仍然来自 Harness 的容错、唯一性安全底线、基础缩进对齐和语法验证。
+
 ### Summary
 
-本讲以"为什么 write_file 和 bash 都不够用"开场，引出大模型的缩进幻觉问题，随后设计了 L1→L4 四级模糊匹配降级管线：精确匹配→换行符归一化→TrimSpace→逐行去缩进滑动窗口。同时以"匹配到多处必须拒绝"作为唯一性安全底线，将错误信息直接丢回给大模型触发自我纠错。Deep Dive 进一步澄清：缩进幻觉不是单点 tokenizer 缺陷，而是生成目标、注意力分配与训练语料共同作用的结果；更强模型与更好的 tokenizer 只能降低出错概率，真正把系统成功率拉稳的仍是 Harness 底层的容错与约束机制。
+本讲以"为什么 write_file 和 bash 都不够用"开场，引出大模型的缩进幻觉问题，随后设计了 L1→L4 四级模糊匹配降级管线：精确匹配→换行符归一化→TrimSpace→逐行去缩进滑动窗口。同时以"匹配到多处必须拒绝"作为唯一性安全底线，将错误信息直接丢回给大模型触发自我纠错。Deep Dive 进一步澄清：缩进幻觉不是单点 tokenizer 缺陷，而是生成目标、注意力分配与训练语料共同作用的结果；更强模型与更好的 tokenizer 只能降低出错概率，真正把系统成功率拉稳的仍是 Harness 底层的容错与约束机制。进一步结合 Aider 的 benchmark 可见：unified diff 对 LLM 额外引入了 hunk 头、前导空格、行号和换行标记等结构性失败面，因此 search-replace blocks 往往比 unified diff 更适合作为模型主输出格式，而 patch 更适合做内部中间表示或审阅产物。
 
 ## Key Takeaways
 
@@ -195,6 +203,7 @@ func lineByLineReplace(content, oldText, newText string) (string, error) {
 - **报错语言决定纠错效率**：将"匹配到 N 处，请提供更多上下文"这类具体报错原样返回，LLM 能立刻理解并改正，比模糊 Error 快得多。
 - **模型升级和 tokenizer 改进只能缓解，不能替代 Harness**：前两者负责降噪，真正负责把系统变可靠的是工具层容错、唯一性校验和错误反馈设计。
 - **L4 的未解缺陷**：基础缩进未自动对齐 newText，是下一步改进方向（提取首匹配行缩进前缀并注入 newText 每行）。
+- **unified diff 不是最优的 LLM 主输出格式**：Aider 的 benchmark 表明，许多失败不是“改错了内容”，而是 hunk 头、前导空格、行号、尾换行标记和 CRLF/LF 等补丁语法本身不合法；因此 search-replace blocks 更符合 LLM 的能力边界，而 patch 更适合做工具内部或审阅层表示。
 
 ## Knowledge Graph Seeds（知识图谱种子）
 
