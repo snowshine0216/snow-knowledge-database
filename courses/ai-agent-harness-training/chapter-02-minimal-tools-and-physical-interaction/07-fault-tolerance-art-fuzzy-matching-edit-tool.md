@@ -209,14 +209,22 @@ func lineByLineReplace(content, oldText, newText string) (string, error) {
 
 ### 1. 本讲核心节点
 - [[EditFileTool]]：go-tiny-claw 第七讲新增工具，接受 `path/old_text/new_text`，内置四级模糊容错，避免 Agent 因格式幻觉死循环。
+- [[Harness]]：承接模型与工具、环境、验证逻辑之间的中间层；负责把上下文、工具调用、错误反馈、容错与约束组织成稳定工作流，而不是把成功率完全押在模型单次输出质量上。
 - [[缩进幻觉]]：LLM 在生成多行代码的 old_text 时，因注意力机制或节省字数省略原始缩进，导致精确匹配失败。
+- [[精确匹配]]：要求 `old_text` 与原文件片段逐字符一致的匹配方式；速度最快、歧义最少，但对缩进、换行和空白幻觉最敏感。
 - [[格式保真度]]：代码编辑任务中对空格、Tab、换行、空行等表面格式的精确保留能力；语义对了但格式错了，字符串替换依然会失败。
 - [[多级模糊匹配链]]：L1 精确 → L2 CRLF归一化 → L3 TrimSpace → L4 逐行去缩进，Chain of Responsibility 模式，每级降级处理一类幻觉。
 - [[fuzzyReplace]]：驱动四级降级链的核心函数，返回替换后内容或具体报错原因。
 - [[lineByLineReplace]]：L4 级别算法，按行切分 + TrimSpace 后做滑动窗口匹配，唯一性校验后执行替换。
 - [[唯一性安全底线]]：matchCount > 1 时拒绝替换并报错，防止模糊匹配误改相似代码块。
 - [[Self-Correction]]：LLM 接到具体报错后自我纠错的能力，是 Harness 设计中"报错原样返回"策略的理论依据。
+- [[LLM 直接输出]]：让模型直接生成可执行编辑载荷（如 unified diff、search-replace blocks、old_text/new_text）的行为模式；其可靠性强依赖输出格式复杂度与 Harness 提供的容错能力。
 - [[字符串替换式编辑]]：以 `old_text -> new_text` 为中心的编辑范式，实现简单但对格式保真度极其敏感。
+- [[内部中间表示]]：模型输出与最终文件写回之间的工具内部抽象层，例如 hunk 结构、编辑计划或归一化补丁对象；它让系统可以在不暴露复杂协议给 LLM 的前提下完成稳定执行。
+- [[Patch]]：用增删行块描述局部修改的通用补丁抽象；可作为工具内部中间表示，也可作为人类审阅产物，但未必适合作为 LLM 的默认直接输出格式。
+- [[Tool Registry]]：Agent 运行时管理工具定义、发现与分发的注册表层；`edit_file` 作为一个具体工具，通过它暴露给 Main Loop 调用。
+- [[unified diff]]：经典 patch 表示格式，适合人类审阅和工具生成，但作为 LLM 直接输出格式时，容易因 hunk 头、前导空格、行号和换行标记出错而整体失效。
+- [[search-replace blocks]]：让模型只输出“找什么、换成什么”的简化编辑表示，减少补丁语法失败面，把定位与校验重新交给 Harness。
 - [[错误反馈设计]]：将"old_text not found"、"匹配到 N 处"等失败原因具体返回给模型，以提高下一轮修正成功率的工程设计。
 - [[结构化编辑]]：AST-level edit、syntax-aware patch、带位置锚点的 diff schema 等更高层编辑表示，用结构约束替代逐字符匹配。
 - [[降级管线]]：Degradation Pipeline，在底层工具内吸收 LLM 误差的容错架构模式。
@@ -230,12 +238,20 @@ func lineByLineReplace(content, oldText, newText string) (string, error) {
 - [[06-minimal-toolset-yolo-philosophy|第 06 讲 极简工具集法则]]：bash + read/write_file 是极简底层；edit_file 是在此基础上为 LLM 格式缺陷专门添加的"上层容错层"。
 
 ### 3. 课程外与通用概念关联
+- [[Harness]]：现代 Agent 系统中连接模型、工具、上下文和验证逻辑的编排层；强调通过系统设计吸收模型误差，而不是要求模型始终完美。
 - [[harness-engineering]]：Harness 工程核心原则之一——工具层吸收 LLM 误差，Agent 层不感知低级错误。
 - [[chain-of-responsibility]]：经典设计模式，本讲多级匹配链的结构原型。
 - [[llm-hallucination]]：缩进幻觉是代码生成场景下 LLM 幻觉的典型表现。
+- [[LLM 直接输出]]：Agent 系统中由模型直接生成补丁、替换块、命令或其它可执行载荷的模式；格式越复杂，结构性失败面通常越大。
 - [[tokenizer]]：影响空格、换行等格式模式的表示效率，但不是缩进幻觉的唯一根因。
+- [[精确匹配]]：最传统也最严格的文本编辑定位方式，优点是确定性强，缺点是对格式保真度要求极高。
 - [[格式保真度]]：代码编辑场景里比自然语言生成更关键的质量维度，直接决定字符串匹配是否成立。
 - [[字符串替换式编辑]]：当前多数 edit tool 的默认工作模型，简单实用，但天然脆弱。
+- [[内部中间表示]]：系统内部用来承接模型输出、验证规则和文件写回逻辑的抽象层，常见于 patch engine、AST rewrite engine 或 edit plan executor。
+- [[Patch]]：描述文件局部修改的上位概念，既可以落成 unified diff，也可以映射到更结构化的 hunk 表示或内部编辑计划。
+- [[Tool Registry]]：多工具 Agent 系统中承载能力发现、schema 暴露和调用路由的基础设施。
+- [[unified diff]]：人类代码审阅和传统 patch 工具的标准格式，但对 LLM 来说包含额外的结构性元数据维护负担。
+- [[search-replace blocks]]：更符合 LLM 能力边界的编辑格式，把补丁语法复杂度从模型侧移回工具侧。
 - [[结构化编辑]]：降低对 `old_text` 精确复现依赖的未来方向，更适合高可靠代码修改。
 - [[错误反馈设计]]：决定模型能否把失败原因转化为下一轮有效修正，是 Self-Correction 是否生效的前提。
 - [[tool-design]]：edit_file 的 JSON Schema 设计（path/old_text/new_text）是 Tool Design 中"最小可用接口"原则的体现。
@@ -247,6 +263,13 @@ func lineByLineReplace(content, oldText, newText string) (string, error) {
 - [[缩进幻觉]] → degrades → [[格式保真度]]
 - [[tokenizer]] → influences → [[格式保真度]]
 - [[字符串替换式编辑]] → depends-on → [[格式保真度]]
+- [[Patch]] → includes → [[unified diff]]
+- [[Patch]] → contrasts-with → [[search-replace blocks]]
+- [[Patch]] → may-be-used-as → [[内部中间表示]]
+- [[unified diff]] → increases-failure-surface-for → [[LLM 直接输出]]
+- [[search-replace blocks]] → reduces-failure-surface-for → [[LLM 直接输出]]
+- [[search-replace blocks]] → delegates-to → [[Harness]]
+- [[unified diff]] → contrasts-with → [[search-replace blocks]]
 - [[唯一性安全底线]] → constrains → [[多级模糊匹配链]]
 - [[Self-Correction]] → enables → [[唯一性安全底线]]
 - [[错误反馈设计]] → amplifies → [[Self-Correction]]
@@ -255,11 +278,19 @@ func lineByLineReplace(content, oldText, newText string) (string, error) {
 - [[结构化编辑]] → mitigates → [[缩进幻觉]]
 
 ### 5. 后续值得沉淀成卡片的主题
+- [[Harness]]
+- [[LLM 直接输出]]
+- [[精确匹配]]
 - [[缩进幻觉]]
 - [[格式保真度]]
+- [[内部中间表示]]
 - [[降级管线]]
 - [[唯一性安全底线]]
 - [[字符串替换式编辑]]
+- [[Patch]]
+- [[Tool Registry]]
+- [[unified diff]]
+- [[search-replace blocks]]
 - [[结构化编辑]]
 - [[错误反馈设计]]
 - [[基础缩进前缀对齐]]
