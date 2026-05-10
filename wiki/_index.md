@@ -26,6 +26,10 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Claude Design Just Became Unstoppable](claude/claude-design-just-became-unstoppable.md) | claude-design, anthropic, claude, opus-4-7, design-system, prototyping, slide-deck, landing-page, claude-code, brand-guidelines | Nate Herk demos Claude Design: one design system setup powers brand-consistent prototypes, decks, and landing pages with one-click Claude Code handoff |
 | [苹果 Support App 泄露 CLAUDE.md：Claude Code 已进入 Apple 内部开发栈](claude/apple-support-app-claude-md-leak-reveals-claude-code-usage.md) | claude-code, anthropic, apple, claude-md, agent-sdk, openclaw, mac-mini | Apple Support App 泄露的 `CLAUDE.md` 把 Juno AI 架构、Claude Code 工作流和本地 AI agent 硬件需求同时暴露出来 |
 | [Claude Code创始人：编程已经解决了，Harness重要性持续降低](claude/claude-code-founder-programming-solved-harness-decline.md) | claude-code, anthropic, boris-cherny, harness, loop, routines, agentic-workflow, swe-automation | Boris Cherny：零手写代码每天150个PR，Loop成工作流核心，harness将收缩到100行，切换成本↓网络效应不变，创业公司将×10 |
+| [老项目改造的真实链路：从接手到交付，人到底做了什么？](claude/001-legacy-project-handoff-and-delivery-true-workflow.md) | claude-code, legacy-code, ai-collaboration, project-handoff, software-engineering | 九步原始链路：70% 理解 + 30% 改造；隐性约定是 AI 盲区；熬过冷启动换取复利式改造速度 |
+| [理解、约束、验证：让 AI 可信的三层控制](claude/003-understanding-constraints-verification-three-layer-control.md) | claude-code, legacy-code, ai-reliability, three-layer-control, harness-engineering | 三层骨架：理解层（ARCHITECTURE.md+CLAUDE.md）→ 约束层（Harness Engineering）→ 验证层（Characterization Test） |
+| [AI 编程工具全景：武器库里有什么，什么时候拿哪一件？](claude/004-ai-programming-tools-landscape-what-when-to-use.md) | claude-code, ai-tools, mcp, context-management, tool-selection | 五类工具地图 + 五场景武器选择；本课聚焦四件：Claude Code + CLAUDE.md + SKILL.md + MCP；够用就停 |
+| [业界在做什么？2026 年 AI + 老项目改造的学术与工程全景](claude/005-industry-landscape-2026-ai-legacy-code-academic-engineering.md) | claude-code, legacy-code, ai-engineering, characterization-test, comprehension-debt, brownfield-tax | 三债（理解债/棕地税/验证债）+ 四路殊途同归骨架；Characterization Test 和 Seam 的 AI 时代复兴 |
 
 ## Agent Frameworks
 
