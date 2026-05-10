@@ -38,4 +38,4 @@ source: https://time.geekbang.org/column/article/974062
 
 ## Related sources
 
-- **[Claude Code 进来后：哪一步变了，哪一步没变？](courses/claude-code-legacy-project-transformation/002-what-changed-and-unchanged-when-claude-code-enters.md)**: 第 02 讲将九步链路细化为三档分工模型（AI 做 80%/50%/20%）并提出"20% 盲区法则"——AI 覆盖不了的那 20%（隐性约定、上线决策）若不主动补等于 0，20% 盲区经常制造 100% 的事故。See also: [[002-what-changed-and-unchanged-when-claude-code-enters]]
+- **[Claude Code 进来后：哪一步变了，哪一步没变？](courses/claude-code-legacy-project-transformation/chapter1-methodology-foundation/002-what-changed-and-unchanged-when-claude-code-enters.md)**: 第 02 讲将九步链路细化为三档分工模型（AI 做 80%/50%/20%）并提出"20% 盲区法则"——AI 覆盖不了的那 20%（隐性约定、上线决策）若不主动补等于 0，20% 盲区经常制造 100% 的事故。See also: [[002-what-changed-and-unchanged-when-claude-code-enters]]

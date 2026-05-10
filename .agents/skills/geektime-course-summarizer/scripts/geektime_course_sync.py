@@ -114,6 +114,8 @@ def export_metadata(
     course_name_zh: str,
     course_name_en: str,
     out_path: Path,
+    chapter_name_en: str = "",
+    chapter_name_zh: str = "",
 ) -> None:
     lang = detect_language(article_data)
     content = html_to_text(article_data.get("article_content", ""))
@@ -125,6 +127,8 @@ def export_metadata(
         "author": article_data.get("author_name", ""),
         "course_name_en": course_name_en,
         "course_name_zh": course_name_zh,
+        "chapter_name_en": chapter_name_en,
+        "chapter_name_zh": chapter_name_zh,
         "content": content,
         "language": lang,
     }
@@ -177,25 +181,43 @@ def fetch_article_payload(article_url: str, article_id: int, cookies_file: Path)
     return data
 
 
-def write_course_readme(course_dir: Path, course_name_en: str, course_name_zh: str, chapter_rows: List[Tuple[str, str]]) -> None:
-    lines = [
-        f"# {course_name_en}",
-        "",
-        f"- Chinese name: {course_name_zh}",
-        f"- Chapters: {len(chapter_rows)}",
-        "",
-        "## Chapters",
-    ]
+def write_course_readme(
+    course_dir: Path,
+    course_name_en: str,
+    course_name_zh: str,
+    chapter_rows: List[Tuple[str, str]],
+    chapter_slug: str = "",
+    chapter_name_zh: str = "",
+) -> None:
+    lines = [f"# {course_name_en}", "", f"- Chinese name: {course_name_zh}", ""]
+    if chapter_slug:
+        display = chapter_name_zh or chapter_slug
+        lines += [f"## {display} ({chapter_slug})", ""]
+    else:
+        lines += ["## Chapters", ""]
     for chapter_file, chapter_title in chapter_rows:
-        lines.append(f"- [{chapter_title}]({chapter_file})")
+        file_ref = f"{chapter_slug}/{chapter_file}" if chapter_slug else chapter_file
+        lines.append(f"- [{chapter_title}]({file_ref})")
     lines.append("")
-    (course_dir / "README.md").write_text("\n".join(lines), encoding="utf-8")
+    readme_path = course_dir / "README.md"
+    if chapter_slug and readme_path.exists():
+        existing = readme_path.read_text(encoding="utf-8")
+        section_header = f"## {chapter_name_zh or chapter_slug} ({chapter_slug})"
+        if section_header not in existing:
+            new_section = "\n".join(lines[lines.index(section_header):])
+            readme_path.write_text(existing.rstrip() + "\n\n" + new_section, encoding="utf-8")
+        return
+    readme_path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def run(args: argparse.Namespace) -> None:
     course_slug = slugify_course_name(args.course_name_en)
     course_dir = Path(args.output_root) / course_slug
     course_dir.mkdir(parents=True, exist_ok=True)
+
+    chapter_slug = slugify_course_name(args.chapter_name_en) if args.chapter_name_en else ""
+    out_dir = course_dir / chapter_slug if chapter_slug else course_dir
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     chapter_rows: List[Tuple[str, str]] = []
     for idx, article_url in enumerate(args.article_url, start=1):
@@ -207,19 +229,28 @@ def run(args: argparse.Namespace) -> None:
         lang = detect_language(article_data)
         chapter_title = article_data.get("article_title", f"chapter-{idx}")
         short_title = short_title_for_filename(chapter_title, lang)
-        metadata_path = course_dir / f"{idx:03d}-{short_title}.metadata.json"
+        metadata_path = out_dir / f"{idx:03d}-{short_title}.metadata.json"
         export_metadata(
             article_url=article_url,
             article_data=article_data,
             index=idx,
             course_name_zh=args.course_name_zh,
             course_name_en=args.course_name_en,
+            chapter_name_en=chapter_slug,
+            chapter_name_zh=args.chapter_name_zh or "",
             out_path=metadata_path,
         )
         chapter_rows.append((f"{idx:03d}-{short_title}.md", chapter_title))
         print(f"metadata: {metadata_path}")
 
-    write_course_readme(course_dir, args.course_name_en, args.course_name_zh, chapter_rows)
+    write_course_readme(
+        course_dir,
+        args.course_name_en,
+        args.course_name_zh,
+        chapter_rows,
+        chapter_slug=chapter_slug,
+        chapter_name_zh=args.chapter_name_zh or "",
+    )
     print(f"Wrote: {course_dir / 'README.md'}")
 
 
@@ -227,6 +258,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Sync Geektime articles into metadata JSON for content-summarizer.")
     parser.add_argument("--course-name-en", required=True, help="English course name for folder naming.")
     parser.add_argument("--course-name-zh", default="", help="Original Chinese course name.")
+    parser.add_argument("--chapter-name-en", default="", help="Optional English chapter/part name; creates a subfolder under the course dir (e.g. 'chapter1-methodology-foundation').")
+    parser.add_argument("--chapter-name-zh", default="", help="Optional Chinese chapter/part display name (e.g. '第一部分：方法论基础').")
     parser.add_argument("--article-url", action="append", required=True, help="Geektime article URL; repeat per chapter.")
     parser.add_argument("--output-root", default="courses", help="Root folder for output.")
     parser.add_argument("--browser", default="chrome", help="Browser name for yt-dlp cookies export.")
