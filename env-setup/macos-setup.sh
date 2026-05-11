@@ -108,7 +108,7 @@ install_homebrew() {
 
 install_brew_packages() {
   log "Installing Homebrew packages"
-  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun bats-core
+  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun bats-core rg
   brew install supabase/tap/supabase
   brew install --cask libreoffice
 }
@@ -222,6 +222,7 @@ Verify the toolchain:
   gh --version
   bun --version
   supabase --version
+  rg --version
 
 Authenticate GitHub CLI:
   gh auth login
