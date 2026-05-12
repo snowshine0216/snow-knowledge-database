@@ -30,6 +30,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [理解、约束、验证：让 AI 可信的三层控制](claude/003-understanding-constraints-verification-three-layer-control.md) | claude-code, legacy-code, ai-reliability, three-layer-control, harness-engineering | 三层骨架：理解层（ARCHITECTURE.md+CLAUDE.md）→ 约束层（Harness Engineering）→ 验证层（Characterization Test） |
 | [AI 编程工具全景：武器库里有什么，什么时候拿哪一件？](claude/004-ai-programming-tools-landscape-what-when-to-use.md) | claude-code, ai-tools, mcp, context-management, tool-selection | 五类工具地图 + 五场景武器选择；本课聚焦四件：Claude Code + CLAUDE.md + SKILL.md + MCP；够用就停 |
 | [业界在做什么？2026 年 AI + 老项目改造的学术与工程全景](claude/005-industry-landscape-2026-ai-legacy-code-academic-engineering.md) | claude-code, legacy-code, ai-engineering, characterization-test, comprehension-debt, brownfield-tax | 三债（理解债/棕地税/验证债）+ 四路殊途同归骨架；Characterization Test 和 Seam 的 AI 时代复兴 |
+| [Claude Code SKILL 机制与画图能力扩展](claude/002-installing-diagram-tools-mermaid-skill-for-claude-code.md) | claude-code, mermaid, diagram, skill, visualization, legacy-project | SKILL 扩展点（skills/ 目录）+ claude-mermaid 两步安装；四类必备图（架构/模块依赖/时序/ER）提示词技巧；AI 画图必须 review 修正存档 |
 
 ## Agent Frameworks
 
@@ -110,6 +111,9 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Mike Stonebraker：AI Agent 最后会变成数据库问题](ai-engineering/mike-stonebraker-ai-agents-are-really-a-database-problem.md) | text-to-sql, databases, ai-agents, dbos, postgres, distributed-systems, benchmark, ai-engineering | Stonebraker 将 read-write agent 还原为事务与一致性问题，并用 Beaver benchmark 证明真实数仓上的 text-to-SQL 远未可生产 |
 | [Kubernetes 被 AI 打回"半成品"](ai-engineering/kubernetes-beaten-back-by-ai-founders-warning.md) | kubernetes, ai-engineering, code-review, llm-ops, cloud-native, gpu-scheduling, engineering-management | K8s 联合创始人 Burns：AI 逼 Kubernetes 补 GPU 调度/gang scheduling/checkpoint 课；code review 成全员基线；先做原型再申请资源 |
 | [Concurrent Tool Execution in Agent Harness — Fork-Join Pattern](ai-engineering/001-concurrent-efficiency-parallel-tool-calling.md) | agent-harness, parallel-tool-calling, goroutine, fork-join, concurrency, go-lang, main-loop, harness-engineering | Independence Assumption enables unconditional parallel tool dispatch; pre-allocated slice + WaitGroup achieves lock-free ordered fan-in in O(Max(N)) vs serial O(Sum(N)) |
+| [Feishu Integration: I/O Decoupling and ChatOps with go-tiny-claw](ai-engineering/09-feishu-integration-connect-go-tiny-claw-to-feishu-bot-event-stream.md) | agent-harness, go, feishu, chatops, reporter-pattern, io-decoupling, goroutine, harness-engineering | Reporter interface decouples Main Loop from output medium; each Feishu message spawns an independent Goroutine ReAct loop; two unsolved problems: Context amnesia and window explosion |
+| [了解老项目的八步心法](ai-engineering/001-eight-step-method-for-understanding-legacy-projects.md) | claude-code, legacy-project, project-understanding, methodology, ai-engineering | 最小完备锚点清单：八步心法（读README→扫结构→找入口→画全景→梳接口/模型→跑起来→带需求深挖→沉淀CLAUDE.md+SKILL.md），目标是建立锚点而非读懂 |
+| [AI 辅助生成接口清单和数据模型说明](ai-engineering/004-interfaces-and-data-models-ai-generate-api-list-and-schema.md) | claude-code, legacy-project, rest-api, data-model, project-understanding, documentation | 三源并读（entity/DTO/DDL）产出接口清单+数据模型+ER图；两份资产完成后必须互相校对；合并08讲三图共5份docs/资产 |
 
 ## RAG and Knowledge
 
