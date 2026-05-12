@@ -56,6 +56,49 @@ type Reporter interface {
 - 接入飞书 → 注入 `FeishuReporter`
 - 接入钉钉/Slack/微信 → 再实现一个对应的 Reporter
 
+> [!info]+ 💡 Deep Dive - 为什么 Reporter 要拆成 4 个生命周期，以及 `Run()` 到底会调用谁
+>
+> 如果把一次 `Run(ctx, prompt, reporter)` 看成一个完整回合，外部系统真正关心的只有 4 件事：
+>
+> 1. 引擎开始工作了吗？→ `OnThinking`
+> 2. 它决定调用什么动作？→ `OnToolCall`
+> 3. 这个动作执行得怎么样？→ `OnToolResult`
+> 4. 它最终对用户说了什么？→ `OnMessage`
+>
+> 这 4 个事件正好组成一个"最小闭环"。少一个，外部观察就会失真；再继续细拆，则会把简单接口过早推向事件总线复杂度。
+>
+> - 没有 `OnThinking`：终端和飞书只能看到长时间无响应，无法显示"正在处理"。
+> - 没有 `OnToolCall`：你看不到模型意图，不知道它为什么调用这个工具、传了什么参数。
+> - 没有 `OnToolResult`：你无法区分工具成功还是失败，也做不了错误通知、审计日志或耗时统计。
+> - 没有 `OnMessage`：过程都可见了，但最终回复本身反而丢了。
+>
+> 这里还有一个常见误解：`Run()` **不会自动判断**"现在该调用 `TerminalReporter` 还是 `FeishuReporter`"。它只会调用**这次传进来的那个 reporter 实例**。
+>
+> ```go
+> engine.Run(ctx, prompt, &TerminalReporter{})
+> engine.Run(ctx, prompt, &FeishuReporter{chatID: chatID})
+> ```
+>
+> 上面两次 `Run()` 分别触发不同的 Reporter；同一轮 `Run()` 不会自己二选一。也就是说：CLI 入口通常传 `TerminalReporter`，飞书 Webhook 入口通常传 `FeishuReporter`，生命周期相同，但渲染介质不同。
+>
+> 如果你希望**同一轮执行同时打印终端、又推送飞书**，就不能只传一个 Reporter，而是要再包一层组合实现：
+>
+> ```go
+> type MultiReporter struct {
+>     reporters []Reporter
+> }
+>
+> func (m *MultiReporter) OnThinking(ctx context.Context) {
+>     for _, r := range m.reporters {
+>         r.OnThinking(ctx)
+>     }
+> }
+> ```
+>
+> 其他 `OnToolCall`、`OnToolResult`、`OnMessage` 也做同样的 fan-out。这样同一轮 `Run()` 的每个生命周期事件都会同时广播给终端和飞书。这个设计的核心不是"选哪个输出"，而是把 Main Loop 变成一个只广播阶段事件的引擎，把展示逻辑交给外部注入依赖。
+>
+> 只有当事件种类继续膨胀，比如你开始需要流式消息块、重试事件、超时事件、埋点指标、异步订阅时，才值得从这 4 个强语义回调升级到统一的 `OnEvent(Event)` 事件总线。在本讲这个阶段，4 个生命周期回调已经是最清晰、最经济的抽象。
+
 #### 飞书集成：FeishuBot + FeishuReporter
 
 新建 `internal/feishu/bot.go`，完成两件事：
