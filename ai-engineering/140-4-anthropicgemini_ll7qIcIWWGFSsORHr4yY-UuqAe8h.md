@@ -1,4 +1,4 @@
----
+zhe---
 tags: [ai-engineering, anthropic, google-deepmind, gemini, claude, reinforcement-learning, pre-training, post-training, interview, podcast, scaling-law, coding-ai, 姚顺宇, 张小珺]
 source: https://www.xiaoyuzhoufm.com/episode/6a00aa051b7bd50295dfe41d?s=eyJ1IjogIjYxYjE0N2VkZTBmNWU3MjNiYjc3YWJmNiJ9
 ---
