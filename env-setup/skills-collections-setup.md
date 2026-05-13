@@ -147,13 +147,32 @@ Interactively unfolds related memory nodes from a starting topic.
 | `prime_corpus` | Index a new directory as a corpus |
 | `rebuild_corpus` | Re-index after memory files change |
 
+## 4) claude-mermaid
+
+- Purpose: Add Mermaid diagram support to Claude via the `claude-mermaid` plugin.
+
+### Setup
+
+Install the package globally:
+
+```bash
+npm install -g claude-mermaid
+```
+
+Register the marketplace entry and install the plugin:
+
+```bash
+/plugin marketplace add veelenga/claude-mermaid
+/plugin install claude-mermaid@claude-mermaid
+```
+
 ## Sources
 
 - https://github.com/stvlynn/dingtalk-wukong-skills
 - https://github.com/garrytan/gstack
 - https://github.com/thedotmack/claude-mem
 
-## 4) Zhihu Top 10 Claude Skills (Summary)
+## 5) Zhihu Top 10 Claude Skills (Summary)
 
 - Source article: https://zhuanlan.zhihu.com/p/2015725269667840386
 - Capture method: reuse local browser session and cookies, then parse page HTML
