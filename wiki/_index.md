@@ -518,3 +518,9 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [06: 大道至简 — 最简工具集与 YOLO 哲学](courses/ai-agent-harness-training/chapter-02-minimal-tools-and-physical-interaction/06-minimal-toolset-yolo-philosophy.md) | ai-agent, harness-engineering, go, minimal-tools, yolo, openclaw | Context Bloat 三大致命后果，read/write/edit/bash 四原语图灵完备，YOLO = 放弃安全剧场改用 Git 回滚 + 4 条物理底线（超时、工作区约束、错误回传、截断） |
 | [07: 容错艺术 — 多级模糊匹配的稳健 Edit 工具](courses/ai-agent-harness-training/chapter-02-minimal-tools-and-physical-interaction/07-fault-tolerance-art-fuzzy-matching-edit-tool.md) | agent-harness, edit-tool, fuzzy-matching, go, llm-hallucination, tool-design, harness-engineering | LLM 缩进幻觉导致精确匹配死循环；L1→L4 四级降级管线（精确→CRLF归一→TrimSpace→逐行去缩进滑动窗口）+ 唯一性安全底线（matchCount>1 拒绝替换），在工具底层吸收 LLM 格式误差 |
 | [08: 并发提效 — Parallel Tool Calling 与 Fork-Join 引擎](courses/ai-agent-harness-training/chapter-02-minimal-tools-and-physical-interaction/08-concurrent-efficiency-parallel-tool-calling.md) | agent-harness, parallel-tool-calling, goroutine, fork-join, concurrency, go-lang, main-loop, harness-engineering | 独立性假设使 Harness 可无条件并行 ToolCall；预分配切片 + WaitGroup 实现无锁有序聚合，O(Max(N)) 耗时，三处工程细节：闭包传参、无锁索引写入、上下文顺序对齐 |
+
+**Chapter 3 — 上下文工程体系**
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [10: 提示词组装 — 动态加载 AGENTS.md 与 Agent Skills](courses/ai-agent-harness-training/chapter-03/001-prompt-assembly-dynamic-loading-agents-md-and-skills.md) | context-engineering, prompt-engineering, agent-harness, go, agent-skills, agents-md, prompt-composer, progressive-disclosure, harness-engineering | System Prompt = 操作系统内核；三层分层加载（Minimal Core + AGENTS.md + Skills）替代面条提示词；Agent Skills 规范 YAML Frontmatter 支持 Discovery/Activation 两阶段加载 |

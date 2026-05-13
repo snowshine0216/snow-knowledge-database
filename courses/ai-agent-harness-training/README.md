@@ -9,3 +9,7 @@
 ## 第二章：最小工具集与实体交互 (chapter-02-minimal-tools-and-physical-interaction)
 
 - [09｜飞书集成：打通真实世界，将 go-tiny-claw 接入飞书机器人的事件流](chapter-02-minimal-tools-and-physical-interaction/001-09-飞书集成-打通真实世界-将-g.md)
+
+## 第三章 (chapter-03)
+
+- [10｜提示词组装：告别面条代码，动态加载 AGENTS.md 与外挂 Skills](chapter-03/001-10-提示词组装-告别面条代码-动态.md)
