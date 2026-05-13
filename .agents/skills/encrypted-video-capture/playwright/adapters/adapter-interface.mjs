@@ -24,12 +24,14 @@
 import { createGeektimeAdapter } from "./geektime-adapter.mjs";
 import { createGeekbangUAdapter } from "./geekbang-u-adapter.mjs";
 import { createDeeplearningAiAdapter } from "./deeplearning-ai-adapter.mjs";
+import { createXiaoyuzhouAdapter } from "./xiaoyuzhou-adapter.mjs";
 
 /** @type {Array<{pattern: RegExp, factory: () => Adapter}>} */
 const ADAPTERS = [
   { pattern: /time\.geekbang\.org/, factory: createGeektimeAdapter },
   { pattern: /u\.geekbang\.org\/lesson/, factory: createGeekbangUAdapter },
   { pattern: /learn\.deeplearning\.ai/, factory: createDeeplearningAiAdapter },
+  { pattern: /xiaoyuzhoufm\.com\/episode\//, factory: createXiaoyuzhouAdapter },
 ];
 
 /**
@@ -87,5 +89,6 @@ export function supportedUrlPatterns() {
     "https://time.geekbang.org/course/{id}",
     "https://u.geekbang.org/lesson/{id}",
     "https://learn.deeplearning.ai/courses/{course-slug}[/lesson/{lesson-id}/{slug}]",
+    "https://www.xiaoyuzhoufm.com/episode/{id}",
   ];
 }

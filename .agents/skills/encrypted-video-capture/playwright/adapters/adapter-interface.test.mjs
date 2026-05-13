@@ -36,6 +36,14 @@ test("resolveAdapter: routes u.geekbang.org/lesson with query params", () => {
   assert.equal(adapter.name, "geekbang-u");
 });
 
+test("resolveAdapter: routes xiaoyuzhoufm.com episode URLs", () => {
+  const adapter = resolveAdapter(
+    "https://www.xiaoyuzhoufm.com/episode/6a00aa051b7bd50295dfe41d?s=share-token"
+  );
+  assert.ok(adapter, "adapter should not be null");
+  assert.equal(adapter.name, "xiaoyuzhou");
+});
+
 test("resolveAdapter: returns null for unknown hostname", () => {
   const adapter = resolveAdapter("https://example.com/course/123");
   assert.equal(adapter, null);
@@ -144,4 +152,9 @@ test("supportedUrlPatterns: returns an array of strings", () => {
 test("supportedUrlPatterns: includes geekbang-u pattern", () => {
   const patterns = supportedUrlPatterns();
   assert.ok(patterns.some((p) => p.includes("u.geekbang.org/lesson")));
+});
+
+test("supportedUrlPatterns: includes xiaoyuzhou episode pattern", () => {
+  const patterns = supportedUrlPatterns();
+  assert.ok(patterns.some((p) => p.includes("xiaoyuzhoufm.com/episode")));
 });
