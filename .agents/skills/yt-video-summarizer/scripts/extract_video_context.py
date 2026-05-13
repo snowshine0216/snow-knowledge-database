@@ -113,7 +113,88 @@ def platform_from_url(url: str) -> str:
         return "youtube"
     if "bilibili.com" in lowered or "b23.tv" in lowered:
         return "bilibili"
+    if "xiaoyuzhoufm.com" in lowered or "xiaoyuzhou.fm" in lowered:
+        return "xiaoyuzhou"
     return "unknown"
+
+
+def _parse_xiaoyuzhou_chapters(shownotes_html: str) -> List[Dict[str, Any]]:
+    """Parse chapter list from Xiaoyuzhou shownotes HTML (HH:MM:SS lines)."""
+    import html as _html
+    if not shownotes_html:
+        return []
+    text = re.sub(r"<br\s*/?>", "\n", shownotes_html, flags=re.IGNORECASE)
+    text = re.sub(r"</(p|div|li|h[1-6])>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = _html.unescape(text)
+    ts_pattern = re.compile(r"^(\d{1,2}:\d{2}:\d{2})\s+(.+)$")
+    chapters: List[Dict[str, Any]] = []
+    for line in text.splitlines():
+        line = line.strip()
+        m = ts_pattern.match(line)
+        if m:
+            ts_str, title = m.group(1), m.group(2).strip()
+            parts = ts_str.split(":")
+            seconds = int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+            chapters.append({"title": title, "start_time": float(seconds)})
+    for i in range(len(chapters) - 1):
+        chapters[i]["end_time"] = chapters[i + 1]["start_time"]
+    return chapters
+
+
+def fetch_xiaoyuzhou_rich_metadata(url: str, timeout_seconds: int = 30) -> Dict[str, Any]:
+    """Fetch rich episode metadata from Xiaoyuzhou episode page __NEXT_DATA__ JSON."""
+    import html as _html
+    eid_match = re.search(r"/episode/([a-f0-9]+)", url)
+    if not eid_match:
+        return {}
+    eid = eid_match.group(1)
+    req = urllib_request.Request(
+        f"https://www.xiaoyuzhoufm.com/episode/{eid}",
+        headers={
+            "User-Agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            )
+        },
+    )
+    try:
+        with urllib_request.urlopen(req, timeout=timeout_seconds) as resp:
+            page_html = resp.read().decode("utf-8", errors="ignore")
+    except Exception:
+        return {}
+    nd_match = re.search(
+        r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>',
+        page_html,
+        re.DOTALL,
+    )
+    if not nd_match:
+        return {}
+    try:
+        nd = json.loads(nd_match.group(1))
+    except json.JSONDecodeError:
+        return {}
+    episode = nd.get("props", {}).get("pageProps", {}).get("episode", {})
+    podcast = nd.get("props", {}).get("pageProps", {}).get("podcast", {})
+    if not episode:
+        return {}
+    shownotes_html = episode.get("shownotes") or episode.get("description") or ""
+    chapters = _parse_xiaoyuzhou_chapters(shownotes_html)
+    desc_text = re.sub(r"<[^>]+>", "\n", _html.unescape(shownotes_html))
+    desc_text = re.sub(r"\n{3,}", "\n\n", desc_text).strip()
+    result: Dict[str, Any] = {
+        "eid": episode.get("eid"),
+        "title": episode.get("title"),
+        "duration": episode.get("duration"),
+        "publishTime": episode.get("publishTime"),
+        "mediaKey": episode.get("mediaKey"),
+        "shownotes_text": desc_text,
+        "chapters": chapters,
+        "podcast_title": podcast.get("title"),
+        "podcast_author": podcast.get("author"),
+    }
+    return {k: v for k, v in result.items() if v is not None}
 
 
 def format_duration(seconds: Optional[int]) -> Optional[str]:
@@ -1393,6 +1474,32 @@ def main() -> int:
         print(str(exc), file=sys.stderr)
         return 1
 
+    # ── Xiaoyuzhou: enrich sparse yt-dlp metadata with webpage data ────────
+    if platform == "xiaoyuzhou":
+        xz = fetch_xiaoyuzhou_rich_metadata(args.url)
+        if xz:
+            if xz.get("duration") and not raw_meta.get("duration"):
+                raw_meta["duration"] = xz["duration"]
+            if xz.get("chapters"):
+                raw_meta["chapters"] = xz["chapters"]
+            if xz.get("podcast_title") and not raw_meta.get("uploader"):
+                raw_meta["uploader"] = xz["podcast_title"]
+                raw_meta["channel"] = xz["podcast_title"]
+            if xz.get("podcast_author") and not raw_meta.get("uploader"):
+                raw_meta["uploader"] = xz["podcast_author"]
+            if xz.get("publishTime"):
+                try:
+                    import datetime as _dt
+                    dt = _dt.datetime.fromisoformat(
+                        xz["publishTime"].replace("Z", "+00:00")
+                    )
+                    raw_meta.setdefault("upload_date", dt.strftime("%Y%m%d"))
+                except Exception:
+                    pass
+            if xz.get("shownotes_text"):
+                raw_meta["description"] = xz["shownotes_text"]
+    # ── end Xiaoyuzhou enrichment ──────────────────────────────────────────
+
     raw_metadata_path = out_dir / "raw_metadata.json"
     metadata_summary_path = out_dir / "metadata_summary.json"
     transcript_path = out_dir / "transcript.txt"
@@ -1413,7 +1520,7 @@ def main() -> int:
     transcript_chars = 0
     transcript_lines = 0
 
-    bilibili_asr_first = platform == "bilibili" and args.asr_provider != "off"
+    bilibili_asr_first = platform in ("bilibili", "xiaoyuzhou") and args.asr_provider != "off"
 
     if not args.metadata_only and not bilibili_asr_first:
         used_cookies = fetch_subtitles(

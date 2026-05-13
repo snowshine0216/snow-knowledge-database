@@ -124,7 +124,7 @@ When the user provides a course URL (not a single video URL):
 ## Single Video Workflow
 
 1. Validate input URL.
-Use this skill for `youtube.com`, `youtu.be`, `bilibili.com`, `b23.tv`.
+Use this skill for `youtube.com`, `youtu.be`, `bilibili.com`, `b23.tv`, `xiaoyuzhoufm.com`.
 
 2. Run the extractor script.
 ```bash
@@ -228,6 +228,7 @@ Always echo these fields in-conversation so the user can verify:
 Default retry browser is Chrome via `--cookies-from-browser chrome`.
 - **YouTube proxy (auto)**: when the URL is `youtube.com` / `youtu.be`, the extractor automatically reads `YT_PROXY` from `.env` and passes it to `yt-dlp` as `--proxy`. This is the default path on this machine (see skill `.env`). It does NOT affect Bilibili or other platforms. You can still override per-call with an explicit `--proxy <url>` flag (which wins over `YT_PROXY`).
 - Bilibili standard policy is cookie-auth + ASR-first. Always run with `--cookies-from-browser chrome --asr-provider auto`.
+- **Xiaoyuzhou (小宇宙)**: yt-dlp uses the generic extractor to get the audio URL. The extractor automatically fetches rich metadata (title, duration, chapters) from the episode's `__NEXT_DATA__` JSON. Podcasts have no subtitles — ASR-first is applied automatically. Run with `--asr-provider auto`.
 - The extractor now applies cookie-auth on metadata fetch when browser cookies are provided.
 - Local ASR fallback uses `faster-whisper` if installed and importable from the active Python environment.
 - Bilibili videos without subtitles commonly require both `ffmpeg` and a locally cached Whisper model before transcript extraction will succeed.
