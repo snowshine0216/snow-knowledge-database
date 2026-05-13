@@ -24,7 +24,6 @@ https://time.geekbang.org/column/<id>
 https://time.geekbang.org/video/<id>
 https://time.geekbang.org/course/<id>
 https://u.geekbang.org/lesson/<id>
-https://www.xiaoyuzhoufm.com/episode/<id>
 ```
 
 ---
