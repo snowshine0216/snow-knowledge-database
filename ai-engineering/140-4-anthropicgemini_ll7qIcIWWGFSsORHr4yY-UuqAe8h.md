@@ -2,7 +2,7 @@
 tags: [ai-engineering, anthropic, google-deepmind, gemini, claude, reinforcement-learning, pre-training, post-training, interview, podcast, scaling-law, coding-ai, 姚顺宇, 张小珺]
 source: https://www.xiaoyuzhoufm.com/episode/6a00aa051b7bd50295dfe41d?s=eyJ1IjogIjYxYjE0N2VkZTBmNWU3MjNiYjc3YWJmNiJ9
 ---
-you qyouq
+
 # 140. 对姚顺宇的4小时访谈：请允许我小疯一下！在Anthropic和Gemini训模型、技术预测、英雄主义已过去
 
 ## Video Info
