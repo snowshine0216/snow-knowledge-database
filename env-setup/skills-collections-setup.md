@@ -271,3 +271,97 @@ Register the marketplace entry and install the plugin:
 - Awesome Claude Skills community list: https://github.com/travisvn/awesome-claude-skills
 - Claude Code Skills docs: https://code.claude.com/docs/en/skills
 - Skills marketplace: https://skillsmp.com/
+
+---
+
+## 6) Architecture Diagram Generator (Cocoon AI)
+
+- Original link: https://github.com/Cocoon-AI/architecture-diagram-generator
+- Purpose: Generate beautiful dark-themed system architecture diagrams as standalone HTML/SVG files. Describe your system in plain English and Claude creates a self-contained HTML file openable in any browser. Supports web apps, AWS serverless, microservices, and more. Outputs include Copy/PNG/PDF export toolbar built in.
+
+### Features
+
+- Dark theme (slate-950 background with grid) with semantic color coding (frontend=cyan, backend=emerald, database=violet, cloud=amber, security=rose)
+- Single self-contained HTML output — shareable, no dependencies
+- Iterative: ask Claude to add components, change layouts, or fix issues via chat
+- Sister skill: [process-flow-diagram-generator](https://github.com/Cocoon-AI/process-flow-diagram-generator) for step-by-step workflow diagrams
+
+### Setup
+
+**Claude.ai (recommended):**
+1. Download `architecture-diagram.zip` from the repo
+2. Go to Claude.ai → Customize → Skills → + Create skill → Upload a skill
+3. Toggle the skill on (requires Code Execution enabled in Settings → Capabilities)
+
+**Claude Code CLI:**
+```bash
+# Global
+unzip architecture-diagram.zip -d ~/.claude/skills/
+
+# Project-local
+unzip architecture-diagram.zip -d ./.claude/skills/
+```
+
+### Usage
+
+```
+Use your architecture diagram skill to create an architecture diagram from this description:
+- React frontend talking to a Node.js API
+- PostgreSQL database
+- Redis for caching
+- Hosted on AWS with CloudFront CDN
+```
+
+---
+
+## 7) fireworks-tech-graph
+
+- Original link: https://github.com/yizhiyanhua-ai/fireworks-tech-graph
+- Purpose: Generate production-quality SVG+PNG technical diagrams from natural language. Covers 7 visual styles (Flat Icon, Dark Terminal, Blueprint, Notion Clean, Glassmorphism, Claude Official, OpenAI Official), 14 UML diagram types, and deep AI/Agent domain patterns (RAG, Agentic Search, Mem0, Multi-Agent, Tool Call flows). Exports high-resolution 1920px PNG via `cairosvg`.
+
+### Features
+
+- 7 visual styles with dedicated reference files and executable style guides
+- 14 UML types + AI/Agent domain diagrams (RAG, Mem0, Multi-Agent, Tool Call, etc.)
+- Semantic shape vocabulary (LLM = double-border rect, Agent = hexagon, Vector Store = ringed cylinder)
+- Semantic arrow system (color + dash pattern encode write/read/async/loop)
+- 40+ product icons with brand colors (OpenAI, Anthropic, Pinecone, Kafka, PostgreSQL, etc.)
+- SVG + PNG output; PNG renderer priority: cairosvg → rsvg-convert → puppeteer
+
+### Setup
+
+```bash
+npx skills add yizhiyanhua-ai/fireworks-tech-graph
+```
+
+Or clone directly:
+```bash
+git clone https://github.com/yizhiyanhua-ai/fireworks-tech-graph.git ~/.claude/skills/fireworks-tech-graph
+```
+
+Force update to latest:
+```bash
+npx skills add yizhiyanhua-ai/fireworks-tech-graph --force -g -y
+```
+
+### Requirements (PNG renderer — pick one)
+
+```bash
+# Recommended: cairosvg
+pip install cairosvg
+
+# Fallback: rsvg-convert
+brew install librsvg        # macOS
+sudo apt install librsvg2-bin  # Ubuntu/Debian
+
+# Highest fidelity (heavy): puppeteer
+npm install puppeteer
+```
+
+### Usage
+
+```
+Draw a RAG pipeline flowchart
+Generate a Mem0 memory architecture diagram, dark style
+Draw a microservices architecture diagram in style 3 (Blueprint)
+```
