@@ -31,6 +31,10 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [AI 编程工具全景：武器库里有什么，什么时候拿哪一件？](claude/004-ai-programming-tools-landscape-what-when-to-use.md) | claude-code, ai-tools, mcp, context-management, tool-selection | 五类工具地图 + 五场景武器选择；本课聚焦四件：Claude Code + CLAUDE.md + SKILL.md + MCP；够用就停 |
 | [业界在做什么？2026 年 AI + 老项目改造的学术与工程全景](claude/005-industry-landscape-2026-ai-legacy-code-academic-engineering.md) | claude-code, legacy-code, ai-engineering, characterization-test, comprehension-debt, brownfield-tax | 三债（理解债/棕地税/验证债）+ 四路殊途同归骨架；Characterization Test 和 Seam 的 AI 时代复兴 |
 | [Claude Code SKILL 机制与画图能力扩展](claude/002-installing-diagram-tools-mermaid-skill-for-claude-code.md) | claude-code, mermaid, diagram, skill, visualization, legacy-project | SKILL 扩展点（skills/ 目录）+ claude-mermaid 两步安装；四类必备图（架构/模块依赖/时序/ER）提示词技巧；AI 画图必须 review 修正存档 |
+| [老项目的 CLAUDE.md 怎么写：从五份资产到一份项目常识](claude/005-legacy-project-claude-md-from-five-assets-to-project-knowledge.md) | claude-md, legacy-projects, claude-code, project-documentation, ai-collaboration, knowledge-management | 索引+常识定位（≤300行）；禁区/历史包袱两节必须手写；AI 生成初稿但留空这两节；三个 review 检查点 |
+| [老项目的 Skill 怎么挖：把重复流程变成可复用技能](claude/006-how-to-mine-legacy-project-skills-reusable-workflows.md) | claude-code, skill-md, legacy-projects, workflow-automation, ai-collaboration, docs-sync, project-tooling | 三特征判断法（可复制+可参数化+可自动化）；三步 AI 挖掘工作流；docs-auto-sync"只汇报不修改"；SKILL 控制 5 个以内从 60 分养到 90 分 |
+| [让 AI 当你的环境工程师：依赖盘点→安装→启停→冒烟四步法](claude/001-let-ai-be-your-environment-engineer.md) | claude-code, legacy-project, environment-setup, ai-engineering, prompt-engineering | 自主修复原则+3次兜底防死循环；install-log比脚本更值钱；env-bootstrap SKILL一键复用；本地装优于Docker |
+| [补出兜底测试：Characterization Test + CI 护栏](claude/003-build-safety-net-tests-characterization-test-to-lock-behavior.md) | claude-code, legacy-project, testing, characterization-test, ci-cd, ai-engineering, tdd | 锁住"实际行为"而非"应该行为"；每批1-3个分批补；AI断言偏差是最常见翻车点；CI 30分钟换一年千次自动检查 |
 
 ## Agent Frameworks
 
