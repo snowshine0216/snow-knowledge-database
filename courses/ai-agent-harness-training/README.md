@@ -13,3 +13,4 @@
 ## 第三章 (chapter-03)
 
 - [10｜提示词组装：告别面条代码，动态加载 AGENTS.md 与外挂 Skills](chapter-03/001-10-提示词组装-告别面条代码-动态.md)
+- [11｜会话管理：Session 物理隔离与 Working Memory 的底层实现](chapter-03/002-session-isolation-and-working-memory.md)
