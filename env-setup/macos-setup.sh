@@ -108,9 +108,36 @@ install_homebrew() {
 
 install_brew_packages() {
   log "Installing Homebrew packages"
-  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun bats-core rg
+  brew install nvm python yt-dlp ffmpeg jq graphviz uv gh bun bats-core rg jenv
   brew install supabase/tap/supabase
   brew install --cask libreoffice
+}
+
+install_jenv() {
+  log "Configuring jenv"
+
+  # Persist jenv init lines to shell profiles
+  while IFS= read -r target; do
+    append_line_if_missing "$target" 'export PATH="$HOME/.jenv/bin:$PATH"'
+    append_line_if_missing "$target" 'eval "$(jenv init -)"'
+  done < <(profile_targets)
+
+  # Activate jenv in the current session
+  export PATH="$HOME/.jenv/bin:$PATH"
+  eval "$(jenv init -)"
+
+  # Register every JDK already installed by Homebrew or system
+  local jdk_dir
+  for jdk_dir in \
+    /Library/Java/JavaVirtualMachines/*/Contents/Home \
+    /opt/homebrew/opt/openjdk*/libexec/openjdk.jdk/Contents/Home; do
+    if [[ -d "$jdk_dir" ]]; then
+      jenv add "$jdk_dir" 2>/dev/null || true
+    fi
+  done
+
+  log "jenv setup complete — registered JDKs:"
+  jenv versions || true
 }
 
 load_nvm() {
@@ -223,6 +250,8 @@ Verify the toolchain:
   bun --version
   supabase --version
   rg --version
+  jenv --version
+  jenv versions
 
 Authenticate GitHub CLI:
   gh auth login
@@ -254,6 +283,7 @@ main() {
   install_codex
   install_claude_code
   create_ytdlp_config
+  install_jenv
   install_python_support
   print_next_steps
 }

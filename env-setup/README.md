@@ -19,6 +19,7 @@ It covers:
 - `yt-dlp`
 - `ffmpeg`
 - `jq`
+- `jenv` (Java version manager)
 - optional `faster-whisper` for local ASR in the YouTube summarizer skill
 
 ## Files
@@ -76,6 +77,48 @@ Verify:
 ```bash
 echo $SHELL
 ```
+
+## Setup Java on macOS (`jenv`)
+
+`jenv` is installed and configured automatically by `macos-setup.sh`. It scans for JDKs already present under `/Library/Java/JavaVirtualMachines/` and `/opt/homebrew/opt/openjdk*` and registers them.
+
+To install additional JDKs and register them:
+
+```bash
+brew install openjdk@21
+jenv add /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+```
+
+### Common `jenv` Commands
+
+| Command | Effect |
+|---|---|
+| `jenv versions` | List installed JDKs (`*` = active) |
+| `jenv global 25` / `jenv global 17` | Switch the default everywhere |
+| `jenv local 17` | Pin this directory to 17 (writes `.java-version`) |
+| `jenv shell 17` | Switch just the current shell |
+| `brew install openjdk@21 && jenv add /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home` | Add a new JDK |
+| `jenv remove 17.0.19` | Unregister a version |
+
+### Optional: Symlink JDKs into `/Library/Java/JavaVirtualMachines/`
+
+`/usr/libexec/java_home -V` may report "no runtime" because Homebrew JDKs aren't placed in `/Library/Java/JavaVirtualMachines/` by default. Most IDEs (IntelliJ, VS Code, etc.) auto-detect from that path. To fix it, create symlinks manually (requires `sudo`):
+
+```bash
+sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk \
+             /Library/Java/JavaVirtualMachines/openjdk-25.jdk
+
+sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk \
+             /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+```
+
+After symlinking, verify:
+
+```bash
+/usr/libexec/java_home -V
+```
+
+> **Note:** `macos-setup.sh` does not create these symlinks automatically because they require `sudo`. Run the commands above once per JDK if IDE auto-detection is needed.
 
 ## Setup Python on macOS (`pyenv`)
 
@@ -195,6 +238,8 @@ dot -V
 gh --version
 bun --version
 supabase --version
+jenv --version
+jenv versions
 python3 .agents/skills/yt-video-summarizer/scripts/extract_video_context.py --help
 python3 -c "from faster_whisper import WhisperModel; print('faster-whisper ok')"
 ```
