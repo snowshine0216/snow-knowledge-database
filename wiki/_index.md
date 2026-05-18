@@ -38,6 +38,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Anthropic AI 原生创业公司手册](claude/anthropic-ai-native-startup-playbook.md) | anthropic, claude-code, claude, ai-native-startup, startup-playbook, founder, mvp, product-market-fit, agentic-coding | 想法→MVP→发布→规模化四阶段手册：CLAUDE.md 是最关键非代码产物，42%失败因无人需要，PMF 测试 >40% 阈值，三类可防御护城河 |
 | [ARS：用 Claude Code 写论文的全套多 Agent 流水线](claude/claude-code-academic-research-pipeline.md) | claude-code, academic-research, skill, multi-agent, paper-writing, citation-verification, open-source | 6.4k Stars 开源 Skill 包：4 Skill × 13/12/7 Agent，Levenshtein ≥0.70 引用核验，Nature 7 条 AI 失败模式闸门，反谄媚协议，三层数据隔离 |
 | [Bun：Claude Code 驱动的 6 天 Zig→Rust 重写](claude/bun-rewrite-zig-to-rust-with-claude-code.md) | claude-code, bun, zig, rust, rewrite, agentic-coding, anthropic, memory-leak, javascript-runtime | 96 万行代码、6 天、99.8% 测试通过：Claude Code 驱动的 Bun Zig→Rust 迁移，内存泄漏导火索，13000 个 unsafe 争议，AI 写 AI 审 AI 合流程质疑 |
+| [从一句话需求到需求文档：让 AI 帮你拆需求](claude/017-from-one-line-requirement-to-spec-let-ai-break-it-down.md) | claude-code, legacy-transformation, requirements, ai-workflow, prompt-engineering | 六维体系（业务目标/用户场景/接口契约/边界场景/老项目约束/不在范围内）+ AI 能力地图（接口契约 85+/产品决策 30-）+ 三步法 20 分钟出定稿 |
 
 ## Agent Frameworks
 

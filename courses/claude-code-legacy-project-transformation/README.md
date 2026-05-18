@@ -34,3 +34,10 @@
 | 003 | [chapter3-environment-setup-and-test-guardrails/003-build-safety-net-tests-characterization-test-to-lock-behavior.md](chapter3-environment-setup-and-test-guardrails/003-build-safety-net-tests-characterization-test-to-lock-behavior.md) | 15｜补出一套兜底测试：让 AI 用 Characterization Test 锁住行为 |
 | 004 | [chapter3-environment-setup-and-test-guardrails/004-hands-on-complete-pre-transformation-guardrails-workflow.md](chapter3-environment-setup-and-test-guardrails/004-hands-on-complete-pre-transformation-guardrails-workflow.md) | 16｜实操课：给一个老项目建立完整改造前护栏的全流程演示 |
 
+## 第四部分 (chapter4-temp)
+
+- [17｜从一句话需求到需求文档：让 AI 帮你拆需求](chapter4-temp/001-17-从一句话需求到需求文档-让-A.md)
+
+## 第四部分：实战改造 (chapter4-practical-transformation)
+
+- [17｜从一句话需求到需求文档：让 AI 帮你拆需求](chapter4-practical-transformation/001-17-从一句话需求到需求文档-让-A.md)
