@@ -31,3 +31,7 @@ go-tiny-claw 第 11 讲构建了两个互补的上下文工程基础设施：**S
 - [[001-prompt-assembly-dynamic-loading-agents-md-and-skills|第 10 讲：提示词组装]]
 - [[harness-engineering]]
 - [[context-engineering]]
+
+## Related sources
+
+- **[第 12 讲：突破内存——基于阶梯降级的 Context Compaction 策略]**: 本讲留下的"固定条数截取无法防御单条大文件暴击"问题在第 12 讲得到直接回答。第 12 讲引入 `Compactor` 结构体，在 `provider.Generate()` 之前对远期历史执行 Full Masking、对近期超长 ToolResult 执行 Head-Tail Truncation，将发往 API 的上下文压缩至安全水位线内，同时在 `Session.Append()` 中始终保留全量原始数据。见 [[003-context-compaction-staged-degradation-strategy]]

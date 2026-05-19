@@ -14,3 +14,7 @@
 
 - [10｜提示词组装：告别面条代码，动态加载 AGENTS.md 与外挂 Skills](chapter-03/001-10-提示词组装-告别面条代码-动态.md)
 - [11｜会话管理：Session 物理隔离与 Working Memory 的底层实现](chapter-03/002-session-isolation-and-working-memory.md)
+
+## 运行和测试：编译、测试、建立护栏 (chapter-03-run-and-test-compile-test-build-guardrails)
+
+- [12｜突破内存：基于阶梯降级的 Context Compaction 策略](chapter-03-run-and-test-compile-test-build-guardrails/001-12-突破内存-基于阶梯降级的-Co.md)
