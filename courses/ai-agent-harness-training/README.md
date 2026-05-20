@@ -18,3 +18,7 @@
 ## 运行和测试：编译、测试、建立护栏 (chapter-03-run-and-test-compile-test-build-guardrails)
 
 - [12｜突破内存：基于阶梯降级的 Context Compaction 策略](chapter-03-run-and-test-compile-test-build-guardrails/001-12-突破内存-基于阶梯降级的-Co.md)
+
+## 第三章：运行与测试、编译测试构建防护 (chapter-03-run-and-test-compile-test-build-guardrails)
+
+- [13｜记忆沉淀：状态外部化，基于文件系统的持久化记忆与待办管理](chapter-03-run-and-test-compile-test-build-guardrails/001-13-记忆沉淀-状态外部化-基于文件.md)
