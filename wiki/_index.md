@@ -39,6 +39,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [ARS：用 Claude Code 写论文的全套多 Agent 流水线](claude/claude-code-academic-research-pipeline.md) | claude-code, academic-research, skill, multi-agent, paper-writing, citation-verification, open-source | 6.4k Stars 开源 Skill 包：4 Skill × 13/12/7 Agent，Levenshtein ≥0.70 引用核验，Nature 7 条 AI 失败模式闸门，反谄媚协议，三层数据隔离 |
 | [Bun：Claude Code 驱动的 6 天 Zig→Rust 重写](claude/bun-rewrite-zig-to-rust-with-claude-code.md) | claude-code, bun, zig, rust, rewrite, agentic-coding, anthropic, memory-leak, javascript-runtime | 96 万行代码、6 天、99.8% 测试通过：Claude Code 驱动的 Bun Zig→Rust 迁移，内存泄漏导火索，13000 个 unsafe 争议，AI 写 AI 审 AI 合流程质疑 |
 | [从一句话需求到需求文档：让 AI 帮你拆需求](claude/017-from-one-line-requirement-to-spec-let-ai-break-it-down.md) | claude-code, legacy-transformation, requirements, ai-workflow, prompt-engineering | 六维体系（业务目标/用户场景/接口契约/边界场景/老项目约束/不在范围内）+ AI 能力地图（接口契约 85+/产品决策 30-）+ 三步法 20 分钟出定稿 |
+| [从需求文档到改造方案：让 AI 把改造想透（七步法）](claude/018-from-requirements-to-transformation-plan-let-ai-think-it-through.md) | claude-code, legacy-project, transformation-plan, requirements-analysis, ai-engineering, seven-step-method | 七步法 60-90 分钟出方案文档；前端节点显式约束防漏；第 7 节集中决策点是审核灵魂；文档回灌让 docs/ 成活资产 |
+| [执行改造（下）：前端对接 + 功能已存在的翻车复盘](claude/020-execute-transformation-part2-frontend-and-api-integration-postmortem.md) | claude-code, legacy-project, frontend-development, postmortem, ai-limitations, ai-engineering | 前端四步节奏 + AI 业务功能盲区（扫代码≠理解功能在用）；改造前 30 秒兜底=打开浏览器点几下；人是最后的兜底员 |
 
 ## Agent Frameworks
 

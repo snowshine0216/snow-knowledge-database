@@ -34,3 +34,5 @@ source: https://time.geekbang.org/column/article/978185
 ## Related sources
 
 - **[实操课：给一个老项目建立完整改造前护栏的全流程演示]**: 把第 13-15 讲的所有提示词串成一个"一键全跑"提示词，在 Spring AI Alibaba Admin 上实操演示四个场景（环境搭建→测试摸底→补测试→CI集成）。重点补充了一键提示词的约束设计原则（每批1-3个、3次兜底、凭实际写断言、summary汇总不确定点），以及第三部分完成后的完整资产清单（14份docs/+5份scripts/+CI workflow+2个SKILL）。See also: [[004-hands-on-complete-pre-transformation-guardrails-workflow]]
+
+- **[执行改造（上）：后端开发跑通测试]**: Characterization Test 在真实老项目改造中的第一次完整落地。核心补充：改造前先写 Characterization Test 锁住 `getByPromptKeyAndVersion` 现有行为（断言基于 LocalDateTime→epoch ms 的实际转换、从源码读出的 errMsg 格式），改造后同一批测试继续通过确认行为未偏移。另引入小步执行原则（每批 P01-P03/P04-P05/P06 各自 review+commit）、git diff 验证范围防 AI 顺手优化、总测试数=基线14+新增6=20 作为完整性指标。See also: [[002-execute-transformation-part1-backend-development-and-testing]]
