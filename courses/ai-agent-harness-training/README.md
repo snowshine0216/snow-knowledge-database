@@ -22,3 +22,7 @@
 ## 第三章：运行与测试、编译测试构建防护 (chapter-03-run-and-test-compile-test-build-guardrails)
 
 - [13｜记忆沉淀：状态外部化，基于文件系统的持久化记忆与待办管理](chapter-03-run-and-test-compile-test-build-guardrails/001-13-记忆沉淀-状态外部化-基于文件.md)
+
+## 第三章：运行与测试、编译测试构建护栏 (chapter-03-run-and-test-compile-test-build-guardrails)
+
+- [14｜错误自愈：上下文感知的 Error Recovery 提示模板注入机制](chapter-03-run-and-test-compile-test-build-guardrails/001-14-错误自愈-上下文感知的-Err.md)
