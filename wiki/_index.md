@@ -166,6 +166,12 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [戴锦华：拥抱不确定性，情绪的商品化与"输得起"的人生哲学](learning-and-business/dai-jinhua-peking-university-embrace-uncertainty.md) | dai-jinhua, peking-university, emotions, relationships, ai-companions, mental-health, chinese-culture, interview | 北大戴锦华论"爱你老几明天见"的解脱哲学：搁置≠压抑，感情计算化折射安全感匮乏，AI伴侣是自恋镜像，临床数据显示虚拟关系越深精神激患越高 |
 | [程乐松：如何不做人生的"精神渣男"](learning-and-business/peking-university-philosophy-opening-ceremony-speech-cheng-lesong-on-avoiding-being-a-bad.md) | philosophy, life-wisdom, education, peking-university, lying-flat, uncertainty, attention, solitude, chinese-philosophy | 北大程乐松深度访谈：躺平是负责任的心灵态度；风险意识与兴趣成反比；慰藉之学的目标不是竞争优势而是自觉投身当下；所有被仰望的伟大都是副产品 || [读书究竟让人越读越聪明，还是越读越傲慢？｜罗翔x刘震云x刘旸教主](learning-and-business/xx2026_BV1hkoHBpENz.md) | 读书, 文学, 哲学, 幽默, 喜剧, 脱口秀, 刘震云, 罗翔, 刘旸教主, 2026读书日, interview | 罗翔x刘震云x刘旸教主80分钟对谈：幽默五层级（语言→人物结构道理）、「想明白了千万别写」的写作悖论、优旃以玩笑阻止秦二世荒唐旨意、爱比克泰德可控/不可控哲学 |
 | [普通人学 AI：YouTube 入门博主清单](learning-and-business/best-ai-youtube-creators-for-beginners.md) | ai-learning, youtube, creator-recommendations, karpathy, prompt-engineering, productivity, learning-resources | 用 6 类 YouTube 创作者搭出 AI 入门路径：宏观认知、底层原理、职场提效、提示词和工具探索 |
+## Quant
+
+| File | Tags | One-line summary |
+|------|------|-----------------|
+| [A-Share ML Quant — Build Guide](quant/ashare-ml-quant-guide.md) | quant, a-share, qlib, machine-learning, factor-investing, backtesting, china-markets, rqalpha, gplearn | Qlib-centric ML-factor stack for 中国A股: frameworks, hardware (CPU laptop, no GPU for V1), data sources, honest after-cost viability (Liu-Stambaugh-Yuan, ~80% retail edge), V1 backtest → V2 paper roadmap |
+
 ## Courses
 
 ### AI Engineering Training Camp (selected livestreams + modules)
