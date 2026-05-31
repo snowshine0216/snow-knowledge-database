@@ -171,6 +171,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | File | Tags | One-line summary |
 |------|------|-----------------|
 | [A-Share ML Quant — Build Guide](quant/ashare-ml-quant-guide.md) | quant, a-share, qlib, machine-learning, factor-investing, backtesting, china-markets, rqalpha, gplearn | Qlib-centric ML-factor stack for 中国A股: frameworks, hardware (CPU laptop, no GPU for V1), data sources, honest after-cost viability (Liu-Stambaugh-Yuan, ~80% retail edge), V1 backtest → V2 paper roadmap |
+| [Quantitative Trading — Reading List](quant/quant-trading-reading-list.md) | quant, reading-list, machine-learning, factor-investing, backtesting, a-share, education | Prioritized quant-trading reading path for an FP/TDD engineer: Chan → López de Prado AFML → Jansen; honesty papers, A-share (Liu-Stambaugh-Yuan), mapped to ashare-quant roadmap milestones |
 
 ## Courses
 
