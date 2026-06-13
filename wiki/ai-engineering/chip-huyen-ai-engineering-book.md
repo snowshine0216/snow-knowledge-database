@@ -38,6 +38,21 @@ The definitive engineering guide to building production applications on top of f
 - Perplexity is underused as a data quality signal: filter both low-perplexity (repetitive/formulaic) and extremely high-perplexity (garbled) text from training corpora.
 - Foundation model availability shifted AI engineering's core skill from "train a model" to "construct context" — RAG, tool use, and agent memory are the new feature engineering.
 
+## Chapter Deep-Dives
+
+Per-chapter review articles (concepts) — each links to a full quiz + answers + expansion pack:
+
+- [[aie-ch01-building-ai-applications]] — intro, foundation models, the AI stack
+- [[aie-ch02-understanding-foundation-models]] — architecture, scaling, post-training, sampling
+- [[aie-ch03-evaluation-methodology]] — perplexity, AI-as-judge, Elo
+- [[aie-ch04-evaluate-ai-systems]] — selection, build-vs-buy, eval pipeline
+- [[aie-ch05-prompt-engineering]] — ICL, best practices, defensive prompting
+- [[aie-ch06-rag-and-agents]] — retrieval, tools, planning, memory
+- [[aie-ch07-finetuning]] — PEFT/LoRA/QLoRA, merging
+- [[aie-ch08-dataset-engineering]] — quality, synthesis, model collapse
+- [[aie-ch09-inference-optimization]] — TTFT/TPOT, KV cache, batching
+- [[aie-ch10-architecture-user-feedback]] — architecture ladder, feedback loops
+
 ## See Also
 
 - [[karpathy-loopy-era-ai]]
