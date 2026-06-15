@@ -12,7 +12,7 @@ It applies the correct format template based on `content_type` and writes the ou
 
 ## Input (from calling skill context)
 
-- `content_type`: `lecture-video` | `lecture-text` | `interview` | `talk` | `article` | `geektime-article` | `book-chapter`
+- `content_type`: `lecture-video` | `lecture-text` | `interview` | `talk` | `article` | `geektime-article` | `book-chapter` | `book`
 - `content`: full transcript or article text
 - `metadata`: title, source URL, date, author/channel/uploader, duration, etc.
 - `save_path`: full target path including filename
@@ -158,6 +158,29 @@ Rules for `book-chapter`:
 - Code Notes section: present only; don't fabricate code
 - If chapter is primarily visual with minimal text, state clearly: "This chapter is primarily visual/diagrammatic. Available text content summarized below." then summarize what IS available
 
+### book
+
+Whole-book summarization (multi-chapter) into a dedicated, cross-linked **subfolder** — the two-tree
+study-pack format. Use this when the input is an entire book; use `book-chapter` for a single chapter.
+
+See: `references/template-book.md`
+
+Produces, inside a per-book subfolder `<book-slug>` (always create the subfolder):
+- **Detailed review-pack tree** → `<topic>/<book-slug>/`: `00-index.md` + one heavyweight
+  `NN-<chapter-slug>.md` per chapter (Chapter at a glance → Core concepts → ~10-question Quiz with
+  `> [!example]-` collapsible answers → Deeper understanding → Connections).
+- **Wiki tree** → `wiki/<topic>/<book-slug>/`: a `<book-slug>-book.md` hub + one lightweight
+  `<book-abbr>-chNN-<chapter-slug>.md` per chapter (Key Concepts → Key Takeaways → See Also).
+
+Canonical example in-repo: `ai-engineering/practical-statistics-for-data-scientists/` +
+`wiki/ai-engineering/practical-statistics-for-data-scientists/`. Match its structure and depth.
+
+Key differences from the single-file flow:
+- The `book` type writes BOTH trees and updates `wiki/_index.md` itself (one hub row + one row per
+  chapter). **SKIP the Wiki Compilation Post-Hook** at the bottom of this file — it assumes one
+  detailed file → one wiki article and would misfire on a multi-chapter book.
+- Detailed `NN-*.md` files are NOT added to `wiki/_index.md`; they are indexed by their own `00-index.md`.
+
 ---
 
 ## Course Output Rule
@@ -269,6 +292,10 @@ The `## Knowledge Graph Seeds` section must use the **5-subsection structure** b
 ## Wiki Compilation Post-Hook
 
 After the detailed file is written successfully, run this post-hook to create or update a wiki article. **The detailed file is always preserved regardless of wiki outcome.**
+
+> **Skip for `book`:** if `content_type` is `book`, do NOT run this post-hook. The `book` template
+> (`references/template-book.md`) already writes its own wiki tree and `wiki/_index.md` rows. Running
+> the single-file post-hook on a multi-chapter book would misfire.
 
 ### Step 1 — Guard
 
