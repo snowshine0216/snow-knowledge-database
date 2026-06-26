@@ -10,6 +10,8 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
+| [Claude Code 工程一号位 Fiona Fung：从狂烧 Token 到算 ROI](claude/claude-code-lead-from-token-maxing-to-roi.md) | claude-code, cowork, anthropic, routines, agentic-engineering, engineering-management, roi, dogfooding | Lenny's Podcast：人均季度交付↑8 倍后瓶颈从写代码转向 verification；routines 让 agent 早上自动读反馈生成 PR；从 token maxing 转 outcome（"别把 motion 当 progress"）；high agency=high accountability；最忧文化漂移 |
+| [Close the Loop：Anthropic 视角下的自改进 Agent 构建](claude/claude-merges-80-percent-code-close-the-loop.md) | claude, anthropic, agent, claude-code, close-the-loop, evals, harness-engineering | Theo Chu 演讲：Anthropic 内部 80% 代码由 Claude 合并；先规划/错误恢复/长上下文三跃迁 + 刷新 Evals、精简脚手架、闭环智能体循环（Effort Dial、自动模式、Computer Use）|
 | [Anthropic 内部：Mythos 模型、100 个原型、Skills 杠杆](claude/anthropic-internal-100-prototypes-mythos-model-skills.md) | anthropic, claude, claude-cowork, claude-code, ai-agent, mcp, skills, llm, product-design, ai-safety | Felix Rieseberg 专访：Mythos 断层式安全能力、执行成本趋零后 100 个原型并行、Skills=Markdown SOP 出乎意料地有效 |
 | [Claude Code Language Benchmark](claude/claude-code-language-benchmark.md) | claude-code, benchmark, programming-languages | AI coding benchmark: Ruby/Python/JS fastest, type-checking doubles cost and time |
 | [Claude Code Agentic OS](claude/claude-code-agentic-os.md) | claude-code, agentic-os, skills, memory | Architecture pattern for building an agent OS with shared context, memory layers, and skill orchestration |
@@ -62,6 +64,9 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 
 | File | Tags | One-line summary |
 |------|------|-----------------|
+| [大模型一年内就会吞噬 Harness：Logan Kilpatrick 谈垂直创业唯一生路](ai-engineering/models-will-devour-the-harness-logan-kilpatrick.md) | harness-engineering, agentic-ai, gemini, google-deepmind, world-models, agent-runtime, vibe-coding | Google AI Studio 负责人红杉访谈："每行外部脚手架都是对模型无能的妥协，红利顶多 12 个月"；90% Agent 中间件公司活不过一年；创业唯一活路是垂直深水区；3.5 Flash 仅靠后训练超 Pro；Omni 抹平世界/视频模型边界 |
+| [吴恩达戳破 AI 幻象：10 人小队 + Agent 重做数据架构](ai-engineering/andrew-ng-ai-hype-small-teams-data-architecture.md) | andrew-ng, ai-agents, product-management-bottleneck, enterprise-ai, data-architecture, coding-agents, vendor-lock-in, langchain | LangChain Interrupt 对谈：写码快 10–100 倍后营销/法务/设计全变瓶颈→1–10 人通才小队；乐高积木+Context Hub 喂最新文档；追增长非降本（10 分钟获批贷款）；不签超一年合约防锁定；企业前置工作是非结构化数据架构重构 |
+| [谨慎对待 Scaling Law（翁荔 Lil'Log）](ai-engineering/lilian-weng-be-cautious-about-scaling-law.md) | scaling-laws, llm, pretraining, chinchilla, kaplan, compute-optimal, data-constrained, lilian-weng | 翁荔时隔 13 个月长文：Kaplan vs Chinchilla 之争的方法学根源、C≈6ND、数据受限区双重下降与重复拟合，以及拟合外推对精度/求和/区域的极端敏感 |
 | [Harness Engineering](ai-engineering/harness-engineering.md) | harness-engineering, prompt-engineering, context-engineering, agent | Third paradigm shift in AI engineering: orchestrating reliable agent execution via six-layer architecture |
 | [State of GPT](ai-engineering/state-of-gpt.md) | llm, gpt, training, rlhf, sft, prompt-engineering, rag, fine-tuning, tool-use, karpathy, transformer | Karpathy's Microsoft Build 2023 talk: four-stage GPT pipeline (pretraining→SFT→RM→RLHF) and prompt engineering techniques for bridging the human-LLM cognitive gap |
 | [LLM API Statelessness](ai-engineering/llm-api-statelessness.md) | llm, api, stateless, context-window, prompt-engineering, context-engineering | Each LLM API call is stateless; chat apps fake memory by replaying history. Long chats drift because the replayed bundle fills the context window |
