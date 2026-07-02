@@ -43,6 +43,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [从一句话需求到需求文档：让 AI 帮你拆需求](claude/017-from-one-line-requirement-to-spec-let-ai-break-it-down.md) | claude-code, legacy-transformation, requirements, ai-workflow, prompt-engineering | 六维体系（业务目标/用户场景/接口契约/边界场景/老项目约束/不在范围内）+ AI 能力地图（接口契约 85+/产品决策 30-）+ 三步法 20 分钟出定稿 |
 | [从需求文档到改造方案：让 AI 把改造想透（七步法）](claude/018-from-requirements-to-transformation-plan-let-ai-think-it-through.md) | claude-code, legacy-project, transformation-plan, requirements-analysis, ai-engineering, seven-step-method | 七步法 60-90 分钟出方案文档；前端节点显式约束防漏；第 7 节集中决策点是审核灵魂；文档回灌让 docs/ 成活资产 |
 | [执行改造（下）：前端对接 + 功能已存在的翻车复盘](claude/020-execute-transformation-part2-frontend-and-api-integration-postmortem.md) | claude-code, legacy-project, frontend-development, postmortem, ai-limitations, ai-engineering | 前端四步节奏 + AI 业务功能盲区（扫代码≠理解功能在用）；改造前 30 秒兜底=打开浏览器点几下；人是最后的兜底员 |
+| [I asked Claude Code to make me as much money as possible](claude/i-asked-claude-code-to-make-me-as-much-money-as-possible_iTY8Q449YNQ.md) | claude-code, ai-agents, subagents, sycophancy, context-management, verification, ai-consulting, prompt-engineering | Nate Herk 的四个升级 3x 收入：/roast 五人格议会反谄媚（ELEPHANT 研究 88% 不反驳）；build-then-verify 双阶段验证（Playwright 截图+压力测试）；session-handoff 替代 compact 治理 context rot；并行 subagent + /goal 独立评审模型判定完成 |
 
 ## Agent Frameworks
 
