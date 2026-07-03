@@ -1,0 +1,10 @@
+{
+  "name": "wechat-article-summarizer",
+  "version": "1.0.0",
+  "description": "Fetch WeChat Official Account articles via headless Playwright Chromium",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "playwright": "1.59.1"
+  }
+}

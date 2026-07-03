@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Embrace AI. Keep your brain. — a field guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBFBF9;
+    --bg-2:#F4F5F2;
+    --panel:#FFFFFF;
+    --ink:#16211E;
+    --ink-soft:#31403B;
+    --muted:#5C6B66;
+    --faint:#8B978F;
+    --line:#E7EAE6;
+    --line-2:#D9DFDA;
+    --accent:#0E8C7C;         /* augment / signal */
+    --accent-deep:#0A6C60;
+    --accent-soft:#E7F4F1;
+    --caution:#B25A15;        /* watch / debt */
+    --caution-soft:#FBF0E4;
+    --maxw:900px;
+    --wide:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.6;
+  }
+  .zh{font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;}
+
+  /* progress bar */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:60;transition:width .1s linear}
+
+  /* top nav */
+  header.top{position:sticky;top:0;z-index:50;background:rgba(251,251,249,.86);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  .top-inner{max-width:var(--wide);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px clamp(18px,4vw,40px)}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px;letter-spacing:.01em;color:var(--ink)}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  nav.series-nav{display:flex;gap:4px;flex-wrap:wrap}
+  nav.series-nav a{font-size:12.5px;color:var(--muted);text-decoration:none;padding:6px 11px;border-radius:20px;white-space:nowrap;transition:.18s}
+  nav.series-nav a:hover{color:var(--ink);background:var(--bg-2)}
+  nav.series-nav a.active{color:var(--accent-deep);background:var(--accent-soft);font-weight:600}
+  @media (max-width:860px){ nav.series-nav{display:none} }
+
+  main{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+
+  /* hero */
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+  .kicker{font-family:"Space Grotesk",sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 20px}
+  h1{font-family:"Space Grotesk",sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1.02;font-size:clamp(38px,7vw,68px);margin:0 0 22px;color:var(--ink)}
+  .hero .stand{font-size:clamp(18px,2.3vw,22px);color:var(--ink-soft);max-width:40ch;line-height:1.45;margin:0 0 26px}
+  .hero .stand b{color:var(--accent-deep)}
+  .hero .intro{font-size:16px;color:var(--muted);max-width:64ch;margin:0}
+  .hero .intro a{color:var(--accent-deep)}
+  .bilingual-note{display:inline-flex;align-items:center;gap:8px;margin-top:24px;font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:7px 14px}
+  .bilingual-note .zh{color:var(--ink)}
+
+  /* series contents cards */
+  .toc{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:34px 0 4px}
+  @media (max-width:620px){ .toc{grid-template-columns:1fr} }
+  .toc a{display:block;text-decoration:none;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:18px 20px;transition:.18s;color:inherit}
+  .toc a:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 22px -14px rgba(14,140,124,.4)}
+  .toc .n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:13px;color:var(--accent)}
+  .toc .t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:18px;margin:8px 0 2px}
+  .toc .t-zh{font-size:14px;color:var(--muted)}
+
+  /* section */
+  section.series{padding:66px 0 20px;border-top:1px solid var(--line);scroll-margin-top:74px}
+  section.series:first-of-type{border-top:0}
+  .s-head{margin-bottom:34px}
+  .s-num{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+  .s-num.amber{color:var(--caution)}
+  .s-title{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(27px,4.4vw,40px);letter-spacing:-.015em;line-height:1.08;margin:12px 0 4px}
+  .s-title-zh{font-size:clamp(17px,2.4vw,21px);font-weight:500;color:var(--muted);margin:0 0 16px}
+  .s-lead{font-size:17px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin:0}
+
+  /* blocks */
+  .block{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin:16px 0}
+  .block.accent{border-left:3px solid var(--accent)}
+  .block.amber{border-left:3px solid var(--caution)}
+  .block h3{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:20px;letter-spacing:-.01em;margin:0 0 4px;color:var(--ink)}
+  .block h3 .zh{font-weight:500;color:var(--muted);font-size:16px;margin-left:2px}
+  .src{display:inline-block;font-size:11.5px;letter-spacing:.03em;color:var(--faint);border:1px solid var(--line-2);border-radius:20px;padding:3px 10px;margin-bottom:14px}
+  .src.cn{color:var(--accent-deep);border-color:var(--accent-soft);background:var(--accent-soft)}
+  .src.en{color:var(--caution);border-color:var(--caution-soft);background:var(--caution-soft)}
+
+  /* bilingual pair */
+  .bi{margin:12px 0}
+  .bi + .bi{margin-top:18px;padding-top:18px;border-top:1px dashed var(--line-2)}
+  .bi .lang{display:block;font-family:"Space Grotesk",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .bi p{margin:0}
+  .bi .zh{font-size:16.5px;line-height:1.85;color:var(--ink);margin-bottom:12px}
+  .bi .en{font-size:15.5px;line-height:1.6;color:var(--muted)}
+  .bi .en:only-child, .en.solo{color:var(--ink-soft)}
+  .en.solo{font-size:16px;line-height:1.62;margin:0}
+  .en.solo + .en.solo{margin-top:12px}
+  b, strong{color:var(--ink);font-weight:600}
+  .bi .en b{color:var(--ink-soft)}
+
+  /* callout line */
+  .callout{margin:20px 0 6px;padding:16px 20px;border-radius:12px;background:var(--accent-soft);border:1px solid #CDE8E2}
+  .callout.amber{background:var(--caution-soft);border-color:#F0DCC3}
+  .callout .zh{font-family:"Noto Sans SC",sans-serif;font-weight:500;font-size:17px;color:var(--ink);line-height:1.7}
+  .callout .en{font-size:15px;color:var(--accent-deep);font-weight:500;margin-top:6px}
+  .callout.amber .en{color:var(--caution)}
+
+  /* stats */
+  .stats{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 6px}
+  .stat{flex:1;min-width:150px;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .stat .big{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(26px,4vw,34px);line-height:1;color:var(--accent-deep)}
+  .stat.amber .big{color:var(--caution)}
+  .stat .lab{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
+
+  /* habit / technique cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 6px}
+  .cards.two{grid-template-columns:repeat(2,1fr)}
+  @media (max-width:760px){ .cards,.cards.two{grid-template-columns:1fr} }
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card .cn-num{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;color:var(--accent)}
+  .card h4{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:16px;margin:9px 0 2px}
+  .card h4 .zh{display:block;font-size:14px;color:var(--muted);font-weight:500;margin-top:1px}
+  .card .cmd{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;color:var(--accent-deep);background:var(--accent-soft);border-radius:6px;padding:2px 8px;display:inline-block}
+  .card p{margin:11px 0 0;font-size:13.5px;line-height:1.55;color:var(--muted)}
+  .card .zh-body{font-family:"Noto Sans SC",sans-serif;font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:11px 0 0}
+  .card .zh-body + .en-body{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line-2);color:var(--muted)}
+
+  /* closing */
+  .closing{margin:40px 0 0;padding:48px clamp(24px,5vw,52px);border-radius:22px;
+    background:linear-gradient(160deg,#0E8C7C,#0A6C60);color:#EAFBF7;text-align:left}
+  .closing .zh{font-family:"Noto Sans SC",sans-serif;font-weight:700;font-size:clamp(22px,3.6vw,30px);line-height:1.5;margin:0 0 14px;color:#fff}
+  .closing .en-big{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:clamp(19px,2.6vw,24px);line-height:1.3;margin:0 0 22px;color:#CFF3EC}
+  .closing .final{font-size:15.5px;color:#B7E7DE;max-width:52ch;line-height:1.55;margin:0}
+  .closing .final b{color:#fff}
+
+  /* footer sources */
+  footer{margin:56px 0 80px;padding-top:26px;border-top:1px solid var(--line)}
+  footer h5{font-family:"Space Grotesk",sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 16px}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+  footer li{font-size:13.5px;color:var(--muted);line-height:1.5}
+  footer li .ti{color:var(--ink);font-weight:500}
+  footer li a{color:var(--accent-deep);text-decoration:none;word-break:break-all}
+  footer li a:hover{text-decoration:underline}
+  footer .under{margin-top:18px;font-size:12.5px;color:var(--faint);line-height:1.6}
+
+  @media print{
+    header.top,.progress{display:none}
+    body{background:#fff}
+    .block,.card,.stat,.toc a{break-inside:avoid;box-shadow:none}
+    section.series{break-inside:avoid-page}
+    .closing{background:#0A6C60 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Working with AI · team sharing</span></div>
+    <nav class="series-nav" id="seriesNav">
+      <a href="#s1">01 · What AI is</a>
+      <a href="#s2">02 · What to watch</a>
+      <a href="#s3">03 · How to conquer</a>
+      <a href="#s4">04 · How we think</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="kicker">Internal field guide · a four-part series</p>
+    <h1>Embrace AI.<br>Keep your brain.</h1>
+    <p class="stand">We go all in on AI. The whole game is staying the one who's actually <b>thinking</b>.</p>
+    <p class="intro">Four short series, built from three sources: an essay on the MIT Media Lab "cognitive debt" study, a Fei-Fei Li interview on augmentation vs. automation, and Nate Herk's video on getting real work out of Claude Code. It moves from <em>what AI is</em> → <em>what to watch for</em> → <em>how to conquer it</em> → <em>how we use and think about it</em>.</p>
+    <span class="bilingual-note">Bilingual · <span class="zh">中文来源同时给出中英文</span> · English-only where the source is English</span>
+
+    <div class="toc">
+      <a href="#s1"><span class="n">SERIES 01</span><div class="t">What AI really is</div><div class="t-zh zh">认识 AI：它到底是什么</div></a>
+      <a href="#s2"><span class="n">SERIES 02</span><div class="t">What to watch for</div><div class="t-zh zh">要警惕的：AI 的隐性代价</div></a>
+      <a href="#s3"><span class="n">SERIES 03</span><div class="t">How to conquer it</div><div class="t-zh zh">怎么破：习惯与技巧</div></a>
+      <a href="#s4"><span class="n">SERIES 04</span><div class="t">How we use &amp; think about AI</div><div class="t-zh zh">怎么用、怎么想 AI</div></a>
+    </div>
+  </div>
+
+  <!-- SERIES 01 -->
+  <section class="series" id="s1">
+    <div class="s-head">
+      <div class="s-num">Series 01</div>
+      <h2 class="s-title">What AI really is</h2>
+      <p class="s-title-zh zh">认识 AI：它到底是什么</p>
+      <p class="s-lead">Before using it well, be clear-eyed about what a large language model is — and what it isn't.</p>
+    </div>
+
+    <div class="block accent">
+      <h3>Intelligence isn't going to zero <span class="zh">智能没有归零</span></h3>
+      <span class="src cn">李飞飞访谈 · Fei-Fei Li</span>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">别信"智能的成本正在趋近于零"。语言只是智能的一个维度——大模型在语言、逻辑、编程上很强，但人类还有<b>感知智能、空间智能、身体智能、情感智能</b>。连"创造力从哪来"我们都还没搞明白。任何声称"智能成本趋近于零"的人，说的都是不负责任的话。</p>
+        <span class="lang">English</span>
+        <p class="en">Don't buy "the cost of intelligence is going to zero." Language is only one dimension of intelligence. LLMs are strong at language, logic, and code — but humans also have <b>perceptual, spatial, bodily, and emotional</b> intelligence, and we don't even understand where creativity comes from yet. Anyone claiming "intelligence is approaching free" is being irresponsible.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="big">500M+ yrs</div><div class="lab">evolution took to mature <b>spatial</b> intelligence — language intelligence, far less</div></div>
+        <div class="stat"><div class="big">4</div><div class="lab">dimensions of spatial intelligence: understand, reason, generate, interact</div></div>
+      </div>
+    </div>
+
+    <div class="block accent">
+      <h3>A model hands you the <em>general</em> case</h3>
+      <span class="src en">Editorial framing</span>
+      <p class="en solo">The <b>G</b> in AGI is <b>General</b>. A model gives you the greatest common denominator of what's already known — the average of the internet, not the edge. That's exactly why it sounds flawless in a field you <em>don't</em> know, and is subtly (sometimes loudly) wrong in the one you know cold.</p>
+      <div class="callout">
+        <p class="en" style="color:var(--accent-deep);font-size:16px;margin:0"><b>The edge is still us.</b> That's the job — an LLM accelerates the language layer, not the judgment layer.</p>
+      </div>
+    </div>
+
+    <div class="block accent">
+      <h3>It's a tool — powerful, but a tool <span class="zh">它只是一个工具</span></h3>
+      <span class="src cn">李飞飞访谈 · Fei-Fei Li</span>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">AI"只是一个极其强大的工具"。我们教孩子用火、用刀、用互联网；现在作为一个社会，我们也必须学会怎么用 AI。工具是"替人"还是"抬人"，<b>不取决于技术，取决于用它的人</b>。对大多数人来说，AI 是一件要用好的工具，而不是一个要去建造的战场（算力、数据、算法）。</p>
+        <span class="lang">English</span>
+        <p class="en">AI is "just an extremely powerful tool." We taught our kids to use fire, knives, the internet; now, as a society, we have to learn to use AI. Whether it <b>replaces</b> people or <b>lifts them up</b> isn't decided by the technology — it's decided by whoever deploys it. For most of us, AI is a tool to wield well, not a battlefield (compute, data, algorithms) to build.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERIES 02 -->
+  <section class="series" id="s2">
+    <div class="s-head">
+      <div class="s-num amber">Series 02</div>
+      <h2 class="s-title">What to watch for</h2>
+      <p class="s-title-zh zh">要警惕的：AI 的隐性代价</p>
+      <p class="s-lead">Going all in has a hidden bill. Four things quietly cost you quality — and your own thinking.</p>
+    </div>
+
+    <div class="block amber">
+      <h3>Cognitive debt <span class="zh">认知债务</span></h3>
+      <span class="src cn">MIT Media Lab, 2025 · via 小满</span>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">MIT Media Lab 用脑电仪追踪 54 人、历时 4 个月的写作。长期用 ChatGPT 的人，在与创造力相关的 Alpha 波段，神经连接比纯靠自己的人<b>少了 47%（42 vs 79）</b>；<b>83.3%</b> 的人写完后回忆不出自己写了什么（纯大脑组仅 11.1%）。每让 AI 替你思考一次，就是刷一次"认知信用卡"——当下省力，债务无声累积。</p>
+        <span class="lang">English</span>
+        <p class="en">MIT Media Lab tracked 54 people writing over 4 months with EEG. In the Alpha band tied to creativity, long-term ChatGPT users formed <b>47% fewer neural connections (42 vs 79)</b>, and <b>83.3%</b> couldn't recall what they'd just written (vs 11.1% for the brain-only group). Every time you let AI think <em>for</em> you, you swipe a "cognitive credit card" — free today, the debt accrues silently.</p>
+      </div>
+      <div class="stats">
+        <div class="stat amber"><div class="big">79 → 42</div><div class="lab">neural connections while writing (brain-only vs AI), <b>−47%</b></div></div>
+        <div class="stat amber"><div class="big">83% / 11%</div><div class="lab">couldn't recall the essay they'd just written — AI vs brain-only</div></div>
+      </div>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">最有力的证据是交叉测试：长期依赖 AI 的人，即使这次不用 AI，大脑活跃度<b>仍显著偏低</b>——"像一块忘记如何工作的肌肉"。这是结构性退化，不是"关掉就好"的开关。反过来，先自己写、再引入 AI 的人，神经连接反而<b>增强</b>。AI 组不是不努力，而是 AI 把"努力"从<b>构建</b>变成了<b>选择</b>——而"选择"的认知负荷低得多。</p>
+        <span class="lang">English</span>
+        <p class="en">The strongest evidence is the cross-over test: heavy AI users stayed <b>significantly less active even when writing without AI</b> — "a muscle that has forgotten how to work." It's structural, not a switch you flip off. Reversed: people who wrote on their own first, then added AI, actually <b>strengthened</b> their connections. The AI group didn't try less — AI shifted "trying" from <b>building</b> to <b>selecting</b>, and selecting costs the brain far less.</p>
+      </div>
+      <div class="callout amber">
+        <p class="zh">先建立能力、再用工具 ＝ 增强；跳过能力、直接依赖 ＝ 替代。同一个工具，用法决定了 79 还是 42。</p>
+        <p class="en">Build the skill first, then add the tool = augment. Skip the skill and lean on the tool = replace. Same tool — usage decides whether you get 79 or 42.</p>
+      </div>
+    </div>
+
+    <div class="block amber">
+      <h3>The yes-man problem</h3>
+      <span class="src en">Nate Herk · ELEPHANT study</span>
+      <p class="en solo">By default, the model is tuned to make you feel <em>productive</em>, not to make you <em>money</em> — two different things. The ELEPHANT study found AI fails to push back on how you frame something <b>~88% of the time</b> (humans: ~60%), and memory/personalization make it <b>more</b> agreeable the longer you work together.</p>
+      <p class="en solo">Say "you know what, I changed my mind" and it praises the reversal too. This is the flip side of the "conformity" finding above — accept the model's frame and you stop fighting it.</p>
+    </div>
+
+    <div class="block amber">
+      <h3>"Finished" ≠ "working"</h3>
+      <span class="src en">Nate Herk · NYU / Copilot study</span>
+      <p class="en solo">Something <em>looking</em> finished and something <em>actually working</em> are different claims. An NYU review of <b>~1,600 Copilot-generated programs found ~40% had security vulnerabilities</b>. Nate once had an agent report that hundreds of outreach emails were "all sent" — four days later, only the first <b>~25%</b> had actually gone out. Unverified AI output can fail silently and still confidently report success.</p>
+    </div>
+
+    <div class="block amber">
+      <h3>Context rot</h3>
+      <span class="src en">Nate Herk · context-rot research</span>
+      <p class="en solo">A longer conversation literally makes the model dumber. Across <b>18 top models</b>, performance degrades as the chat grows — even on simple tasks — and the drop-off <b>starts well before the context window is full</b>. More is not better. Context is a desk: pile on enough paper and finding one document takes far longer.</p>
+    </div>
+  </section>
+
+  <!-- SERIES 03 -->
+  <section class="series" id="s3">
+    <div class="s-head">
+      <div class="s-num">Series 03</div>
+      <h2 class="s-title">How to conquer it</h2>
+      <p class="s-title-zh zh">怎么破：可操作的习惯与技巧</p>
+      <p class="s-lead">You can't will your way out of cognitive debt. Build the habits, then use the tools deliberately.</p>
+    </div>
+
+    <div class="block accent">
+      <h3>Three habits <span class="zh">三条习惯</span></h3>
+      <span class="src cn">MIT cognitive-debt essay · 小满</span>
+      <div class="cards">
+        <div class="card">
+          <div class="cn-num">01 · THINK</div>
+          <h4>Think first, then ask<span class="zh">先想，再问</span></h4>
+          <p class="zh-body">打开对话框前先花 5 分钟自己想——列提纲、写下三个关键论点。这是在"存钱"，不是"借钱"。AI 是第二大脑，不是第一大脑。</p>
+          <p class="en-body">Five minutes of your own outline before the prompt — that's saving, not borrowing. AI is a second brain, never your first.</p>
+        </div>
+        <div class="card">
+          <div class="cn-num">02 · BUILD</div>
+          <h4>Modify, don't select<span class="zh">改，而不只是选</span></h4>
+          <p class="zh-body">拿到 AI 输出别直接用：质疑逻辑、替换论据、重构结构。大脑在"改"的时候比"选"的时候活跃得多。</p>
+          <p class="en-body">Don't accept the output as-is: question the logic, swap the evidence, rebuild the structure. Editing beats picking.</p>
+        </div>
+        <div class="card">
+          <div class="cn-num">03 · LOAD</div>
+          <h4>One AI-free rep a week<span class="zh">每周脱 AI 一次</span></h4>
+          <p class="zh-body">每周至少一次完整任务全程不用 AI——自己查资料、搭框架、逐字写。肌肉能重新长回来，但你得先让它受力。</p>
+          <p class="en-body">At least once a week, do a whole task by hand. The muscle regrows — but only under load.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block accent">
+      <h3>Techniques we actually use</h3>
+      <span class="src en">Nate Herk · Claude Code workflow</span>
+      <div class="cards two">
+        <div class="card">
+          <span class="cmd">/roast</span>
+          <h4 style="margin-top:12px">Force a fight before building</h4>
+          <p>A five-persona council — contrarian, expansionist, first-principles, researcher, buyer — plus a judge. It stress-tests the idea and returns a real verdict (green-light / reshape / kill) and the cheapest 48-hour test, instead of a first "yes."</p>
+        </div>
+        <div class="card">
+          <span class="cmd">Build → verify</span>
+          <h4 style="margin-top:12px">Make it prove "working"</h4>
+          <p>Have the model verify its own output (e.g., Playwright screenshots at multiple viewports against an explicit "definition of done"), then stress-test with adversarial inputs. Car factory: test each part, then test the whole.</p>
+        </div>
+        <div class="card">
+          <span class="cmd">/context · /clear</span>
+          <h4 style="margin-top:12px">Curate the window</h4>
+          <p>Use <b>/context</b> to see what's eating the window; prefer a structured hand-off then <b>/clear</b> (write a resumable summary, clear, paste it back) over /compact. Reset once usage passes your ceiling (~25% of a 1M window).</p>
+        </div>
+        <div class="card">
+          <span class="cmd">Subagents · /goal</span>
+          <h4 style="margin-top:12px">Stop being the bottleneck</h4>
+          <p>Spin up one subagent per deliverable, each with its own clean context. <b>/goal</b> loops turns until an objective "definition of done" is met — graded by a <b>separate evaluator</b> model, so the worker can't grade itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERIES 04 -->
+  <section class="series" id="s4">
+    <div class="s-head">
+      <div class="s-num">Series 04</div>
+      <h2 class="s-title">How we use &amp; think about AI</h2>
+      <p class="s-title-zh zh">怎么用、怎么想 AI</p>
+      <p class="s-lead">The posture matters more than the tool. Same tool, same budget — opposite outcomes, depending on how you think about it.</p>
+    </div>
+
+    <div class="block accent">
+      <h3>Augment, don't replace <span class="zh">增强，而非替代</span></h3>
+      <span class="src cn">李飞飞访谈 + MIT Media Lab</span>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">用"增强"的框架，不是"替代"的框架。AI 没有替代任何人，它把每个人往上推了一个台阶——产品经理从"指挥"变"动手者"，设计师和工程师从"执行者"变成"专攻最难问题的人"。而自动化思维的管理者看到同一个例子，第一反应却是"以后可以少招两个人"。<b>同一事实、同一工具，结论完全相反——区别不在技术，在怎么理解技术。</b></p>
+        <span class="lang">English</span>
+        <p class="en">Deploy AI as augmentation, not replacement. AI replaced no one — it pushed everyone up a step: the PM went from "director" to "builder"; designers and engineers went from "executors" to "people who tackle the hardest problems." A manager with an automation mindset sees the same example and thinks "hire two fewer people." <b>Same fact, same tool, opposite conclusion — the difference isn't the tech, it's how you read it.</b></p>
+      </div>
+      <div class="callout">
+        <p class="zh">增强智能，而非替代智能——这两个词的差别，就是实验里 79 vs 42 的差别。</p>
+        <p class="en">Augment intelligence, don't replace it — that gap is the 79-vs-42 gap.</p>
+      </div>
+    </div>
+
+    <div class="block accent">
+      <h3>Redesign the work — don't just install tools <span class="zh">重新设计，而非装上工具</span></h3>
+      <span class="src cn">李飞飞访谈 · Fei-Fei Li &amp; David Rogier</span>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">引入 AI 的目标不是"把工具装上了"，而是"你在用 AI <b>重新设计</b>什么"。AI 时代优秀的人，不是"更会执行的人"，而是"<b>更会设计工作系统的人</b>"。一位非技术出身的 CEO 用 Claude Code / Cursor 自建了整套工具栈——做一个应用的成本，从几个月缩短到一个周末。没有设计思维，工具只会把旧流程电子化。</p>
+        <span class="lang">English</span>
+        <p class="en">The goal of adopting AI isn't "the tool is installed" — it's "what are you <b>redesigning</b> with it?" The people who thrive aren't better at executing tasks; they're better at <b>designing work systems</b>. A non-technical CEO built his whole tool stack himself with Claude Code / Cursor — the cost of making an app dropped from months to a weekend. Without design thinking, tools just digitize the old process.</p>
+      </div>
+    </div>
+
+    <div class="block accent">
+      <h3>The barbell — and agency <span class="zh">杠铃效应与主动性</span></h3>
+      <span class="src cn">李飞飞访谈 · Fei-Fei Li &amp; David Rogier</span>
+      <div class="bi">
+        <span class="lang">中文</span>
+        <p class="zh">未来 10 年，职场只剩两端：<b>前 1% 的顶尖专家</b>，和<b>高主动性的通才</b>；中间"还凑合"的执行层被压缩。脱困不靠补技能，靠换姿势——从"等着被安排怎么用 AI"，切换到"我自己上手看看能干什么"。"创业者"这个词，很大程度上就是"<b>主动性</b>"的同义词。</p>
+        <span class="lang">English</span>
+        <p class="en">In ten years the workplace has two ends: the <b>top 1% of experts</b>, and <b>high-agency generalists</b>; the "good enough" middle gets squeezed. You escape not by adding skills but by changing posture — from "waiting to be told how to use AI" to "let me try it myself and see what I can do." "Entrepreneur" is, to a large degree, a synonym for <b>agency</b>.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="big">90% / 10%</div><div class="lab">AI clears the ~90% of repetitive work; humans concentrate on the 10% that needs judgment</div></div>
+      </div>
+    </div>
+
+    <div class="block accent">
+      <h3>Get it all the way to real</h3>
+      <span class="src en">Editorial framing</span>
+      <p class="en solo"><b>A2R — AI to Real.</b> AI gets you a draft in minutes. What it doesn't do is cross the friction of the real world: the edge cases, the supply chain, the taste calls, the last mile. That friction <em>is</em> the job. And know <em>why</em> it works — "the AI made it" is not a moat. AI is an amplifier; make sure it's amplifying order, not your mess.</p>
+    </div>
+
+    <div class="block accent">
+      <h3>Your new role</h3>
+      <span class="src en">Nate Herk</span>
+      <p class="en solo">You shift from builder and producer to <b>problem-solver, decision-maker, reviewer, and judge</b>. Let the tool do the producing; you own the <em>what</em>, the <em>why</em>, and the final call. As Nate puts it: <em>"Claude doesn't get to declare itself done"</em> — a separate model grades completion.</p>
+    </div>
+
+    <div class="closing">
+      <p class="zh">工具不是问题，你才是目的。别让工具的便捷，换来你自己的退场。</p>
+      <p class="en-big">The tool isn't the point — you are. Don't let the convenience buy your own exit.</p>
+      <p class="final">Go all in on AI. Use every tool in the box. Just <b>stay the one doing the thinking</b>.</p>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <footer>
+    <h5>Sources</h5>
+    <ul>
+      <li><span class="ti">《MIT 实验实录：让 ChatGPT 替你思考后，大脑悄悄"还债"》</span> — 小满 · <a href="https://mp.weixin.qq.com/s/rUD7YhXskyeOlihm8i5n1w">mp.weixin.qq.com/s/rUD7YhXskyeOlihm8i5n1w</a></li>
+      <li><span class="ti">《李飞飞最新访谈：10年后，只会剩下2类工作者》</span> — 财经会议圈 / 笔记侠 · <a href="https://mp.weixin.qq.com/s/3GQfupZF7n5IXrAgdk9AuA">mp.weixin.qq.com/s/3GQfupZF7n5IXrAgdk9AuA</a></li>
+      <li><span class="ti">"I asked Claude Code to make me as much money as possible"</span> — Nate Herk · <a href="https://www.youtube.com/watch?v=iTY8Q449YNQ">youtube.com/watch?v=iTY8Q449YNQ</a></li>
+    </ul>
+    <p class="under">Underlying research cited above: MIT Media Lab, <em>"Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task"</em> (2025, Dr. Nataliya Kos'myna et al.); the ELEPHANT sycophancy study; the NYU / GitHub Copilot security study. Chinese-source ideas are shown in both Chinese and English; English-source ideas are shown in English only.</p>
+  </footer>
+
+</main>
+
+<script>
+  // scroll progress bar
+  var progress = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+    progress.style.width = Math.max(0, Math.min(1, scrolled)) * 100 + '%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // active section in nav
+  var links = Array.prototype.slice.call(document.querySelectorAll('#seriesNav a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(l){ l.classList.remove('active'); });
+          if(map[e.target.id]) map[e.target.id].classList.add('active');
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    document.querySelectorAll('section.series').forEach(function(s){ io.observe(s); });
+  }
+</script>
+</body>
+</html>
