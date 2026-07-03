@@ -179,6 +179,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [普通人学 AI：YouTube 入门博主清单](learning-and-business/best-ai-youtube-creators-for-beginners.md) | ai-learning, youtube, creator-recommendations, karpathy, prompt-engineering, productivity, learning-resources | 用 6 类 YouTube 创作者搭出 AI 入门路径：宏观认知、底层原理、职场提效、提示词和工具探索 |
 | [MIT 认知债务实验：让 ChatGPT 替你思考的隐性代价](learning-and-business/mit-chatgpt-cognitive-debt.md) | ai, cognitive-debt, chatgpt, learning, neuroscience, mit-study | MIT Media Lab 206 页脑电研究：ChatGPT 组神经连接砍半（42 vs 79，-47%）、83.3% 写完就忘、停用后"像忘记如何工作的肌肉"；提出认知债务概念与先想/改写/每周脱AI三原则 |
 | [李飞飞：10 年后只剩 2 类工作者](learning-and-business/fei-fei-li-interview-two-types-of-workers.md) | ai, future-of-work, fei-fei-li, augmentation, spatial-intelligence, careers, llm | 李飞飞×大卫·罗吉尔访谈：反驳"智能成本归零"，主张增强而非替代；杠铃效应下 10 年后只剩前 1% 专家与高主动性通才，主动性是分水岭，空间智能（进化 5 亿年）是人类护城河 |
+| [关于AI的几条暴论第二季 (A Few Bold Takes on AI, S2)](learning-and-business/a-few-bold-takes-on-ai-season-2.md) | ai-strategy, ai-business, mindset, entrepreneurship, a2r, augmentation, enterprise-services | 杨涛观点随笔：AI 只给"最大公约数"、是工具而非战场、锦上添花难雪中送炭；A2R（跨越物理摩擦）是护城河、企服 30% 毛利可变现、一日宗师可快速缩短技能差距；姿态＞工具 |
 ## Quant
 
 | File | Tags | One-line summary |
