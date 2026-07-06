@@ -1,6 +1,6 @@
 ---
 name: content-summarizer
-description: Consolidated formatting skill for all content types. Called by yt-video-summarizer, medium-member-summarizer, and geektime-course-summarizer after extraction. Receives content_type + extracted content + metadata from calling skill context. Applies the appropriate format template and writes the .md file.
+description: Consolidated formatting skill for all content types. Called by the extraction spoke skills (yt/wechat/medium/geektime/pdf/book-review, etc.) after extraction. Receives content_type + extracted content + metadata from calling skill context. Applies the appropriate format template and writes the .md file.
 ---
 
 # Content Summarizer
