@@ -7,15 +7,15 @@ source: https://microstrategy-my.sharepoint.com/personal/xuyin_microstrategy_com
 
 ## Office WiFi Networks
 
-| SSID | Login | Notes |
-|---|---|---|
-| vMSTR-Employee | CORP ACCOUNT | Recommended |
-| vMSTR-BYOD | CORP ACCOUNT | Bring your own device |
-| vMSTR-Device | `<redacted>` | Device-only password |
-| vMSTR-Guest | `<redacted>` | For guests and visitors only |
+| SSID           | Login        | Notes                        |
+| -------------- | ------------ | ---------------------------- |
+| vMSTR-Employee | CORP ACCOUNT | Recommended                  |
+| vMSTR-BYOD     | CORP ACCOUNT | Bring your own device        |
+| vMSTR-Device   | `<redacted>` | Device-only password         |
+| vMSTR-Guest    | `<redacted>` | For guests and visitors only |
 
 ## Proxy
-
+![[file-20260707165712257.png]]
 ```
 10.27.7.110 : 8080
 ```
