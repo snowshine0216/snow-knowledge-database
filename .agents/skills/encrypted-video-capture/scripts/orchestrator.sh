@@ -2,6 +2,13 @@
 # orchestrator.sh — drive encrypted-video-capture pipeline
 # Usage: orchestrator.sh <course-url> [--dry-run] [--resume]
 # Emits writeup-dispatch JSON envelopes on stdout for the caller (Claude session) to invoke Agent tool.
+#
+# DEPRECATED (v2): superseded by scripts/evc.py, which owns the persistent queue
+# (tmp/evc/<slug>/queue.json), an idempotent `resume` that reconciles from disk,
+# and a concurrent record/transcribe/summarize supervisor. Prefer:
+#   python3 scripts/evc.py enumerate --url <course-url>
+#   python3 scripts/evc.py resume    --course <slug>
+# Retained only for the legacy Agent-dispatch summary path.
 
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

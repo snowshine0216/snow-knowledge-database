@@ -11,9 +11,8 @@ __pycache__/
 .gstack/
 .claude/worktrees
 
-# EVC: scratch files and generated per-course scripts
+# EVC: persistent queue, audio, cookies, and scratch all live under tmp/evc/
 tmp/
-courses/**/evc-loop.py
 
 # Raw transcript files (not committed to repo)
 *.transcript
