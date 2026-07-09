@@ -44,6 +44,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [从需求文档到改造方案：让 AI 把改造想透（七步法）](claude/018-from-requirements-to-transformation-plan-let-ai-think-it-through.md) | claude-code, legacy-project, transformation-plan, requirements-analysis, ai-engineering, seven-step-method | 七步法 60-90 分钟出方案文档；前端节点显式约束防漏；第 7 节集中决策点是审核灵魂；文档回灌让 docs/ 成活资产 |
 | [执行改造（下）：前端对接 + 功能已存在的翻车复盘](claude/020-execute-transformation-part2-frontend-and-api-integration-postmortem.md) | claude-code, legacy-project, frontend-development, postmortem, ai-limitations, ai-engineering | 前端四步节奏 + AI 业务功能盲区（扫代码≠理解功能在用）；改造前 30 秒兜底=打开浏览器点几下；人是最后的兜底员 |
 | [I asked Claude Code to make me as much money as possible](claude/i-asked-claude-code-to-make-me-as-much-money-as-possible_iTY8Q449YNQ.md) | claude-code, ai-agents, subagents, sycophancy, context-management, verification, ai-consulting, prompt-engineering | Nate Herk 的四个升级 3x 收入：/roast 五人格议会反谄媚（ELEPHANT 研究 88% 不反驳）；build-then-verify 双阶段验证（Playwright 截图+压力测试）；session-handoff 替代 compact 治理 context rot；并行 subagent + /goal 独立评审模型判定完成 |
+| [How I Make Opus Think Like Fable](claude/how-i-make-opus-think-like-fable-5-easy-steps_XTBWVVcF3Pk.md) | claude, opus, fable, claude-code, model-routing, ai-agents, skills, prompt-engineering | Nate Herk: extract Fable 5's process into an Opus skill with five gates, then route work by cost/intelligence/taste so cheaper workers can match stronger-model workflows. |
 
 ## Agent Frameworks
 
