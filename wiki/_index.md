@@ -61,6 +61,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [Ruflo](agent-frameworks/ruflo.md) | ai-agents, orchestration, mcp, multi-agent | TypeScript-based multi-agent orchestration platform with CLI, MCP, hooks, and security layers |
 | [CashClaw](agent-frameworks/cashclaw.md) | ai-agents, autonomous-agent, marketplace, openclaw | Autonomous work agent for paid task execution on the Moltlaunch onchain marketplace |
 | [ARIS Research Framework](agent-frameworks/aris-research-framework.md) | claude-code, ai-research, automation, multi-agent | Workflow-first autonomous research pipeline with cross-model adversarial review |
+| [Recognize Your Orchestrator：Multi-Agent 过程评估](agent-frameworks/recognize-your-orchestrator-multi-agent-process-evaluation.md) | multi-agent-systems, orchestrator, agent-evaluation, entropy-dynamics, icml-2026 | ICML 2026 论文介绍：用调度熵和 IWG 把多智能体系统评估从最终答案推进到 Orchestrator 过程级稳定性 |
 
 ## AI Engineering
 
