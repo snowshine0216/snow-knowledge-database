@@ -45,6 +45,7 @@ LLM: read this file first on every query. Find relevant articles by tag or summa
 | [执行改造（下）：前端对接 + 功能已存在的翻车复盘](claude/020-execute-transformation-part2-frontend-and-api-integration-postmortem.md) | claude-code, legacy-project, frontend-development, postmortem, ai-limitations, ai-engineering | 前端四步节奏 + AI 业务功能盲区（扫代码≠理解功能在用）；改造前 30 秒兜底=打开浏览器点几下；人是最后的兜底员 |
 | [I asked Claude Code to make me as much money as possible](claude/i-asked-claude-code-to-make-me-as-much-money-as-possible_iTY8Q449YNQ.md) | claude-code, ai-agents, subagents, sycophancy, context-management, verification, ai-consulting, prompt-engineering | Nate Herk 的四个升级 3x 收入：/roast 五人格议会反谄媚（ELEPHANT 研究 88% 不反驳）；build-then-verify 双阶段验证（Playwright 截图+压力测试）；session-handoff 替代 compact 治理 context rot；并行 subagent + /goal 独立评审模型判定完成 |
 | [How I Make Opus Think Like Fable](claude/how-i-make-opus-think-like-fable-5-easy-steps_XTBWVVcF3Pk.md) | claude, opus, fable, claude-code, model-routing, ai-agents, skills, prompt-engineering | Nate Herk: extract Fable 5's process into an Opus skill with five gates, then route work by cost/intelligence/taste so cheaper workers can match stronger-model workflows. |
+| [Fable 5 Field Guide: Finding Your Unknowns](claude/fable-5-field-guide-finding-your-unknowns.md) | claude-code, agentic-coding, prompt-engineering, unknowns, fable-5 | Thariq Shihipar：用 blindspot pass、4 方向 HTML 原型、一次一问反问、`implementation-notes.md` 和合并前测验，缩小提示词地图与代码库疆域之间的未知项。 |
 
 ## Agent Frameworks
 
