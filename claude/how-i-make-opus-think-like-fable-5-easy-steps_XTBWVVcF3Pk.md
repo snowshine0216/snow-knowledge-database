@@ -158,8 +158,16 @@ The things users can own are their systems: process documents, skill files, mode
 | "evidence before reasoning" | Nate Herk | One of the reusable habits in the Fable-mode skill. |
 | "we don't own these models" | Nate Herk | Closing argument for owning systems and methods. |
 
+## Community Comment (Condensed)
+
+A community response pushes the video's argument one step further: the rush to make Opus 4.8 "act like Fable 5" before the July 7 cutoff may be more hype than practical necessity for ordinary scoped work. The commenter argues that, on daily coding and writing tasks, Opus 4.8 and Fable 5 often feel nearly interchangeable; the meaningful gap is less about standard completion quality and more about autonomous execution behavior.
+
+The comment cites Tessl-style agent evaluations with 900+ scenario runs, claiming Fable 5 only led Opus 4.8 by about 0.9 overall capability points on shared tasks. Treat this as a cited community claim rather than a verified benchmark inside this note, but it supports the same lesson Nate emphasizes: model rank matters less than operator skill, workflow design, and knowing when to use which tool. In the commenter's phrasing, giving Sonnet to an expert can beat giving Fable to a novice.
+
+The strongest reflection is about ownership. The line "we don't own these models" is framed as the most consequential part of the video: hosted AI tools can disappear, move behind subscriptions, or depend on vendor hardware and app-store ecosystems. The long-term value is using paid tools to build versions, workflows, and local fallbacks that reduce dependency on software vendors. The practical investment is not only in models or apps, but in one's own capability to use, reproduce, and eventually replace parts of the stack.
+
 ## Source Notes
 - Transcript source: `subtitle-vtt` (`en-orig`)
 - Cookie-auth retry: used
 - Original language: en-US
-- Data gaps: none material; summary is based on extracted metadata, YouTube chapters, and subtitle transcript.
+- Data gaps: none material for the video summary; the community benchmark claim above was user-provided commentary and not independently verified during extraction.
